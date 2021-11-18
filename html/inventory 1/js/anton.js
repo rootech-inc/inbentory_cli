@@ -14,6 +14,27 @@ function hide_modal(id) {// show modal
     $('#'+id).modal('hide')
 }
 
+// show hide
+function i_show(params) {
+    var splited = params.split(',')
+    for (let index = 0; index < splited.length; index++) {
+        const element = splited[index];
+        cl(element)
+        document.getElementById('price').style.display = 'none';
+        document.getElementById(element).style.display = '';
+        
+    }
+}
+function i_hide(params) {
+    var splited = params.split(',')
+    for (let index = 0; index < splited.length; index++) {
+        const element = splited[index];
+        cl(element)
+        document.getElementById(element).style.display = 'none';
+        
+    }
+}
+
 // disable defauls
 function disableselect(e) {return false}
 

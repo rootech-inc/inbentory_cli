@@ -130,6 +130,170 @@
                             </div>
 
                         </div>
+
+                        <!--PRODUCT BODY-->
+                        <div class="product_body">
+                            <!--TOP-->
+                            <div class="w-100 h-50 overflow-hidden d-flex flex-wrap">
+                                
+                                <!--Product Left-->
+                                <div class="w-50 h-100 p-2 overflow-hidden">
+                                    <!--CATEGORY-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Category</p>
+                                        </div>
+                                        <select autocomplete="off" class="form-control form-control-sm prod_inp">
+                                            <option value="null">Select Category</option>
+                                        </select>
+                                    </div>
+
+                                    <!--SUB CAT-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Sub Category</p>
+                                        </div>
+                                        <select autocomplete="off" class="form-control form-control-sm prod_inp">
+                                            <option value="null">Select Sub-Category</option>
+                                        </select>
+                                    </div>
+
+                                    <!--SUPPLIER-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Supplier</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Barcode-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Barcode</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Description-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Description</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Short Description-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Short Desc</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                </div>
+                                <!--Prod Right-->
+                                <div class="w-50 h-100 p-2 overflow-hidden">
+                                     <!--Packaging-->
+                                     <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Packaging</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Expiry-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Expiry</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Owner-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Owner</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Date Created-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Date Created</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+
+                                    <!--Last Edited-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Last Edited</p>
+                                        </div>
+                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--Bottom-->
+                            <div class="w-100 h-50 overflow-hidden prod_button d-flex flex-wrap">
+                                
+                                <header class="w-100 h-20 d-flex flex-wrap overflow-hidden">
+                                    <button onclick="i_hide('stock');i_show('price')" autofocus class="btn rounded-0 btn_p_more_nav w-15">
+                                        <p class="m-0 p-0 text-elipse">PRICE</p>
+                                    </button>
+                                    <button onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
+                                        <p class="m-0 p-0 text-elipse">STOCK</p>
+                                    </button>
+                                </header>
+
+                                <article class="p-2">
+                                    <div id="price" class="w-50 h-100">
+                                        <!--COST PRICE-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Cost Price</p>
+                                            </div>
+                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        </div>
+
+                                        <!--RETAIL WITHOUT TAX-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>
+                                            </div>
+                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        </div>
+
+                                        <!--TAX-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Tax Group</p>
+                                            </div>
+                                            <select autocomplete="off" class="form-control form-control-sm prod_inp">
+                                                <option value="null">Selecc Tax</option>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+
+                                    <div id="stock" style="display: none;" class="w-50 h-100">
+                                        <!--COST PRICE-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Branch</p>
+                                            </div>
+                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        </div>
+                                        
+                                    </div>
+                                </article>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
