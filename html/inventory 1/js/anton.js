@@ -76,8 +76,8 @@ function validateSize(reload) {
         }
 
     } else {
-        var content = "<div class='bg-light w-100 vh-100 text-danger d-flex flex-wrap align-content-center justify-content-center'><p class='enc'>Unsupported Scrren Dimension</p></div>";
-        document.getElementsByTagName('body')[0].innerHTML = content; 
+        // var content = "<div class='bg-light w-100 vh-100 text-danger d-flex flex-wrap align-content-center justify-content-center'><p class='enc'>Unsupported Scrren Dimension</p></div>";
+        // document.getElementsByTagName('body')[0].innerHTML = content;
     }
 }
 

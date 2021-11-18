@@ -11,7 +11,7 @@
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
     
-    <main class="p-0">
+    <main class="p-0 mx-auto">
         <div class="container-fluid p-0 h-100">
             
             <div class="h-100 row no-gutters">
@@ -62,14 +62,14 @@
                     </div> -->
 
                     <!--INVENTORY PRODUCTS-->
-                    <div class="w-100 h-100 product_container p-3">
+                    <form class="w-100 h-100 product_container p-3">
                         <div class="d-flex flex-wrap align-content-center product_header">
 
                             <!--HEADER LEFT-->
                             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
                                 <!--ADD-->
                                 <button title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/new_property.png"
                                         class="img-fluid"
                                     >
@@ -77,7 +77,7 @@
 
                                 <!--DELETE-->
                                 <button title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/delete_document.png"
                                         class="img-fluid"
                                     >
@@ -85,7 +85,7 @@
 
                                 <!--SAVE-->
                                 <button title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/save_close.png"
                                         class="img-fluid"
                                     >
@@ -93,7 +93,7 @@
 
                                 <!--EDIT-->
                                 <button title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/edit_property.png"
                                         class="img-fluid"
                                     >
@@ -101,7 +101,7 @@
 
                                 <!--SORT LEFT-->
                                 <button title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/sort_left.png"
                                         class="img-fluid"
                                     >
@@ -109,7 +109,7 @@
 
                                 <!--SORT RIGHT-->
                                 <button title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/sort_right.png"
                                         class="img-fluid"
                                     >
@@ -121,7 +121,7 @@
                             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
                                 <!--ADD-->
                                 <button onclick="gen_modal('search_box')" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img 
+                                    <img
                                         src="assets/icons/home/search_property.png"
                                         class="img-fluid"
                                     >
@@ -135,7 +135,7 @@
                         <div class="product_body">
                             <!--TOP-->
                             <div class="w-100 h-50 overflow-hidden d-flex flex-wrap">
-                                
+
                                 <!--Product Left-->
                                 <div class="w-50 h-100 p-2 overflow-hidden">
                                     <!--CATEGORY-->
@@ -238,14 +238,14 @@
 
                             <!--Bottom-->
                             <div class="w-100 h-50 overflow-hidden prod_button d-flex flex-wrap">
-                                
+
                                 <header class="w-100 h-20 d-flex flex-wrap overflow-hidden">
-                                    <button onclick="i_hide('stock');i_show('price')" autofocus class="btn rounded-0 btn_p_more_nav w-15">
+                                    <button type="button" onclick="i_hide('stock');i_show('price')" autofocus class="btn rounded-0 btn_p_more_nav w-15">
                                         <p class="m-0 p-0 text-elipse">PRICE</p>
                                     </button>
-                                    <button onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
+                                    <button type="button" onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
                                         <p class="m-0 p-0 text-elipse">STOCK</p>
-                                    </button>
+                                    </button>   <!-- TODO Set packaging to select -->
                                 </header>
 
                                 <article class="p-2">
@@ -275,7 +275,7 @@
                                                 <option value="null">Selecc Tax</option>
                                             </select>
                                         </div>
-                                        
+
                                     </div>
 
                                     <div id="stock" style="display: none;" class="w-50 h-100">
@@ -286,7 +286,7 @@
                                             </div>
                                             <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
                                         </div>
-                                        
+
                                     </div>
                                 </article>
 
@@ -294,7 +294,7 @@
 
                         </div>
 
-                    </div>
+                    </form>
 
                 </div>
 
