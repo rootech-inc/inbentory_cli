@@ -175,7 +175,7 @@ main{
 
 .print_25{width: 25px; height: 25px; overflow: hidden;}
 .pointer{cursor: pointer;}
-.m-btn{height: 44px; width:108px; font-weight: bold;}
+.m-btn{height: 44px; width:108px; font-weight: bold;border-radius: 0px !important}
 .modal_yes{background-color: #FE7378; color: #020204;}.modal_yes:hover{background-color: #b13c40; color: #020204;}
 .modal_no{background-color: #537DEB; color: #FFFFFF;}.modal_no:hover{background-color: #2b58c9; color: #FFFFFF;}
 .modal_danger{color: #ffbbbd;}

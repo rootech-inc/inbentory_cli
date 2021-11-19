@@ -503,7 +503,7 @@ function gen_modal(params) {
         case 'delete_product':
             $('.modal-title').text('Delete Product'); // set modal title
             $('.modal-dialog').removeClass('modal-lg'); // increace modal size
-            response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between"><button>HELLO</button></div>';
+            response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between"><button class="btn m-btn btn-warning">HELLO</button></div>';
             $('#grn_modal_res').html(response);
             // TODO create delete product modal
             show_modal('gen_modal') // show modal
