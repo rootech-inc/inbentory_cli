@@ -477,8 +477,11 @@ function search_result(search_domain, match_case) {
     }
 }
 // general modal function
-function gen_modal(params) {
+function gen_modal(params,title='Not Set') {
     var response = '';
+    $('.modal-title').text(title);
+    cl(title)
+
     switch (params) {
         case 'search_box':
             $('.modal-title').text('Search For Peoduct'); // set modal title
@@ -515,8 +518,14 @@ function gen_modal(params) {
             $('.modal-dialog').removeClass('modal-lg'); // increace modal size
             response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between"><button class="btn m-btn btn-warning">HELLO</button></div>';
             $('#grn_modal_res').html(response);
-            // TODO create delete product modal
             show_modal('gen_modal') // show modal
+            break;
+
+        case "category_sub":
+            response = 'hello world';
+            //TODO Create modal result for category sub
+            show_modal('gen_modal')
+            break;
 
         default:
             break;
