@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1024 X 768</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/anton.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/anton.css">
     
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
@@ -26,7 +26,7 @@
 
                         <button class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center">
                             <img 
-                                src="assets/icons/home/logout_icon.png"
+                                src="../assets/icons/home/logout_icon.png"
                                  
                                 style="height:50px; width:50px"
                             >
@@ -68,61 +68,49 @@
                             <!--HEADER LEFT-->
                             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
                                 <!--ADD-->
-                                <button title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button  type="button" title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/new_property.png"
+                                        src="../assets/icons/home/new_property.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
                                 <!--DELETE-->
-                                <button title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/delete_document.png"
+                                        src="../assets/icons/home/delete_document.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
                                 <!--SAVE-->
-                                <button title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button type="button" title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/save_close.png"
+                                        src="../assets/icons/home/save_close.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
                                 <!--EDIT-->
-                                <button title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/edit_property.png"
+                                        src="../assets/icons/home/edit_property.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
                                 <!--SORT LEFT-->
-                                <button title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button type="" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/sort_left.png"
+                                        src="../assets/icons/home/sort_left.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
                                 <!--SORT RIGHT-->
-                                <button title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button type="button" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
-                                        src="assets/icons/home/sort_right.png"
-                                        class="img-fluid"
-                                    >
-                                </button>
-
-                            </div>
-
-                            <!--HEADER RIGHT-->
-                            <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
-                                <!--ADD-->
-                                <button onclick="gen_modal('search_box')" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                                    <img
-                                        src="assets/icons/home/search_property.png"
+                                        src="../assets/icons/home/sort_right.png"
                                         class="img-fluid"
                                     >
                                 </button>
@@ -198,7 +186,9 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Packaging</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                         <select autocomplete="off" class="form-control form-control-sm prod_inp">
+                                             <option value="null">Packaging</option>
+                                         </select>
                                     </div>
 
                                     <!--Expiry-->
@@ -206,31 +196,12 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Expiry</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
-                                    </div>
-
-                                    <!--Owner-->
-                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                            <p class="m-0 p-0 text-elipse">Owner</p>
+                                        <div class="w-60 d-flex flex-wrap justify-content-between">
+                                            <select autocomplete="off" class="form-control w-25 form-control-sm prod_inp">
+                                                <option value="null">NO</option>
+                                            </select>
+                                            <input autocomplete="off" type="date" class="form-control w-65 form-control-sm prod_inp">
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
-                                    </div>
-
-                                    <!--Date Created-->
-                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                            <p class="m-0 p-0 text-elipse">Date Created</p>
-                                        </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
-                                    </div>
-
-                                    <!--Last Edited-->
-                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                            <p class="m-0 p-0 text-elipse">Last Edited</p>
-                                        </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
                                     </div>
                                 </div>
 
@@ -245,7 +216,6 @@
                                     </button>
                                     <button type="button" onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
                                         <p class="m-0 p-0 text-elipse">STOCK</p>
-                                    </button>   <!-- TODO Set packaging to select -->
                                 </header>
 
                                 <article class="p-2">
@@ -323,10 +293,10 @@
         </div>
     </div>
     
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/anton.js"></script>  
+    <script src="../js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/anton.js"></script>
     <script>
         $(document).ready(function(){
             $("#myInput").on("keyup", function() {

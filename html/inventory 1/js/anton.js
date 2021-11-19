@@ -459,7 +459,9 @@ function search_result(search_domain, match_case) {
         case 1: // searching for product
             cl("Searching for " + match_case + " in product")
             break;
-    
+
+
+
         default:
             break;
     }
@@ -497,7 +499,15 @@ function gen_modal(params) {
             $('#grn_modal_res').html(response); // set modal content
             show_modal('gen_modal') // show modal
             break;
-    
+
+        case 'delete_product':
+            $('.modal-title').text('Delete Product'); // set modal title
+            $('.modal-dialog').removeClass('modal-lg'); // increace modal size
+            response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between"><button>HELLO</button></div>';
+            $('#grn_modal_res').html(response);
+            // TODO create delete product modal
+            show_modal('gen_modal') // show modal
+
         default:
             break;
     }
