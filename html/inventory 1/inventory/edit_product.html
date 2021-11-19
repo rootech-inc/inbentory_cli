@@ -68,7 +68,7 @@
                             <!--HEADER LEFT-->
                             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
                                 <!--ADD-->
-                                <button  type="button" title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button disabled  type="button" title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/new_property.png"
                                         class="img-fluid"
@@ -76,7 +76,7 @@
                                 </button>
 
                                 <!--DELETE-->
-                                <button type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button disabled type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/delete_document.png"
                                         class="img-fluid"
@@ -84,7 +84,7 @@
                                 </button>
 
                                 <!--SAVE-->
-                                <button type="button" title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/save_close.png"
                                         class="img-fluid"
@@ -92,15 +92,23 @@
                                 </button>
 
                                 <!--EDIT-->
-                                <button type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button disabled type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/edit_property.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
+                                <!--CANCEL-->
+                                <button onclick="set_session('sub_module=products_view')" type="button" title="Cancel" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                            src="../assets/icons/home/cancel.png"
+                                            class="img-fluid"
+                                    >
+                                </button>
+
                                 <!--SORT LEFT-->
-                                <button type="" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button disabled type="" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/sort_left.png"
                                         class="img-fluid"
@@ -108,7 +116,7 @@
                                 </button>
 
                                 <!--SORT RIGHT-->
-                                <button type="button" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                <button disabled type="button" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                                     <img
                                         src="../assets/icons/home/sort_right.png"
                                         class="img-fluid"
@@ -131,8 +139,12 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Category</p>
                                         </div>
-                                        <select autocomplete="off" class="form-control form-control-sm prod_inp">
-                                            <option value="null">Select Category</option>
+                                        <select
+                                                name="category"
+                                                autocomplete="off"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                            <option value="cat_id">Category</option>
                                         </select>
                                     </div>
 
@@ -141,8 +153,12 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Sub Category</p>
                                         </div>
-                                        <select autocomplete="off" class="form-control form-control-sm prod_inp">
-                                            <option value="null">Select Sub-Category</option>
+                                        <select
+                                                name="sub_category"
+                                                autocomplete="off"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                            <option value="sub_id">Sub Category</option>
                                         </select>
                                     </div>
 
@@ -151,7 +167,13 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Supplier</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        <input
+                                                name="supplier"
+                                                value="suppler code"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
                                     </div>
 
                                     <!--Barcode-->
@@ -159,7 +181,13 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Barcode</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        <input
+                                                name="barcode"
+                                                value="123456789"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
                                     </div>
 
                                     <!--Description-->
@@ -167,7 +195,13 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Description</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        <input
+                                                name="description"
+                                                value="Item Description"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
                                     </div>
 
                                     <!--Short Description-->
@@ -175,7 +209,14 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Short Desc</p>
                                         </div>
-                                        <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                        <input
+                                                name="short_description"
+                                                maxlength="8"
+                                                value="Short Description"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
                                     </div>
 
                                 </div>
@@ -186,8 +227,11 @@
                                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Packaging</p>
                                         </div>
-                                         <select autocomplete="off" class="form-control form-control-sm prod_inp">
-                                             <option value="null">Packaging</option>
+                                         <select
+                                                 name="packaging"
+                                                 autocomplete="off"
+                                                 class="form-control form-control-sm prod_inp">
+                                             <option value="null">KG</option>
                                          </select>
                                     </div>
 
@@ -197,10 +241,19 @@
                                             <p class="m-0 p-0 text-elipse">Expiry</p>
                                         </div>
                                         <div class="w-60 d-flex flex-wrap justify-content-between">
-                                            <select autocomplete="off" class="form-control w-25 form-control-sm prod_inp">
+                                            <select
+                                                    name="expiry"
+                                                    autocomplete="off"
+                                                    class="form-control w-25 form-control-sm prod_inp"
+                                            >
                                                 <option value="null">NO</option>
                                             </select>
-                                            <input autocomplete="off" type="date" class="form-control w-65 form-control-sm prod_inp">
+                                            <input
+                                                    name="expiry_date"
+                                                    autocomplete="off"
+                                                    type="date"
+                                                    class="form-control w-65 form-control-sm prod_inp"
+                                            >
                                         </div>
                                     </div>
                                 </div>
@@ -225,7 +278,13 @@
                                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                                 <p class="m-0 p-0 text-elipse">Cost Price</p>
                                             </div>
-                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                            <input
+                                                    name="cost_price"
+                                                    value="100.00"
+                                                    autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
                                         </div>
 
                                         <!--RETAIL WITHOUT TAX-->
@@ -233,7 +292,13 @@
                                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                                 <p class="m-0 p-0 text-elipse">Retail WO/T</p>
                                             </div>
-                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                            <input
+                                                    name="retail_without_tax"
+                                                    value="100.00"
+                                                    autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
                                         </div>
 
                                         <!--TAX-->
@@ -241,8 +306,12 @@
                                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                                 <p class="m-0 p-0 text-elipse">Tax Group</p>
                                             </div>
-                                            <select autocomplete="off" class="form-control form-control-sm prod_inp">
-                                                <option value="null">Selecc Tax</option>
+                                            <select
+                                                    name="tax"
+                                                    autocomplete="off"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
+                                                <option value="null">Default</option>
                                             </select>
                                         </div>
 
@@ -254,7 +323,13 @@
                                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                                 <p class="m-0 p-0 text-elipse">Branch</p>
                                             </div>
-                                            <input autocomplete="off" type="text" class="form-control form-control-sm prod_inp">
+                                            <input
+                                                    name="stock_branch_wise"
+                                                    value="120"
+                                                   autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
                                         </div>
 
                                     </div>

@@ -14,6 +14,16 @@ function hide_modal(id) {// show modal
     $('#'+id).modal('hide')
 }
 
+// sort function
+function item_sort(module, direction) {
+    cl(module);cl(direction);
+}
+
+// delete item
+function delete_item(module,item) {
+    cl("deleting " + item + " from "+ module);
+}
+
 // show hide
 function i_show(params) {
     var splited = params.split(',')
