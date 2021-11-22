@@ -60,7 +60,7 @@ body{overflow: hidden;  -webkit-touch-callout: none;
     user-select: none;}
 
 main{
-    height: 100vh !important;
+    height: 768px !important;
     width: 1024px !important;
     overflow: hidden !important;
 }
@@ -73,7 +73,6 @@ main{
 .tool-box
 {
     color: inherit;
-    /* TODO make shadows */
 }
 
 .mach_num_and_exit
@@ -221,7 +220,7 @@ main{
     width: 40%;
     overflow: hidden;
 }
-.prod_inp,.prod_inp_view{
+.prod_inp,.prod_inp_view,input{
     width: 60%;
     background-color: #5E75D1; 
     border-radius: 0px !important;
@@ -266,6 +265,8 @@ main{
     height: 80% !important;
 }
 
+
+
 /* ROOT */
 
 /* COLORS */
@@ -297,6 +298,8 @@ main{
   .w-15{width: 15% !important;}
   .w-60{width: 60% !important}
   .w-65{width: 65% !important}
+
+  .button-25px{width: 20px; height: 20px}
 
   
 

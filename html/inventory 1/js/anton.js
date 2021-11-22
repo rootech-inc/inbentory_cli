@@ -4,6 +4,11 @@ function cl(params) { // console log
     console.log(params + '\n')
 }
 
+function if_id(id)
+{
+    return !!document.getElementById(id);
+}
+
 function show_modal(id) {// show modal
     $('#'+id).modal({
         backdrop: 'static',
@@ -26,24 +31,208 @@ function delete_item(module,item) {
 
 // show hide
 function i_show(params) {
+    cl("Showing " + params)
     var splited = params.split(',')
     for (let index = 0; index < splited.length; index++) {
         const element = splited[index];
-        cl(element)
-        document.getElementById('price').style.display = 'none';
-        document.getElementById(element).style.display = '';
-        
+        if(document.getElementById(element))
+        {
+            document.getElementById(element).style.display = '';
+        }
+
+
     }
 }
+
+// hide
 function i_hide(params) {
+    cl("Hiding " + params)
     var splited = params.split(',')
     for (let index = 0; index < splited.length; index++) {
         const element = splited[index];
-        cl(element)
-        document.getElementById(element).style.display = 'none';
-        
+        if(document.getElementById(element))
+        {
+            document.getElementById(element).style.display = 'none';
+        }
+
+
     }
 }
+
+// enable
+function en(param) {
+    if(document.getElementById(param))
+    {
+        document.getElementById(param).disabled = false;
+    }
+
+}
+function dis(param) {
+    document.getElementById(param).disabled = true;
+}
+
+// disable forms
+function form_toggle(func,form_id) {
+    if(func === 'en')
+    {
+        var form = document.getElementById(form_id);
+        var elements = form.elements;
+
+        for(var i = 0, len = elements.length; i < len; i++)
+        {
+            elements[i].disabled = false;
+        }
+    } else
+    {
+        var form = document.getElementById(form_id);
+
+        var elements = form.elements;
+
+        for(var i = 0, len = elements.length; i < len; i++)
+        {
+            elements[i].disabled = true;
+        }
+    }
+
+
+}
+
+// enable form
+
+// enable item
+function element_toggle(func,param)
+{
+    if(func === 'en')
+    {
+        document.getElementById(param).disabled = false;
+    } else {
+        document.getElementById(param).disabled = true;
+    }
+}
+
+//          toggle elements
+//          USAGE
+//          tog_ele('id_of_element=action')
+//          execute more toggles in one run by separating them with commas
+//          tog_ele('id_of_element=action,id_of_element2=action2')
+function tog_ele(data){
+
+    const tog_ele_sep = data.split(',');// split parameter into an array by comma
+    // loop throgh each sep
+    for (let i = 0; i < tog_ele_sep.length; i++) {
+        var data = tog_ele_sep[i].split('=');
+        var target = data[0];
+        var action = data[1];
+
+        // action definitions
+        // sh = show content
+        // hd = hide content
+        // f_dis = disable form
+        // f_en enable form
+
+        let form;
+        let elements;
+        switch (action) {
+
+            // show element
+            case 'sh':
+                cl("showing " + target)
+                if(if_id(target)) // check if id exist
+                {
+                    i_show(target);
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+                break;
+
+            // hide element
+            case 'hd':
+                cl("Hiding " + target)
+                if(if_id(target))
+                {
+                    i_hide(target)
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+                break;
+
+            // disable form
+            case "f_dis":
+                cl("Disabling form with id " + target)
+                if(if_id(target)) // check if id exist
+                {
+                    form = document.getElementById(target);
+                    elements = form.elements;
+
+                    for(let i = 0, len = elements.length; i < len; i++)
+                    {
+                        elements[i].disabled = true;
+                    }
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+
+                break;
+
+            // enable form
+            case 'f_en':
+                cl("Enabling form with id " + target)
+                if(if_id(target))
+                {
+                    form = document.getElementById(target);
+                    elements = form.elements;
+
+                    for(let i = 0, len = elements.length; i < len; i++)
+                    {
+                        elements[i].disabled = false;
+                    }
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+                break;
+
+            // enable element
+            case 'en':
+                if(if_id(target))
+                {
+                    document.getElementById(target).disabled = false;
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+                break;
+
+            // disable element
+            case 'dis':
+                if(if_id(target))
+                {
+                    document.getElementById(target).disabled = true;
+                }
+                else
+                {
+                    cl("Can't find id " + target)
+                }
+                break;
+
+            default:
+                cl("nothing to do with target " + action);
+        }
+    }
+}
+
+form_toggle('dis','category_form');
+element_toggle('dis','save_button')
+
+
 
 // disable defauls
 function disableselect(e) {return false}
@@ -117,6 +306,11 @@ function custom_scroll(id,direction) {
 // mark bill item
 function mark_bill_item(item_id) {
     console.log(item_id);
+}
+
+// edit item
+function edit_item(item,reference) {
+    alert(item)
 }
 
 
@@ -522,8 +716,39 @@ function gen_modal(params,title='Not Set') {
             break;
 
         case "category_sub":
-            response = 'hello world';
-            //TODO Create modal result for category sub
+            response = '<div class="table-responsive">\n' +
+                '                    <table class="table">\n' +
+                '                        <thead class="thead-dark">\n' +
+                '                            <tr>\n' +
+                '                                <th>SN</th><th>Description</th><th>Action</th>\n' +
+                '                            </tr>\n' +
+                '                        </thead>\n' +
+                '                        <tbody>\n' +
+                '                            <tr id="test_view">\n' +
+                '                                <td>1</td><td>Sub Category</td>\n' +
+                '                                <td>\n' +
+                '                                    <div class="w-100 d-flex flex-wrap">\n' +
+                '                                        <button type="button" onclick="i_hide(\'test_view\');i_show(\'test_edit\')" class="button-25px mr-2 btn"><img class="img-fluid" src="../assets/icons/home/edit_property.png"></button>\n' +
+                '                                    </div>\n' +
+                '                                </td>\n' +
+                '                            </tr>\n' +
+                '                            <tr style="display: none" id="test_edit">\n' +
+                '                                <form id="form_x">\n' +
+                '                                    <input form="form_x" type="hidden" name="sub_id" value="id">\n' +
+                '                                    <td colspan="2"><input type="text" class="w-100" autocomplete="off" value="Sub Category"></td>\n' +
+                '                                    <td>\n' +
+                '                                        <div class="w-100 d-flex flex-wrap">\n' +
+                '                                            <button type="button" onclick="i_show(\'test_view\');i_hide(\'test_edit\')" class="button-25px mr-2 btn"><img class="img-fluid" src="../assets/icons/home/cancel.png"></button>\n' +
+                '                                            <button form="form_x" class="button-25px mr-2 btn" type="submit"><img class="img-fluid" src="../assets/icons/home/save_close.png"></button>\n' +
+                '                                        </div>\n' +
+                '                                    </td>\n' +
+                '                                </form>\n' +
+                '                            </tr>\n' +
+                '                        </tbody>\n' +
+                '                    </table>\n' +
+                '                </div>';
+
+            $('#grn_modal_res').html(response);
             show_modal('gen_modal')
             break;
 
