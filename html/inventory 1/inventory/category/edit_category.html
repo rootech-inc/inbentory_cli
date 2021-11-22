@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1024 X 768</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/anton.css">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/anton.css">
     
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
@@ -26,7 +26,7 @@
 
                         <button class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center">
                             <img 
-                                src="../assets/icons/home/logout_icon.png"
+                                src="../../assets/icons/home/logout_icon.png"
                                  
                                 style="height:50px; width:50px"
                             >
@@ -58,72 +58,74 @@
                     <div class="ant-bg-dark w-75 p-3 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
                         <div class="w-100 h-100">
                             <header class="inside_card_header pl-3 pr-1 d-flex flex-wrap align-content-center">
-                                <button onclick="set_session('action=new')" title="New" type="button" class="btn">
+
+                                <!-- EXIT -->
+                                <button onclick="set_session('stage=view')" title="Exit" type="button" class="btn">
                                     <img
-                                        src="../assets/icons/home/new_property.png"
+                                            src="../../assets/icons/home/exit.png"
+                                            class="img-fluid"
+                                    >
+                                </button>
+
+                                <button disabled title="New" type="button" class="btn">
+                                    <img
+                                        src="../../assets/icons/home/new_property.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
-                                <button onclick="delete_item('product_category',12)" title="Delete" type="button" class="btn">
+                                <button disabled title="Delete" type="button" class="btn">
                                     <img
-                                            src="../assets/icons/home/delete_document.png"
+                                            src="../../assets/icons/home/delete_document.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <button onclick="set_session('action=edit')" title="Edit" type="button" class="btn">
+                                <button disabled title="Edit" type="button" class="btn">
                                     <img
-                                            src="../assets/icons/home/edit_property.png"
+                                            src="../../assets/icons/home/edit_property.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <button disabled title="Save" type="button" class="btn">
+                                <button form="edit_category" title="Save" type="submit" class="btn">
                                     <img
-                                            src="../assets/icons/home/save_close.png"
+                                            src="../../assets/icons/home/save_close.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <button disabled title="Cancel" type="button" class="btn">
+                                <button onclick="set_session('stage=view')" title="Cancel" type="button" class="btn">
                                     <img
-                                            src="../assets/icons/home/cancel.png"
+                                            src="../../assets/icons/home/cancel.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <button onclick="item_sort('product_category','left')" title="Sort Left" type="button" class="btn">
+                                <button disabled title="Sort Left" type="button" class="btn">
                                     <img
-                                            src="../assets/icons/home/sort_left.png"
+                                            src="../../assets/icons/home/sort_left.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <button onclick="item_sort('product_category','right')" title="Sort Right" type="button" class="btn">
+                                <button disabled title="Sort Right" type="button" class="btn">
                                     <img
-                                            src="../assets/icons/home/sort_right.png"
+                                            src="../../assets/icons/home/sort_right.png"
                                             class="img-fluid"
                                     >
                                 </button>
 
-                                <!-- SUB -->
-                                <button onclick="gen_modal('category_sub','Category Sub')" title="Sub Categories" type="button" class="btn">
-                                    <img
-                                            src="../assets/icons/home/sub.png"
-                                            class="img-fluid"
-                                    >
-                                </button>
                             </header>
 
-                            <form id="caregory_form" class="inside_card_body p-2 mt-2 d-flex flex-wrap">
+                            <form id="edit_category" class="inside_card_body p-2 mt-2 d-flex flex-wrap">
                                 <div class="w-50 pr-2">
                                     <!-- CODE -->
                                     <div class="prod_inp_container d-flex flex-wrap">
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Code</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input name="code" autocomplete="off" value="Code" disabled type="text" class="prod_inp">
                                     </div>
 
                                     <!-- DESC -->
@@ -131,7 +133,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Description</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input required autocomplete="off" xml:base="description" value="Description" type="text" class="prod_inp">
                                     </div>
 
                                     <!-- SHORT DESC -->
@@ -139,7 +141,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Short Desc.</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input required autocomplete="off" value="Short Desc" name="short_description" type="text" class="prod_inp">
                                     </div>
 
                                     <!-- TAX GRP -->
@@ -147,7 +149,9 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Tax Grp</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <select required name="tax_group" class="prod_inp">
+                                            <option class="1">VM</option>
+                                        </select>
                                     </div>
 
                                 </div>
@@ -158,7 +162,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Owner</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input disabled readonly autocomplete="off" name="owner" value="Owner" type="text" class="prod_inp">
                                     </div>
 
                                     <!-- DESC -->
@@ -166,7 +170,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Date Created</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input type="text" class="prod_inp" autocomplete="off" name="date_created" value="00/00/0000" disabled readonly>
                                     </div>
 
                                     <!-- SHORT DESC -->
@@ -174,7 +178,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Last Mod By</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input type="text" autocomplete="off" name="last_modified_by" value="James" class="prod_inp">
                                     </div>
 
                                     <!-- TAX GRP -->
@@ -182,7 +186,7 @@
                                         <div class="inp_text d-flex flex-wrap align-content-center">
                                             <p class="m-0 p-0 text-elipse">Last Mod Date</p>
                                         </div>
-                                        <input type="text" class="prod_inp">
+                                        <input type="text" autocomplete="off" name="last_modified_date" value="00/00/0000" class="prod_inp">
                                     </div>
 
 
@@ -219,10 +223,10 @@
         </div>
     </div>
     
-    <script src="../js/jquery-3.2.1.slim.min.js"></script>
-    <script src="../js/popper.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/anton.js"></script>
+    <script src="../../js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../../js/popper.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/anton.js"></script>
     <script>
         $(document).ready(function(){
             $("#myInput").on("keyup", function() {

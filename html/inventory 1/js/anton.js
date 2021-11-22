@@ -26,7 +26,14 @@ function item_sort(module, direction) {
 
 // delete item
 function delete_item(module,item) {
-    cl("deleting " + item + " from "+ module);
+
+    if(confirm('Are you sure you want to execute  task'))
+    {
+        cl("deleting " + item + " from "+ module);
+    } else {
+        cl("Execution canceled")
+    }
+
 }
 
 // show hide
@@ -710,7 +717,11 @@ function gen_modal(params,title='Not Set') {
         case 'delete_product':
             $('.modal-title').text('Delete Product'); // set modal title
             $('.modal-dialog').removeClass('modal-lg'); // increace modal size
-            response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between"><button class="btn m-btn btn-warning">HELLO</button></div>';
+            response = '<div class="w-100 p-5 d-flex flex-wrap align-content-center justify-content-between">' +
+                '<div class="w-100 text-center mb-5"><p>Are you sure you eant to delete item?</p></div>' +
+                '<button onclick="delete_item(\'product\',\'id\')" class="btn m-btn btn-danger">YES</button>' +
+                '<button class="btn m-btn btn-info" data-dismiss="modal">NO</button>' +
+                '</div>';
             $('#grn_modal_res').html(response);
             show_modal('gen_modal') // show modal
             break;

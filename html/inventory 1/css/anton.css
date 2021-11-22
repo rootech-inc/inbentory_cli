@@ -229,7 +229,6 @@ main{
     font-size: 10px;
     color: #ffffff;
     padding-left: .5rem!important;
-    font-weight: bolder;
 }
 .prod_inp:focus{
     border: 0px !important;
