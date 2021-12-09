@@ -1,26 +1,26 @@
+<?php
+    require 'backend/includes/core.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1024 X 768</title>
+    <title>SMHOS - CLI</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/anton.css">
-    <script src="js/jquery.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/anton.js"></script>
+
 </head>
-<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black p-1">
     
-    <main class="p-0">
+    <main class="p-0 bg-info mx-auto">
         <div class="container-fluid p-0 h-100">
             
             <div class="h-100 row no-gutters">
                 <!--Core Nav-->
                 <div class="col-sm-3 h-100 p-2 ant-bg-dark">
-
+                    <input type='hidden' id='token' value='<?php echo $session_id ?>'>
                     <!-- MACHIEN NUMBER AND LOGOUT-->
                     <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
                         <div class="mach_num d-flex flex-wrap align-content-center justify-content-center">
@@ -36,7 +36,7 @@
                         </button>
                     </div>
                     
-                    <div onclick="set_session('module=billing')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                    <div onclick="set_session(['module=billing'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
                         <p class="m-0 text-elipse text-center p-0">Billing</p>
                     </div>
 
@@ -81,3 +81,8 @@
     
 </body>
 </html>
+
+<script src="js/jquery.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/anton.js"></script>

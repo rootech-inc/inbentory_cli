@@ -52,7 +52,9 @@ input[type=number] {
 
 .border{border: none !important;}
 
-body{overflow: hidden;  -webkit-touch-callout: none;
+body{
+    height: 100vh !important;
+    overflow: hidden;  -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
     -moz-user-select: none;
@@ -60,7 +62,7 @@ body{overflow: hidden;  -webkit-touch-callout: none;
     user-select: none;}
 
 main{
-    height: 768px !important;
+    height: 100% !important;
     width: 1024px !important;
     overflow: hidden !important;
 }

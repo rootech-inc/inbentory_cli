@@ -1,4 +1,6 @@
 
+const token = document.getElementById('token').value;
+
 // usefull root functions
 function cl(params) { // console log
     console.log(params + '\n')
@@ -294,7 +296,21 @@ function initialize(params) {
 
 // set session
 function set_session(data) {
-    console.log(data);
+    var form_data = {
+        'token':token,
+        'function':'set_session',
+        'session_data':data
+    }
+    $.ajax(
+        {
+            url:'/backend/process/ajax_tools.php',
+            method: 'post',
+            data: form_data,
+            success: function (response) {
+                console.log(response);
+            }
+        }
+    );
 }
 
 // scroll categories
