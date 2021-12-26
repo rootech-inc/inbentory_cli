@@ -3,15 +3,38 @@
 
 class anton
 {
-    function set_session($arr_of_data)
+    /** @noinspection MultiAssignmentUsageInspection */
+    public function set_session($arr_of_data)
     {
-        for ($i = 0, $iMax = count($arr_of_data); $i < $iMax; $i++)
+        foreach ($arr_of_data as $iValue) // loop through each session data
         {
-            print_r($arr_of_data[$i]);
+            $sess_data = $iValue;
+            if(count(explode('=',$sess_data)) === 2) //if it is exploded and count is exactly 2
+            {
+                $sess_data_explode = explode('=',$sess_data);
+                $session_variable = $sess_data_explode[0]; // session variable
+                $session_value = $sess_data_explode[1]; // session value
+
+                $_SESSION[(string)$session_variable] = $session_value; // set session
+
+
+
+            }
+
         }
     }
 
-    function post($field_name) // post form
+    public function get_session($variable)
+    {
+        if(isset($_SESSION[$variable]))
+        {
+            return $_SESSION[$variable];
+        }
+
+        return false;
+    }
+
+    public function post($field_name) // post form
     {
         if(isset($_POST[$field_name]))
         {
@@ -30,5 +53,23 @@ class anton
 
         return 'empty';
     }
+
+
+    public function compare($str1, $str2) // compare 2 strings
+    {
+        return $str1 === $str2;
+    }
+
+    public function done($message = 'Process Complete')
+    {
+        echo "done%%$message";
+        exit();
+    }
+    public function err($message = "System Error")
+    {
+        echo "error%%$message";
+        exit();
+    }
+
 
 }

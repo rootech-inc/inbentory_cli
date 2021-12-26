@@ -1,5 +1,20 @@
 
-const token = document.getElementById('token').value;
+
+
+if(document.getElementById('token'))
+{
+    const token = document.getElementById('token').value
+}
+else
+{
+    const token = '';
+}
+
+function echo(str)
+{
+    console.log(str);
+}
+
 
 // usefull root functions
 function cl(params) { // console log
@@ -84,23 +99,30 @@ function dis(param) {
 function form_toggle(func,form_id) {
     if(func === 'en')
     {
-        var form = document.getElementById(form_id);
-        var elements = form.elements;
-
-        for(var i = 0, len = elements.length; i < len; i++)
+        if(document.getElementById(form_id))
         {
-            elements[i].disabled = false;
+            var form = document.getElementById(form_id);
+            var elements = form.elements;
+
+            for(var i = 0, len = elements.length; i < len; i++)
+            {
+                elements[i].disabled = false;
+            }
         }
+
     } else
     {
-        var form = document.getElementById(form_id);
+        if(document.getElementById(form_id)){
+            var form = document.getElementById(form_id);
 
-        var elements = form.elements;
+            var elements = form.elements;
 
-        for(var i = 0, len = elements.length; i < len; i++)
-        {
-            elements[i].disabled = true;
+            for(var i = 0, len = elements.length; i < len; i++)
+            {
+                elements[i].disabled = true;
+            }
         }
+
     }
 
 
@@ -111,11 +133,9 @@ function form_toggle(func,form_id) {
 // enable item
 function element_toggle(func,param)
 {
-    if(func === 'en')
+    if(document.getElementById(param))
     {
-        document.getElementById(param).disabled = false;
-    } else {
-        document.getElementById(param).disabled = true;
+        document.getElementById(param).disabled = func !== 'en';
     }
 }
 
@@ -238,7 +258,11 @@ function tog_ele(data){
     }
 }
 
-form_toggle('dis','category_form');
+if(document.getElementById('category_form'))
+{
+    form_toggle('dis','category_form');
+}
+
 element_toggle('dis','save_button')
 
 
@@ -297,7 +321,7 @@ function initialize(params) {
 // set session
 function set_session(data) {
     var form_data = {
-        'token':token,
+        'token':'none',
         'function':'set_session',
         'session_data':data
     }
@@ -307,7 +331,7 @@ function set_session(data) {
             method: 'post',
             data: form_data,
             success: function (response) {
-                console.log(response);
+                location.reload();
             }
         }
     );
@@ -339,13 +363,65 @@ function edit_item(item,reference) {
 
 
 // change category
-function change_category(params) {
-    console.log(params);
+function change_category(group_uni) {
+    // prepare for ajax call
+    var form_data = {
+        'function':'change_item_group',
+        'group':group_uni
+    }
+
+    // make ajax call
+    $.ajax({
+        url:'/backend/process/form_process.php',
+        type: "POST",
+        data: form_data,
+        success: function (response){
+            if(response.split('%%').length === 2)
+            {
+                var act = response.split('%%')[0];
+                var msg = response.split('%%')[1];
+
+                if(act === 'done')
+                {
+                    $('#items').html(msg);
+                }
+
+            }
+        }
+    });
+
 }
 
 // add item to bill
 function add_item_to_bill(params) {
-    console.log(params)
+    let quantity;
+    var general_input = document.getElementById('general_input').value;
+    if(general_input > 1 )
+    {
+        quantity = general_input;
+    }
+    else
+    {
+        quantity = 1;
+    }
+    // make form data
+    var form_data = {
+        'function':'add_item_to_bill',
+        'item':params,
+        'quantity':quantity
+    }
+
+    // make ajax request
+    $.ajax({
+        url:'/backend/process/form_process.php',
+        type: 'POST',
+        data:form_data,
+        success: function (response)
+        {
+            echo(response);
+        }
+    });
+
 }
 
 // making payment
@@ -404,7 +480,7 @@ const popup_center = ({url, title, w, h}) => {
     const systemZoom = width / window.screen.availWidth;
     const left = (width - w) / 2 / systemZoom + dualScreenLeft
     const top = (height - h) / 2 / systemZoom + dualScreenTop
-    const newWindow = window.open(url, title, 
+    const newWindow = window.open(url, title,
       `
       scrollbars=yes,
       width=${w / systemZoom}, 
@@ -783,3 +859,47 @@ function gen_modal(params,title='Not Set') {
             break;
     }
 }
+
+
+// logout
+$(document).ready(function() {
+    $("#logout").click(function(){
+        //
+        $.ajax({
+            url: '/backend/process/user_mgmt.php',
+            type:'POST',
+            data: {'function':'logout'},
+            success: function (){
+                location.reload()
+            }
+        });
+    });
+});
+
+// get bill items
+function get_bill()
+{
+    var form_data = {
+        'function':'get_bill_items'
+    }
+
+    // send ajax request
+    $.ajax({
+        url:'/backend/process/form_process.php',
+        type: 'POST',
+        data: form_data,
+        success: function (response) {
+            // put response in box
+            $('#bill_loader').html(response);
+        }
+    });
+
+}
+
+$("#bill_loader").ready(function(){
+    //block will be loaded with element with id myid is ready in dom
+    setInterval(function(){
+        //this code runs every second
+        get_bill();
+    }, 1000);
+})

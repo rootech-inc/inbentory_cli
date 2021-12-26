@@ -52,6 +52,51 @@ input[type=number] {
 
 .border{border: none !important;}
 
+.key_number_hw
+{
+
+    height: 50px !important;
+    background: rgb(17, 17, 17);
+    color: #fdfdfe;
+    font-size: x-large;
+    font-weight: bolder;
+    cursor: pointer;
+    border-radius: 0px !important;
+
+}
+
+.grade_default
+{
+    background: rgb(2,0,36);
+    background: -moz-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 35%, rgba(0,212,255,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#020024",endColorstr="#00d4ff",GradientType=1);
+}
+
+.grade_danger
+{
+    background: rgb(238,174,202);
+    background: -moz-linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    background: -webkit-linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#eeaeca",endColorstr="#94bbe9",GradientType=1);
+}
+
+.h-fit
+{
+    height: fit-content;
+}
+
+.img_bg
+{
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+
 body{
     height: 100vh !important;
     overflow: hidden;  -webkit-touch-callout: none;
@@ -83,8 +128,9 @@ main{
     height: 79px;
 }
 
-.mach_num{width: 100px; height: 79px; background-color: #B4B5B8; color: #C82333; font-size: 58px; font-weight: bold;}
-.logout{width: 100px; height: 79px; background-color: #EB9783; color: #C82333; font-size: 58px; font-weight: bold;}
+.mach_num{width: 100px; height: 79px; background-color: #B4B5B8; color: #C82333; font-size: 50px; font-weight: bold;}
+.logout{width: 100px; height: 79px; background-color: #EB9783; color: #C82333; font-size: 50px; font-weight: bold;}
+.logout:hover{background-color: #C82333; color: #C82333;}
 
 .min_button
 {
@@ -311,11 +357,13 @@ main{
 
 /* FONTS */
 
-  .enc{font-size: large; color: #ccc !important; cursor: pointer;}
+  .enc{font-size: large !important; color: #ccc !important; cursor: pointer;}
   .enc:hover{font-size: xx-large; color: #17a2b8 !important;}
   .f-xxlg{font-size: xx-large;}
   .f-lg{font-size: large;}
   .f-20px{font-size: 20px;}
 
 /* FONTS */
+
+
 

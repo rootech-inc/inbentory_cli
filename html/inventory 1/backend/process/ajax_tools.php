@@ -10,9 +10,9 @@
             if($function === 'set_session')
             {
                 // get form data
-                $session_data = $anton->post('session_data');
+                $session_data = $_POST['session_data'];
                 print_r($session_data);
-                // TODO Setting Session
+                $anton->set_session($session_data);
             }
         }
     }

@@ -10,79 +10,136 @@
     <title>SMHOS - CLI</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/anton.css">
+    <link rel="stylesheet" href="css/all.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/anton.js"></script>
 
 </head>
-<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black p-1">
-    
-    <main class="p-0 bg-info mx-auto">
-        <div class="container-fluid p-0 h-100">
-            
-            <div class="h-100 row no-gutters">
-                <!--Core Nav-->
-                <div class="col-sm-3 h-100 p-2 ant-bg-dark">
-                    <input type='hidden' id='token' value='<?php echo $session_id ?>'>
-                    <!-- MACHIEN NUMBER AND LOGOUT-->
-                    <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
-                        <div class="mach_num d-flex flex-wrap align-content-center justify-content-center">
-                            01
+<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+
+    <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
+        <main class="p-0 mx-auto">
+            <?php
+
+                if($module === 'home')
+                {
+                    include 'backend/includes/parts/home/home_index.php';
+                }
+                elseif ($module === 'billing'){
+                    // get categories
+                    $item_groups = $db->db_connect()->query("SELECT * from `item_group`");
+
+
+                    // include billing
+                    include 'backend/includes/parts/billing/billing.php';
+                }
+
+            ?>
+        </main>
+    <?php } else { ?>
+        <main class="w-100 h-100 grade_danger d-flex flex-wrap align-content-center justify-content-between overflow-hidden">
+
+
+            <div class="w-50 d-flex flex-wrap justify-content-center">
+                <div class="w-50"><img src="assets/icons/inv_mgmt.png" alt="" class="img-fluid"></div>
+            </div>
+
+            <div class="w-50 d-flex flex-wrap justify-content-center align-content-center">
+                <form id="login" method="post" action="backend/process/user_mgmt.php" class="w-50 h-100`">
+
+
+<!--                    <div class="w-25 mx-auto m-2">-->
+<!--                        <img src="assets/logo/logo.png" class="img-fluid">-->
+<!--                    </div>-->
+
+
+
+                    <div class="w-100 container h-100 p-0">
+                        <div class="row h-100 no-gutters">
+                            <div class="col-sm-9 p-2 h-100">
+                                <div class="w-100 text-warning" id="error_box">
+
+                                </div>
+                                <div class="input-group mb-2">
+                                    <input id="clerk_code" value="<?php if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?>" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>
+                                </div>
+
+                                <div class="input-group mb-2">
+                                    <input id="clerk_password" class="form-control rounded-0 font-weight-bold" type="password" autocomplete="off"  placeholder="Key" name="clerk_key" required>
+                                </div>
+
+                                <div class="input-group">
+                                    <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">
+                                        <option selected value="Network">Network</option>
+                                        <option value="Local">Local</option>
+                                    </select>
+                                    <input type="hidden" value="Network" name="db_state" id="setInp">
+                                </div>
+                            </div>
+
+                            <!--KEYS-->
+                            <div class="col-sm-3 d-flex flex-wrap align-content-center py-2 h-100 border">
+                                <button style="height: 100% !important" type="submit" name="login" class="w-100 font-weight-bolder fas fa-key btn-danger"></button>
+                            </div>
                         </div>
-
-                        <button class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center">
-                            <img 
-                                src="assets/icons/home/logout_icon.png"
-                                 
-                                style="height:50px; width:50px"
-                            >
-                        </button>
-                    </div>
-                    
-                    <div onclick="set_session(['module=billing'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
-                        <p class="m-0 text-elipse text-center p-0">Billing</p>
                     </div>
 
-                    <div onclick="set_session('module=reports,sub_module=reports')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
-                        <p class="m-0 text-elipse text-center p-0">Reports</p>
-                    </div>
 
-                    <div onclick="set_session('module=inventory,sub_module=invetory')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
-                        <p class="m-0 text-elipse text-center p-0">inventory</p>
-                    </div>
 
-                    <div onclick="set_session('module=system,sub_module=system')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
-                        <p class="m-0 text-elipse text-center p-0">System</p>
-                    </div>
-                    
-                </div>
 
-                <!-- COre Work Space-->
-                <div class="col-sm-9 h-100 d-flex flex-wrap align-content-center justify-content-center">
-                    <div class="ant-bg-dark w-75 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
-                        <div class="w-50 f-xxlg">
-                            <p>
-                                <span class="font-weight-bolder">User </span> 
-                                <span class="ant-text-sec">Jane Doe</span>
-                            </p>
-                            <p>
-                                <span class="font-weight-bolder">Date </span> 
-                                <span class="ant-text-sec">20/20/2020</span>
-                            </p>
-                            <p>
-                                <span class="font-weight-bolder">Bill N<u>0</u> </span>
-                                <span class="ant-text-sec">12</span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
-            </row>
 
-        </div>
-    </main>
+                </form>
+
+
+
+            </div>
+
+
+
+        </main>
+        <script type="text/javascript">
+            var frm = $('#login');
+
+            frm.submit(function (e) {
+
+                e.preventDefault();
+
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
+                    data: frm.serialize(),
+                    success: function (response) {
+                        var response_split = response.split('%%');
+                        if(response_split.length === 2)
+                        {
+                            var response_action = response_split[0];
+                            echo(response_action);
+                            if(response_action === 'error')
+                            {
+                                var err_message = response_split[1];
+                                $('.form-control').addClass('border-danger');
+                            }
+                            else
+                            {
+                                location.reload();
+                            }
+                        }
+                    },
+                    error: function (data) {
+                        console.log('An error occurred.');
+                        console.log(data);
+                    },
+                });
+            });
+        </script>
+    <?php } ?>
     
 </body>
 </html>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/anton.js"></script>
+
+
