@@ -22,9 +22,6 @@
     
     <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
         <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
-            <div class="h-100 d-flex w-25 flex-wrap align-content-center">
-                <strong class="company_name">Bill# 20</strong>
-            </div>
 
             <div class="h-100 d-flex w-fit flex-wrap justify-content-center align-content-center">
                 <strong class="company_name">Demo Company</strong>
@@ -44,7 +41,7 @@
                 <!-- Items -->
                 <div class="col-sm-7 pr-1 d-flex flex-wrap align-content-between h-100">
                     <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-start pl-3">
-                        <button onclick="set_session('module=home')" class="exit_button rounded-0 btn">
+                        <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">
                             EXIT
                         </button>
                     </div>
@@ -124,66 +121,81 @@
                 </div>
 
                 <!--Bill Details-->
-                <div class="col-sm-5 pl-1 d-flex flex-wrap align-content-between h-100">
-                    <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-between">
-                        <!--Sn-->
-                        <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1 border">
-                            <strong>SN</strong>
-                        </div>
+                <div class="col-sm-5 row no-gutters pl-1 d-flex flex-wrap align-content-between h-100">
 
-                        <!--Descriptipn-->
-                        <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1 border">
-                            <strong>Description</strong>
-                        </div>
 
-                        <!--Quantity-->
-                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1 border">
-                            <strong>QTY</strong>
-                        </div>
+                    <div class="bill-item-header row no-gutters">
+                        <div class="col-sm-9 d-flex flex-wrap align-content-center justify-content-between">
+                            <!--Sn-->
+                            <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                <strong>SN</strong>
+                            </div>
 
-                        <!--Cost-->
-                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1 border">
-                            <strong>Cost</strong>
+                            <!--Descriptipn-->
+                            <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                <strong>Description</strong>
+                            </div>
+
+                            <!--Quantity-->
+                            <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                <strong>QTY</strong>
+                            </div>
+
+                            <!--Cost-->
+                            <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                <strong>Cost</strong>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 text-right d-flex flex-wrap align-content-center justify-content-end pr-2 text-info">
+                            Bill# <?php echo $bill_number ?>
                         </div>
                     </div>
 
                     <div class="bill-item-body border">
                         <!--CART-->
-                        <div class="cart_display border">
+                        <div class="cart_display row no-gutters border">
 
-                            <div id="bill_loader" class="h-90 w-100 overflow-auto">
-                                <div oncontextmenu="mark_bill_item('md5 of item')" ondblclick="mark_bill_item('12')" class="d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1">
+                            <div class="col-sm-9 border border-light h-100">
+                                <div id="bill_loader" class="h-90 w-100 overflow-auto">
+                                    <div oncontextmenu="mark_bill_item('md5 of item')" ondblclick="mark_bill_item('12')" class="d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1">
 
-                                    <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">1</p>
+                                        <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
+                                            <p class="m-0 p-0">1</p>
+                                        </div>
+
+                                        <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
+                                            <p class="m-0 p-0">Description hello world we need food</p>
+                                        </div>
+
+                                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                                            <p class="m-0 p-0">12</p>
+                                        </div>
+
+                                        <!--Cost-->
+                                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                                            <p class="m-0 p-0">100.00</p>
+                                        </div>
                                     </div>
 
-                                    <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">Description hello world we need food</p>
-                                    </div>
-
-                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">12</p>
-                                    </div>
-            
-                                    <!--Cost-->
-                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">100.00</p>
-                                    </div>
                                 </div>
-                                
+
                             </div>
 
-                            <!--Sub Total-->
-                            <div class="d-flex bg-info h-10 overflow-hidden flex-wrap align-content-center justify-content-between border-dotted pb-1 pt-1">
-                                <!--Sn-->
-                                <div class="w-41 h-100 d-flex flex-wrap align-content-center pl-1">
-                                    <p class="m-0 p-0 font-weight-bolder">Sub Total</p>
-                                </div>
-        
-                                <!--Descriptipn-->
-                                <div class="w-41 h-100 d-flex flex-wrap align-content-center pr-1">
-                                    <p class="m-0 p-0"><span class="text-warning">0.00% 0.00</span> <span class="text-light font-weight-bolder">( 100.00 )</span></p>
+                            <div class="col-sm-3 ant-bg-black h-100 d-flex flex-wrap align-content-between p-2">
+                                <div class="w-100 shadow-lg rounded p-1 py-2 d-flex flex-wrap align-content-center bg_balance text-dark">
+                                    <div class="w-100 mb-2">
+                                        <strong><u>Total</u></strong>
+                                        <p id="sub_total" class="m-0">0.00</p>
+                                    </div>
+                                    <hr>
+                                    <div class="w-100 mb-2">
+                                        <strong><u>Paid</u></strong>
+                                        <p class="m-0">0.00</p>
+                                    </div>
+                                    <div class="w-100 mb-2">
+                                        <strong><u>Balance</u></strong>
+                                        <p class="m-0">0.00</p>
+                                    </div>
                                 </div>
                             </div>
 
@@ -191,12 +203,12 @@
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <input id="general_input" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                            <input id="general_input" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                             <!-- TODO make barcode scanning with code -->
 
 
                             <div class="w-100 pt-1 d-flex flex-wrap justify-content-between">
-                                <button onclick="make_payment('cash','token')" class="bill_func_main_btn btn rounded-0">
+                                <button onclick="make_payment('cash')" class="bill_func_main_btn btn rounded-0">
                                     CASH
                                 </button>
                                 <button onclick="make_payment('momo','token')" class="bill_func_main_btn btn rounded-0">
@@ -208,20 +220,21 @@
                             </div>
 
                             <div class="w-100 pt-1 d-flex flex-wrap justify-content-between">
-                                <button 
-                                    class="bill_func_sub_btn btn btn-primary btn-sm rounded-0"
-                                    data-toggle="modal"
-                                    data-target="#discount"
-                                >
-                                    DISC
+                                <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
+                                    CANCEL
                                 </button>
-                               
-
-                                <button onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
+                                <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
                                     HOLD
                                 </button>
-                                <button onclick="recall_bill('token')" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
+                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
                                     RECAL
+                                </button>
+                                <button id="discount" disabled
+                                        class="bill_func_sub_btn my-1 btn btn-primary btn-sm rounded-0"
+                                        data-toggle="modal"
+                                        data-target="#discount"
+                                >
+                                    DISC
                                 </button>
                             </div>
 

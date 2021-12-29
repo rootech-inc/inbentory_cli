@@ -71,5 +71,14 @@ class anton
         exit();
     }
 
+    // print bill
+    public function print_bill($bill_number,$db_connection)
+    {
+        // get list of bill items
+        // todo print bill
+
+
+    }
+
 
 }

@@ -1,4 +1,7 @@
 
+let form_data;
+let form_process = "/backend/process/form_process.php";
+
 
 
 if(document.getElementById('token'))
@@ -350,6 +353,83 @@ function custom_scroll(id,direction) {
     console.log(direction); // for debuging
 }
 
+// sub total
+function subTotal() {
+    form_data = {'function':'sub_total'};
+
+    $.ajax({
+        url: form_process,
+        type: "POST",
+        data: form_data,
+        success: function (response)
+        {
+            if(response.split('%%').length ===2)
+            {
+                var action = response.split('%%')[0], message = response.split('%%')[1];
+
+                if(action === 'done')
+                {
+                    $('#sub_total').text(message)
+                }
+            }
+        }
+
+    });
+}
+
+// get bill items
+function get_bill()
+{
+
+
+    var form_data = {
+        'function':'get_bill_items'
+    }
+
+    // send ajax request
+    $.ajax({
+        url:'/backend/process/form_process.php',
+        type: 'POST',
+        data: form_data,
+        success: function (response) {
+            //console.log(response);
+            if(response.split('%%').length === 2)
+            {
+                var action = response.split('%%')[0];
+                var message = response.split('%%')[1];
+
+                if(action === 'done')
+                {
+                    // enable functions
+                    element_toggle('en','cancel');
+                    element_toggle('en','hold');
+                    element_toggle('en','discount');
+                    element_toggle('disable','recall');
+
+                    // populate
+                    $('#bill_loader').html(message);
+                    subTotal()
+                }
+                else
+                {
+                    element_toggle('disable','cancel');
+                    element_toggle('disable','hold');
+                    element_toggle('disable','discount');
+                    element_toggle('en','recall');
+
+                    var cust_html = "<div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>" +
+                        "<p class='fa fa-shopping-cart f-xxlg text-muted'></p>" +
+                        "</div>";
+                    $('#bill_loader').html(cust_html);
+                }
+
+            }
+            // put response in box
+
+        }
+    });
+
+}
 // mark bill item
 function mark_bill_item(item_id) {
     console.log(item_id);
@@ -396,6 +476,7 @@ function change_category(group_uni) {
 function add_item_to_bill(params) {
     let quantity;
     var general_input = document.getElementById('general_input').value;
+    document.getElementById('general_input').value = '';
     if(general_input > 1 )
     {
         quantity = general_input;
@@ -418,54 +499,47 @@ function add_item_to_bill(params) {
         data:form_data,
         success: function (response)
         {
-            echo(response);
+            get_bill();
         }
     });
 
 }
 
 // making payment
-function make_payment(method,token) {
+function make_payment(method) {
 
     // validate there is cash input
-    var val = document.getElementById('gen_input'); // gen input field
-    
-    if(val.value.length > 0) // if amout value is greater than zero
-    {
-        // prapre form for ajax
-        data = {
-            'function':'make_payment',
-            'payment_method':method,
-            'amount':val.value,
-            'token':token
-        };
-        
-        // make ajax function
-        $.ajax({
-            url: '/config/process/bill_process.php',
-            type: 'POST',
-            data: data,
-            success: function(response) {
-                console.log(response);
-            }
-        });
+    var amount_paid = document.getElementById('general_input').value; // gen input field
 
+
+    if(amount_paid.length > 0)
+    {
+        // get total balance
+        var balance = document.getElementById('sub_total').innerText;
+
+        var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
+
+        // compare balance
+        if(actual_paid >= actual_balance)
+        {
+            echo('valid')
+        }
+        else
+        {
+            echo('amaount less')
+            $('#general_input').addClass('bg-danger');
+            setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+
+        }
     }
     else
     {
-        console.log(val.value.length)
-        val.style.border = '2px solid red';
-        val.style.background = '#eb9783';
-        val.placeholder = 'Amount Not Set';
+        echo('no')
+        $('#general_input').addClass('bg-danger');
+        setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
     }
+    
 
-    if(method === 'cash')
-    {
-        // cash payment
-    } else if (method === 'momo')
-    {
-        // momo payment
-    }
 }
 
 // center pop up
@@ -501,7 +575,19 @@ function apply_discount(params) {
 
 // hold bill
 function hold_bill(params) {
-    console.log('holding bill')
+    form_data = {'function':'hold_current_bill'}
+
+    // make ajax call
+    $.ajax({
+        url:form_process,
+        type: "POST",
+        data: form_data,
+        success: function (response) {
+            // do nothing
+            location.reload();
+        }
+    });
+
 }
 
 // recall bill
@@ -876,30 +962,32 @@ $(document).ready(function() {
     });
 });
 
-// get bill items
-function get_bill()
-{
-    var form_data = {
-        'function':'get_bill_items'
+
+
+// cancel bill
+function cancel_bill() {
+    // set form data
+    form_data = {
+        'function':'cancel_current_bill'
     }
 
-    // send ajax request
+    // make ajax call
     $.ajax({
-        url:'/backend/process/form_process.php',
+        url: '/backend/process/form_process.php',
         type: 'POST',
         data: form_data,
-        success: function (response) {
-            // put response in box
-            $('#bill_loader').html(response);
+        success: function (response)
+        {
+            location.reload()
         }
     });
-
 }
 
 $("#bill_loader").ready(function(){
+    get_bill();
     //block will be loaded with element with id myid is ready in dom
-    setInterval(function(){
-        //this code runs every second
-        get_bill();
-    }, 1000);
+    // setInterval(function(){
+    //     //this code runs every second
+    //
+    // }, 1000);
 })

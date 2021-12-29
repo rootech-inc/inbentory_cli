@@ -67,30 +67,33 @@
 
             elseif ($fuction === 'get_bill_items') // get items in current bill
             {
-                // get all from bill
-                $bill_query = $db->db_connect()->query(
-                    "SELECT * FROM `bill_trans` WHERE 
+                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
+                {
+                    // get all from bill
+                    $bill_query = $db->db_connect()->query(
+                        "SELECT * FROM `bill_trans` WHERE 
                                  `bill_number` = '$bill_number' AND 
                                  `mach` = '$machine_number' AND 
-                                 `trans_type` = 'i'"
-                );
-                $bill_items = '';
-                $sn = 0;
-                while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
-                {
-                    ++$sn;
-                    $item = $bill['item'];
+                                 `trans_type` = 'i' AND `date_added` = '$today'"
+                    );
+                    $bill_items = 'done%%';
+                    $sn = 0;
+                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
+                    {
+                        ++$sn;
+                        $item = $bill['item'];
+                        $item_barcode_md5 = md5($item);
 
-                    // get item details
-                    $i_d = $db->get_rows('items_master',"`barcode` = $item");
-                    $item_name = $i_d['desc'];
-                    $qty = $bill['amount'];
-                    $cost = $i_d['retail'] * $qty;
+                        // get item details
+                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
+                        $item_name = $i_d['desc'];
+                        $qty = $bill['amount'];
+                        $cost = $i_d['retail'] * $qty;
 
-                    // make bill item
-                    $bill_item = "<div 
-                                    oncontextmenu=\"mark_bill_item('md5 of item')\" 
-                                    ondblclick=\"mark_bill_item('12')\" 
+                        // make bill item
+                        $bill_item = "<div 
+                                    oncontextmenu=\"mark_bill_item('$item_barcode_md5')\" 
+                                    ondblclick=\"mark_bill_item('$item_barcode_md5')\" 
                                     class=\"d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
                                     >
                                     
@@ -112,14 +115,93 @@
                                     </div>
                                 </div>";
 
-                    // append item to bills
-                    $bill_items .= $bill_item;
+                        // append item to bills
+                        $bill_items .= $bill_item;
 
+                    }
+
+                    // return bill item
+                    echo $bill_items;
+                }
+                else
+                {
+                    $anton->err();
                 }
 
-                // return bill item
-                echo $bill_items;
 
             }
+
+            elseif ($fuction === 'cancel_current_bill') // cancel current bill
+            {
+
+
+                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
+                {
+                    // todo print bill
+
+                    // get bill quantity items
+                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
+                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
+                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
+                    // mark bill as canceled
+                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','bill_canced','C','$num_of_items','$myName')");
+                }
+
+
+            }
+
+            elseif ($fuction === 'hold_current_bill')
+            {
+                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
+                {
+                    // todo print bill
+
+                    // get bill quantity items
+                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
+                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
+                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
+                    // mark bill as canceled
+                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','bill_canced','H','$num_of_items','$myName')");
+                }
+            }
+
+            elseif ($fuction === 'sub_total')
+            {
+                // sub total
+                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
+                {
+                    // get sub total
+                    $bill_query = $db->db_connect()->query(
+                        "SELECT * FROM `bill_trans` WHERE 
+                                 `bill_number` = '$bill_number' AND 
+                                 `mach` = '$machine_number' AND 
+                                 `trans_type` = 'i' AND `date_added` = '$today'"
+                    );
+
+                    $sub_total = 0.00;
+
+                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $item = $bill['item'];
+
+                        // get retail
+                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
+                        $item_name = $i_d['desc'];
+                        $qty = $bill['amount'];
+                        $cost = $i_d['retail'] * $qty;
+
+
+                        $sub_total += $cost;
+
+                        // todo calculate tax for sub total
+
+                    }
+
+                    $anton->done(number_format($sub_total,2));
+
+                }
+            }
+
+
         }
     }

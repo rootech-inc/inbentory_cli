@@ -207,10 +207,10 @@ main{
 }
 .item_scroll{background-color: #4062b6; color: #FFFFFF; font-size: 12px;}
 .item_scroll:hover{background-color: #2a4077; color: #FFFFFF; font-size: 12px;}
-.cart_display{height: 70%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
+.cart_display{height: 60%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
 .border-dotted{border-bottom:1px dotted #dee2e6!important}
 .bill_main_input{height: 40px; width: 100%;background-color: #B4B5B8; color: #303136; font-size: 25px;}
-.card_functions{height: 30%; width: 100%; background-color: #303136;}
+.card_functions{height: 40%; width: 100%; background-color: #303136;}
 .bill_func_main_btn{height: 70px; width: 32%; background-color: #020204; color: #FFFFFF; font-size: 25px;text-align: center;font-weight: bold;}
 .bill_func_sub_btn{height: 40px; width: 32%; color: #FFFFFF; font-size: 15px;text-align: center;font-weight: bold;}
 
@@ -256,6 +256,10 @@ main{
 .btn_p_more_nav{background-color: #B4B5B8; color: #000000; font-weight: bolder;}
 .btn_p_more_nav:hover{background-color: #d15f63; color: #000000;}
 .btn_p_more_nav:focus{background-color: #FE7378; color: #000000;}
+.bg_balance
+{
+    background-color: #d15f63; color: #f1f1f1 !important;
+}
 .prod_inp_container{
     height: 20px;
     overflow: hidden !important;
@@ -358,8 +362,8 @@ main{
 /* FONTS */
 
   .enc{font-size: large !important; color: #ccc !important; cursor: pointer;}
-  .enc:hover{font-size: xx-large; color: #17a2b8 !important;}
-  .f-xxlg{font-size: xx-large;}
+  .enc:hover{font-size: xxx-large !important; color: #17a2b8 !important;}
+  .f-xxlg{font-size: xxx-large !important;}
   .f-lg{font-size: large;}
   .f-20px{font-size: 20px;}
 
