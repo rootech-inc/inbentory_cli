@@ -22,17 +22,33 @@
     
     <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
         <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
-
-            <div class="h-100 d-flex w-fit flex-wrap justify-content-center align-content-center">
-                <strong class="company_name">Demo Company</strong>
+            <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
+                Bill #<?php echo $bill_number ?>
             </div>
 
-            <div class="d-flex flex-wrap w-25 h-100 justify-content-end align-content-between overflow-hidden">
-                <div class="text-success text-right w-100"><i id="date" class="date"><?php echo $today ?></i></div>
-                <div class="w-100 text-success text-right">
-                    <strong id="bill_time" class="time">00:00</strong>
+            <div class="d-flex flex-wrap w-25 h-100 justify-content-start align-content-center overflow-hidden">
+                <div style="display: none" class="text-success text-left w-100"><i id="date" class="date"><?php echo $today ?></i></div>
+                <div class="w-fit text-left text-left">
+                    <strong id="bill_time" class="time text-left">00:00</strong>
                 </div>
             </div>
+
+            <div class="w-45 d-flex flex-wrap h-100">
+                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
+                    <span>Taxable Amt</span> <span id="sub_total">0.00</span>
+                </div>
+                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
+                    <span>Tax Amt</span> <span id="tax">0.00</span>
+                </div>
+                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
+                    <span>Amount Paid</span> <span id="amount_paid">0.00</span>
+                </div>
+                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
+                    <span>Amount Bal.</span> <span id="amount_balance">0.00</span>
+                </div>
+            </div>
+
+
         </header>
 
         <div class="bill-body border container-fluid">
@@ -124,8 +140,8 @@
                 <div class="col-sm-5 row no-gutters pl-1 d-flex flex-wrap align-content-between h-100">
 
 
-                    <div class="bill-item-header row no-gutters">
-                        <div class="col-sm-9 d-flex flex-wrap align-content-center justify-content-between">
+                    <div class="bill-item-header">
+                        <div class="d-flex h-100 flex-wrap align-content-center justify-content-between">
                             <!--Sn-->
                             <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1 border">
                                 <strong>SN</strong>
@@ -146,16 +162,14 @@
                                 <strong>Cost</strong>
                             </div>
                         </div>
-                        <div class="col-sm-3 text-right d-flex flex-wrap align-content-center justify-content-end pr-2 text-info">
-                            Bill# <?php echo $bill_number ?>
-                        </div>
+
                     </div>
 
                     <div class="bill-item-body border">
                         <!--CART-->
-                        <div class="cart_display row no-gutters border">
+                        <div class="cart_display">
 
-                            <div class="col-sm-9 border border-light h-100">
+                            <div class="border border-light h-100">
                                 <div id="bill_loader" class="h-90 w-100 overflow-auto">
                                     <div oncontextmenu="mark_bill_item('md5 of item')" ondblclick="mark_bill_item('12')" class="d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1">
 
@@ -181,29 +195,20 @@
 
                             </div>
 
-                            <div class="col-sm-3 ant-bg-black h-100 d-flex flex-wrap align-content-between p-2">
-                                <div class="w-100 shadow-lg rounded p-1 py-2 d-flex flex-wrap align-content-center bg_balance text-dark">
-                                    <div class="w-100 mb-2">
-                                        <strong><u>Total</u></strong>
-                                        <p id="sub_total" class="m-0">0.00</p>
-                                    </div>
-                                    <hr>
-                                    <div class="w-100 mb-2">
-                                        <strong><u>Paid</u></strong>
-                                        <p class="m-0">0.00</p>
-                                    </div>
-                                    <div class="w-100 mb-2">
-                                        <strong><u>Balance</u></strong>
-                                        <p class="m-0">0.00</p>
-                                    </div>
-                                </div>
-                            </div>
 
                         </div>
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <input id="general_input" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                            <form id="gen_form" action="backend/process/form_process.php" method="post" class="input-group">
+
+                                <input required id="general_input" name="general_input" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                                <div class="input-group-append w-20">
+                                    <span class="input-group-text w-100 rounded-0 text-dark">
+                                        <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
+                                    </span>
+                                </div>
+                            </form>
                             <!-- TODO make barcode scanning with code -->
 
 

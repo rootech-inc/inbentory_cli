@@ -1,5 +1,6 @@
 <?php
     require '../includes/core.php';
+    print_r($_POST);
 
     //echo $_SERVER['REQUEST_METHOD'];
 
@@ -165,7 +166,7 @@
                 }
             }
 
-            elseif ($fuction === 'sub_total')
+            elseif ($fuction === 'sub_total')// sub total
             {
                 // sub total
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
@@ -179,6 +180,7 @@
                     );
 
                     $sub_total = 0.00;
+                    $tax_total = 0.00;
 
                     while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
                     {
@@ -188,7 +190,15 @@
                         $i_d = $db->get_rows('items_master',"`barcode` = $item");
                         $item_name = $i_d['desc'];
                         $qty = $bill['amount'];
+                        $tax_group = $i_d['tax_grp'];
+                        $tax_rate = $db->get_rows('tax_master',"`id` = '$tax_group'")['rate'];
+
+
                         $cost = $i_d['retail'] * $qty;
+                        $tax_value = number_format($anton->percentage($tax_rate,$cost),2);
+                        $tax_total += $tax_value;
+
+                        // get tax grooup
 
 
                         $sub_total += $cost;
@@ -197,9 +207,38 @@
 
                     }
 
-                    $anton->done(number_format($sub_total,2));
+                    $anton->done(number_format($sub_total,2)."()".number_format($tax_total,2));
 
                 }
+            }
+
+            elseif ($fuction === 'payment') // making payment
+            {
+                $method = $anton->post('method');
+                $amount_paid = $anton->post('amount_paid');
+
+                // make payment
+                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
+                {
+                    // todo print bill
+
+                    // get bill quantity items
+//                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
+//                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
+//                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
+                    // mark bill as canceled
+                    try {
+                        $db->db_connect()->exec("insert into `bill_trans` 
+                                            (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values 
+                                            ('$machine_number','$bill_number','$method','P','$amount_paid','$myName')");
+                        $anton->done();
+                    } catch (PDOException $exception)
+                    {
+                        $error = $exception->getMessage();
+                        $anton->err($error);
+                    }
+                }
+
             }
 
 

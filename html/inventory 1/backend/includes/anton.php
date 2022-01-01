@@ -80,5 +80,10 @@ class anton
 
     }
 
+    public function percentage($rate,$vale)
+    {
+        return ($rate/100) * $vale;
+    }
+
 
 }

@@ -363,13 +363,20 @@ function subTotal() {
         data: form_data,
         success: function (response)
         {
+            echo(response);
             if(response.split('%%').length ===2)
             {
                 var action = response.split('%%')[0], message = response.split('%%')[1];
 
                 if(action === 'done')
                 {
-                    $('#sub_total').text(message)
+                    // splie message
+                    if(message.split('()').length === 2)
+                    {
+                        $('#sub_total').text(message.split('()')[0]);
+                        $('#tax').text(message.split('()')[1]);
+                    }
+
                 }
             }
         }
@@ -522,7 +529,27 @@ function make_payment(method) {
         // compare balance
         if(actual_paid >= actual_balance)
         {
-            echo('valid')
+
+            // make form data
+            form_data = {
+                'function':'payment',
+                'method':method,
+                'amount_paid':amount_paid
+            }
+
+            // send ajax request
+            $.ajax({
+                url: form_process,
+                type:'POST',
+                data:form_data,
+                success: function (response) {
+                    echo(response);
+                    get_bill();
+
+                }
+            });
+
+            echo(form_data);
         }
         else
         {
