@@ -3,6 +3,12 @@ let form_data;
 let form_process = "/backend/process/form_process.php";
 
 
+function reload()
+{
+    location.reload();
+}
+
+
 
 if(document.getElementById('token'))
 {
@@ -268,12 +274,8 @@ if(document.getElementById('category_form'))
 
 element_toggle('dis','save_button')
 
-
-
 // disable defauls
 function disableselect(e) {return false}
-
-
 // get time
 function time() {
   var d = new Date();
@@ -286,11 +288,6 @@ function time() {
   var current_date = d.getDate()+ '/' + d.getMonth() + '/' + d.getFullYear();
   document.getElementById('date').textContent = current_date;
 }
-
-
-
-
-
 // validate scrren size
 function validateSize(reload) {
     var screen_width = window.innerWidth
@@ -457,16 +454,21 @@ function change_category(group_uni) {
         'group':group_uni
     }
 
+    //console.log(form_data)
+
     // make ajax call
     $.ajax({
         url:'/backend/process/form_process.php',
         type: "POST",
         data: form_data,
         success: function (response){
+
             if(response.split('%%').length === 2)
             {
                 var act = response.split('%%')[0];
                 var msg = response.split('%%')[1];
+
+                //console.log(act);
 
                 if(act === 'done')
                 {
@@ -679,9 +681,6 @@ function take_report(params) {
 
     console.log(params)
 }
-
-
-
 // end daily sales for all
 // $('#eod').click(function name(params) {
 //     if(confirm('Has all machines ended sales?')){ // let user comfirm again if they want to end shift
@@ -868,7 +867,6 @@ function report(params) {
     show_modal('report_modal'); // show modal
     
 }
-
 // cearch product
 function search_result(search_domain, match_case) {
     switch (search_domain) {
@@ -972,8 +970,6 @@ function gen_modal(params,title='Not Set') {
             break;
     }
 }
-
-
 // logout
 $(document).ready(function() {
     $("#logout").click(function(){
@@ -988,9 +984,6 @@ $(document).ready(function() {
         });
     });
 });
-
-
-
 // cancel bill
 function cancel_bill() {
     // set form data
@@ -1018,3 +1011,92 @@ $("#bill_loader").ready(function(){
     //
     // }, 1000);
 })
+
+// error handler
+function error_handler(response)
+{
+    // split response
+    if(response.split('%%').length === 2)
+    {
+        let response_split = response.split('%%');
+        let response_type = response_split[0];
+        let response_message = response_split[1];
+
+        // switching response type
+        switch (response_type)
+        {
+            case 'error': // when the response type is an error
+                switch (response_message) // switch between error message
+                {
+                    case "barcode_multiple_not_number": // item quantity is not a number
+                        $('#general_input').addClass('bg-danger');
+                        setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+                        swal('error','hello world');
+                        break;
+                }
+                break;
+        }
+
+    }
+}
+
+$(function() {
+    //hang on event of form with id=myform
+    $("#general_form").submit(function(e) {
+//prevent Default functionality
+        e.preventDefault();
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+        //$("#loader").modal("show");
+        let formData = new FormData($(this).parents('form')[0]);
+
+        formData = new FormData($('#general_form')[0]); // The form with the file inputs.
+        const that = $(this),
+            url = that.attr('action'),
+            type = that.attr('method'),
+            data = {};
+        //console.log(url)
+
+        that.find('[name]').each(function (index,value){
+            var that = $(this), name = that.attr('name');
+            data[name] = that.val();
+        });
+
+        $.ajax({
+
+            xhr: function() {
+                var progress = $('.progress'),
+                    xhr = $.ajaxSettings.xhr();
+
+                progress.show();
+
+                xhr.upload.onprogress = function(ev) {
+                    if (ev.lengthComputable) {
+                        var percentComplete = parseInt((ev.loaded / ev.total) * 100);
+                        progress.val(percentComplete);
+                        if (percentComplete === 100) {
+                            progress.hide().val(0);
+                        }
+                    }
+                };
+
+                return xhr;
+            },
+
+            url: url,
+            type: type,
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (response){
+                error_handler(response);
+            },
+
+        });
+
+        return false;
+
+    });
+
+});

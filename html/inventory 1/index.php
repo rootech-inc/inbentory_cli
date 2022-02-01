@@ -1,5 +1,10 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
     require 'backend/includes/core.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,14 +17,21 @@
     <link rel="stylesheet" href="css/anton.css">
     <link rel="stylesheet" href="css/all.css">
 
+
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/anton.js"></script>
 
+
+
+
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
 
+<script>
+    swal("Hello world!");
+</script>
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
         <main class="p-0 mx-auto">
             <?php
@@ -140,6 +152,7 @@
     
 </body>
 </html>
+<script src='https://unpkg.con/sweetalert/dist/sweetalert.min.js'></script>
 
 
 

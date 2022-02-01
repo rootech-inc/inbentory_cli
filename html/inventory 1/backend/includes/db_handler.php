@@ -7,9 +7,9 @@ class db_handler
 
     public function db_connect() // connect to database
     {
-        $host = "localhost";
-        $user = "root";
-        $password = "Sunderland@411";
+        $host = "172.17.0.1";
+        $user = "allhost";
+        $password = "258963";
         $db = "SMHOS";
         //set DSN
         $dns = 'mysql:host='.$host.';dbname='.$db;
@@ -24,10 +24,9 @@ class db_handler
     public function db_sqlite() // connect to sqlite
     {
 
+        $l_route = '';
         $local_sqlite = '/home/stuffs/dev/PHP/inbentory_cli/html/inventory 1/backend/includes/database/phpsqlite.db';
-        $l_route = new PDO("sqlite:$local_sqlite");
-
-        return $l_route;
+        return new PDO("sqlite:$local_sqlite");
     }
 
     public function machine_details() // get machine details

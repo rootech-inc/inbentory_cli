@@ -1,6 +1,5 @@
 <?php
     require '../includes/core.php';
-    print_r($_POST);
 
     //echo $_SERVER['REQUEST_METHOD'];
 
@@ -9,9 +8,9 @@
 
         if(isset($_POST['function'])) // if we have a function from post call
         {
-            $fuction = $anton->post('function');
+            $function = $anton->post('function');
 
-            if($fuction === 'change_item_group') // if we are making a group change
+            if($function === 'change_item_group') // if we are making a group change
             {
                 // get group
                 $group = $anton->post('group');
@@ -48,7 +47,7 @@
 
             }
 
-            elseif ($fuction === 'add_item_to_bill') // add item to bill
+            elseif ($function === 'add_item_to_bill') // add item to bill
             {
                 $item = $anton->post('item');
                 $quantity = $anton->post('quantity');
@@ -66,8 +65,38 @@
 
             }
 
-            elseif ($fuction === 'get_bill_items') // get items in current bill
+            elseif ($function === 'get_bill_items') // get items in current bill
             {
+
+                if(isset($_POST['barcode_for_bill']) && !empty($_POST['barcode_for_bill']))
+                {
+                    // adding with barcode
+                    $barcode = $anton->post('barcode_for_bill');
+
+                    // split barcode for multiples
+                    $split = explode('*',$barcode);
+                    if(count($split) > 1)
+                    {
+                        $multiple = $split[0];
+                        $item = $split[1];
+                        if(is_numeric($multiple))
+                        {
+                            $anton->done("$multiple is a number \n");
+                        }
+                        else
+                        {
+                            $anton->err('barcode_multiple_not_number');
+                            // todo find item with barcode and multiples
+                        }
+                    }
+                    else
+                    {
+                        echo 'no split';
+                    }
+
+                    die();
+                }
+
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
                 {
                     // get all from bill
@@ -132,7 +161,7 @@
 
             }
 
-            elseif ($fuction === 'cancel_current_bill') // cancel current bill
+            elseif ($function === 'cancel_current_bill') // cancel current bill
             {
 
 
@@ -151,7 +180,7 @@
 
             }
 
-            elseif ($fuction === 'hold_current_bill')
+            elseif ($function === 'hold_current_bill')
             {
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
                 {
@@ -166,7 +195,7 @@
                 }
             }
 
-            elseif ($fuction === 'sub_total')// sub total
+            elseif ($function === 'sub_total')// sub total
             {
                 // sub total
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
@@ -212,7 +241,7 @@
                 }
             }
 
-            elseif ($fuction === 'payment') // making payment
+            elseif ($function === 'payment') // making payment
             {
                 $method = $anton->post('method');
                 $amount_paid = $anton->post('amount_paid');
@@ -243,4 +272,5 @@
 
 
         }
+
     }
