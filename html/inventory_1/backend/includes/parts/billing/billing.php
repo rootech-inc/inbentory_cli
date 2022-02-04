@@ -200,11 +200,11 @@
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group">
+                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group overflow-hidden">
                                 <input type="hidden" name="function" value="get_bill_items" class="">
                                 <input required id="general_input" name="barcode_for_bill" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
-                                <div class="input-group-append w-20">
-                                    <span class="input-group-text w-100 rounded-0 text-dark">
+                                <div class="input-group-append w-20 bill_main_input p-0">
+                                    <span class="input-group-text w-100 rounded-0 text-dark p-0">
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
                                     </span>
                                 </div>

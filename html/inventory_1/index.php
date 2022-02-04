@@ -21,7 +21,14 @@ error_reporting(E_ALL);
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/sweetalert2@11"></script>
+    <link rel="stylesheet" href="css/sweetalert.min.css">
+
+
     <script src="js/anton.js"></script>
+
+
 
 
 
@@ -29,9 +36,7 @@ error_reporting(E_ALL);
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
 
-<script>
-    swal("Hello world!");
-</script>
+
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
         <main class="p-0 mx-auto">
             <?php
@@ -125,6 +130,7 @@ error_reporting(E_ALL);
                     url: frm.attr('action'),
                     data: frm.serialize(),
                     success: function (response) {
+                        console.log(response)
                         var response_split = response.split('%%');
                         if(response_split.length === 2)
                         {
@@ -152,7 +158,7 @@ error_reporting(E_ALL);
     
 </body>
 </html>
-<script src='https://unpkg.con/sweetalert/dist/sweetalert.min.js'></script>
+
 
 
 

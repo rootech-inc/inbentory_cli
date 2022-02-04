@@ -7,9 +7,9 @@ class db_handler
 
     public function db_connect() // connect to database
     {
-        $host = "172.17.0.1";
-        $user = "allhost";
-        $password = "258963";
+        $host = "127.0.0.1";
+        $user = "root";
+        $password = "Sunderland@411";
         $db = "SMHOS";
         //set DSN
         $dns = 'mysql:host='.$host.';dbname='.$db;
@@ -25,7 +25,7 @@ class db_handler
     {
 
         $l_route = '';
-        $local_sqlite = '/home/stuffs/dev/PHP/inbentory_cli/html/inventory 1/backend/includes/database/phpsqlite.db';
+        $local_sqlite = '/home/stuffs/Development/PHP/inbentory_cli/html/inventory_1/backend/includes/database/phpsqlite.db';
         return new PDO("sqlite:$local_sqlite");
     }
 
@@ -71,6 +71,16 @@ class db_handler
         return $res;
 
 
+    }
+
+    public function add_item_bill($item,$quantity,$clerk='0',$bill_number)
+    {
+        //get item details
+        $machine_number = $this->machine_number();
+        // add to bill in trans
+        $this->db_connect()->exec(
+            "insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','$item','i','$quantity','$clerk')"
+        );
     }
 
 }

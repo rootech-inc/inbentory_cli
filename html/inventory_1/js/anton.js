@@ -3,6 +3,14 @@ let form_data;
 let form_process = "/backend/process/form_process.php";
 
 
+function swal_error(message = 'there is an error')
+{
+    Swal.fire({
+        icon: 'error',
+        text: message,
+    })
+}
+
 function reload()
 {
     location.reload();
@@ -681,16 +689,6 @@ function take_report(params) {
 
     console.log(params)
 }
-// end daily sales for all
-// $('#eod').click(function name(params) {
-//     if(confirm('Has all machines ended sales?')){ // let user comfirm again if they want to end shift
-//         console.log('ending') // end shift
-//     }
-//     else
-//     {
-//         console.log('opted'); // cancel operation
-//     }
-// })
 
 // reports function
 function report(params) {
@@ -1031,8 +1029,17 @@ function error_handler(response)
                     case "barcode_multiple_not_number": // item quantity is not a number
                         $('#general_input').addClass('bg-danger');
                         setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-                        swal('error','hello world');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Quantity value must be a number',
+                        })
                         break;
+                    case 'item_does_not_exist':
+                        swal_error("Item Not Found");
+                        break;
+                    default:
+                        echo(response_message)
                 }
                 break;
         }
@@ -1090,6 +1097,7 @@ $(function() {
             processData: false,  // tell jQuery not to process the data
             contentType: false,  // tell jQuery not to set contentType
             success: function (response){
+                echo(response);
                 error_handler(response);
             },
 

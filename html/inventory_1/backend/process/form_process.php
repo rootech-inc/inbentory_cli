@@ -81,7 +81,20 @@
                         $item = $split[1];
                         if(is_numeric($multiple))
                         {
-                            $anton->done("$multiple is a number \n");
+                            //$anton->done("$multiple is a number \n");
+                            // look for item
+
+
+                            if($db->row_count('items_master',"`barcode` = '$item'") == 1)
+                            {
+                                // todo add item
+                                $db->add_item_bill($item,$multiple,$myName,$bill_number);
+
+
+
+                            } else {
+                                $anton->err('item_does_not_exist');
+                            }
                         }
                         else
                         {
