@@ -1,7 +1,26 @@
 
-let form_data;
-let form_process = "/backend/process/form_process.php";
+var form_data;
+var form_process = "/backend/process/form_process.php";
 
+// swal confirm
+function swal_confirm(message = 'Continue?')
+{
+    Swal.fire({
+        title: message,
+        icon: 'info',
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            return true;
+        } else if (result.isDenied) {
+            return false
+        }
+    })
+}
 
 function swal_error(message = 'there is an error')
 {
@@ -316,8 +335,10 @@ function validateSize(reload) {
         }
 
     } else {
-        // var content = "<div class='bg-light w-100 vh-100 text-danger d-flex flex-wrap align-content-center justify-content-center'><p class='enc'>Unsupported Scrren Dimension</p></div>";
-        // document.getElementsByTagName('body')[0].innerHTML = content;
+        var content = "<div class='bg-light w-100 vh-100 text-danger d-flex flex-wrap align-content-center justify-content-center'>" +
+            "<div class='alert alert-danger'>Unsupported Screen Dimension</div>" +
+            "</div>";
+        document.getElementsByTagName('body')[0].innerHTML = content;
     }
 }
 
@@ -409,6 +430,7 @@ function get_bill()
             {
                 var action = response.split('%%')[0];
                 var message = response.split('%%')[1];
+                console.log(action)
 
                 if(action === 'done')
                 {
@@ -417,6 +439,7 @@ function get_bill()
                     element_toggle('en','hold');
                     element_toggle('en','discount');
                     element_toggle('disable','recall');
+
 
                     // populate
                     $('#bill_loader').html(message);
@@ -580,29 +603,29 @@ function make_payment(method) {
 }
 
 // center pop up
-const popup_center = ({url, title, w, h}) => {
-    // Fixes dual-screen position                             Most browsers      Firefox
-    const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
-    const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
-
-    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
-    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
-
-    const systemZoom = width / window.screen.availWidth;
-    const left = (width - w) / 2 / systemZoom + dualScreenLeft
-    const top = (height - h) / 2 / systemZoom + dualScreenTop
-    const newWindow = window.open(url, title,
-      `
-      scrollbars=yes,
-      width=${w / systemZoom}, 
-      height=${h / systemZoom}, 
-      top=${top}, 
-      left=${left}
-      `
-    )
-
-    if (window.focus) newWindow.focus();
-}
+// const popup_center = ({url, title, w, h}) => {
+//     // Fixes dual-screen position                             Most browsers      Firefox
+//     const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+//     const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
+//
+//     const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+//     const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+//
+//     const systemZoom = width / window.screen.availWidth;
+//     const left = (width - w) / 2 / systemZoom + dualScreenLeft
+//     const top = (height - h) / 2 / systemZoom + dualScreenTop
+//     const newWindow = window.open(url, title,
+//       `
+//       scrollbars=yes,
+//       width=${w / systemZoom},
+//       height=${h / systemZoom},
+//       top=${top},
+//       left=${left}
+//       `
+//     )
+//
+//     if (window.focus) newWindow.focus();
+// }
 
 // apply discount
 function apply_discount(params) {
@@ -614,16 +637,33 @@ function apply_discount(params) {
 function hold_bill(params) {
     form_data = {'function':'hold_current_bill'}
 
-    // make ajax call
-    $.ajax({
-        url:form_process,
-        type: "POST",
-        data: form_data,
-        success: function (response) {
-            // do nothing
-            location.reload();
+    Swal.fire({
+        title: "Are your sure you want to hold bill?",
+        icon: 'info',
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            // make ajax call
+            $.ajax({
+                url:form_process,
+                type: "POST",
+                data: form_data,
+                success: function (response) {
+                    // do nothing
+                    console.log(response)
+                    get_bill()
+                    //location.reload();
+                }
+            });
+        } else if (result.isDenied) {
+
         }
-    });
+    })
+
 
 }
 
@@ -984,21 +1024,41 @@ $(document).ready(function() {
 });
 // cancel bill
 function cancel_bill() {
+
     // set form data
     form_data = {
         'function':'cancel_current_bill'
     }
 
-    // make ajax call
-    $.ajax({
-        url: '/backend/process/form_process.php',
-        type: 'POST',
-        data: form_data,
-        success: function (response)
-        {
-            location.reload()
+    Swal.fire({
+        title: 'Are you sure you want to cancel bill?',
+        icon: 'warning',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                type: 'POST',
+                data: form_data,
+                success: function (response)
+                {
+                    console.log(response)
+                    get_bill();
+                    // Swal.fire('Changes are not saved', '', 'info');
+                    //location.reload()
+                }
+            });
+        } else if (result.isDenied) {
+            Swal.fire('Changes are not saved', '', 'info')
         }
-    });
+    })
+
+    // make ajax call
+
 }
 
 $("#bill_loader").ready(function(){
@@ -1042,6 +1102,12 @@ function error_handler(response)
                         echo(response_message)
                 }
                 break;
+            case 'done':
+                switch (response_message) {
+                    case 'bill_added':
+                        get_bill();
+                        break;
+                }
         }
 
     }

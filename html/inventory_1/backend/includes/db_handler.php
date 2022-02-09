@@ -1,7 +1,7 @@
 <?php
 
 
-class db_handler
+class db_handler extends anton
 {
 
 
@@ -73,14 +73,54 @@ class db_handler
 
     }
 
-    public function add_item_bill($item,$quantity,$clerk='0',$bill_number)
+    public function add_item_bill($bill_number,$barcode,$qty,$myName)
     {
         //get item details
         $machine_number = $this->machine_number();
+        $clerk = $_SESSION['clerk_id'];
+
+        // get item details
+        $item = $this->get_rows('items_master',"`barcode` = '$barcode'");
+        $item_desc = $item['desc'];
+        $item_retail = $item['retail'];
+        $bill_amt = $item_retail * $qty;
+        $tax_group = $item['tax_grp'];
+
+
+        // get tax rate
+        $taxDetails = $this->get_rows('tax_master',"`id` = '$tax_group'");
+        $rate = $taxDetails['rate'];
+        $tax_description =$taxDetails['description'];
+        if($taxDetails['rate'] < 1)
+        {
+            $taxAmount = 0.00;
+        } else
+        {
+            // calculate for tax
+            $taxAmount = $this->tax($rate,$bill_amt);
+        }
+
+
+
         // add to bill in trans
-        $this->db_connect()->exec(
-            "insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','$item','i','$quantity','$clerk')"
-        );
+        if($this->db_connect()->exec(
+            "insert into `bill_trans` (`mach`,`clerk`,`bill_number`,`item_barcode`,`item_desc`,`retail_price`,`item_qty`,`tax_amt`,`bill_amt`,`trans_type`,`tax_grp`,`tax_rate`) values 
+                                                ('$machine_number','$myName','$bill_number','$barcode','$item_desc','$item_retail','$qty','$taxAmount','$bill_amt','i','$tax_description','$rate')"
+        ))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function sum($table,$column,$condition,$as = 'result')
+    {
+        $sql = $this->db_connect()->query("SELECT SUM($column) as $as FROM `$table` WHERE $condition");
+        $stmt = $sql->fetch(PDO::FETCH_ASSOC);
+        return $stmt["$as"];
     }
 
 }

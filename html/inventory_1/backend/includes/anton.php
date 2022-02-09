@@ -85,5 +85,11 @@ class anton
         return ($rate/100) * $vale;
     }
 
+    // calculate for tax
+    public function tax($rate, $amount)
+    {
+        return $rate / 100 * $amount;
+    }
+
 
 }

@@ -6,6 +6,7 @@
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
 
+
         if(isset($_POST['function'])) // if we have a function from post call
         {
             $function = $anton->post('function');
@@ -77,34 +78,37 @@
                     $split = explode('*',$barcode);
                     if(count($split) > 1)
                     {
-                        $multiple = $split[0];
+                        $quantity = $split[0];
                         $item = $split[1];
-                        if(is_numeric($multiple))
+                    }
+                    else
+                    {
+                        $quantity = 1;
+                        $item = $barcode;
+                    }
+                    if(is_numeric($quantity))
+                    {
+                        //$anton->done("$multiple is a number \n");
+                        // look for item
+
+
+                        if($db->row_count('items_master',"`barcode` = '$item'") == 1)
                         {
-                            //$anton->done("$multiple is a number \n");
-                            // look for item
 
 
-                            if($db->row_count('items_master',"`barcode` = '$item'") == 1)
+                            if($db->add_item_bill($bill_number,$item,$quantity,$myName))
                             {
-                                // todo add item
-                                $db->add_item_bill($item,$multiple,$myName,$bill_number);
-
-
-
-                            } else {
-                                $anton->err('item_does_not_exist');
+                                $anton->done('bill_added');
                             }
-                        }
-                        else
-                        {
-                            $anton->err('barcode_multiple_not_number');
-                            // todo find item with barcode and multiples
+
+                        } else {
+                            $anton->err('item_does_not_exist');
                         }
                     }
                     else
                     {
-                        echo 'no split';
+                        $anton->err('barcode_multiple_not_number');
+                        // todo find item with barcode and multiples
                     }
 
                     die();
@@ -124,14 +128,14 @@
                     while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
                     {
                         ++$sn;
-                        $item = $bill['item'];
+                        $item = $bill['item_barcode'];
                         $item_barcode_md5 = md5($item);
 
                         // get item details
                         $i_d = $db->get_rows('items_master',"`barcode` = $item");
-                        $item_name = $i_d['desc'];
-                        $qty = $bill['amount'];
-                        $cost = $i_d['retail'] * $qty;
+                        $item_name = $bill['item_desc'];
+                        $qty = $bill['item_qty'];
+                        $cost = $bill['bill_amt'];
 
                         // make bill item
                         $bill_item = "<div 
@@ -182,12 +186,8 @@
                 {
                     // todo print bill
 
-                    // get bill quantity items
-                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
-                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
-                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
                     // mark bill as canceled
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','bill_canced','C','$num_of_items','$myName')");
+                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
                 }
 
 
@@ -199,12 +199,7 @@
                 {
                     // todo print bill
 
-                    // get bill quantity items
-                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
-                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
-                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
-                    // mark bill as canceled
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values ('$machine_number','$bill_number','bill_canced','H','$num_of_items','$myName')");
+                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','H','$myName','not_item')");
                 }
             }
 
@@ -220,34 +215,34 @@
                                  `mach` = '$machine_number' AND 
                                  `trans_type` = 'i' AND `date_added` = '$today'"
                     );
+                    $bill_condition = "`clerk` = '$clerk_id' AND `bill_number` = '$bill_number' AND `trans_type` = 'i'";
+                    $sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
+                    $tax_total = $db->sum('bill_trans',"tax_amt",$bill_condition);
 
-                    $sub_total = 0.00;
-                    $tax_total = 0.00;
-
-                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
-                    {
-                        $item = $bill['item'];
-
-                        // get retail
-                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
-                        $item_name = $i_d['desc'];
-                        $qty = $bill['amount'];
-                        $tax_group = $i_d['tax_grp'];
-                        $tax_rate = $db->get_rows('tax_master',"`id` = '$tax_group'")['rate'];
-
-
-                        $cost = $i_d['retail'] * $qty;
-                        $tax_value = number_format($anton->percentage($tax_rate,$cost),2);
-                        $tax_total += $tax_value;
-
-                        // get tax grooup
-
-
-                        $sub_total += $cost;
-
-                        // todo calculate tax for sub total
-
-                    }
+//                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
+//                    {
+//                        $item = $bill['item'];
+//
+//                        // get retail
+//                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
+//                        $item_name = $i_d['desc'];
+//                        $qty = $bill['amount'];
+//                        $tax_group = $i_d['tax_grp'];
+//                        $tax_rate = $db->get_rows('tax_master',"`id` = '$tax_group'")['rate'];
+//
+//
+//                        $cost = $i_d['retail'] * $qty;
+//                        $tax_value = number_format($anton->percentage($tax_rate,$cost),2);
+//                        $tax_total += $tax_value;
+//
+//                        // get tax grooup
+//
+//
+//                        $sub_total += $cost;
+//
+//                        // todo calculate tax for sub total
+//
+//                    }
 
                     $anton->done(number_format($sub_total,2)."()".number_format($tax_total,2));
 

@@ -173,22 +173,7 @@
                                 <div id="bill_loader" class="h-90 w-100 overflow-auto">
                                     <div oncontextmenu="mark_bill_item('md5 of item')" ondblclick="mark_bill_item('12')" class="d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1">
 
-                                        <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                            <p class="m-0 p-0">1</p>
-                                        </div>
 
-                                        <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
-                                            <p class="m-0 p-0">Description hello world we need food</p>
-                                        </div>
-
-                                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                            <p class="m-0 p-0">12</p>
-                                        </div>
-
-                                        <!--Cost-->
-                                        <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                            <p class="m-0 p-0">100.00</p>
-                                        </div>
                                     </div>
 
                                 </div>
