@@ -656,7 +656,7 @@ function hold_bill(params) {
                     // do nothing
                     console.log(response)
                     get_bill()
-                    //location.reload();
+                    location.reload();
                 }
             });
         } else if (result.isDenied) {
@@ -1049,7 +1049,7 @@ function cancel_bill() {
                     console.log(response)
                     get_bill();
                     // Swal.fire('Changes are not saved', '', 'info');
-                    //location.reload()
+                    location.reload()
                 }
             });
         } else if (result.isDenied) {
@@ -1137,25 +1137,6 @@ $(function() {
         });
 
         $.ajax({
-
-            xhr: function() {
-                var progress = $('.progress'),
-                    xhr = $.ajaxSettings.xhr();
-
-                progress.show();
-
-                xhr.upload.onprogress = function(ev) {
-                    if (ev.lengthComputable) {
-                        var percentComplete = parseInt((ev.loaded / ev.total) * 100);
-                        progress.val(percentComplete);
-                        if (percentComplete === 100) {
-                            progress.hide().val(0);
-                        }
-                    }
-                };
-
-                return xhr;
-            },
 
             url: url,
             type: type,

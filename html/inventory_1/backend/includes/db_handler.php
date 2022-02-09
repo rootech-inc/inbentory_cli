@@ -103,10 +103,14 @@ class db_handler extends anton
 
 
         // add to bill in trans
-        if($this->db_connect()->exec(
-            "insert into `bill_trans` (`mach`,`clerk`,`bill_number`,`item_barcode`,`item_desc`,`retail_price`,`item_qty`,`tax_amt`,`bill_amt`,`trans_type`,`tax_grp`,`tax_rate`) values 
-                                                ('$machine_number','$myName','$bill_number','$barcode','$item_desc','$item_retail','$qty','$taxAmount','$bill_amt','i','$tax_description','$rate')"
-        ))
+        $sql = "insert into `bill_trans` 
+                (`mach`,`clerk`,`bill_number`,`item_barcode`,
+                 `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`) value
+                 ('$machine_number','$myName','$bill_number','$barcode',
+                  '$item_desc','$item_retail','$qty','$taxAmount',
+                  '$bill_amt','i','$tax_description','$rate')";
+        if($this->db_connect()->exec($sql))
         {
             return true;
         }
@@ -114,6 +118,8 @@ class db_handler extends anton
         {
             return false;
         }
+
+
     }
 
     public function sum($table,$column,$condition,$as = 'result')

@@ -1,24 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1024 X 768</title>
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/anton.css">
-    <!-- jQuery library -->
-    <script src="js/jquery.min.js"></script>
-    <!-- Popper JS -->
-    <script src="../js/popper.min.js"></script>
-    <!-- Latest compiled JavaScript -->
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/anton.js"></script>
-    <script>
-        setInterval(time, 1000);
-    </script>
-</head>
-<body oncontextmenu="return false" onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+
     
     <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
         <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
@@ -186,8 +166,8 @@
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
                             <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group overflow-hidden">
-                                <input type="hidden" name="function" value="get_bill_items" class="">
-                                <input required id="general_input" name="barcode_for_bill" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                                <input type="hidden" name="function" value="new_item" class="">
+                                <input required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
@@ -267,6 +247,3 @@
           </div>
         </div>
       </div>
-    
-</body>
-</html>
