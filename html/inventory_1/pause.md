@@ -1,1 +1,1 @@
-Bill items are inserted Multiply
+Holding bill

@@ -31,7 +31,7 @@
 
         </header>
 
-        <div class="bill-body border container-fluid">
+        <div class="bill-body border container-fluid p-0">
             
             <div class="row no-gutters h-100">
                 <!-- Items -->
@@ -62,7 +62,7 @@
                                 <?php while ($group = $item_groups->fetch(PDO::FETCH_ASSOC)):
                                     $uni = $group['grp_uni'];
                                     ?>
-                                    <button onclick="change_category('<?php echo $uni ?>')" class="<?php if($anton->set_session('current_group') == $uni){echo 'cat_button_active';} else {echo 'cat_button';} ?> btn text-center shadow m-2">
+                                    <button onclick="change_category('<?php echo $uni ?>')" class="<?php if($anton->get_session('current_group') == $uni){echo 'cat_button_active';} else {echo 'cat_button';} ?> btn text-center shadow m-2">
                                     <img
                                         style="height: 45px; width: 45px;"
                                         class="img-fluid"
@@ -168,7 +168,7 @@
                             <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
                                 <input required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
-                                <div class="input-group-append w-20 bill_main_input p-0">
+                                <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
                                     </span>
@@ -178,10 +178,10 @@
 
 
                             <div class="w-100 pt-1 d-flex flex-wrap justify-content-between">
-                                <button onclick="make_payment('cash')" class="bill_func_main_btn btn rounded-0">
+                                <button id="cash_payment" onclick="make_payment('cash')" class="bill_func_main_btn btn rounded-0">
                                     CASH
                                 </button>
-                                <button onclick="make_payment('momo','token')" class="bill_func_main_btn btn rounded-0">
+                                <button id="momo_payment" onclick="make_payment('momo','token')" class="bill_func_main_btn btn rounded-0">
                                     MOMO
                                 </button>
                                 <button disabled class="bill_func_main_btn btn rounded-0">

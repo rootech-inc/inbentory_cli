@@ -14,26 +14,31 @@
 
             if($function === 'change_item_group') // if we are making a group change
             {
+
                 // get group
                 $group = $anton->post('group');
+
+
 
                 // check if group exist
                 if($db->row_count('item_group',"`grp_uni` = '$group'") > 0)
                 {
-                    // get items
-                    if($db->row_count('items_master',"`item_grp` = '$group'") > 0)
+                    $grp_id = $db->get_rows('item_group',"`grp_uni` = '$group'")['id'];
+
+                    if($db->row_count('items_master',"`item_grp` = '$grp_id'") > 0)
                     {
                         // get items
                         $items = '';
-                        $items_sql = $db->db_connect()->query("SELECT * FROM `items_master` WHERE `item_grp` = '$group' order by `desc` ASC");
+                        $items_sql = $db->db_connect()->query("SELECT * FROM `items_master` WHERE `item_grp` = '$grp_id' order by `desc` ASC");
                         while ($item = $items_sql->fetch(PDO::FETCH_ASSOC))
                         {
                             $name = $item['desc'];
                             $retail = $item['retail'];
                             $id = $item['id'];
                             $uni = $item['item_uni'];
+                            $barcode = $item['barcode'];
                             $items .= "
-                                <div onclick='add_item_to_bill(\"$uni\")' class=\"item_btn m-2 p-1\">
+                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn m-2 p-1\">
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
                                             <p class=\"text-elipse m-0 p-0 font-weight-bolder\">$name</p>
                                         </div>
@@ -45,6 +50,16 @@
                         }
                         $anton->done($items);
                     }
+                    else
+                    {
+                        $items = "
+                            <div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>
+                            <p class='enc'>No Item</p>
+</div>
+                        ";
+                        $anton->done($items);
+                    }
+
                 }
 
             }
@@ -200,15 +215,33 @@
 //                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
                     // mark bill as canceled
                     try {
-                        $db->db_connect()->exec("insert into `bill_trans` 
-                                            (`mach`,`bill_number`,`item`,`trans_type`,`amount`,`clerk`) values 
-                                            ('$machine_number','$bill_number','$method','P','$amount_paid','$myName')");
+                        // todo print_bill
+                        $anton->print_bill($bill_number,'P');
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','P','$myName','not_item')");
                         $anton->done();
                     } catch (PDOException $exception)
                     {
                         $error = $exception->getMessage();
                         $anton->err($error);
                     }
+                }
+
+            }
+
+            elseif ($function === 'recall_bill') // recall bill
+            {
+                $bill_number = $anton->post('bill_number');
+
+                // check if bill number exist
+                if($db->row_count('bill_trans',"`bill_number` = '$bill_number'") < 1 )
+                {
+                    $anton->err('bill_recall_does_not_exits');
+                    die();
+                }
+                // check if bill exist but is not on hold
+                if($db->row_count('bill_trans',"`bill_number` = '$bill_number' AND `trans_type` = 'H'") < 1)
+                {
+                    $anton->err('bill_not_on_hold');
                 }
 
             }

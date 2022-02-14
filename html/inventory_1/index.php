@@ -25,8 +25,9 @@ error_reporting(E_ALL);
     <script src="js/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/sweetalert.min.css">
 
-
+    <script src="js/error_handler.js"></script>
     <script src="js/anton.js"></script>
+
 
 
 

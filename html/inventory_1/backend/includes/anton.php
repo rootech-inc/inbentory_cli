@@ -72,7 +72,7 @@ class anton
     }
 
     // print bill
-    public function print_bill($bill_number,$db_connection)
+    public function print_bill($bill_number,$type)
     {
         // get list of bill items
         // todo print bill
@@ -90,6 +90,8 @@ class anton
     {
         return $rate / 100 * $amount;
     }
+
+
 
 
 }

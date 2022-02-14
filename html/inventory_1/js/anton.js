@@ -1,4 +1,5 @@
 
+
 var form_data;
 var form_process = "/backend/process/form_process.php";
 
@@ -430,15 +431,27 @@ function get_bill()
             {
                 var action = response.split('%%')[0];
                 var message = response.split('%%')[1];
-                console.log(action)
+                //console.log(action)
 
                 if(action === 'done')
                 {
-                    // enable functions
-                    element_toggle('en','cancel');
-                    element_toggle('en','hold');
-                    element_toggle('en','discount');
-                    element_toggle('disable','recall');
+                    if(message.length > 0)
+                    {
+                        // enable functions
+                        element_toggle('en','cancel');
+                        element_toggle('en','hold');
+                        element_toggle('en','discount');
+                        element_toggle('en','cash_payment')
+                        element_toggle('en','momo_payment')
+                        element_toggle('disable','recall');
+
+                    }
+                    else
+                    {
+                        element_toggle('disable','cash_payment')
+                        element_toggle('disable','momo_payment')
+                    }
+
 
 
                     // populate
@@ -476,9 +489,14 @@ function edit_item(item,reference) {
 }
 
 
+function set_category()
+{
+    alert('hello')
+}
 
 // change category
 function change_category(group_uni) {
+    //alert(group_uni)
     // prepare for ajax call
     var form_data = {
         'function':'change_item_group',
@@ -493,16 +511,19 @@ function change_category(group_uni) {
         type: "POST",
         data: form_data,
         success: function (response){
+            //echo(response)
 
             if(response.split('%%').length === 2)
             {
                 var act = response.split('%%')[0];
                 var msg = response.split('%%')[1];
 
+                //echo(act)
                 //console.log(act);
 
                 if(act === 'done')
                 {
+                    //console.log('done done')
                     $('#items').html(msg);
                 }
 
@@ -513,35 +534,16 @@ function change_category(group_uni) {
 }
 
 // add item to bill
-function add_item_to_bill(params) {
-    let quantity;
-    var general_input = document.getElementById('general_input').value;
-    document.getElementById('general_input').value = '';
-    if(general_input > 1 )
-    {
-        quantity = general_input;
-    }
-    else
-    {
-        quantity = 1;
-    }
-    // make form data
-    var form_data = {
-        'function':'add_item_to_bill',
-        'item':params,
-        'quantity':quantity
-    }
+function add_item_to_bill(barcode) {
 
-    // make ajax request
-    $.ajax({
-        url:'/backend/process/form_process.php',
-        type: 'POST',
-        data:form_data,
-        success: function (response)
-        {
-            get_bill();
-        }
-    });
+    echo(barcode);
+    var existingValue = $('#general_input').val();
+    var newValue = existingValue.toString() + barcode.toString();
+
+    $('#general_input').val(newValue)
+
+    // submit form
+    $('#general_form').submit();
 
 }
 
@@ -577,12 +579,13 @@ function make_payment(method) {
                 data:form_data,
                 success: function (response) {
                     echo(response);
+                    $('amount_paid').text(actual_paid);
+                    $('amount_balance').text(actual_balance - actual_paid);
                     get_bill();
 
                 }
             });
 
-            echo(form_data);
         }
         else
         {
@@ -670,23 +673,24 @@ function hold_bill(params) {
 // recall bill
 function recall_bill(token) {
      // validate there is cash input
-     var val = document.getElementById('gen_input'); // gen input field
+     var val = document.getElementById('general_input'); // gen input field
     
      if(val.value.length > 0) // if amout value is greater than zero
      {
          // prapre form for ajax
          data = {
-             'function':'hold_bill',
+             'function':'recall_bill',
+             'bill_number':val.value,
              'token':token
          };
          
          // make ajax function
          $.ajax({
-             url: '/config/process/bill_process.php',
+             url: '/backend/process/form_process.php',
              type: 'POST',
              data: data,
              success: function(response) {
-                 console.log(response);
+                 error_handler(response)
              }
          });
  
@@ -1070,48 +1074,7 @@ $("#bill_loader").ready(function(){
     // }, 1000);
 })
 
-// error handler
-function error_handler(response)
-{
-    // split response
-    if(response.split('%%').length === 2)
-    {
-        let response_split = response.split('%%');
-        let response_type = response_split[0];
-        let response_message = response_split[1];
 
-        // switching response type
-        switch (response_type)
-        {
-            case 'error': // when the response type is an error
-                switch (response_message) // switch between error message
-                {
-                    case "barcode_multiple_not_number": // item quantity is not a number
-                        $('#general_input').addClass('bg-danger');
-                        setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Quantity value must be a number',
-                        })
-                        break;
-                    case 'item_does_not_exist':
-                        swal_error("Item Not Found");
-                        break;
-                    default:
-                        echo(response_message)
-                }
-                break;
-            case 'done':
-                switch (response_message) {
-                    case 'bill_added':
-                        get_bill();
-                        break;
-                }
-        }
-
-    }
-}
 
 $(function() {
     //hang on event of form with id=myform
