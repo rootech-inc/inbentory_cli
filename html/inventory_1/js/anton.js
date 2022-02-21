@@ -659,7 +659,8 @@ function hold_bill(params) {
                     // do nothing
                     console.log(response)
                     get_bill()
-                    location.reload();
+                    subTotal();
+                    // location.reload();
                 }
             });
         } else if (result.isDenied) {
@@ -680,7 +681,7 @@ function recall_bill(token) {
          // prapre form for ajax
          data = {
              'function':'recall_bill',
-             'bill_number':val.value,
+             'bill_grp':val.value,
              'token':token
          };
          
@@ -690,7 +691,9 @@ function recall_bill(token) {
              type: 'POST',
              data: data,
              success: function(response) {
+                 echo(response)
                  error_handler(response)
+                 get_bill()
              }
          });
  

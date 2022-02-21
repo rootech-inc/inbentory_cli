@@ -177,11 +177,33 @@
 
             elseif ($function === 'hold_current_bill')
             {
+
+                $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
+
+                $anton->print_bill('2','hold');
+                die();
+
+
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
                 {
                     // todo print bill
+                    // insert bill into holding
+                    $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'");
+                    while($item = $items->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $item_barcode = $item['item_barcode'];
+                        $item_qty = $item['item_qty'];
 
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','H','$myName','not_item')");
+                        if($db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')"))
+                        {
+                            // delete item
+                            $db->db_connect()->exec("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `item_barcode` = '$item_barcode'");
+                        }
+
+
+                    }
+                    $anton->done('bill_held');
+                    //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','H','$myName','not_item')");
                 }
             }
 
@@ -230,19 +252,35 @@
 
             elseif ($function === 'recall_bill') // recall bill
             {
-                $bill_number = $anton->post('bill_number');
+                $bill_grp = $anton->post('bill_grp');
 
                 // check if bill number exist
-                if($db->row_count('bill_trans',"`bill_number` = '$bill_number'") < 1 )
+                if($db->row_count('bill_hold',"`bill_grp` = '$bill_grp' AND `bill_date` = '$today'") < 1 )
                 {
                     $anton->err('bill_recall_does_not_exits');
                     die();
                 }
-                // check if bill exist but is not on hold
-                if($db->row_count('bill_trans',"`bill_number` = '$bill_number' AND `trans_type` = 'H'") < 1)
+                else
                 {
-                    $anton->err('bill_not_on_hold');
+                    // load bill
+                    $held_bill = $db->db_connect()->query("SELECT * FROM `bill_hold` WHERE `bill_grp` = '$bill_grp' and `bill_date` = '$today'");
+                    while($item = $held_bill->fetch(PDO::FETCH_ASSOC))
+                    {
+                        $barcode = $item['item_barcode'];
+                        $item_qty = $item['item_qty'];
+
+                        // insert into bill
+                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
+
+                    }
+                    // delete all bill item
+                    $db->delete("`bill_hold`","`bill_grp` = '$bill_grp'");
+                    $anton->done('bill_found');
                 }
+
+
+
+
 
             }
 

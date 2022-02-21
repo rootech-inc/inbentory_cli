@@ -129,4 +129,40 @@ class db_handler extends anton
         return $stmt["$as"];
     }
 
+
+    public function uniqieStr(string $table, string $column, int $length)
+    {
+        $unique = $this->generateRandomString($length);
+
+        if($this->row_count("$table","$column = '$unique'") > 0)
+        {
+            // repeat function
+            $this->uniqieStr($table,$column,$length);
+        }
+
+        return $unique;
+
+
+    }
+
+    public function delete($table,$condition = 'none'): bool
+    {
+        if($condition === 'none')
+        {
+            $sql = "DELETE FROM $table";
+        }
+        else
+        {
+            $sql = "DELETE FROM $table WHERE $condition";
+        }
+
+        if($this->db_connect()->exec($sql))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
+    }
+
 }
