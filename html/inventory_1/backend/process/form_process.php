@@ -104,6 +104,7 @@
 
             elseif ($function === 'get_bill_items') // get bill
             {
+                $cart = $anton->get_session('cart');
                 // get all from bill
                 $bill_query = $db->db_connect()->query(
                     "SELECT * FROM `bill_trans` WHERE 
@@ -111,22 +112,29 @@
                                  `mach` = '$machine_number' AND 
                                  `trans_type` = 'i' AND `date_added` = '$today'"
                 );
-                $bill_items = 'done%%';
-                $sn = 0;
-                while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
+                if($bill_query->rowCount() < 1 || $cart === 'empty')
                 {
-                    ++$sn;
-                    $item = $bill['item_barcode'];
-                    $item_barcode_md5 = md5($item);
+                    $bill_items = 'no_bill%%';
+                    //exit();
+                }
+                else
+                {
+                    $bill_items = 'done%%';
+                    $sn = 0;
+                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
+                    {
+                        ++$sn;
+                        $item = $bill['item_barcode'];
+                        $item_barcode_md5 = md5($item);
 
-                    // get item details
-                    $i_d = $db->get_rows('items_master',"`barcode` = $item");
-                    $item_name = $bill['item_desc'];
-                    $qty = $bill['item_qty'];
-                    $cost = $bill['bill_amt'];
+                        // get item details
+                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
+                        $item_name = $bill['item_desc'];
+                        $qty = $bill['item_qty'];
+                        $cost = $bill['bill_amt'];
 
-                    // make bill item
-                    $bill_item = "<div 
+                        // make bill item
+                        $bill_item = "<div 
                                     oncontextmenu=\"mark_bill_item('$item_barcode_md5')\" 
                                     ondblclick=\"mark_bill_item('$item_barcode_md5')\" 
                                     class=\"d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
@@ -150,14 +158,18 @@
                                     </div>
                                 </div>";
 
-                    // append item to bills
-                    $bill_items .= $bill_item;
-                    $qty = 1; // set quantity to 1
-                    $barcode = $item; // barcode is item
+                        // append item to bills
+                        $bill_items .= $bill_item;
+                        $qty = 1; // set quantity to 1
+                        $barcode = $item; // barcode is item
+                    }
+
                 }
 
                 // return bill item
                 echo $bill_items;
+
+
             }
 
             elseif ($function === 'cancel_current_bill') // cancel current bill
@@ -181,7 +193,6 @@
                 $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
 
                 $anton->print_bill('2','hold');
-                die();
 
 
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
@@ -212,7 +223,7 @@
                 // sub total
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
                 {
-                    $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i'";
+                    $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
                     $sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
                     $tax_total = $db->sum('bill_trans',"tax_amt",$bill_condition);
 
@@ -226,21 +237,23 @@
                 $method = $anton->post('method');
                 $amount_paid = $anton->post('amount_paid');
 
+                // todo paused
+
                 // make payment
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
                 {
                     // todo print bill
 
                     // get bill quantity items
-//                    $itm_qty = $db->db_connect()->query("SELECT SUM(amount) from `bill_trans` WHERE `bill_number` = '$bill_number'");
-//                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
-//                    $num_of_items = $itm_qty_stmt['SUM(amount)'];
+                    $itm_qty = $db->db_connect()->query("SELECT SUM(bill_amt) from `bill_trans` WHERE `bill_number` = '$bill_number'");
+                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
+                    $num_of_items = $itm_qty_stmt['SUM(bill_amt)'];
                     // mark bill as canceled
                     try {
                         // todo print_bill
-                        $anton->print_bill($bill_number,'P');
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','P','$myName','not_item')");
-                        $anton->done();
+                        //$anton->print_bill($bill_number,'P');
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','P','$myName','PAYMENT')");
+                        $anton->done('bill_done');
                     } catch (PDOException $exception)
                     {
                         $error = $exception->getMessage();

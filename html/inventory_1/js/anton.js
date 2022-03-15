@@ -426,7 +426,7 @@ function get_bill()
         type: 'POST',
         data: form_data,
         success: function (response) {
-            //console.log(response);
+            console.log(response);
             if(response.split('%%').length === 2)
             {
                 var action = response.split('%%')[0];
@@ -578,10 +578,11 @@ function make_payment(method) {
                 type:'POST',
                 data:form_data,
                 success: function (response) {
-                    echo(response);
+                    //echo(response);
                     $('amount_paid').text(actual_paid);
                     $('amount_balance').text(actual_balance - actual_paid);
                     get_bill();
+                    location.reload()
 
                 }
             });

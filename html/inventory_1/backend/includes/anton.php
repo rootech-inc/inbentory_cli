@@ -74,6 +74,14 @@ class anton extends FPDF
         exit();
     }
 
+    public function not_session($variable,$value)
+    {
+        if(!isset($_SESSION["$value"]))
+        {
+            $this->set_session(["$variable=$value"]);
+        }
+    }
+
     public function generateEAN($number): string
     {
         $code = '200' . str_pad($number, 9, '0');

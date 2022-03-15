@@ -19,6 +19,9 @@ php_value max_input_time 86400
 
 php_value max_file_uploads 99999999999
 
+php_value allow_url_include On
+
+
 # Displaying php errors
 php_flag display_errors on
 php_value error_reporting 6143

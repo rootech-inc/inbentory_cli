@@ -1,4 +1,9 @@
 <?php
+
+    ini_set('display_errors',1);
+    ini_set('display_startup_errors',1);
+    error_reporting(E_ALL);
+
     require 'session.php';
     $session_id = session_id();
 
@@ -9,6 +14,8 @@
     $db = new db_handler();
     $today = date('Y-m-d');
     $machine_number = $db->machine_number();
+    $root_host = $_SERVER['DOCUMENT_ROOT'];
+//    die($root_host);
 //    $anton->done($today);
 //    die();
 
@@ -21,6 +28,12 @@
 
         // check my bill
         $bill_num_sql = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` != 'i' AND `clerk` = '$myName' AND `date_added` = '$today' order by id DESC LIMIT 1");
+
+        $anton->not_session('bill_number',1);
+        $anton->not_session('cart','empty');
+
+        $bill_num = $anton->get_session('bill_number');
+
         if($bill_num_sql->rowCount() > 0 )
         {
             $bill_num_res = $bill_num_sql->fetch(PDO::FETCH_ASSOC);
@@ -31,6 +44,8 @@
         {
             $bill_number = 1;
         }
+
+        $bill_number = $anton->get_session('bill_number');
 
 
     }

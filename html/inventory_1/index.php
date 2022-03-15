@@ -57,7 +57,8 @@ error_reporting(E_ALL);
 
             ?>
         </main>
-    <?php } else { ?>
+    <?php }
+    else { ?>
         <main class="w-100 h-100 grade_danger d-flex flex-wrap align-content-center justify-content-between overflow-hidden">
 
 
