@@ -37,13 +37,30 @@
                             $id = $item['id'];
                             $uni = $item['item_uni'];
                             $barcode = $item['barcode'];
+                            $disc = $item['discount'];
+                            $ori_p = '';
+
+                            if($disc === 1)
+                            {
+                                $bg = 'item_btn_discount';
+                                $discount_rate = $item['discount_rate'];
+                                $retail_p = $retail - $db->percentage($discount_rate,$retail);
+                                $ori_p = $retail;
+                            }
+                            else
+                            {
+                                $bg = 'item_btn_bg';
+                                $retail_p = $retail;
+                            }
+
                             $items .= "
-                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn m-2 p-1\">
+                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-2 p-1\">
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
                                             <p class=\"text-elipse m-0 p-0 font-weight-bolder\">$name</p>
                                         </div>
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
-                                            <p class=\"text-elipse m-0 p-0\">$ $retail</p>
+                                            <strike class='text-danger'><small>$ori_p</small></strike>
+                                            <p class=\"text-elipse m-0 p-0\">$retail_p</p>
                                         </div>
                                     </div>
                             ";
@@ -129,6 +146,7 @@
                     $item_name = $bill['item_desc'];
                     $qty = $bill['item_qty'];
                     $cost = $bill['bill_amt'];
+
 
                     // make bill item
                     $bill_item = "<div 

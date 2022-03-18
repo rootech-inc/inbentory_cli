@@ -16,6 +16,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/anton.css">
     <link rel="stylesheet" href="css/all.css">
+    <link rel="stylesheet" href="css/keyboard.css">
 
 
     <script src="js/jquery.min.js"></script>
@@ -27,6 +28,7 @@ error_reporting(E_ALL);
 
     <script src="js/error_handler.js"></script>
     <script src="js/anton.js"></script>
+    <script src="js/keyboard.js"></script>
 
 
 
@@ -36,6 +38,69 @@ error_reporting(E_ALL);
 
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+
+    <div id="numericKeyboard" class="ant-bg-black">
+        <div class="w-100 p-1 d-flex flex-wrap align-content-start">
+            <div class="numKey p-1">
+                <button onclick="numInp(9)" class="btn btn-info w-100 h-100">9</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(8)" class="btn btn-info w-100 h-100">8</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(7)" class="btn btn-info w-100 h-100">7</button>
+            </div>
+
+            <div class="numKey p-1">
+                <button onclick="numInp(4)" class="btn btn-info w-100 h-100">4</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(5)" class="btn btn-info w-100 h-100">5</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(4)" class="btn btn-info w-100 h-100">4</button>
+            </div>
+
+            <div class="numKey p-1">
+                <button onclick="numInp(1)" class="btn btn-info w-100 h-100">1</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(2)" class="btn btn-info w-100 h-100">2</button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(3)" class="btn btn-info w-100 h-100">3</button>
+            </div>
+
+
+            <div class="numKey p-1">
+                <button onclick="backSpace()"  class="btn btn-primary w-100 h-100">
+                    <i class="fa fa-backspace"></i>
+                </button>
+            </div>
+            <div class="numKey p-1">
+                <button onclick="numInp(0)" class="btn btn-info w-100 h-100">
+                    <span>0</span>
+                </button>
+            </div>
+            <div onclick="numInp('*')" class="numKey p-1">
+                <button class="btn btn-primary w-100 h-100">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+
+            <div class="p-1 d-flex w-100 flex-wrap justify-content-between">
+                <div class="w-50 p-1">
+                    <button type="submit" form="general_form" class="btn btn-success rounded-0 numKeyLong">ENTER</button>
+                </div>
+                <div class="w-50 p-1">
+                    <button class="btn btn-danger w-100 h-100">
+                        <i class="fa fa-keyboard"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>

@@ -1,0 +1,37 @@
+#numericKeyboard
+{
+    width: 400px;
+    /*height: 430px;*/
+    position: absolute;
+    top: 18%;
+    right: 43%;
+    z-index: 1010;
+}
+
+.numKey
+{
+    width: 33%;
+    height: 80px;
+    font-size: 20px !important;
+}
+
+.numKey button
+{
+    font-size: 25px !important;
+    font-weight: bolder;
+}
+
+.numKeyLong
+{
+    width: 100%;
+    height: 80px;
+    font-size: 20px !important;
+}
+
+.numKeyMiddle
+{
+    width: 50%;
+    height: 80px;
+    font-size: 20px !important;
+}
+

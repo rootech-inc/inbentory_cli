@@ -1,1 +1,1 @@
-Getting discount and adding item to bill
+Buttons to wel place up and down

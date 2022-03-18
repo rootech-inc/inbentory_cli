@@ -86,6 +86,8 @@ class db_handler extends anton
         $item_desc = $item['desc'];
         $item_retail = $item['retail'];
         $disc = $item['discount'];
+//        echo $disc;
+
 
         if($item['discount'] == '1')
         {
@@ -101,7 +103,6 @@ class db_handler extends anton
         }
 
         $bill_amt = $retail_p * $qty;
-        die($disc);
         $tax_group = $item['tax_grp'];
 
 
@@ -112,7 +113,8 @@ class db_handler extends anton
         if($taxDetails['rate'] < 1)
         {
             $taxAmount = 0.00;
-        } else
+        }
+        else
         {
             // calculate for tax
             $taxAmount = $this->tax($rate,$bill_amt);

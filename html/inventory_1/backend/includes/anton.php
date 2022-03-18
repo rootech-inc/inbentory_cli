@@ -132,6 +132,14 @@ class anton extends FPDF
     public function tax($rate, $amount)
     {
         return $rate / 100 * $amount;
+
+        // calculate levy
+
+        // ad levy to retail
+
+        //cal vat
+
+        //return new result
     }
 
 

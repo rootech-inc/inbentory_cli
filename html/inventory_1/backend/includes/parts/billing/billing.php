@@ -173,6 +173,11 @@
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
                                     </span>
                                 </div>
+                                <div style="display: " class="input-group-append w-15 dropdown bill_main_input p-0">
+                                    <span class="input-group-text w-100 rounded-0 text-dark p-0">
+                                        <button onclick="showNumKeyboard()" type="button" class="btn h-100 rounded-0 w-100 fa fa-keyboard"></button>
+                                    </span>
+                                </div>
                             </form>
                             <!-- TODO make barcode scanning with code -->
 
@@ -189,7 +194,7 @@
                                 </button>
                             </div>
 
-                            <div class="w-100 pt-1 d-flex flex-wrap justify-content-between">
+                            <div class="w-75 pt-1 d-flex flex-wrap justify-content-between">
                                 <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
                                     CANCEL
                                 </button>
@@ -205,6 +210,12 @@
                                         data-target="#discountModal"
                                 >
                                     DISC
+                                </button>
+                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
+                                    LKUP
+                                </button>
+                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
+                                    REFUND
                                 </button>
                             </div>
 

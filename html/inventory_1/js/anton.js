@@ -107,7 +107,7 @@ function i_show(params) {
 
 // hide
 function i_hide(params) {
-    cl("Hiding " + params)
+    echo("Hiding " + params)
     var splited = params.split(',')
     for (let index = 0; index < splited.length; index++) {
         const element = splited[index];
@@ -346,6 +346,30 @@ function validateSize(reload) {
 // initialize page
 function initialize(params) {
     validateSize('no');
+    i_hide('numericKeyboard');
+
+}
+
+function arr_disable(elements) {
+    var spl = elements.split(',');
+
+    for (let i = 0; i < spl.length; i++)
+    {
+        let id = "#"+spl[i];
+        $(id).prop('disabled',true)
+        //echo(id)
+    }
+}
+
+function arr_enable(elements) {
+    var spl = elements.split(',');
+
+    for (let i = 0; i < spl.length; i++)
+    {
+        let id = "#"+spl[i];
+        $(id).prop('disabled',false)
+        //echo(id)
+    }
 }
 
 // set session
@@ -438,18 +462,25 @@ function get_bill()
                     if(message.length > 0)
                     {
                         // enable functions
-                        element_toggle('en','cancel');
-                        element_toggle('en','hold');
-                        element_toggle('en','discount');
-                        element_toggle('en','cash_payment')
-                        element_toggle('en','momo_payment')
-                        element_toggle('disable','recall');
+                        // element_toggle('en','cancel');
+                        // element_toggle('en','hold');
+                        // element_toggle('en','discount');
+                        // element_toggle('en','cash_payment')
+                        // element_toggle('en','momo_payment')
+                        // element_toggle('disable','recall');
+                        var disable_list = 'recall';
+                        var enable_list = "momo_payment,cash_payment,discount,hold,cancel";
+
+                        arr_disable(disable_list);
+                        arr_enable(enable_list);
+
 
                     }
                     else
                     {
-                        element_toggle('disable','cash_payment')
-                        element_toggle('disable','momo_payment')
+                        var disable_list = "cash_payment,momo_payment";
+                        arr_disable(disable_list);
+
                     }
 
 
@@ -460,10 +491,11 @@ function get_bill()
                 }
                 else
                 {
-                    element_toggle('disable','cancel');
-                    element_toggle('disable','hold');
-                    element_toggle('disable','discount');
-                    element_toggle('en','recall');
+
+                    arr_disable(
+                        'momo_payment,' +
+                        'cash_payment','cancel'+'hold'+'discount'
+                    )
 
                     var cust_html = "<div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>" +
                         "<p class='fa fa-shopping-cart f-xxlg text-muted'></p>" +
@@ -511,7 +543,7 @@ function change_category(group_uni) {
         type: "POST",
         data: form_data,
         success: function (response){
-            //echo(response)
+            echo(response)
 
             if(response.split('%%').length === 2)
             {
@@ -579,10 +611,14 @@ function make_payment(method) {
                 data:form_data,
                 success: function (response) {
                     //echo(response);
-                    $('amount_paid').text(actual_paid);
-                    $('amount_balance').text(actual_balance - actual_paid);
                     get_bill();
-                    location.reload()
+                    $('#amount_paid').text(actual_paid);
+                    $('#amount_balance').text(actual_balance - actual_paid);
+                    $('#general_input').val('');
+                    $('#sub_total').val(0.00);
+                    $('#tax').val(0.00);
+                    //location.reload()
+
 
                 }
             });
@@ -1130,7 +1166,10 @@ $(function() {
             contentType: false,  // tell jQuery not to set contentType
             success: function (response){
                 echo(response);
+                i_hide('numericKeyboard')
+                $('#general_input').val('');
                 error_handler(response);
+
             },
 
         });

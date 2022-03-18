@@ -189,22 +189,47 @@ main{
 .cat_button_scroll{width: 108px; height: 45px; background-color: #AE87F2; color: #FFFFFF; font-size: 12px;}
 .cat_button_scroll:hover{width: 108px; height: 45px; background-color: #775ba8; color: #FFFFFF; font-size: 12px;}
 .item_btn{
+
+    height: 85px;
+    width: 130px;
+    cursor: pointer;
+}
+
+
+.item_btn_bg
+{
     background: rgb(58,29,137);
     background: -moz-linear-gradient(0deg, rgba(58,29,137,1) 0%, rgba(166,115,254,1) 100%);
     background: -webkit-linear-gradient(0deg, rgba(58,29,137,1) 0%, rgba(166,115,254,1) 100%);
     background: linear-gradient(0deg, rgba(58,29,137,1) 0%, rgba(166,115,254,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#3a1d89",endColorstr="#a673fe",GradientType=1);
-    height: 85px;
-    width: 130px;
-    cursor: pointer;
 }
-.item_btn:hover{
+.item_btn_bg:hover
+ {
     background: rgb(37,19,87);
     background: -moz-linear-gradient(0deg, rgba(37,19,87,1) 0%, rgba(122,84,186,1) 100%);
     background: -webkit-linear-gradient(0deg, rgba(37,19,87,1) 0%, rgba(122,84,186,1) 100%);
     background: linear-gradient(0deg, rgba(37,19,87,1) 0%, rgba(122,84,186,1) 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#251357",endColorstr="#7a54ba",GradientType=1);
+ }
+
+.item_btn_discount
+{
+    background: #093028;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #237A57, #093028);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #237A57, #093028); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
+.item_btn_discount:hover
+{
+    background: #093028;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #237A57, #093028);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #237A57, #093028); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+
+
 .item_scroll{background-color: #4062b6; color: #FFFFFF; font-size: 12px;}
 .item_scroll:hover{background-color: #2a4077; color: #FFFFFF; font-size: 12px;}
 .cart_display{height: 60%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
@@ -253,6 +278,18 @@ main{
 {
     font-size: xx-large;
 }
+.text_xxs
+{
+    font-size: xx-small;
+}
+
+.h-80 {height: 80% !important;}  .h-20{height: 20% !important}
+
+.text_xs
+{
+    font-size: x-small;
+}
+
 
 .ant-bg-black{background-color: #000000 !important; color: #f0f0f7 !important;}
 .ant-bg-dark{background-color: #303136; color: #f0f0f7;}
