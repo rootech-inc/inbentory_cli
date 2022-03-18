@@ -632,9 +632,27 @@ function make_payment(method) {
 // }
 
 // apply discount
-function apply_discount(params) {
-    console.log(params)
-    $('#discount').modal('hide');
+function apply_discount(discount) {
+    console.log(discount)
+
+    var form_data = {
+        'function':'discount','discount':discount
+    }
+
+        $.ajax(
+            {
+                url:'backend/process/form_process.php',
+                type: 'POST',
+                data: form_data,
+                success: function (response) {
+                    echo(response)
+                    error_handler(response);
+                    subTotal();
+                }
+            }
+        );
+
+    $('#discountModal').modal('hide');
 }
 
 // hold bill

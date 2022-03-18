@@ -25,11 +25,11 @@
                 {
                     $grp_id = $db->get_rows('item_group',"`grp_uni` = '$group'")['id'];
 
-                    if($db->row_count('items_master',"`item_grp` = '$grp_id'") > 0)
+                    if($db->row_count('prod_mast',"`item_grp` = '$grp_id'") > 0)
                     {
                         // get items
                         $items = '';
-                        $items_sql = $db->db_connect()->query("SELECT * FROM `items_master` WHERE `item_grp` = '$grp_id' order by `desc` ASC");
+                        $items_sql = $db->db_connect()->query("SELECT * FROM `prod_mast` WHERE `item_grp` = '$grp_id' order by `desc` ASC");
                         while ($item = $items_sql->fetch(PDO::FETCH_ASSOC))
                         {
                             $name = $item['desc'];
@@ -83,7 +83,7 @@
                 }
 
                 // check if item exist
-                if($db->row_count('items_master',"`barcode` = '$barcode'") < 1)
+                if($db->row_count('prod_mast',"`barcode` = '$barcode'") < 1)
                 {
                     $anton->err('item_does_not_exist');
                     exit();
@@ -104,7 +104,6 @@
 
             elseif ($function === 'get_bill_items') // get bill
             {
-                $cart = $anton->get_session('cart');
                 // get all from bill
                 $bill_query = $db->db_connect()->query(
                     "SELECT * FROM `bill_trans` WHERE 
@@ -112,29 +111,27 @@
                                  `mach` = '$machine_number' AND 
                                  `trans_type` = 'i' AND `date_added` = '$today'"
                 );
-                if($bill_query->rowCount() < 1 || $cart === 'empty')
+                if($bill_query->rowCount() < 1)
                 {
-                    $bill_items = 'no_bill%%';
-                    //exit();
+                    echo 'no_bill%%';
+                    exit();
                 }
-                else
+                $bill_items = 'done%%';
+                $sn = 0;
+                while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
                 {
-                    $bill_items = 'done%%';
-                    $sn = 0;
-                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
-                    {
-                        ++$sn;
-                        $item = $bill['item_barcode'];
-                        $item_barcode_md5 = md5($item);
+                    ++$sn;
+                    $item = $bill['item_barcode'];
+                    $item_barcode_md5 = md5($item);
 
-                        // get item details
-                        $i_d = $db->get_rows('items_master',"`barcode` = $item");
-                        $item_name = $bill['item_desc'];
-                        $qty = $bill['item_qty'];
-                        $cost = $bill['bill_amt'];
+                    // get item details
+                    $i_d = $db->get_rows('prod_mast',"`barcode` = $item");
+                    $item_name = $bill['item_desc'];
+                    $qty = $bill['item_qty'];
+                    $cost = $bill['bill_amt'];
 
-                        // make bill item
-                        $bill_item = "<div 
+                    // make bill item
+                    $bill_item = "<div 
                                     oncontextmenu=\"mark_bill_item('$item_barcode_md5')\" 
                                     ondblclick=\"mark_bill_item('$item_barcode_md5')\" 
                                     class=\"d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
@@ -158,18 +155,14 @@
                                     </div>
                                 </div>";
 
-                        // append item to bills
-                        $bill_items .= $bill_item;
-                        $qty = 1; // set quantity to 1
-                        $barcode = $item; // barcode is item
-                    }
-
+                    // append item to bills
+                    $bill_items .= $bill_item;
+                    $qty = 1; // set quantity to 1
+                    $barcode = $item; // barcode is item
                 }
 
                 // return bill item
                 echo $bill_items;
-
-
             }
 
             elseif ($function === 'cancel_current_bill') // cancel current bill
@@ -192,7 +185,7 @@
 
                 $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
 
-                $anton->print_bill('2','hold');
+                //$anton->print_bill('2','hold');
 
 
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
@@ -252,7 +245,7 @@
                     try {
                         // todo print_bill
                         //$anton->print_bill($bill_number,'P');
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','P','$myName','PAYMENT')");
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
                         $anton->done('bill_done');
                     } catch (PDOException $exception)
                     {
@@ -295,6 +288,38 @@
 
 
 
+            }
+
+            elseif ($function === 'discount')
+            {
+                $discount = $anton->post('discount');
+                if($db->row_count('disc_mast',"`disc_uni`='$discount'") == 1) // if discount exist
+                {
+                    // get discount
+                    $disc = $db->get_rows('disc_mast',"`disc_uni` = '$discount'");
+                    $rate = $disc['rate'];
+                    $desc = $disc['desc'];
+
+                    // check if fiscount already applied
+                    if($db->row_count('bill_trans',"`trans_type` = 'D' and `bill_number` = '$bill_number'") > 0 )
+                    {
+                        // disc_applied
+                        $anton->err('existing_discount');
+                    }
+                    else
+                    {
+                        // apply discount
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`) values ('$machine_number','$bill_number','$desc','D','$myName','DICOUNT','$rate')");
+                        $anton->done('discount_applied');
+                    }
+
+
+                }
+                else
+                {
+                    // cant apply discount
+                    $anton->err('cant_apply_disc');
+                }
             }
 
 

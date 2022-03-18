@@ -44,7 +44,6 @@ function error_handler(response)
                         get_bill();
                         $('#general_input').val('');
                         // clear bill input
-
                         break;
                 }
         }

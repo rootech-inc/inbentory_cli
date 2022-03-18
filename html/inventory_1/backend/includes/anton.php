@@ -76,7 +76,7 @@ class anton extends FPDF
 
     public function not_session($variable,$value)
     {
-        if(!isset($_SESSION["$value"]))
+        if(!isset($_SESSION["$variable"]))
         {
             $this->set_session(["$variable=$value"]);
         }

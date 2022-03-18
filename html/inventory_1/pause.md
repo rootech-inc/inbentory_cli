@@ -1,1 +1,1 @@
-Holding bill
+Getting discount and adding item to bill

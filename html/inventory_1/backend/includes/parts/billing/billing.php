@@ -202,7 +202,7 @@
                                 <button id="discount" disabled
                                         class="bill_func_sub_btn my-1 btn btn-primary btn-sm rounded-0"
                                         data-toggle="modal"
-                                        data-target="#discount"
+                                        data-target="#discountModal"
                                 >
                                     DISC
                                 </button>
@@ -219,7 +219,7 @@
     </main>
 
      <!--DISCOUNT MODAL-->
-     <div class="modal fade" id="discount">
+     <div class="modal fade" id="discountModal">
         <div class="modal-dialog modal-dialog-centered mx-auto">
           <div class="modal-content mx-auto">
       
@@ -232,15 +232,16 @@
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="p-0 d-flex flex-wrap align-content-center justify-content-between">
-                    <button onclick="apply_discount('md5 of discount id')" class="btn disc_btn">
-                        3%
+                    <?php
+                        $dsc = $db->db_connect()->query("SELECT * FROM `disc_mast`");
+                        while($discount = $dsc->fetch(PDO::FETCH_ASSOC)):
+                            $disc_uni = $discount['disc_uni'];
+                    ?>
+                    <button onclick="apply_discount('<?php echo $disc_uni ?>')" class="btn disc_btn">
+                        <?php echo $discount['desc'] ?>
                     </button>
-                    <button class="btn disc_btn">
-                        5%
-                    </button>
-                    <button class="btn disc_btn">
-                        10%
-                    </button>
+                    <?php endwhile; ?>
+
                 </div>
             </div>
       

@@ -82,10 +82,26 @@ class db_handler extends anton
         $clerk = $_SESSION['clerk_id'];
 
         // get item details
-        $item = $this->get_rows('items_master',"`barcode` = '$barcode'");
+        $item = $this->get_rows('prod_mast',"`barcode` = '$barcode'");
         $item_desc = $item['desc'];
         $item_retail = $item['retail'];
-        $bill_amt = $item_retail * $qty;
+        $disc = $item['discount'];
+
+        if($item['discount'] == '1')
+        {
+            // calculate discount rate off
+
+            //$retail_p = $item_retail;
+            $discount_rate = $item['discount_rate'];
+            $retail_p = $item_retail - $this->percentage($discount_rate,$item_retail);
+        }
+        else
+        {
+            $retail_p = $item_retail;
+        }
+
+        $bill_amt = $retail_p * $qty;
+        die($disc);
         $tax_group = $item['tax_grp'];
 
 
@@ -112,6 +128,8 @@ class db_handler extends anton
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate')";
+
+
         if($this->db_connect()->exec($sql))
         {
             return true;
