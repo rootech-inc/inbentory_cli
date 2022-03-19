@@ -101,6 +101,46 @@ error_reporting(E_ALL);
 
         </div>
     </div>
+    
+    <div id="alphsKeyboard" class="ant-bg-black p-2">
+        <div class="w-100 d-flex flex-wrap justify-content-center">
+            <input type="text" class="form-control w-75 mb-2">
+        </div>
+
+        <div class="w-100 d-flex flex-wrap justify-content-center">
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Q</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">w</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">E</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">R</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">T</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Y</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">U</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">I</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">O</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">P</button>
+        </div>
+        <div class="w-100 d-flex flex-wrap justify-content-center">
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">A</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">S</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">D</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">F</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">G</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">H</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">J</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">K</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">L</button>
+        </div>
+        <div class="w-100 d-flex flex-wrap justify-content-center">
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Z</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">X</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">C</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">V</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">B</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">N</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">M</button>
+            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">NUM</button>
+        </div>
+    </div>
 
 
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>

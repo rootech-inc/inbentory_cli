@@ -179,8 +179,33 @@
                     $barcode = $item; // barcode is item
                 }
 
+                // check if there discount and append discount value
+                $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
+                $discount_code = '';
+                if($db->row_count('bill_trans',"$disc_condition") > 0)
+                {
+                    // set row;
+                    $disc_rate = $db->get_rows('bill_trans',"$disc_condition")['bill_amt'];
+                    $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
+                    $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
+                    $disc_amount = $db->discount($bill_condition,$disc_condition);
+                    $discount_code .= "<div 
+                                    class=\"d-flex flex-wrap cart_item bg-warning text-danger align-content-center justify-content-between border-dotted pb-1 pt-1\"
+                                    >
+                                    
+                                    <div class=\"75 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\"><strong>Discount</strong></p>
+                                    </div>
+            
+                                    <!--Cost-->
+                                    <div class=\"w-25 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">"."<strong>-$disc_rate%($disc_amount)</strong>"."</p>
+                                    </div>
+                                </div>";
+                }
+
                 // return bill item
-                echo $bill_items;
+                echo $bill_items.$discount_code;
             }
 
             elseif ($function === 'cancel_current_bill') // cancel current bill
@@ -234,8 +259,50 @@
                 // sub total
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
                 {
+
                     $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
-                    $sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
+                    $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
+
+                    // check if there is discount
+                    if($db->row_count('bill_trans',"$disc_condition") > 0)
+                    {
+                        $_SESSION['sub_total'] = 0;
+                        $disc_rate = $db->get_rows('bill_trans',"$disc_condition")['bill_amt'];
+                        // calculate sub total with discount
+                        $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE $bill_condition");
+                        while($it = $items->fetch(PDO::FETCH_ASSOC))
+                        {
+                            $item_barcode = $it['item_barcode'];
+                            $item = $db->get_rows('prod_mast',"`barcode` = '$item_barcode'");
+
+                            if($item['discount'] === 1)
+                            {
+                                //dont  apply discount
+
+                                $s_toal = $it['bill_amt'];
+                            }
+                            else
+                            {
+                                //apply discount
+                                $b_amt = $it['bill_amt'];
+                                $s_toal = $b_amt - $db->percentage($disc_rate,$b_amt);
+                            }
+
+                            $s = $_SESSION['sub_total'];
+                            $_SESSION['sub_total'] = $s + $s_toal;
+
+                        }
+
+                        $sub_total = $_SESSION['sub_total'];
+                        unset($_SESSION['sub_total']);
+
+                    }
+                    else
+                    {
+                        $sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
+                    }
+
+                    //$sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
                     $tax_total = $db->sum('bill_trans',"tax_amt",$bill_condition);
 
                     $anton->done(number_format($sub_total,2)."()".number_format($tax_total,2));
@@ -310,34 +377,50 @@
 
             elseif ($function === 'discount')
             {
-                $discount = $anton->post('discount');
-                if($db->row_count('disc_mast',"`disc_uni`='$discount'") == 1) // if discount exist
-                {
-                    // get discount
-                    $disc = $db->get_rows('disc_mast',"`disc_uni` = '$discount'");
-                    $rate = $disc['rate'];
-                    $desc = $disc['desc'];
+                $rate = $anton->post('rate');
+                $user_id = $anton->post('user_id');
+                $password = $anton->post('password');
+                $rate = $anton->post('rate');
 
-                    // check if fiscount already applied
-                    if($db->row_count('bill_trans',"`trans_type` = 'D' and `bill_number` = '$bill_number'") > 0 )
+
+                if($db->clerkAuth($user_id,$password))
+                {
+                    //$anton->done('pass');
+                    // apply discount
+                    // check if discount already already applied
+                    if($db->row_count('bill_trans',"`bill_number` = $bill_number AND `clerk` = '$myName' AND `date_added` = '$today' AND `trans_type` = 'D'") < 1)
                     {
-                        // disc_applied
-                        $anton->err('existing_discount');
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`) values ('$machine_number','$bill_number','DISCOUNT','D','$myName','DICOUNT','$rate')");
+                        $anton->done('discount_applied');
                     }
                     else
                     {
-                        // apply discount
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`) values ('$machine_number','$bill_number','$desc','D','$myName','DICOUNT','$rate')");
-                        $anton->done('discount_applied');
+                        // update discount
+                        $db->db_connect()->exec("UPDATE `bill_trans` SET `bill_amt` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$myName' AND `date_added` = '$today' AND `trans_type` = 'D'");
+                        $anton->done('discount_updated');
                     }
-
 
                 }
                 else
                 {
-                    // cant apply discount
-                    $anton->err('cant_apply_disc');
+                    $anton->err('no_clerk_account');
                 }
+
+                die();
+
+                // check if discount is less than or equal to allowed
+
+
+            }
+
+            elseif ($function === 'admin_auth')
+            {
+                $clerk_id = $anton->post('user_id');
+                $password = $anton->post('password');
+
+                $db->clerkAuth($clerk_id,$password);
+
+                print_r($_POST);
             }
 
 

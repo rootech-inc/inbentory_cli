@@ -255,6 +255,20 @@ main{
 .modal_danger{color: #ffbbbd;}
 .btn_traditional{background: #F7FFF7; color: #1b1e21}
 .btn_traditional:disabled{background: #bbb09b; color: #1b1e21}
+.btn_traditional:hover{background: #bbb09b; color: #1b1e21}
+
+button:hover, button:focus {
+    outline: none !important;
+    border: 0 !important;
+}
+
+button
+{
+
+    border: none !important;
+    outline:none !important;
+    border: 0 !important;
+}
 
 
 .exit_button{ width: 25%; height: 35px;background-color: #c82333; color: #f0f0f7;}

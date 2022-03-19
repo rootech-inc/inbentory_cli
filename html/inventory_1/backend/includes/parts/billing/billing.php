@@ -203,6 +203,9 @@
                                     <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
                                         HOLD
                                     </button>
+                                    <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm my-1 btn-success rounded-0">
+                                        SUB TOTAL
+                                    </button>
                                     <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>

@@ -187,4 +187,68 @@ class db_handler extends anton
         }
     }
 
+    public function clerkAuth($clerk_code,$key) :bool
+    {
+        if($this->row_count('clerk',"`clerk_code` = '$clerk_code'") > 0)
+        {
+            // compare password
+            $clerk = $this->get_rows('clerk',"`clerk_code` = '$clerk_code'");
+            $db_key = $clerk['clerk_key'];
+
+
+            // compare
+            if($this->compare(md5($key),$db_key))
+            {
+                // login pass
+                return true;
+            }
+            else
+            {
+                // wrong password
+                return false;
+            }
+        }
+        else
+        {
+            // no user
+            return false;
+        }
+    }
+
+    public function discount($bill_condition,$disc_condition)
+    {
+        $_SESSION['sub_total'] = 0;
+        $_SESSION['disc_value'] = 0;
+        $disc_rate = $this->get_rows('bill_trans',"$disc_condition")['bill_amt'];
+        // calculate sub total with discount
+        $items = $this->db_connect()->query("SELECT * FROM `bill_trans` WHERE $bill_condition");
+        while($it = $items->fetch(PDO::FETCH_ASSOC))
+        {
+            $item_barcode = $it['item_barcode'];
+            $item = $this->get_rows('prod_mast',"`barcode` = '$item_barcode'");
+
+            if($item['discount'] === 1)
+            {
+                //dont  apply discount
+                $s_toal = $it['bill_amt'];
+            }
+            else
+            {
+                //apply discount
+                $b_amt = $it['bill_amt'];
+                $_SESSION['disc_value'] += $this->percentage($disc_rate,$b_amt);
+                $s_toal = $b_amt - $this->percentage($disc_rate,$b_amt);
+            }
+
+            $s = $_SESSION['sub_total'];
+            $_SESSION['sub_total'] = $s + $s_toal;
+
+        }
+
+        $sub_total = $_SESSION['sub_total'];
+        $dis_value = $_SESSION['disc_value'];
+        unset($_SESSION['sub_total']);
+        return $dis_value;
+    }
+
 }

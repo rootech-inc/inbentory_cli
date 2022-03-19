@@ -34,6 +34,12 @@ function error_handler(response)
                         swal_error("Bill is not on hold")
                         $('#general_input').val('');
                         break;
+                    case 'no_clerk_account':
+                        swal_error("Invalid Clerk or Key")
+                        break;
+                    case 'no_clerk_key':
+                        swal_error("Invalid Key")
+                        break;
                     default:
                         echo(response_message)
                 }

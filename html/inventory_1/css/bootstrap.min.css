@@ -2370,6 +2370,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 
 .btn-success.focus, .btn-success:focus {
     box-shadow: 0 0 0 .2rem rgba(72, 180, 97, .5)
+    border-color: none !important
 }
 
 .btn-success.disabled, .btn-success:disabled {
@@ -2381,7 +2382,7 @@ a.btn.disabled, fieldset:disabled a.btn {
 .btn-success:not(:disabled):not(.disabled).active, .btn-success:not(:disabled):not(.disabled):active, .show>.btn-success.dropdown-toggle {
     color: #fff;
     background-color: #1e7e34;
-    border-color: #1c7430
+    border-color: none !important
 }
 
 .btn-success:not(:disabled):not(.disabled).active:focus, .btn-success:not(:disabled):not(.disabled):active:focus, .show>.btn-success.dropdown-toggle:focus {

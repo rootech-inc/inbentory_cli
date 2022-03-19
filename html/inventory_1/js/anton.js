@@ -463,7 +463,7 @@ function get_bill()
                     {
 
                         var disable_list = 'recall';
-                        var enable_list = "momo_payment,cash_payment,discount,hold,cancel,LKUP";
+                        var enable_list = "momo_payment,cash_payment,discount,hold,cancel,LKUP,subTotal";
 
                         arr_disable(disable_list);
                         arr_enable(enable_list);

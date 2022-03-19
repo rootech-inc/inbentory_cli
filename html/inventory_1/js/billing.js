@@ -1,7 +1,7 @@
 // APPLYING DISCOUNT //
 function discount() {
     // validate there is cash input
-    var val = document.getElementById('general_input');  // gen input field
+    const val = document.getElementById('general_input');  // gen input field
 
     if(val.value.length > 0) // if amout value is greater than zero
     {
@@ -26,22 +26,49 @@ function discount() {
             admin_password = result.value.password;
 
             var form_data = {
-                'function':'admin_auth',
+                'function':'discount',
                 'user_id':admin_id,
-                'password':admin_password
+                'password':admin_password,
+                'rate':val.value
             }
 
             echo(form_data)
 
-            Swal.fire(form_data.function)
+            // make ajax function
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                type: 'POST',
+                data: form_data,
+                success: function(response) {
+                    echo(response)
+                    if(response.split('%%').length > 1)
+                    {
+                        var type = response.split('%%')[0];
+                        var mesg = response.split('%%')[1];
+
+                        if(type === 'error')
+                        {
+                            error_handler(response)
+                        }
+                        else if(type === 'done')
+                        {
+                            // apply discount
+
+                            Swal.fire(mesg)
+                            $('#general_input').val('')
+                            get_bill()
+                        }
+                    }
+
+                    //Swal.fire(response)
+                }
+            });
+
+            //Swal.fire(form_data.function)
         })
 
         // prapre form for ajax
-        data = {
-            'function':'recall_bill',
-            'bill_grp':val.value,
-            'token':token
-        };
+
 
         // make ajax function
         // $.ajax({
