@@ -1,1 +1,3 @@
-Buttons to wel place up and down
+Authenticating User for discount
+file : html/inventory_1/js/billing.js
+line : 36

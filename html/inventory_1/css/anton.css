@@ -237,7 +237,7 @@ main{
 .bill_main_input{height: 40px; width: 100%;background-color: #B4B5B8; color: #303136; font-size: 25px;}
 .card_functions{height: 40%; width: 100%; background-color: #303136;}
 .bill_func_main_btn{height: 70px; width: 32%; background-color: #020204; color: #FFFFFF; font-size: 25px;text-align: center;font-weight: bold;}
-.bill_func_sub_btn{height: 40px; width: 32%; color: #FFFFFF; font-size: 15px;text-align: center;font-weight: bold;}
+.bill_func_sub_btn{height: 50px; width: 32%; color: #FFFFFF; font-size: 15px;text-align: center;font-weight: bold;}
 
 #discountMain,.modal-content{background-color: #FFEA37;color: #000000;}
 .disc_btn{background-color: #303136; color: #FFFFFF; border: 2px solid #FFFFFF; height: 80px; width: 30%;}
@@ -253,6 +253,8 @@ main{
 .modal_yes{background-color: #FE7378; color: #020204;}.modal_yes:hover{background-color: #b13c40; color: #020204;}
 .modal_no{background-color: #537DEB; color: #FFFFFF;}.modal_no:hover{background-color: #2b58c9; color: #FFFFFF;}
 .modal_danger{color: #ffbbbd;}
+.btn_traditional{background: #F7FFF7; color: #1b1e21}
+.btn_traditional:disabled{background: #bbb09b; color: #1b1e21}
 
 
 .exit_button{ width: 25%; height: 35px;background-color: #c82333; color: #f0f0f7;}
@@ -284,6 +286,9 @@ main{
 }
 
 .h-80 {height: 80% !important;}  .h-20{height: 20% !important}
+.h-30{height: 30% !important}
+
+.w-85{width: 85% !important}.w-15{width: 15% !important}
 
 .text_xs
 {

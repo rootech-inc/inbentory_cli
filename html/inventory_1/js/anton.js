@@ -461,15 +461,9 @@ function get_bill()
                 {
                     if(message.length > 0)
                     {
-                        // enable functions
-                        // element_toggle('en','cancel');
-                        // element_toggle('en','hold');
-                        // element_toggle('en','discount');
-                        // element_toggle('en','cash_payment')
-                        // element_toggle('en','momo_payment')
-                        // element_toggle('disable','recall');
+
                         var disable_list = 'recall';
-                        var enable_list = "momo_payment,cash_payment,discount,hold,cancel";
+                        var enable_list = "momo_payment,cash_payment,discount,hold,cancel,LKUP";
 
                         arr_disable(disable_list);
                         arr_enable(enable_list);
@@ -491,11 +485,10 @@ function get_bill()
                 }
                 else
                 {
+                    // disable buttons if there is no bill
+                    var disable_list = 'momo_payment,cash_payment,cancel,hold,discount,REFUND,LKUP';
 
-                    arr_disable(
-                        'momo_payment,' +
-                        'cash_payment','cancel'+'hold'+'discount'
-                    )
+                    arr_disable(disable_list)
 
                     var cust_html = "<div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>" +
                         "<p class='fa fa-shopping-cart f-xxlg text-muted'></p>" +

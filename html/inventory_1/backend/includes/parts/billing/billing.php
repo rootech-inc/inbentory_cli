@@ -1,5 +1,4 @@
-
-    
+<script src="js/billing.js"></script>
     <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
         <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
@@ -165,7 +164,7 @@
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group overflow-hidden">
+                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
                                 <input required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
@@ -182,7 +181,7 @@
                             <!-- TODO make barcode scanning with code -->
 
 
-                            <div class="w-100 pt-1 d-flex flex-wrap justify-content-between">
+                            <div class="w-100 h-30 pt-1 d-flex flex-wrap justify-content-between">
                                 <button id="cash_payment" onclick="make_payment('cash')" class="bill_func_main_btn btn rounded-0">
                                     CASH
                                 </button>
@@ -192,31 +191,39 @@
                                 <button disabled class="bill_func_main_btn btn rounded-0">
                                     OTHERS
                                 </button>
+
                             </div>
 
-                            <div class="w-75 pt-1 d-flex flex-wrap justify-content-between">
-                                <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
-                                    CANCEL
-                                </button>
-                                <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
-                                    HOLD
-                                </button>
-                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
-                                    RECAL
-                                </button>
-                                <button id="discount" disabled
-                                        class="bill_func_sub_btn my-1 btn btn-primary btn-sm rounded-0"
-                                        data-toggle="modal"
-                                        data-target="#discountModal"
-                                >
-                                    DISC
-                                </button>
-                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
-                                    LKUP
-                                </button>
-                                <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
-                                    REFUND
-                                </button>
+                            <div class="w-100 h-50 pt-1 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
+                                <!-- BUTTONS -->
+                                <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap justify-content-between align-content-start">
+                                    <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
+                                        CANCEL
+                                    </button>
+                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
+                                        HOLD
+                                    </button>
+                                    <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
+                                        RECAL
+                                    </button>
+                                    <button id="discount" disabled
+                                            class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0"
+                                            onclick="discount()"
+                                    >
+                                        DISC
+                                    </button>
+                                    <button disabled id="LKUP" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
+                                        LKUP
+                                    </button>
+                                    <button disabled id="REFUND" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
+                                        REFUND
+                                    </button>
+                                </div>
+                                <!-- MORE FUNCTIONS -->
+                                <div class="w-15 h-100 d-flex flex-wrap justify-content-between align-content-between">
+                                    <button type="button" class="bill_func_sub_btn item_scroll m-1 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-2x fa-arrow-up"></i></button>
+                                    <button type="button" class="bill_func_sub_btn item_scroll m-1 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-2x fa-arrow-down"></i></button>
+                                </div>
                             </div>
 
                         </div>
