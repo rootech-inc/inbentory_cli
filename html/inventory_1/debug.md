@@ -1,0 +1,2 @@
+- [x] Billing
+    - [x] add quantity when using lookup

@@ -1,4 +1,12 @@
 
+// date
+const today = new Date();
+const dd = String(today.getDate()).padStart(2, '0');
+const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+const yyyy = today.getFullYear();
+const  toDay = yyyy + '-' + mm + '-' + dd;
+
+//
 
 var form_data;
 var form_process = "/backend/process/form_process.php";
@@ -50,6 +58,40 @@ else
 function echo(str)
 {
     console.log(str);
+}
+
+function pass(message = 'looks good')
+{
+    echo(message + '\n');
+}
+
+function fail(fail_message = "Operation Not Successful!!") {
+    swal_error(fail_message)
+}
+
+function responseType(response) {
+    var resp_split = response.split('%%');
+    if(resp_split.length > 0)
+    {
+        return resp_split[0];
+    }
+    else
+    {
+        return 'unknown_type';
+    }
+}
+
+function responseMessage(response)
+{
+    var resp_split = response.split('%%');
+    if(resp_split.length > 0)
+    {
+        return resp_split[1];
+    }
+    else
+    {
+        return 'unknown_type';
+    }
 }
 
 
@@ -450,7 +492,7 @@ function get_bill()
         type: 'POST',
         data: form_data,
         success: function (response) {
-            console.log(response);
+            //console.log(response);
             if(response.split('%%').length === 2)
             {
                 var action = response.split('%%')[0];
@@ -486,7 +528,7 @@ function get_bill()
                 else
                 {
                     // disable buttons if there is no bill
-                    var disable_list = 'momo_payment,cash_payment,cancel,hold,discount,REFUND,LKUP';
+                    var disable_list = 'momo_payment,cash_payment,cancel,hold,discount,REFUND';
 
                     arr_disable(disable_list)
 
@@ -503,10 +545,7 @@ function get_bill()
     });
 
 }
-// mark bill item
-function mark_bill_item(item_id) {
-    console.log(item_id);
-}
+
 
 // edit item
 function edit_item(item,reference) {
@@ -561,14 +600,24 @@ function change_category(group_uni) {
 // add item to bill
 function add_item_to_bill(barcode) {
 
+    let newValue;
     echo(barcode);
     var existingValue = $('#general_input').val();
-    var newValue = existingValue.toString() + barcode.toString();
+    if(existingValue.includes("*"))
+    {
+        newValue = existingValue.toString() + barcode.toString();
+    }
+    else
+    {
+        newValue = barcode.toString();
+    }
+
 
     $('#general_input').val(newValue)
 
     // submit form
     $('#general_form').submit();
+    $('#gen_modal').modal('hide');
 
 }
 
@@ -974,7 +1023,7 @@ function search_result(search_domain, match_case) {
     }
 }
 // general modal function
-function gen_modal(params,title='Not Set') {
+function gen_modal(params,title='Not Set',content = 'none') {
     var response = '';
     $('.modal-title').text(title);
     cl(title)
@@ -1056,6 +1105,14 @@ function gen_modal(params,title='Not Set') {
                 '                </div>';
 
             $('#grn_modal_res').html(response);
+            show_modal('gen_modal')
+            break;
+
+        case 'LKUP': // show lookup
+            $('.modal-title').text('Item Lookup'); // set modal title
+            $('.modal-dialog').addClass('modal-lg');
+            $('#grn_modal_res').html(content);
+            show_modal('gen_modal')
             show_modal('gen_modal')
             break;
 
@@ -1172,3 +1229,46 @@ $(function() {
     });
 
 });
+
+
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+

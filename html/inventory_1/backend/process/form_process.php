@@ -84,7 +84,7 @@
             elseif ($function === 'new_item') // add item to bill
             {
 
-                $item = $anton->post('barcode');
+                $item = trim($anton->post('barcode'));
                 // split item to find multiple
                 $item_split = explode('*',$item);
 
@@ -146,13 +146,22 @@
                     $item_name = $bill['item_desc'];
                     $qty = $bill['item_qty'];
                     $cost = $bill['bill_amt'];
+                    $barcode = $bill['item_barcode'];
+                    $id = $bill['id'];
+                    if($bill['selected'] === 1)
+                    {
+                        $cart_item = 'cart_item active';
+                    }
+                    else
+                    {
+                        $cart_item = 'cart_item';
+                    }
 
 
                     // make bill item
                     $bill_item = "<div 
-                                    oncontextmenu=\"mark_bill_item('$item_barcode_md5')\" 
-                                    ondblclick=\"mark_bill_item('$item_barcode_md5')\" 
-                                    class=\"d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
+                                    onclick= \"mark_bill_item('$id')\" id='billItem$barcode'
+                                    class=\"d-flex flex-wrap $cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
                                     >
                                     
                                     <div class=\"w-10 h-100 d-flex flex-wrap align-content-center pl-1\">

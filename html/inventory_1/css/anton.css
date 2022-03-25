@@ -33,17 +33,17 @@ tbody tr:hover {
 header{height: 10%; width: 100%;}
 article{height: 90%; width: 100%;}
 
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
+/*!* Chrome, Safari, Edge, Opera *!*/
+/*input::-webkit-outer-spin-button,*/
+/*input::-webkit-inner-spin-button {*/
+/*  -webkit-appearance: none;*/
+/*  margin: 0;*/
+/*}*/
 
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
+/*!* Firefox *!*/
+/*input[type=number] {*/
+/*  -moz-appearance: textfield;*/
+/*}*/
 
 .border{border: none !important;}
 
@@ -102,9 +102,11 @@ body{
     user-select: none;}
 
 main{
+    /*position: relative;*/
     height: 100% !important;
     width: 1024px !important;
     overflow: hidden !important;
+    z-index: 9998 !important;
 }
 
 .ant-round
@@ -234,7 +236,7 @@ main{
 .item_scroll:hover{background-color: #2a4077; color: #FFFFFF; font-size: 12px;}
 .cart_display{height: 60%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
 .border-dotted{border-bottom:1px dotted #dee2e6!important}
-.bill_main_input{height: 40px; width: 100%;background-color: #B4B5B8; color: #303136; font-size: 25px;}
+.bill_main_input{height: 40px; width: 75%;background-color: #B4B5B8; color: #303136; font-size: 25px;}
 .card_functions{height: 40%; width: 100%; background-color: #303136;}
 .bill_func_main_btn{height: 70px; width: 32%; background-color: #020204; color: #FFFFFF; font-size: 25px;text-align: center;font-weight: bold;}
 .bill_func_sub_btn{height: 50px; width: 32%; color: #FFFFFF; font-size: 15px;text-align: center;font-weight: bold;}
@@ -275,6 +277,10 @@ button
 .exit_button:hover{height: 35px; background-color: #7c1721; color: #f0f0f7;}
 
 .cart_item:hover{background-color: #4062b6; cursor: pointer;}
+.cart_item:active{background-color: #4062b6 !important; cursor: pointer;}
+.cart_item:focus{background-color: #4062b6 !important; cursor: pointer;}
+.cart_item.active {background-color: #4062b6 !important; cursor: pointer;}
+
 
 .master_input{height: 35px;  background-color: #5E75D1;}
 .master_button{background-color: #EB9682; border: 5px solid #FFFFFF; color: #020204; height: 74px; width: 22%;font-weight: bold;}

@@ -29,6 +29,7 @@ error_reporting(E_ALL);
     <script src="js/error_handler.js"></script>
     <script src="js/anton.js"></script>
     <script src="js/keyboard.js"></script>
+    <script src="js/query.js"></script>
 
 
 
@@ -38,6 +39,10 @@ error_reporting(E_ALL);
 
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+
+    <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
+        <i class="fa fa-keyboard"></i>
+    </button>
 
     <div id="numericKeyboard" class="ant-bg-black">
         <div class="w-100 p-1 d-flex flex-wrap align-content-start">
@@ -102,49 +107,220 @@ error_reporting(E_ALL);
         </div>
     </div>
     
-    <div id="alphsKeyboard" class="ant-bg-black p-2">
-        <div class="w-100 d-flex flex-wrap justify-content-center">
-            <input type="text" class="form-control w-75 mb-2">
-        </div>
+    <div style="display: none" id="alphsKeyboard" class="ant-bg-black p-1">
+        <div class="w-100 h-100" id="keypadContainer">
 
-        <div class="w-100 d-flex flex-wrap justify-content-center">
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Q</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">w</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">E</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">R</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">T</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Y</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">U</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">I</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">O</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">P</button>
+            <!-- INPUT FIELD -->
+            <div class="w-100 d-flex flex-wrap mt-4">
+                <div class="alpha w-100">
+                    <input type="text" id="keyPadInput" class="form-control rounded-0">
+                </div>
+
+            </div>
+
+            <!-- NUMERIC -->
+            <div class="w-100 d-flex flex-wrap">
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">1</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">2</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">3</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">4</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">5</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">6</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">7</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">8</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">9</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-primary btn-sm shadow-sm">0</button>
+                </div>
+                <div class="alpha_double">
+                    <button onclick="backSpace()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"><i class="fa fa-backspace"></i></button>
+                </div>
+
+            </div>
+
+            <!-- QWERTY ROW 1 -->
+            <div class="w-100 d-flex flex-wrap">
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">Q</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">W</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">E</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">R</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">T</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">Y</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">U</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">I</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">O</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">P</button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+            </div>
+
+            <!-- QWERTY ROW 2 -->
+            <div class="w-100 d-flex flex-wrap">
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">A</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">S</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">D</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">F</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">G</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">H</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">J</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">K</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">L</button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+            </div>
+
+            <!-- QWERTY ROW 3 -->
+            <div class="w-100 d-flex flex-wrap">
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">Z</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">X</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">C</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">V</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">B</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">N</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-light btn-sm shadow-sm">M</button>
+                </div>
+                <div class="alpha">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="btn m-0 w-100 h-100 btn-warning btn-sm shadow-sm">*</button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+            </div>
+
+            <!-- QWERTY LAST ROW -->
+            <div class="w-100 d-flex flex-wrap">
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha_space">
+                    <button type="button" onclick="keyboardInput($(this).text())" class="alpha_space btn w-100 h-100 btn-light btn-sm shadow-sm"> </button>
+                </div>
+                <div class="alpha">
+                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+                <div class="alpha">
+                    <button onclick="hideKboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                </div>
+            </div>
+
         </div>
-        <div class="w-100 d-flex flex-wrap justify-content-center">
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">A</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">S</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">D</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">F</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">G</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">H</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">J</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">K</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">L</button>
-        </div>
-        <div class="w-100 d-flex flex-wrap justify-content-center">
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">Z</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">X</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">C</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">V</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">B</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">N</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">M</button>
-            <button class="alpha btn m-1 btn-light btn-sm shadow-sm">NUM</button>
+    </div>
+
+    <!-- Modal -->
+    <div  class="modal fade" id="gen_modal">
+        <div id="modal_d" class="modal-dialog modal-dialog-centered mx-auto">
+            <div class="modal-content mx-auto">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <strong class="modal-title">Sales</strong>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div id="grn_modal_res" class="modal-body rounded-0">
+
+                </div>
+
+            </div>
         </div>
     </div>
 
 
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
-        <main class="p-0 mx-auto">
+        <main onclick="hideKboard()" class="p-0 mx-auto">
             <?php
 
                 if($module === 'home')
@@ -265,6 +441,12 @@ error_reporting(E_ALL);
     
 </body>
 </html>
+
+<script>
+    // make keypad draggable
+    dragElement(document.getElementById("alphsKeyboard"))
+    dragElement(document.getElementById("numericKeyboard"))
+</script>
 
 
 

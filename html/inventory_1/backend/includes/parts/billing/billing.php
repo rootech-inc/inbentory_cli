@@ -1,4 +1,7 @@
 <script src="js/billing.js"></script>
+<input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
+<input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
+
     <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
         <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
@@ -166,7 +169,7 @@
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
                             <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
-                                <input required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                                <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
@@ -174,7 +177,7 @@
                                 </div>
                                 <div style="display: " class="input-group-append w-15 dropdown bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
-                                        <button onclick="showNumKeyboard()" type="button" class="btn h-100 rounded-0 w-100 fa fa-keyboard"></button>
+                                        <button id="kboard" onclick="backSpace()" type="button" class="btn h-100 rounded-0 w-100 fa fa-backspace"></button>
                                     </span>
                                 </div>
                             </form>
@@ -200,11 +203,17 @@
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
                                         CANCEL
                                     </button>
-                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
-                                        HOLD
+                                    <button id="void_button" disabled onclick="void_bill_item()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
+                                        VOID
                                     </button>
                                     <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm my-1 btn-success rounded-0">
                                         SUB TOTAL
+                                    </button>
+                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn_traditional rounded-0">
+                                        HOLD
+                                    </button>
+                                    <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
+                                        LKUP
                                     </button>
                                     <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
                                         RECAL
@@ -214,9 +223,6 @@
                                             onclick="discount()"
                                     >
                                         DISC
-                                    </button>
-                                    <button disabled id="LKUP" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
-                                        LKUP
                                     </button>
                                     <button disabled id="REFUND" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
                                         REFUND
@@ -269,3 +275,7 @@
           </div>
         </div>
       </div>
+
+<script>
+    checkVoud();
+</script>

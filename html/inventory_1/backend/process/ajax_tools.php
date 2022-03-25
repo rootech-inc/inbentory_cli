@@ -14,5 +14,20 @@
                 print_r($session_data);
                 $anton->set_session($session_data);
             }
+
+            elseif ($function === 'row_count') // count rows
+            {
+                $table = $anton->post('table');
+                $condition = $_POST['condition'];
+
+                echo $db->row_count("$table","$condition");
+
+            }
+
+            elseif ($function === 'query')
+            {
+                $query = $_POST['query'];
+                $db->db_connect()->exec($query);
+            }
         }
     }
