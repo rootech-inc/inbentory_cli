@@ -1,5 +1,5 @@
 <!--Core Nav-->
-<div class="col-sm-3 h-100 p-2 ant-bg-dark">
+<div class="col-sm-2 h-100 p-2 ant-bg-dark">
 
     <!-- MACHIEN NUMBER AND LOGOUT-->
     <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
@@ -20,7 +20,7 @@
         <p class="m-0 text-elipse text-center p-0">Reports</p>
     </div>
 
-    <div onclick="set_session('module=inventory,sub_module=invetory')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+    <div onclick="set_session(['module=inventory','sub_module=home'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
         <p class="m-0 text-elipse text-center p-0">inventory</p>
     </div>
 

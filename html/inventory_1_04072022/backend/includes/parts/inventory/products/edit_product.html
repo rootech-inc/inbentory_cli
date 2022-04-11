@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1024 X 768</title>
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/anton.css">
+    
+</head>
+<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+    
+    <main class="p-0 mx-auto">
+        <div class="container-fluid p-0 h-100">
+            
+            <div class="h-100 row no-gutters">
+                <!--Core Nav-->
+                <div class="col-sm-3 h-100 p-2 ant-bg-dark">
+
+                    <!-- MACHIEN NUMBER AND LOGOUT-->
+                    <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
+                        <div class="mach_num d-flex flex-wrap align-content-center justify-content-center">
+                            01
+                        </div>
+
+                        <button class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center">
+                            <img 
+                                src="../../assets/icons/home/logout_icon.png"
+                                 
+                                style="height:50px; width:50px"
+                            >
+                        </button>
+                    </div>
+                    
+                    <div onclick="set_session('module=billing')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">Billing</p>
+                    </div>
+
+                    <div onclick="set_session('module=reports,sub_module=reports')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">Reports</p>
+                    </div>
+
+                    <div onclick="set_session('module=inventory,sub_module=invetory')" class="min_button_active mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">inventory</p>
+                    </div>
+
+                    <div onclick="set_session('module=system,sub_module=system')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">System</p>
+                    </div>
+                    
+                </div>
+
+                <!-- COre Work Space-->
+                <div class="col-sm-9 h-100 p-3 d-flex flex-wrap align-content-center justify-content-center">
+                    <!--INVENTORY HOME-->
+                    <!-- <div class="ant-bg-dark w-75 p-3 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
+                        <article class="d-flex flex-wrap align-content-start overflow-auto">
+                            <button onclick="set_session('inventory=category')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">CATEGORY</p></button>
+                            <button onclick="set_session('inventory=products')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">PRODUCTS</p></button>
+                        </article>
+                    </div> -->
+
+                    <!--INVENTORY PRODUCTS-->
+                    <form class="w-100 h-100 product_container p-3">
+                        <div class="d-flex flex-wrap align-content-center product_header">
+
+                            <!--HEADER LEFT-->
+                            <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
+                                <!--ADD-->
+                                <button disabled  type="button" title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/new_property.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--DELETE-->
+                                <button disabled type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/delete_document.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--SAVE-->
+                                <button title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/save_close.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--EDIT-->
+                                <button disabled type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/edit_property.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--CANCEL-->
+                                <button onclick="set_session('sub_module=view')" type="button" title="Cancel" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                            src="../../assets/icons/home/cancel.png"
+                                            class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--SORT LEFT-->
+                                <button disabled type="" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/sort_left.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                                <!--SORT RIGHT-->
+                                <button disabled type="button" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                                    <img
+                                        src="../../assets/icons/home/sort_right.png"
+                                        class="img-fluid"
+                                    >
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        <!--PRODUCT BODY-->
+                        <div class="product_body">
+                            <!--TOP-->
+                            <div class="w-100 h-50 overflow-hidden d-flex flex-wrap">
+
+                                <!--Product Left-->
+                                <div class="w-50 h-100 p-2 overflow-hidden">
+                                    <!--CATEGORY-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Category</p>
+                                        </div>
+                                        <select
+                                                name="category"
+                                                autocomplete="off"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                            <option value="cat_id">Category</option>
+                                        </select>
+                                    </div>
+
+                                    <!--SUB CAT-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Sub Category</p>
+                                        </div>
+                                        <select
+                                                name="sub_category"
+                                                autocomplete="off"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                            <option value="sub_id">Sub Category</option>
+                                        </select>
+                                    </div>
+
+                                    <!--SUPPLIER-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Supplier</p>
+                                        </div>
+                                        <input
+                                                name="supplier"
+                                                value="suppler code"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                    </div>
+
+                                    <!--Barcode-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Barcode</p>
+                                        </div>
+                                        <input
+                                                name="barcode"
+                                                value="123456789"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                    </div>
+
+                                    <!--Description-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Description</p>
+                                        </div>
+                                        <input
+                                                name="description"
+                                                value="Item Description"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                    </div>
+
+                                    <!--Short Description-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Short Desc</p>
+                                        </div>
+                                        <input
+                                                name="short_description"
+                                                maxlength="8"
+                                                value="Short Description"
+                                                autocomplete="off"
+                                                type="text"
+                                                class="form-control form-control-sm prod_inp"
+                                        >
+                                    </div>
+
+                                </div>
+                                <!--Prod Right-->
+                                <div class="w-50 h-100 p-2 overflow-hidden">
+                                     <!--Packaging-->
+                                     <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Packaging</p>
+                                        </div>
+                                         <select
+                                                 name="packaging"
+                                                 autocomplete="off"
+                                                 class="form-control form-control-sm prod_inp">
+                                             <option value="null">KG</option>
+                                         </select>
+                                    </div>
+
+                                    <!--Expiry-->
+                                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                            <p class="m-0 p-0 text-elipse">Expiry</p>
+                                        </div>
+                                        <div class="w-60 d-flex flex-wrap justify-content-between">
+                                            <select
+                                                    name="expiry"
+                                                    autocomplete="off"
+                                                    class="form-control w-25 form-control-sm prod_inp"
+                                            >
+                                                <option value="null">NO</option>
+                                            </select>
+                                            <input
+                                                    name="expiry_date"
+                                                    autocomplete="off"
+                                                    type="date"
+                                                    class="form-control w-65 form-control-sm prod_inp"
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!--Bottom-->
+                            <div class="w-100 h-50 overflow-hidden prod_button d-flex flex-wrap">
+
+                                <header class="w-100 h-20 d-flex flex-wrap overflow-hidden">
+                                    <button type="button" onclick="i_hide('stock');i_show('price')" autofocus class="btn rounded-0 btn_p_more_nav w-15">
+                                        <p class="m-0 p-0 text-elipse">PRICE</p>
+                                    </button>
+                                    <button type="button" onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
+                                        <p class="m-0 p-0 text-elipse">STOCK</p>
+                                </header>
+
+                                <article class="p-2">
+                                    <div id="price" class="w-50 h-100">
+                                        <!--COST PRICE-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Cost Price</p>
+                                            </div>
+                                            <input
+                                                    name="cost_price"
+                                                    value="100.00"
+                                                    autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
+                                        </div>
+
+                                        <!--RETAIL WITHOUT TAX-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>
+                                            </div>
+                                            <input
+                                                    name="retail_without_tax"
+                                                    value="100.00"
+                                                    autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
+                                        </div>
+
+                                        <!--TAX-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Tax Group</p>
+                                            </div>
+                                            <select
+                                                    name="tax"
+                                                    autocomplete="off"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
+                                                <option value="null">Default</option>
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+                                    <div id="stock" style="display: none;" class="w-50 h-100">
+                                        <!--COST PRICE-->
+                                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                                <p class="m-0 p-0 text-elipse">Branch</p>
+                                            </div>
+                                            <input
+                                                    name="stock_branch_wise"
+                                                    value="120"
+                                                   autocomplete="off"
+                                                    type="text"
+                                                    class="form-control form-control-sm prod_inp"
+                                            >
+                                        </div>
+
+                                    </div>
+                                </article>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </row>
+
+        </div>
+    </main>
+
+    <!-- Modal -->
+    <div  class="modal fade" id="gen_modal">
+        <div id="modal_d" class="modal-dialog modal-dialog-centered mx-auto">
+          <div class="modal-content mx-auto">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <strong class="modal-title">Sales</strong>
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+      
+            <!-- Modal body -->
+            <div id="grn_modal_res" class="modal-body rounded-0">
+                
+            </div>
+      
+          </div>
+        </div>
+    </div>
+    
+    <script src="../../js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../../js/popper.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/anton.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+            });
+        });
+    </script> 
+</body>
+</html>

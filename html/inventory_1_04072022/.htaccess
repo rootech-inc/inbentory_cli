@@ -1,0 +1,27 @@
+RewriteEngine on
+ErrorDocument 404   http://localhost/404.php
+
+AddType application/x-httpd-php .htm .html
+
+php_value upload_max_filesize 0M
+
+php_value post_max_size 0M
+
+php_value memory_limit 51200M
+
+php_value max_execution_time 86400
+
+php_flag eaccelerator.enable 0
+
+php_flag eaccelerator.optimizer 0
+
+php_value max_input_time 86400
+
+php_value max_file_uploads 99999999999
+
+php_value allow_url_include On
+
+
+# Displaying php errors
+php_flag display_errors on
+php_value error_reporting 6143

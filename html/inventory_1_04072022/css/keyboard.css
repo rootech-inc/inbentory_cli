@@ -1,0 +1,98 @@
+#numericKeyboard, #searchScreen
+{
+    width: 400px;
+    /*height: 430px;*/
+    position: absolute;
+    top: 18%;
+    right: 43%;
+    z-index: 1010;
+}
+
+.numKey
+{
+    width: 33%;
+    height: 80px;
+    font-size: 20px !important;
+}
+
+.numKey button
+{
+    font-size: 25px !important;
+    font-weight: bolder;
+}
+
+.numKeyLong
+{
+    width: 100%;
+    height: 80px;
+    font-size: 20px !important;
+}
+
+.numKeyMiddle
+{
+    width: 50%;
+    height: 80px;
+    font-size: 20px !important;
+}
+
+#alphsKeyboard
+{
+    width: 610px;
+    /*height: 430px;*/
+    position: absolute;
+    top: 18%;
+    right: 10%;
+    z-index: 9;
+}
+
+#keyboardTrigger
+{
+    /*width: 50px;*/
+    /*height: 40px;*/
+    /*height: 430px;*/
+    position: absolute;
+    /*top: 10px;*/
+    right: 50%;
+    z-index: 1040;
+}
+
+.alpha
+{
+    width: 50px;
+    height: 50px;
+    padding: .25rem!important
+}
+
+.alpha_double
+{
+    width: 100px;
+    height: 50px;
+    padding: .25rem!important
+}
+
+.alpha_50
+{
+    width: 50%;
+    height: 50px;
+}
+
+.alpha_space
+{
+    width: 400px;
+    height: 50px;
+    padding: .25rem!important
+}
+
+#keypadContainer
+{
+    width: 100% !important;
+    cursor: move;
+    z-index: 10;
+}
+
+#general_input
+{
+    position: relative;
+    z-index: 9999 !important;
+}
+

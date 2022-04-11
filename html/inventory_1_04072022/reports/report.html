@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1024 X 768</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/anton.css">
+    
+</head>
+<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+    
+    <main class="p-0">
+        <div class="container-fluid p-0 h-100">
+            
+            <div class="h-100 row no-gutters">
+                <!--Core Nav-->
+                <div class="col-sm-3 h-100 p-2 ant-bg-dark">
+
+                    <!-- MACHIEN NUMBER AND LOGOUT-->
+                    <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
+                        <div class="mach_num d-flex flex-wrap align-content-center justify-content-center">
+                            01
+                        </div>
+
+                        <button class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center">
+                            <img 
+                                src="../assets/icons/home/logout_icon.png"
+                                 
+                                style="height:50px; width:50px"
+                            >
+                        </button>
+                    </div>
+                    
+                    <div onclick="set_session('module=billing')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">Billing</p>
+                    </div>
+
+                    <div onclick="set_session('module=reports,sub_module=reports')" class="min_button_active mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">Reports</p>
+                    </div>
+
+                    <div onclick="set_session('module=inventory,sub_module=invetory')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">inventory</p>
+                    </div>
+
+                    <div onclick="set_session('module=system,sub_module=system')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+                        <p class="m-0 text-elipse text-center p-0">System</p>
+                    </div>
+                    
+                </div>
+
+                <!-- COre Work Space-->
+                <div class="col-sm-9 h-100 d-flex flex-wrap align-content-center justify-content-center">
+                    <div class="ant-bg-dark w-75 p-3 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
+                        <header class="h-10 w-100 pl-2 pr-2">
+                            <input type="date" class="master_input w-25">
+                        </header>
+                        <article class="d-flex flex-wrap justify-content-between align-content-start overflow-auto">
+                            <button onclick="report('sales')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">SALES</p></button>
+                            <button onclick="report('z_report')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">Z-REPORT</p></button>
+                            <button onclick="report('eod')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">EOD</p></button>
+                            <button onclick="report('credit_balance')" class="master_button m-2 p-1"><p class="m-0 p-0 text-elipse">CREDIT</p></button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="report_modal">
+                                <div id="modal_d" class="modal-dialog modal-dialog-centered mx-auto">
+                                  <div class="modal-content mx-auto">
+                              
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                      <strong class="modal-title">Sales</strong>
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                              
+                                    <!-- Modal body -->
+                                    <div id="report_res" class="modal-body rounded-0">
+                                        
+                                    </div>
+                              
+                                  </div>
+                                </div>
+                            </div>
+                            
+                        </article>
+                    </div>
+                </div>
+
+            </row>
+
+        </div>
+    </main>
+    
+    <script src="../js/jquery-3.2.1.slim.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/anton.js"></script>
+</body>
+</html>

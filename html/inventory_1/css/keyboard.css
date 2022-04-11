@@ -1,4 +1,4 @@
-#numericKeyboard
+#numericKeyboard, #searchScreen
 {
     width: 400px;
     /*height: 430px;*/
@@ -90,9 +90,5 @@
     z-index: 10;
 }
 
-#general_input
-{
-    position: relative;
-    z-index: 9999 !important;
-}
+
 

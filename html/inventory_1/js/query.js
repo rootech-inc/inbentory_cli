@@ -5,6 +5,8 @@ function row_count(table,condition = 'none') {
         'condition':condition
     }
 
+    echo(condition)
+
     var result = 0;
 
     $.ajax(
@@ -44,4 +46,33 @@ function exec(query = 'none')
             }
         );
     }
+}
+
+function get_row(table,condition) {
+    var form_data = {
+        'function':'get_row',
+        'table':table,
+        'condition':condition
+    }
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+                result = response;
+                echo("SELECT * FROM " + table + " WHERE " + condition.toString())
+
+            }
+        }
+    );
+
+    return result;
 }

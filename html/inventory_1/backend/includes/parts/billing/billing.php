@@ -2,8 +2,8 @@
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
 
-    <main class="p-0 d-flex flex-wrap align-content-between justify-content-center">
-        <header class="billing-header m-1 d-flex flex-wrap align-content-center justify-content-between">
+    <main class="p-0 d-flex flex-wrap align-content-start justify-content-center">
+        <header class="billing-header border-light m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
                 Bill #<?php echo $bill_number ?>
             </div>
@@ -49,7 +49,7 @@
                         <div class="w-25 h-100 border">
                             <!--Scroll Up-->
                             <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
-                                <button onclick="custom_scroll('category','up')" class="cat_button_scroll btn shadow text-center m-2">
+                                <button onclick="custom_scroll('category','up')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
                                     style="height: 45px; width: 45px;"
                                     class="img-fluid"
@@ -80,7 +80,7 @@
 
                             <!--SCROLL DOwn-->
                             <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
-                                <button onclick="custom_scroll('category','down')" class="cat_button_scroll btn shadow text-center m-2">
+                                <button onclick="custom_scroll('category','down')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
                                     style="height: 45px; width: 45px;"
                                     class="img-fluid"
@@ -167,7 +167,7 @@
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group h-20 overflow-hidden">
+                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
                                 <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
@@ -184,54 +184,49 @@
                             <!-- TODO make barcode scanning with code -->
 
 
-                            <div class="w-100 h-30 pt-1 d-flex flex-wrap justify-content-between">
-                                <button id="cash_payment" onclick="make_payment('cash')" class="bill_func_main_btn btn rounded-0">
-                                    CASH
-                                </button>
-                                <button id="momo_payment" onclick="make_payment('momo','token')" class="bill_func_main_btn btn rounded-0">
-                                    MOMO
-                                </button>
-                                <button disabled class="bill_func_main_btn btn rounded-0">
-                                    OTHERS
-                                </button>
 
-                            </div>
 
-                            <div class="w-100 h-50 pt-1 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
+                            <div class="w-100 h-75 pt-1 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
                                 <!-- BUTTONS -->
-                                <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap justify-content-between align-content-start">
-                                    <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn-danger rounded-0">
+                                <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
+                                    <button id="cash_payment" onclick="make_payment('cash')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                        CASH
+                                    </button>
+                                    <button id="momo_payment" onclick="make_payment('momo')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                        MOMO
+                                    </button>
+                                    <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
                                         CANCEL
                                     </button>
-                                    <button id="void_button" disabled onclick="void_bill_item()" class="bill_func_sub_btn btn btn-sm my-1 btn-warning rounded-0">
+                                    <button id="void_button" disabled onclick="void_bill_item()" class="bill_func_sub_btn btn btn-sm btn-warning rounded-0">
                                         VOID
                                     </button>
-                                    <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm my-1 btn-success rounded-0">
+                                    <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">
                                         SUB TOTAL
                                     </button>
-                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm my-1 btn_traditional rounded-0">
+                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">
                                         HOLD
                                     </button>
-                                    <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
+                                    <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         LKUP
                                     </button>
-                                    <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn my-1 btn btn-info btn-sm rounded-0">
+                                    <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>
                                     <button id="discount" disabled
-                                            class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0"
+                                            class="bill_func_sub_btn btn_traditional btn-sm rounded-0"
                                             onclick="discount()"
                                     >
                                         DISC
                                     </button>
-                                    <button disabled id="REFUND" class="bill_func_sub_btn my-1 btn_traditional btn-sm rounded-0">
+                                    <button disabled id="REFUND" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         REFUND
                                     </button>
                                 </div>
                                 <!-- MORE FUNCTIONS -->
                                 <div class="w-15 h-100 d-flex flex-wrap justify-content-between align-content-between">
-                                    <button type="button" class="bill_func_sub_btn item_scroll m-1 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-2x fa-arrow-up"></i></button>
-                                    <button type="button" class="bill_func_sub_btn item_scroll m-1 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-2x fa-arrow-down"></i></button>
+                                    <button type="button" class="bill_func_sub_btn item_scroll h-45 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-2x fa-arrow-up"></i></button>
+                                    <button type="button" class="bill_func_sub_btn item_scroll h-45 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-2x fa-arrow-down"></i></button>
                                 </div>
                             </div>
 

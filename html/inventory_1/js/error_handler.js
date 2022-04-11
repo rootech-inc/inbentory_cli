@@ -7,11 +7,12 @@ function error_handler(response)
         let response_split = response.split('%%');
         let response_type = response_split[0];
         let response_message = response_split[1];
-
+        $('#gen_modal').modal('hide')
         // switching response type
         switch (response_type)
         {
             case 'error': // when the response type is an error
+
                 switch (response_message) // switch between error message
                 {
                     case "barcode_multiple_not_number": // item quantity is not a number
@@ -41,7 +42,7 @@ function error_handler(response)
                         swal_error("Invalid Key")
                         break;
                     default:
-                        echo(response_message)
+                        swal_error(response_message)
                 }
                 break;
             case 'done':
@@ -51,6 +52,16 @@ function error_handler(response)
                         $('#general_input').val('');
                         // clear bill input
                         break;
+                    case 'item_group_sub_added':
+
+                        let parent = $('#sort_right').val();
+                        loadCategory(parent);
+                        break;
+                    case 'prod_added':
+                        location.reload();
+                        break;
+                    default:
+                        swal.fire(response_message);
                 }
         }
 

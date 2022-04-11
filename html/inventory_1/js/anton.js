@@ -31,6 +31,11 @@ function swal_confirm(message = 'Continue?')
     })
 }
 
+function percentage(rate,vale)
+{
+    return rate/100 * vale;
+}
+
 function swal_error(message = 'there is an error')
 {
     Swal.fire({
@@ -57,7 +62,7 @@ else
 
 function echo(str)
 {
-    console.log(str);
+    cl(str + "\n");
 }
 
 function pass(message = 'looks good')
@@ -116,8 +121,36 @@ function hide_modal(id) {// show modal
 }
 
 // sort function
-function item_sort(module, direction) {
-    cl(module);cl(direction);
+function item_sort(module, direction, uni = 0) {
+    //cl(module);cl(direction);cl(uni);
+
+    if(module === 'product_category') // item category
+    {
+        let table, condition, res, id;
+        table = 'item_group';
+        if(direction === 'left') // sort left
+        {
+            condition = "`id` < '" + uni.toString() + "' order by `id` desc LIMIT 1";
+        }
+        else if (direction === 'right')
+        {
+
+            condition = "`id` > '" + uni.toString() + "' order by `id` LIMIT 1";
+        }
+
+
+        res = get_row(table,condition);
+        var obj = JSON.parse(res);
+        id = obj[0].id
+
+        $('#sort_left').val(id)
+        loadCategory(id)
+        // echo(res)
+        // echo(obj[0].id);
+
+
+    }
+
 }
 
 // delete item
@@ -370,7 +403,7 @@ function validateSize(reload) {
 
     var body_existing_content = document.getElementsByTagName('body')[0].innerHTML;
 
-    if(screen_width === 1024 && screen_height === 768)
+    if(screen_width === 1024 && screen_height === 678)
     {
         if(reload === 'yes')
         {
@@ -379,7 +412,8 @@ function validateSize(reload) {
 
     } else {
         var content = "<div class='bg-light w-100 vh-100 text-danger d-flex flex-wrap align-content-center justify-content-center'>" +
-            "<div class='alert alert-danger'>Unsupported Screen Dimension</div>" +
+            "<div class='alert alert-danger'>Unsupported Screen Dimension <small>i.e <kbd>"+screen_width+"</kbd> x <kbd>"+screen_height+"</kbd></small> Not " + screen_width
+            "</div>" +
             "</div>";
         document.getElementsByTagName('body')[0].innerHTML = content;
     }
@@ -387,7 +421,7 @@ function validateSize(reload) {
 
 // initialize page
 function initialize(params) {
-    validateSize('no');
+    //validateSize('no');
     i_hide('numericKeyboard');
 
 }
@@ -399,6 +433,28 @@ function arr_disable(elements) {
     {
         let id = "#"+spl[i];
         $(id).prop('disabled',true)
+        //echo(id)
+    }
+}
+
+function arr_hide(elements) {
+    var spl = elements.split(',');
+
+    for (let i = 0; i < spl.length; i++)
+    {
+        let id = "#"+spl[i];
+        $(id).hide()
+        //echo(id)
+    }
+}
+
+function arr_show(elements) {
+    var spl = elements.split(',');
+
+    for (let i = 0; i < spl.length; i++)
+    {
+        let id = "#"+spl[i];
+        $(id).show()
         //echo(id)
     }
 }
@@ -415,7 +471,7 @@ function arr_enable(elements) {
 }
 
 // set session
-function set_session(data) {
+function set_session(data,reload = 1) {
     var form_data = {
         'token':'none',
         'function':'set_session',
@@ -427,7 +483,10 @@ function set_session(data) {
             method: 'post',
             data: form_data,
             success: function (response) {
-                location.reload();
+                if(reload === 1)
+                {
+                    location.reload()
+                }
             }
         }
     );
@@ -549,7 +608,13 @@ function get_bill()
 
 // edit item
 function edit_item(item,reference) {
-    alert(item)
+    switch (item){
+        case 'product_group':
+            // set session
+            let session_data = ['action=edit','group='+reference]
+            set_session(session_data,1)
+            break;
+    }
 }
 
 
@@ -1116,6 +1181,17 @@ function gen_modal(params,title='Not Set',content = 'none') {
             show_modal('gen_modal')
             break;
 
+        case 'new_item_sub_group':
+            var form = "<form action='backend/process/form-processing/category-form-process.php' method='post' id='sub_category_form'>" +
+                "<input type='text' placeholder='Description' class='form-control rounded-0' autocomplete='off' name='desc'>" +
+                "<input type='hidden' name='function' value='new_item_sub_group'>" +
+                "<input type='hidden' name='parent' value='" + content + "'>" +
+                "<button type='submit' class='rounded-0 btn btn-success w-100 mt-2'>SAVE</button>"
+                "</form>";
+            $('#grn_modal_res').html(form);
+            show_modal('gen_modal')
+            break;
+
         default:
             break;
     }
@@ -1271,4 +1347,15 @@ function dragElement(elmnt) {
         document.onmousemove = null;
     }
 }
+
+// pop up window center
+function windowPopUp(url, title, w, h)
+{
+    let left = (screen.width/2)-(w/2);
+    let top = (screen.height/2)-(h/2);
+    let reAssignWindow = open(url, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width='+w+', height='+h+', top='+top+', left='+left);
+    parent.document.body.disabled = true;
+    reAssignWindow.focus();
+}
+
 
