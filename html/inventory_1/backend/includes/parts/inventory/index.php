@@ -2,7 +2,7 @@
 <main class="p-0 mx-auto">
     <div class="container-fluid p-0 h-100">
 
-        <div class="h-100 row no-gutters">
+        <div class="h-100 row p-0 no-gutters">
             <!--Core Nav-->
             <?php include 'backend/includes/parts/core/nav/nav.php'?>
 
@@ -15,8 +15,10 @@
 
                         <article class="d-flex flex-wrap align-content-start overflow-auto">
 
-                            <button onclick="set_session(['sub_module=category','action=view'])" class="master_button m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">CATEGORY</p></button>
-                            <button onclick="set_session(['sub_module=products','action=view'])" class="master_button m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">PRODUCTS</p></button>
+                            <button onclick="set_session(['sub_module=category','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Categories</p></button>
+                            <button onclick="set_session(['sub_module=products','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Products</p></button>
+                            <button onclick="set_session(['sub_module=purchasing','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Purchasing</p></button>
+                            <button onclick="set_session(['sub_module=receiving','action=view'])" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Receive</p></button>
                         </article>
 
                     </div>
@@ -98,14 +100,20 @@
                         if($action === 'view')
                         {
                             //check if product exist
-                            $items_count = $db->row_count('items_master','none');
-                            if($items_count> 0 )
+                            $items_count = $db->row_count('prod_master','none');
+                            if($items_count > 0 )
                             {
                                 $last_q = $db->db_connect()->query("SELECT * FROM `prod_master` order by item_code desc limit 1");
                                 $last_r = $last_q->fetch(PDO::FETCH_ASSOC);
 
                                 $last = $last_r['item_code'];
 
+                            }
+                            else
+                            {
+                                // create new item
+                                $anton->set_session(['action=new']);
+                                $anton->reload();
                             }
                             include "backend/includes/parts/inventory/products/view_product.php";
                         }
@@ -119,6 +127,11 @@
 
 
                             include "backend/includes/parts/inventory/products/new_product.php";
+                        } elseif ($action === 'edit')
+                        {
+                            $item_code = $anton->get_session('prod');
+
+                            include "backend/includes/parts/inventory/products/edit_product.php";
                         }
                     ?>
 
@@ -131,12 +144,34 @@
                         }
                         elseif ($action === 'edit')
                         {
-                            echo "loadProduct($last,'edit')";
+                            echo "loadProduct('$item_code','edit')";
                         }
                         ?>
                     </script>
 
                 <?php endif; ?>
+
+                <?php
+                    if($sub_module === 'purchasing'):
+                    {
+                        if($action === 'view')
+                        {
+                            // view purchasing order
+                            require 'backend/includes/parts/inventory/purchasing/view_po.php';
+                        } elseif ($action === 'new'){ // new purchasing order
+                            $suppliers = $db->db_connect()->query("SELECT * FROm supp_mast order by supp_name asc");
+                            require 'backend/includes/parts/inventory/purchasing/new_po.php';
+                        }
+                    }
+                ?>
+                        <script src="js/po.js"></script>
+
+                <?php
+                    if($action === 'new')
+                    {
+                        echo "<script>loadPoTrans()</script>";
+                    }
+                endif; ?>
 
             </div>
 

@@ -5,6 +5,7 @@ const dd = String(today.getDate()).padStart(2, '0');
 const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 const yyyy = today.getFullYear();
 const  toDay = yyyy + '-' + mm + '-' + dd;
+const my_user_name = $('#my_user_name').val();
 
 //
 
@@ -477,6 +478,7 @@ function set_session(data,reload = 1) {
         'function':'set_session',
         'session_data':data
     }
+    echo(data)
     $.ajax(
         {
             url:'/backend/process/ajax_tools.php',
@@ -1190,6 +1192,10 @@ function gen_modal(params,title='Not Set',content = 'none') {
                 "</form>";
             $('#grn_modal_res').html(form);
             show_modal('gen_modal')
+            break;
+
+        case 'select_item_for_po':
+
             break;
 
         default:

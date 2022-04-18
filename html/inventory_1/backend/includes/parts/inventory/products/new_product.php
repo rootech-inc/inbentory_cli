@@ -237,8 +237,6 @@
                     <button type="button" onclick="i_hide('stock');i_show('price')" autofocus class="btn rounded-0 btn_p_more_nav w-15">
                         <p class="m-0 p-0 text-elipse">PRICE</p>
                     </button>
-                    <button type="button" onclick="i_hide('price');i_show('stock')" class="btn rounded-0 btn_p_more_nav w-15">
-                        <p class="m-0 p-0 text-elipse">STOCK</p>
                 </header>
 
                 <article class="p-2">
@@ -313,22 +311,6 @@
                             >
                         </div>
 
-
-                    </div>
-
-                    <div id="stock" style="display: none;" class="w-50 h-100">
-                        <!--COST PRICE-->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Branch</p>
-                            </div>
-                            <input
-                                    name="stock_branch_wise"
-                                    autocomplete="off"
-                                    type="text"
-                                    class="form-control form-control-sm prod_inp"
-                            >
-                        </div>
 
                     </div>
                 </article>

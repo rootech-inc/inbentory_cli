@@ -154,6 +154,10 @@ class anton extends FPDF
         return $randomString;
     }
 
+    public function reload()
+    {
+        echo "<script>location.reload()</script>";
+    }
 
 
 }

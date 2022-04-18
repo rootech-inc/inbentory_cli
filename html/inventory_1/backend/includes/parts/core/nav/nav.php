@@ -1,5 +1,5 @@
 <!--Core Nav-->
-<div class="col-sm-2 h-100 p-2 ant-bg-dark">
+<div class="col-sm-2 h-100 p-2 pl-0 ant-bg-dark">
 
     <!-- MACHIEN NUMBER AND LOGOUT-->
     <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">

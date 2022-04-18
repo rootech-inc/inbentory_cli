@@ -20,12 +20,12 @@ tbody tr{
     cursor: pointer;
 }
 
-tbody tr:nth-of-type(odd) {
-    background-color: #E3D231 !important;
-}
+/*tbody tr:nth-of-type(odd) {*/
+/*    background-color: rgba(134, 131, 111, 0.47) !important;*/
+/*}*/
 
 tbody tr:hover {
-    background-color: #E3D231 !important;
+    background-color: rgba(134, 131, 111, 0.47) !important;
 }
 
 
@@ -105,8 +105,8 @@ main{
     /*position: relative;*/
     height: 678px !important;
     width: 1024px !important;
-    overflow: auto !important;
-    z-index: 9998 !important;
+    overflow: hidden !important;
+    /*z-index: 9998 !important;*/
 }
 
 .ant-round
@@ -297,6 +297,12 @@ button
 .product_body{height: 95%; overflow: hidden; width: 100%;background-color: #F6F6F6;}
 .prod_button{background-color: #FE7378;}
 
+select {
+    appearance: none;
+    padding-right: .25rem!important
+}
+
+
 .text_xx
 {
     font-size: xx-large;
@@ -319,13 +325,20 @@ button
 
 
 
-.btn:focus,.btn:active {
+.btn:focus,.btn:active,input:focus,input:active,select:focus,select:active {
     outline: none !important;
     box-shadow: none;
 }
 
+.abs_1
+{
+    background-size: cover;
+    background: url("../assets/bg/ab_1.jpg") ;
+}
+
 .ant-bg-black{background-color: #000000 !important; color: #f0f0f7 !important;}
 .ant-bg-dark{background-color: #303136; color: #f0f0f7;}
+.ant-bg-light{background: #C7C7C7; color: #1b1e21}
 .prod_button header{height: 15% !important; overflow: hidden !important; background-color: #B4B5B8;}
 .prod_button article{height: 85%; overflow: auto;}
 .btn_p_more_nav{background-color: #B4B5B8; color: #000000; font-weight: bold; font-size: 15px}
@@ -355,24 +368,42 @@ button
     box-shadow:         inset 2px 2px 5px #000000;
 }
 .prod_inp_container{
-    height: 30px;
+    height: 25px;
     overflow: hidden !important;
     margin-bottom: .5rem!important;
     font-size: 15px;
     color: #FFFFFF;
     font-weight: bolder;
 }
+
+.prod_inp_container_sm{
+    height: 15px;
+    overflow: hidden !important;
+    margin-bottom: .5rem!important;
+    font-size: 10px;
+    color: #FFFFFF;
+    font-weight: bolder;
+}
+
 .inp_text{
     width: 40%;
     overflow: hidden;
 }
-.prod_inp,.prod_inp_view,input{
+
+input
+{
+    font-size: 10px;
+}
+
+
+
+.prod_inp,.prod_inp_view{
     width: 60%;
     background-color: #5E75D1;
     border-radius: 0px !important;
     border: 2px inset #000000;
     height: 100%;
-    font-size: 12px;
+    font-size: 10px;
     color: #ffffff;
     padding-left: .5rem!important;
     display: -ms-flexbox!important;
@@ -382,6 +413,24 @@ button
     -ms-flex-line-pack: center!important;
     align-content: center!important
 }
+
+.prod_inp_sm,.prod_inp_view_sm{
+    width: 60%;
+    background-color: #5E75D1;
+    border-radius: 0px !important;
+    border: 2px inset #000000;
+    height: 100%;
+    font-size: 8px;
+    color: #ffffff;
+    padding-left: .5rem!important;
+    display: -ms-flexbox!important;
+    display: flex!important;
+    -ms-flex-wrap: wrap!important;
+    flex-wrap: wrap!important;
+    -ms-flex-line-pack: center!important;
+    align-content: center!important
+}
+
 .prod_inp:focus{
     border: 0px !important;
     background-color: #495a9c;
@@ -457,6 +506,8 @@ button
   .h-45{height: 45% !important}
   .h-30{height: 30% !important}
   .h-70{height: 70% !important}
+  .h-40{height: 40% !important}
+  .h-60{height: 60% !important}
 
   /* WIDTH */
   .w-45{width: 45% !important;}

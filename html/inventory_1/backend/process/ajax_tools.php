@@ -37,5 +37,16 @@
                 $res =  $db->get_rows($table,$condition,'json');
                 print_r($res);
             }
+
+            elseif ($function === 'insert') // insert into table
+            {
+                $query = $_POST['query'];
+                try {
+                    $db->db_connect()->exec($query);
+                    echo '1';
+                } catch (PDOException $e){
+                    echo $e->getMessage();
+                }
+            }
         }
     }

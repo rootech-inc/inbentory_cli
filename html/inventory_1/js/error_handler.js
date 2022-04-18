@@ -47,6 +47,9 @@ function error_handler(response)
                 break;
             case 'done':
                 switch (response_message) {
+                    case 'done':
+                        location.reload()
+                        break;
                     case 'bill_added':
                         get_bill();
                         $('#general_input').val('');

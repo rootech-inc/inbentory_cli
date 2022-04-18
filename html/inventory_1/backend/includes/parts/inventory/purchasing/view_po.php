@@ -1,4 +1,4 @@
-<!-- COre Work Space-->
+    <!-- COre Work Space-->
 <div class="w-100 h-100 p-3 d-flex flex-wrap align-content-center justify-content-center">
     <!--INVENTORY HOME-->
     <!-- <div class="ant-bg-dark w-75 p-3 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
@@ -16,7 +16,7 @@
             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
 
                 <!-- EXIT -->
-                <button onclick="set_session('sub_module=inventory')" title="Exit" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="assets/icons/inventory/inventory_home.png"
                             class="img-fluid"
@@ -24,7 +24,7 @@
                 </button>
 
                 <!--ADD-->
-                <button onclick="set_session(['action=new'])"  type="button" title="Add" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/new_property.png"
                             class="img-fluid"
@@ -39,10 +39,10 @@
                     >
                 </button>
 
-                <!--SAVE-->
+
 
                 <!--EDIT-->
-                <button onclick="set_session(['action=edit','prod='+this.value.toString()])" id="edit_prod" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="set_session('action:edit')" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/edit_property.png"
                             class="img-fluid"
@@ -85,24 +85,28 @@
         <!--PRODUCT BODY-->
         <div class="product_body">
             <!--TOP-->
-            <div class="w-100 h-50 overflow-hidden d-flex flex-wrap">
+            <div class="w-100 h-40 overflow-hidden d-flex flex-wrap">
 
-                <!--Product Left-->
+                <!--PO Left-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
-                    <!--CATEGORY-->
+
+                    <!--PO NUMBER-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Group</p>
+                            <p class="m-0 p-0 text-elipse">PO Number</p>
                         </div>
-                        <div id="group" class="prod_inp_view"></div>
+                        <div class="prod_inp_view" id="po_number"></div>
                     </div>
 
-                    <!--SUB CAT-->
+                    <!-- LOCATION -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Sub Group</p>
+                            <p class="m-0 p-0 text-elipse">Loc</p>
                         </div>
-                        <div class="prod_inp_view" id="sub_group"></div>
+                        <div class="w-60 d-flex flex-wrap justify-content-between">
+                            <div class="prod_inp_view w-25">001</div>
+                            <div class="prod_inp_view w-65" id="location">Description</div>
+                        </div>
                     </div>
 
                     <!--SUPPLIER-->
@@ -113,50 +117,32 @@
                         <div class="prod_inp_view" id="supplier"></div>
                     </div>
 
-                    <!--Barcode-->
+                    <!--PO TYPE-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Barcode</p>
+                            <p class="m-0 p-0 text-elipse">PO Type</p>
                         </div>
-                        <div class="prod_inp_view" id="barcode"></div>
+                        <div class="prod_inp_view" id="po_type"></div>
                     </div>
 
                     <!--Description-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Description</p>
+                            <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <div class="prod_inp_view" id="item_desc"></div>
-                    </div>
-
-                    <!--Short Description-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Short Desc</p>
-                        </div>
-                        <div class="prod_inp_view" id="item_desc1"></div>
+                        <div class="prod_inp_view" id="remarks"></div>
                     </div>
 
                 </div>
                 <!--Prod Right-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
-                    <!--Packaging-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Packaging</p>
-                        </div>
-                        <div class="prod_inp_view" id="packing">Packaging</div>
-                    </div>
 
-                    <!--Expiry-->
+                    <!--Total Amount-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Expiry</p>
+                            <p class="m-0 p-0 text-elipse">Total Amount</p>
                         </div>
-                        <div class="w-60 d-flex flex-wrap justify-content-between">
-                            <div class="prod_inp_view w-25">YES</div>
-                            <div class="prod_inp_view w-65" id="expiry"></div>
-                        </div>
+                        <div class="prod_inp_view" id="total_amount"></div>
                     </div>
 
                     <!--Owner-->
@@ -195,93 +181,35 @@
             </div>
 
             <!--Bottom-->
-            <div class="w-100 h-50 overflow-hidden prod_button d-flex flex-wrap">
+            <div class="w-100 h-60 overflow-hidden prod_button">
 
-                <header class="w-100 h-20 d-flex flex-wrap overflow-hidden p-1">
-                    <button type="button" onclick="arr_hide('stock,packing_tab');arr_show('price')" autofocus class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">PRICE</p>
-                    </button>
-                    <button type="button" onclick="arr_hide('price,packing_tab');arr_show('stock')" class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">STOCK</p>
-                    </button>
-                    <button type="button" onclick="arr_hide('price,stock');arr_show('packing_tab')" class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">Packing</p>
-                    </button>
-                </header>
-
-                <article class="p-2">
-                    <div id="price" class="w-50 h-100">
-
-                        <!-- TAX -->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Tax</p>
-                            </div>
-                            <div class="w-60 d-flex flex-wrap justify-content-between">
-                                <div class="prod_inp_view w-25" id="tax_rate"></div>
-                                <div class="prod_inp_view w-65" id="tax_desc"></div>
-                            </div>
-                        </div>
-
-                        <!--COST PRICE-->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Cost Price</p>
-                            </div>
-                            <div class="prod_inp_view" id="cost_price"></div>
-                        </div>
-
-                        <!-- RETAILs -->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Retail</p>
-                            </div>
-                            <div class="prod_inp_view" id="retail_price"></div>
-                        </div>
-
-                        <!--RETAIL WITHOUT TAX-->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>
-                            </div>
-                            <div class="prod_inp_view" id="retail_price_without_tax"></div>
-                        </div>
-
-
-                    </div>
-
-                    <div id="stock" style="display: none;" class="w-50 h-100">
-                        <!--STOCK-->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Branch</p>
-                            </div>
-                            <div class="prod_inp_view">100</div>
-                        </div>
-
-                    </div>
-
-                    <div id="packing_tab" style="display: none;" class="w-50 h-100">
-                        <!--PACKING-->
-                        <div class="table-responsive">
-                            <table class="table table-sm">
-                                <thead>
-                                    <tr class="thead-light">
-                                        <th class="p-1">Pack ID</th>
-                                        <th class="p-1">Packing</th>
-                                        <th class="p-1">Quantity</th>
-                                        <th class="p-1">Purpose</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="packaginf_row">
-
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
-                </article>
+                <table class="table table-sm table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Item</th><th>Description</th><th>Pack ID</th><th>Qty</th><th>Cost</th><th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                        <tr>
+                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
+                        </tr>
+                    </tbody>
+                </table>
 
             </div>
 

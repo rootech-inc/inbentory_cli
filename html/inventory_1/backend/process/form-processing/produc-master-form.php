@@ -145,4 +145,101 @@
 
 
         }
+
+        if($function === 'update') // update
+        {
+            $item_code = $anton->get_session('prod');
+            $category = $anton->post('group');
+            $sub_category = $anton->post('sub_group');
+            $supplier = $anton->post('supplier');
+            $barcode = $anton->post('barcode');
+            $description = $anton->post('item_desc');
+            $short_description = $anton->post('item_desc1');
+            $packaging = $anton->post('packing');
+            $stock_type = $anton->post('stock_type');
+            $expiry_date = $anton->post('expiry');
+            $tax = $anton->post('tax');
+            $cost_price = $anton->post('cost_price');
+            $retail_without_tax = $anton->post('retail_without_tax');
+            $retail_with_tax = $anton->post('retail_with_tax');
+            $pack_qty = $_POST['packaging_id'];
+            $expiry = $anton->post('expiry');
+
+            // check if barcode taken
+            if($db->row_count('prod_master',"`barcode` = '$barcode' AND `item_code` != '$item_code'") > 1)
+            {
+                $anton->err("Barcode Taken");
+                exit();
+            }
+
+
+            if($expiry == '1')
+            {
+                if(!isset($_POST['expiry_date']) || empty($_POST['expiry_date']))
+                {
+                    $anton->err('Please Select Expiry Date');
+                    exit();
+                }
+            }
+
+
+            if($supplier == '0')
+            {
+                $anton->err('Select Supplier');
+                exit();
+            }
+
+
+
+            if($db->row_count('item_group',"`id` = '$category'") < 1)
+            {
+                $anton->err("Group Does Not Exist");
+                exit();
+            }
+
+            // update product details
+            $update_query = "UPDATE `prod_master` SET `group` = '$category',`sub_group` = '$sub_category',`supplier`='$supplier',`barcode`='$barcode',
+            `item_desc`='$description',`item_desc1`='$short_description',`cost`='$cost_price',`retail`='$retail_with_tax',`tax`='$tax',`stock_type`='$stock_type',`expiry_date`='$expiry_date',
+            `edited_at`='$today',`edited_by`='$myName' WHERE `item_code` = '$item_code'";
+            $stmt = $db->db_connect()->prepare($update_query);
+            $stmt->execute();
+            $stmt = null;
+
+
+            // update barcode
+            $barcode_sql = "UPDATE `barcode` set `barcode` = ?, `item_desc` = ?, `item_desc1` = ?, `retail` = ? where `item_code` = '$item_code'";
+            $stmt = $db->db_connect()->prepare($barcode_sql);
+            $stmt->execute([$barcode,$description,$short_description,$retail_with_tax]);
+            $stmt = null;
+
+            // update prices
+            $db->db_connect()->exec("UPDATE `price_change` SET `previous` = current where item_code = '$item_code'");
+            $db->db_connect()->exec("UPDATE `price_change` SET `current` = '$retail_with_tax' where item_code = '$item_code'");
+
+            // update packing
+            $packaging_id = $_POST['packaging_id'];
+            $packaging_desc = $_POST['packaging_desc'];
+            $packaging_qty = $_POST['packaging_qty'];
+
+            // selling = 0
+            $sell_pk_id = $packaging_id[0];
+            $sell_pk_desc = $packaging_desc[0];
+            $sell_pk_qty = $packaging_qty[0];
+            $db->db_connect()->exec(
+                "UPDATE `prod_packing` set pack_id = '$sell_pk_id',pack_desc='$sell_pk_desc',qty='$sell_pk_qty'
+                            WHERE item_code = '$item_code' AND purpose = 1"
+            );
+
+            // purchasing = 1
+            $buy_pk_id = $packaging_id[1];
+            $buy_pk_desc = $packaging_desc[1];
+            $buy_pk_qty = $packaging_qty[1];
+            $db->db_connect()->exec(
+                "UPDATE `prod_packing` set pack_id = '$buy_pk_id',pack_desc='$buy_pk_desc',qty='$buy_pk_qty'
+                            WHERE item_code = '$item_code' AND purpose = 2"
+            );
+            $anton->set_session(['action=view']);
+            $anton->done('done');
+
+        }
     }

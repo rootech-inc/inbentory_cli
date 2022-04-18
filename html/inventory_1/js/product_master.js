@@ -14,6 +14,8 @@ function loadProduct(prod_id,action='view')
     // echo(prod_id)
     // get item as json from database
 
+
+
     // disable next and back
     if(row_count('prod_master',"`item_code` > '" + prod_id +"'") > 0)
     {
@@ -54,103 +56,341 @@ function loadProduct(prod_id,action='view')
 
     echo(product_row)
     // load values
-    $("#group").text(
-        JSON.parse(get_row('item_group',"`id` = '" + prod_result.group + "'"))[0].group_name
-    )
-    $("#sub_group").text(
-        JSON.parse(get_row('item_group_sub',"`id` = '" + prod_result.sub_group + "'"))[0].description
-    )
-    $("#supplier").text(
-        JSON.parse(get_row('supp_mast',"`supp_id` = '" + prod_result.supplier + "'"))[0].supp_name
-    )
-    $('#barcode').text(prod_result.barcode)
-    $('#item_desc').text(prod_result.item_desc)
-    $('#item_desc1').text(prod_result.item_desc1)
 
-    $("#packing").text(
-        JSON.parse(get_row('packaging',"`id` = '" + prod_result.packing + "'"))[0].desc
-    )
-    $('#expiry').text(prod_result.expiry_date)
-    $('#owner').text(prod_result.owner)
-    $('#created_at').text(prod_result.created_at)
-    $('#edited_at').text(prod_result.edited_at)
-    $('#edited_by').text(prod_result.edited_by)
+    if (action === 'edit') {
+        $('#edit_prod').val(prod_id)
+        $("#group").val(
+            JSON.parse(get_row('item_group', "`id` = '" + prod_result.group + "'"))[0].group_name
+        )
+        $("#sub_group").val(
+            JSON.parse(get_row('item_group_sub', "`id` = '" + prod_result.sub_group + "'"))[0].description
+        )
+        $("#supplier").val(
+            JSON.parse(get_row('supp_mast', "`supp_id` = '" + prod_result.supplier + "'"))[0].supp_name
+        )
+        $('#barcode').val(prod_result.barcode)
+        $('#item_desc').val(prod_result.item_desc)
+        $('#item_desc1').val(prod_result.item_desc1)
 
-    // get tax details
-    var tax = JSON.parse(get_row('tax_master',"`id` = '" + prod_result.tax + "'"))[0];
-    $('#tax_rate').text(tax.rate.toString() + "%")
-    $('#tax_desc').html(tax.description)
-    $('#cost_price').text(prod_result.cost)
-    let retail_price = prod_result.retail;
-    $('#retail_price').text(retail_price)
+        // $("#packing").val(
+        //     JSON.parse(get_row('packaging',"`id` = '" + prod_result.packing + "'"))[0].desc
+        // )
 
+        // get packing
+        let packing_id = prod_result.packing;
+        let all_packing = JSON.parse(get_row('packaging', "none"));
+        var pack_opt = '';
+        for (let i = 0, p_id, p_desc; i < all_packing.length; i++) {
+            p_id = all_packing[i].id;
+            p_desc = all_packing[i].desc
+            if (packing_id == p_id) {
+                pack_opt += "<option selected value='" + p_id + "'>" + p_desc + "</option>";
+            } else {
+                pack_opt += "<option value='" + p_id + "'>" + p_desc + "</option>";
+            }
 
-    let tax_value = percentage(tax.rate,retail_price)
+        }
+        $('#packing').html(pack_opt)
+        //echo(pack_opt)
 
-    $('#retail_price_without_tax').text(parseFloat(retail_price) - parseFloat(tax_value))
-
-    // get stock for various branches
-    if(row_count('stock',"`item_code` = '"+prod_id+"'") > 0)
-    {
-        var row = '';
-        let loc_id,location, qty;
-        // get stock in json
-        var stock = JSON.parse(
-            get_row('stock',"`item_code` = '"+prod_id+"'")
+        // get groups
+        let all_grp, active_grp, grp_opt = '', grp_name, grp_id;
+        all_grp = JSON.parse(
+            // all groups query
+            get_row('item_group', 'none')
         );
-        for (let i = 0; i < stock.length; i++) {
 
-            qty = stock[i].qty;
-            loc_id = stock[i].loc_id
-            location = JSON.parse(get_row('loc',"`loc_id` = '"+loc_id+"'"))[0].loc_desc
+        // loop through grps obj
+        for (let i = 0; i < all_grp.length; i++) {
+            grp_id = all_grp[i].id
+            grp_name = all_grp[i].group_name
 
+            if (grp_id == prod_result.group) {
+                grp_opt += "<option selected value='" + grp_id + "'>" + grp_name + "</option>";
+            } else {
+                grp_opt += "<option value='" + grp_id + "'>" + grp_name + "</option>";
+            }
 
-            echo(stock[i].qty)
-
-            row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
-                "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
-                "                                <p class=\"m-0 p-0 text-elipse\">"+ loc_id + " - " +location+"</p>\n" +
-                "                            </div>\n" +
-                "                            <div class=\"prod_inp_view\">"+qty+"</div>\n" +
-                "                        </div>";
 
         }
-        $('#stock').html(row)
-    } else
+        $('#group').html(grp_opt)
+        //echo(grp_opt)
+
+        // load sub groups
+        let all_sub_grps = JSON.parse(
+            // get sub groups
+            get_row('item_group_sub', "`parent` = '" + prod_result.group + "'")
+        )
+        // loop through groups
+        let all_sub_grps_opt = '';
+        for (let i = 0; i < all_sub_grps.length; i++) {
+            let id = all_sub_grps[i].id;
+            let desc = all_sub_grps[i].description;
+
+            // append option
+            if (id == prod_result.sub_group) {
+                all_sub_grps_opt += "<option selected value='" + id + "'>" + desc + "</option>";
+            } else {
+                all_sub_grps_opt += "<option value='" + id + "'>" + desc + "</option>";
+            }
+        }
+        $('#sub_category').html(all_sub_grps_opt)
+        //echo(all_sub_grps_opt)
+
+        // get suppliers
+        let all_supp = JSON.parse(
+            // get sub groups
+            get_row('supp_mast', "none")
+        )
+        // loop through groups
+        let supp_sub = '';
+        for (let i = 0; i < all_supp.length; i++) {
+            let id = all_supp[i].supp_id;
+            let desc = all_supp[i].supp_name;
+
+            // append option
+            if (id == prod_result.supplier) {
+                supp_sub += "<option selected value='" + id + "'>" + desc + "</option>";
+            } else {
+                supp_sub += "<option value='" + id + "'>" + desc + "</option>";
+            }
+        }
+        $('#supplier').html(supp_sub)
+        echo(supp_sub)
+
+
+        // get tax
+        let all_tax = JSON.parse(
+            // get sub groups
+            get_row('tax_master', "none")
+        )
+        // loop through groups
+        let tax_row = '';
+        for (let i = 0; i < all_tax.length; i++) {
+            let rate = all_tax[i].rate + '% ';
+            let id = all_tax[i].id;
+            let desc = all_tax[i].description;
+
+            // append option
+            if (id == prod_result.tax) {
+                tax_row += "<option selected value='" + id + "'>" + rate + desc + "</option>";
+            } else {
+                tax_row += "<option value='" + id + "'>"+ rate + desc + "</option>";
+            }
+        }
+        $('#tax').html(tax_row)
+
+
+
+        $('#expiry').val(prod_result.expiry_date)
+        $('#owner').text(prod_result.owner)
+        $('#created_at').text(prod_result.created_at)
+        $('#edited_at').text(prod_result.edited_at)
+        $('#edited_by').text(prod_result.edited_by)
+
+        // get tax details
+        var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
+        $('#tax_rate').text(tax.rate.toString() + "%")
+        $('#tax_desc').html(tax.description)
+        $('#cost_price').val(prod_result.cost)
+        let retail_price = prod_result.retail;
+        $('#retail_with_tax').val(retail_price)
+
+
+        let tax_value = percentage(tax.rate, retail_price)
+
+        $('#retail_without_tax').val(parseFloat(retail_price) - parseFloat(tax_value))
+
+        // get stock for various branches
+        if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
+            var row = '';
+            let loc_id, location, qty;
+            // get stock in json
+            var stock = JSON.parse(
+                get_row('stock', "`item_code` = '" + prod_id + "'")
+            );
+            for (let i = 0; i < stock.length; i++) {
+
+                qty = stock[i].qty;
+                loc_id = stock[i].loc_id
+                location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0].loc_desc
+
+
+                echo(stock[i].qty)
+
+                row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
+                    "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
+                    "                                <p class=\"m-0 p-0 text-elipse\">" + loc_id + " - " + location + "</p>\n" +
+                    "                            </div>\n" +
+                    "                            <div class=\"prod_inp_view\">" + qty + "</div>\n" +
+                    "                        </div>";
+
+            }
+            $('#stock').html(row)
+        } else {
+            $('#stock').html("No Stock")
+        }
+
+        // get packing
+        let pac_id = prod_result.packing
+        const packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + prod_id + "'"));
+
+        let pack_desc;
+        var package_row = '';
+        let index_id = '';
+        let purp;
+        for (let i = 0; i < packing.length; i++) {
+            let pack = packing[i], pack_id, qty, purpose;
+            pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
+            qty = pack.qty
+            purpose = pack.purpose
+            pack_desc = pack.pack_desc
+            index_id += 'pack_id'+pack.id+',';
+            echo(index_id)
+
+
+            if (purpose === 1) {
+                purp = 'Sell UN';
+            } else if (purpose === 2) {
+                purp = 'Purch UN'
+            }
+
+            package_row += "<tr class=\"thead-light\">\n" + "<td class=\"p-1\">" + purp + "</td>\n" +
+                "                                        <td class=\"p-1\"><select name='packaging_id[]' id='pack_id" + index_id + "'>" +pack_opt +
+                "</select></td>\n" +
+                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_desc[]' value=' " + pack_desc + "' required</td>\n" +
+                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_qty[]' value=' " + qty + "' required</td>\n" +
+                "                                    </tr>";
+
+
+        }
+        echo(package_row)
+        $('#packaging_row').html(package_row)
+        $('#pack_id').html(pack_opt)
+
+        // load stock type
+        let all_stock = '', stock_option ='',
+            active_stock = prod_result.stock_type
+
+        all_stock = JSON.parse(
+            get_row('stock_type','none')
+        )
+        for (let stock_id ='', stock_desc ='', i = 0; i < all_stock.length; i++) {
+            stock_id = all_stock[i].id;
+            stock_desc = all_stock[i].description
+            //echo(active_stock)
+            if(active_stock == stock_id)
+            {
+                stock_option += "<option selected value='"+stock_id+"'>"+stock_desc+"</option>";
+            } else {
+                stock_option += "<option value='"+stock_id+"'>"+stock_desc+"</option>";
+            }
+
+
+        }
+        //echo(stock_option)
+        $('#stock_type').html(stock_option)
+
+    }
+    else
     {
-        $('#stock').html("No Stock")
-    }
+        $('#edit_prod').val(prod_id)
+        $("#group").text(
+            JSON.parse(get_row('item_group', "`id` = '" + prod_result.group + "'"))[0].group_name
+        )
+        $("#sub_group").text(
+            JSON.parse(get_row('item_group_sub', "`id` = '" + prod_result.sub_group + "'"))[0].description
+        )
+        $("#supplier").text(
+            JSON.parse(get_row('supp_mast', "`supp_id` = '" + prod_result.supplier + "'"))[0].supp_name
+        )
+        $('#barcode').text(prod_result.barcode)
+        $('#item_desc').text(prod_result.item_desc)
+        $('#item_desc1').text(prod_result.item_desc1)
 
-    // get packing
-    let pac_id = prod_result.packing
-    const packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + prod_id + "'"));
+        $("#packing").text(
+            JSON.parse(get_row('packaging', "`id` = '" + prod_result.packing + "'"))[0].desc
+        )
+        $('#expiry').text(prod_result.expiry_date)
+        $('#owner').text(prod_result.owner)
+        $('#created_at').text(prod_result.created_at)
+        $('#edited_at').text(prod_result.edited_at)
+        $('#edited_by').text(prod_result.edited_by)
 
-    let pack_desc;
-    var package_row =  '';
-    let purp;
-    for (let i = 0; i < packing.length; i++) {
-        let pack = packing[i], pack_id, qty, purpose;
-        pack_id = JSON.parse(get_row('packaging',"`id` = '"+pack.pack_id+"'"))[0].desc;
-        qty = pack.qty
-        purpose = pack.purpose
-        pack_desc = pack.pack_desc
-        if (purpose === 1) {
-            purp = 'Selling Unit';
-        } else if (purpose === 2)
-        {
-            purp = 'Purchasing Unit'
+        // get tax details
+        var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
+        $('#tax_rate').text(tax.rate.toString() + "%")
+        $('#tax_desc').html(tax.description)
+        $('#cost_price').text(prod_result.cost)
+        let retail_price = prod_result.retail;
+        $('#retail_price').text(retail_price)
+
+
+        let tax_value = percentage(tax.rate, retail_price)
+
+        $('#retail_price_without_tax').text(parseFloat(retail_price) - parseFloat(tax_value))
+
+        // get stock for various branches
+        if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
+            var row = '';
+            let loc_id, location, qty;
+            // get stock in json
+            var stock = JSON.parse(
+                get_row('stock', "`item_code` = '" + prod_id + "'")
+            );
+            for (let i = 0; i < stock.length; i++) {
+
+                qty = stock[i].qty;
+                loc_id = stock[i].loc_id
+                location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0].loc_desc
+
+
+                echo(stock[i].qty)
+
+                row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
+                    "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
+                    "                                <p class=\"m-0 p-0 text-elipse\">" + loc_id + " - " + location + "</p>\n" +
+                    "                            </div>\n" +
+                    "                            <div class=\"prod_inp_view\">" + qty + "</div>\n" +
+                    "                        </div>";
+
+            }
+            $('#stock').html(row)
+        } else {
+            $('#stock').html("No Stock")
         }
 
-        package_row += "<tr class=\"thead-light\">\n" +
-            "                                        <td class=\"p-1\">" + pack_id + "</td>\n" +
-            "                                        <td class=\"p-1\">" + pack_desc + "</td>\n" +
-            "                                        <td class=\"p-1\">" + qty + "</td>\n" +
-            "                                        <td class=\"p-1\">"+purp+"</td>\n" +
-            "                                    </tr>";
+        // get packing
+        let pac_id = prod_result.packing
+        const packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + prod_id + "'"));
+
+        let pack_desc;
+        var package_row = '';
+        let purp;
+        for (let i = 0; i < packing.length; i++) {
+            let pack = packing[i], pack_id, qty, purpose;
+            pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
+            qty = pack.qty
+            purpose = pack.purpose
+            pack_desc = pack.pack_desc
+            if (purpose === 1) {
+                purp = 'Selling Unit';
+            } else if (purpose === 2) {
+                purp = 'Purchasing Unit'
+            }
+
+            package_row += "<tr class=\"thead-light\">\n" +
+                "                                        <td class=\"p-1\">" + pack_id + "</td>\n" +
+                "                                        <td class=\"p-1\">" + pack_desc + "</td>\n" +
+                "                                        <td class=\"p-1\">" + qty + "</td>\n" +
+                "                                        <td class=\"p-1\">" + purp + "</td>\n" +
+                "                                    </tr>";
 
 
+        }
+        $('#packaginf_row').html(package_row)
     }
-    $('#packaginf_row').html(package_row)
+
 
 
     // show price

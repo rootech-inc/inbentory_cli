@@ -17,6 +17,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="css/anton.css">
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="css/keyboard.css">
+    <link rel="icon" type="image/x-icon" href="/assets/logo/logo.ico">
 
 
     <script src="js/jquery.min.js"></script>
@@ -38,7 +39,7 @@ error_reporting(E_ALL);
 
 
 </head>
-<body onload="initialize()" onresize="validateSize('yes')" class="ant-bg-black">
+<body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
 
     <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
         <i class="fa fa-keyboard"></i>
@@ -321,7 +322,8 @@ error_reporting(E_ALL);
 
 
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
-        <main onclick="hideKboard()" class="p-0 mx-auto">
+        <main onclick="hideKboard()" class="p-0 mx-auto card ant-bg-black">
+            <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php
 
                 if($module === 'home')
@@ -345,62 +347,62 @@ error_reporting(E_ALL);
         </main>
     <?php }
     else { ?>
-        <main class="w-100 h-100 grade_danger d-flex flex-wrap align-content-center justify-content-between overflow-hidden">
+        <main class="mx-auto card grade_danger overflow-hidden">
 
 
-            <div class="w-50 d-flex flex-wrap justify-content-center">
-                <div class="w-50"><img src="assets/icons/inv_mgmt.png" alt="" class="img-fluid"></div>
-            </div>
+            <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-between">
+                <div class="w-50 d-flex flex-wrap justify-content-center">
+                    <div class="w-50"><img src="assets/icons/inv_mgmt.png" alt="" class="img-fluid"></div>
+                </div>
 
-            <div class="w-50 d-flex flex-wrap justify-content-center align-content-center">
-                <form id="login" method="post" action="backend/process/user_mgmt.php" class="w-50 h-100`">
-
-
-<!--                    <div class="w-25 mx-auto m-2">-->
-<!--                        <img src="assets/logo/logo.png" class="img-fluid">-->
-<!--                    </div>-->
+                <div class="w-50 d-flex flex-wrap justify-content-center align-content-center">
+                    <form id="login" method="post" action="backend/process/user_mgmt.php" class="w-50 h-100`">
 
 
+                        <!--                    <div class="w-25 mx-auto m-2">-->
+                        <!--                        <img src="assets/logo/logo.png" class="img-fluid">-->
+                        <!--                    </div>-->
 
-                    <div class="w-100 container h-100 p-0">
-                        <div class="row h-100 no-gutters">
-                            <div class="col-sm-9 p-2 h-100">
-                                <div class="w-100 text-warning" id="error_box">
 
+
+                        <div class="w-100 container h-100 p-0">
+                            <div class="row h-100 no-gutters">
+                                <div class="col-sm-9 p-2 h-100">
+                                    <div class="w-100 text-warning" id="error_box">
+
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <input id="clerk_code" value="<?php if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?>" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>
+                                    </div>
+
+                                    <div class="input-group mb-2">
+                                        <input id="clerk_password" class="form-control rounded-0 font-weight-bold" type="password" autocomplete="off"  placeholder="Key" name="clerk_key" required>
+                                    </div>
+
+                                    <div class="input-group">
+                                        <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">
+                                            <option selected value="Network">Network</option>
+                                            <option value="Local">Local</option>
+                                        </select>
+                                        <input type="hidden" value="Network" name="db_state" id="setInp">
+                                    </div>
                                 </div>
-                                <div class="input-group mb-2">
-                                    <input id="clerk_code" value="<?php if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?>" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>
-                                </div>
 
-                                <div class="input-group mb-2">
-                                    <input id="clerk_password" class="form-control rounded-0 font-weight-bold" type="password" autocomplete="off"  placeholder="Key" name="clerk_key" required>
+                                <!--KEYS-->
+                                <div class="col-sm-3 d-flex flex-wrap align-content-center py-2 h-100 border">
+                                    <button style="height: 100% !important" type="submit" name="login" class="w-100 font-weight-bolder fas fa-key btn-danger"></button>
                                 </div>
-
-                                <div class="input-group">
-                                    <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">
-                                        <option selected value="Network">Network</option>
-                                        <option value="Local">Local</option>
-                                    </select>
-                                    <input type="hidden" value="Network" name="db_state" id="setInp">
-                                </div>
-                            </div>
-
-                            <!--KEYS-->
-                            <div class="col-sm-3 d-flex flex-wrap align-content-center py-2 h-100 border">
-                                <button style="height: 100% !important" type="submit" name="login" class="w-100 font-weight-bolder fas fa-key btn-danger"></button>
                             </div>
                         </div>
-                    </div>
 
 
 
 
 
 
-                </form>
+                    </form>
 
-
-
+                </div>
             </div>
 
 
