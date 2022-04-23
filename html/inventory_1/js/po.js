@@ -110,7 +110,7 @@ function addToPoTrans(item_code) {
         if(insert('po_trans', x_data) == 1)
         {
             // inserted
-            Swal.fire( item_desc +" added to PO Entry")
+            loadPoTrans()
 
         } else
         {
@@ -137,7 +137,7 @@ function loadPoTrans() {
     let pack_desc;
     let pac_qty;
     let x_pack_desc;
-    if (row_count('po_trans', "`owner` = '" + my_user_name + "' AND `date_added` = '" + toDay + "'") > 1) {
+    if (row_count('po_trans', "`owner` = '" + my_user_name + "' AND `date_added` = '" + toDay + "'") > 0) {
         // get po trans items
         po_items = JSON.parse(
             get_row('po_trans', "`owner` = '" + my_user_name + "' AND `date_added` = '" + toDay + "'")
@@ -165,26 +165,28 @@ function loadPoTrans() {
             let item_code_id = "itemCode_" + i.toString();
             let item_desc_id = "itemDesc_" + i.toString();
             let item_pack_id = "itemPack_" + i.toString();
+            let item_packing_id = "itemPacking_" + i.toString();
             let item_qty_id = "itemQty_" + i.toString();
             let item_cost_id = "itemCost_" + i.toString();
             let item_amount_id = "itemAmount_" + i.toString();
 
             t_row += "<tr>\n" +
                 "                            <td>\n" +
-                "                                <kbd class=\"\">&plus;</kbd>\n" +
+                "                                <button onclick=\"delete_item('po_trans','"+item_code+"')\" class=\"btn-danger pointer\">&minus;</button>\n" +
                 "                            </td>\n" +
-                "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' style=\"width: 100px\" value='" + item_code + "' readonly></td>\n" +
+                "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' style=\"width: 70px\" value='" + item_code + "' readonly></td>\n" +
                 "                            <td>\n" +
                 "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
                 "                            </td>\n" +
                 "                            <td>\n" +
                 "                                <select name=\"item_pack[]\" id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
-                "                                    <option value='" + pack_desc + "'>" + pack_desc + "</option>\n" +
+                "                                    <option value='" + x_pack_desc + "'>" + pack_desc +" </option>\n" +
                 "                                </select>\n" +
                 "                            </td>\n" +
-                "                            <td><input style=\"width: 50px\" type=\"text\" value='" + pac_qty + "' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" onkeyup='poItemAmount(this.id)' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" type=\"text\" readonly name=\"item_amount[]\" id='" + item_amount_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\"  type=\"text\" value='"+x_pack_desc+"' readonly name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
+            "                               <td><input style=\"width: 50px\" required onkeyup='poItemAmount("+item_cost_id+")' type=\"text\" value='1' name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" required onkeyup='poItemAmount(this.id)' min='1' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" required type=\"text\" readonly name=\"item_amount[]\" id='" + item_amount_id + "'></td>\n" +
                 "                        </tr>";
 
         }
@@ -193,6 +195,7 @@ function loadPoTrans() {
 
 
     } else {
+        $('#po_items_list').html("Add Item to list")
         echo("no po item")
     }
 
@@ -204,12 +207,33 @@ function poItemAmount(id) {
     if(id_split.length > 0)
     {
         let item_num = id_split[1];
+        let pack_qty = "#itemPack_"+item_num.toString();
         let total_amt_id = "#itemAmount_"+item_num.toString()
-        let item_qty_id = "itemQty_"+ item_num.toString()
+        let item_qty_id = "#itemQty_"+ item_num.toString()
 
-        // multiple quantity vs cost
-        let amount = parseFloat($('#'+id).val()) * parseFloat($('#'+item_qty_id).val())
+        // multiple
+        // packaging quantity vs quantity
+        let pack_vs_quan = parseFloat($(pack_qty).val() * $(item_qty_id).val())
+        // quantity vs cost
+        let amount = parseFloat($('#'+id).val()) * parseFloat($(item_qty_id).val())
         $(total_amt_id).val(amount)
         echo(amount)
+    }
+}
+
+function getPoLocation(location) // get location selected
+{
+    let loc_desc;
+    if (row_count('loc', "`loc_id` = '" + location + "'") == 1) {
+        // get location description
+        loc_desc = JSON.parse(
+            get_row('loc', "`loc_id` = '" + location + "'")
+        )[0].loc_desc;
+
+        echo(loc_desc)
+        $('#location_desc').text(loc_desc)
+
+    } else {
+        swal_error("Cannot find location")
     }
 }

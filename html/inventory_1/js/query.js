@@ -5,7 +5,7 @@ function row_count(table,condition = 'none') {
         'condition':condition
     }
 
-    echo(condition)
+    echo("SELECT * FROM "+table+" WHERE "+condition)
 
     var result = 0;
 

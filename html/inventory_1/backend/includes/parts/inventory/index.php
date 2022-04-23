@@ -160,6 +160,7 @@
                             require 'backend/includes/parts/inventory/purchasing/view_po.php';
                         } elseif ($action === 'new'){ // new purchasing order
                             $suppliers = $db->db_connect()->query("SELECT * FROm supp_mast order by supp_name asc");
+                            $locations = $db->db_connect()->query("SELECT * FROM loc");
                             require 'backend/includes/parts/inventory/purchasing/new_po.php';
                         }
                     }

@@ -5,7 +5,8 @@ const dd = String(today.getDate()).padStart(2, '0');
 const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 const yyyy = today.getFullYear();
 const  toDay = yyyy + '-' + mm + '-' + dd;
-const my_user_name = $('#my_user_name').val();
+
+
 
 //
 
@@ -159,7 +160,18 @@ function delete_item(module,item) {
 
     if(confirm('Are you sure you want to execute  task'))
     {
-        cl("deleting " + item + " from "+ module);
+
+        if(module === 'po_trans')
+        {
+            // delete from module trans
+            let item_code = item;
+            let my_user_name = $('#my_user_name').val();
+            // delete from item row
+            let query = "DELETE FROM `po_trans` WHERE `item_code` = '"+item_code+"' AND `owner` = '"+my_user_name+"' AND `date_added` = '"+toDay+"'";
+            exec(query)
+            loadPoTrans()
+        }
+
     } else {
         cl("Execution canceled")
     }

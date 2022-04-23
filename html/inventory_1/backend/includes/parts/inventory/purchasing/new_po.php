@@ -9,7 +9,8 @@
     </div> -->
 
     <!--INVENTORY PRODUCTS-->
-    <div class="w-100 h-100 product_container">
+    <form method="post" id="general_form" action="backend/process/form-processing/po.php" class="w-100 h-100 product_container">
+        <input type="hidden" name="function" value="new_po">
         <div class="d-flex flex-wrap align-content-center product_header">
 
             <!--HEADER LEFT-->
@@ -24,30 +25,21 @@
                 </button>
 
                 <!--ADD-->
-                <button onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button  type="submit" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
-                            src="../../assets/icons/home/new_property.png"
+                            src="../../assets/icons/home/save_close.png"
                             class="img-fluid"
                     >
                 </button>
 
                 <!--DELETE-->
-                <button onclick="gen_modal('delete_product')" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="gen_modal('delete_product')" type="button" title="Cancel" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
-                            src="../../assets/icons/home/delete_document.png"
+                            src="../../assets/icons/home/cancel.png"
                             class="img-fluid"
                     >
                 </button>
 
-
-
-                <!--EDIT-->
-                <button onclick="set_session('action:edit')" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/edit_property.png"
-                            class="img-fluid"
-                    >
-                </button>
 
 
             </div>
@@ -88,8 +80,17 @@
                             <p class="m-0 p-0 text-elipse">Loc</p>
                         </div>
                         <div class="w-60 d-flex flex-wrap justify-content-between">
-                            <div class="prod_inp_view w-25">001</div>
-                            <div class="prod_inp_view w-65" id="location">Description</div>
+                            <select onchange="getPoLocation(this.value)" class="prod_inp_view w-25" id="location">
+                                <option value="" disabled selected>Loc</option>
+                                <?php
+                                    while ($loc = $locations->fetch(PDO::FETCH_ASSOC)){
+                                        $loc_id = $loc['loc_id'];
+                                        $loc_desc = $loc['loc_desc'];
+                                        echo "<option value='$loc_id'>". $loc_id."</option>";
+                                    }
+                                ?>
+                            </select>
+                            <div class="prod_inp_view w-65" id="location_desc"></div>
                         </div>
                     </div>
 
@@ -99,6 +100,7 @@
                             <p class="m-0 p-0 text-elipse">Supplier</p>
                         </div>
                         <select name="supplier" class="prod_inp_view" id="supplier">
+                            <option value="0">Select Supplier</option>
                             <?php
                                 while ($supp = $suppliers->fetch(PDO::FETCH_ASSOC))
                                 {
@@ -116,7 +118,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">PO Type</p>
                         </div>
-                        <div class="prod_inp_view" id="po_type"></div>
+                        <input class="prod_inp_view" id="po_type" readonly name="po_type" value="direct">
                     </div>
 
                     <!--Description-->
@@ -124,7 +126,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <div class="prod_inp_view" id="remarks"></div>
+                        <input class="prod_inp_view" id="remarks" name="remarks">
                     </div>
 
                 </div>
@@ -136,40 +138,10 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Total Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="total_amount"></div>
+                        <input class="prod_inp_view" id="total_amount" name="total_amount" type="number" readonly value="0.00">
                     </div>
 
-                    <!--Owner-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Owner</p>
-                        </div>
-                        <div class="prod_inp_view" id="owner"></div>
-                    </div>
 
-                    <!--Date Created-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Date Created</p>
-                        </div>
-                        <div class="prod_inp_view" id="created_at"></div>
-                    </div>
-
-                    <!-- EDITED BY -->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Edited By</p>
-                        </div>
-                        <div class="prod_inp_view" id="edited_by"></div>
-                    </div>
-
-                    <!--Last Edited-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Last Edited</p>
-                        </div>
-                        <div class="prod_inp_view" id="edited_at"></div>
-                    </div>
                 </div>
 
             </div>
@@ -193,11 +165,7 @@
                                         </tr>
                                     </thead>
                                     <tbody id="poTable">
-                                        <tr onclick="loadPoItem()">
-                                            <td>John</td>
-                                            <td>Barcode</td>
-                                            <td>Doe</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
@@ -208,7 +176,7 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th>AC</th><th>Item</th><th>Description</th><th>Pack ID</th><th>Qty</th><th>Cost</th><th>Amount</th>
+                            <th>AC</th><th>Item</th><th>Description</th><th>Pack</th><th>Packing</th><th>Qty</th><th>Cost</th><th>Amount</th>
                         </tr>
                     </thead>
                     <tbody id="po_items_list">
@@ -236,6 +204,6 @@
 
         </div>
 
-    </div>
+    </form>
 
 </div>
