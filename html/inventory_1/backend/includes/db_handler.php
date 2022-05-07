@@ -41,8 +41,10 @@ class db_handler extends anton
        return $this->machine_details()['machine_number'];
     }
 
-    function row_count($table,$condition='none') // row count of a table
+    function row_count($table,$condition='none'): int // row count of a table
     {
+
+
 
         if($condition === 'none')
         {
@@ -54,6 +56,20 @@ class db_handler extends anton
         }
 
         return $sql->rowCount();
+    }
+
+    function col_sum($table,$column,$condition='none') // get sum of column
+    {
+          if($condition === 'none')
+          {
+              $sum_query =   $this->db_connect()->query("SELECT SUM($column) as summed from $table");
+          } else
+          {
+              $sum_query =   $this->db_connect()->query("SELECT SUM($column) as summed from $table WHERE $condition");
+          }
+
+          $sum_res = $sum_query->fetch(PDO::FETCH_ASSOC);
+          return $sum_res['summed'];
     }
 
     function get_rows($table, $condition, $result = 'array') // get rows from table

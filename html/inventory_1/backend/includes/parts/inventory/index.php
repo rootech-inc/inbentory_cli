@@ -156,6 +156,21 @@
                     {
                         if($action === 'view')
                         {
+                            # check if there is po
+                            $po_count = $db->row_count('po_hd',"none");
+                            if($po_count > 0)
+                            {
+                                // get first po
+                                $po_sql = $db->db_connect()->query("SELECT * FROM `po_hd` order by id desc LIMIT 1");
+                                $po_res = $po_sql->fetch(PDO::FETCH_ASSOC);
+
+                                $po_id = $po_res['id'];
+                                $po_number = $po_res['doc_no'];
+                            }
+                            else{
+                                $anton->set_session(['action=new']);
+                                echo "<script>location.reload()</script>";
+                            }
                             // view purchasing order
                             require 'backend/includes/parts/inventory/purchasing/view_po.php';
                         } elseif ($action === 'new'){ // new purchasing order
@@ -171,6 +186,10 @@
                     if($action === 'new')
                     {
                         echo "<script>loadPoTrans()</script>";
+                    } elseif ($action === 'view')
+                    {
+
+                        echo "<script>previewPoTrans('$po_number')</script>";
                     }
                 endif; ?>
 

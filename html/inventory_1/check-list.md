@@ -1,7 +1,7 @@
 ### Pending Check List
 
--   [ ] Refund
--   [x] Discount *
+- [ ] Refund
+- [x] Discount *
     - [x] Check if general field has input
       - [x] if there is no input
           - show error
@@ -11,7 +11,7 @@
             - pass it to a form to validate
             - if validated, apply discount with swal success
             - else dont apply discount with swal error
--   [x] **Void** _Paused_
+- [x] **Void** _Paused_
     - create hidden input with name and id as void_list
     - on item click, add it to void list `void_list` separated by comma
     -[x] **_JS void function_**
@@ -27,7 +27,13 @@
       - for each `void_list` delete it from bill item
       - return done
 
--   [x] Lookup
--   [ ] Keyboard
+- [x] Lookup
+- [ ] Keyboard
     - [x] Numeric
     - [ ] Alphabetical
+  
+
+- [ ] Purchase Order
+    - [ ] Make Pack ID static base on current document
+    - [ ] Edit Purchase Order
+    - [ ] Search Purchase Order

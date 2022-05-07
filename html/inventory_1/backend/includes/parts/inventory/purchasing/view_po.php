@@ -8,6 +8,19 @@
         </article>
     </div> -->
 
+    <div class="modal" id="pdf_modal">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <strong class="modal-title"></strong>
+                </div>
+                <div id="pdf_body" class="modal-body" style="padding: 1px !important; height: 75vh">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!--INVENTORY PRODUCTS-->
     <div class="w-100 h-100 product_container">
         <div class="d-flex flex-wrap align-content-center product_header">
@@ -70,10 +83,18 @@
             <!--HEADER RIGHT-->
             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
                 <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="barcode_search">
-                <!--ADD-->
+                <!--SEARCH-->
                 <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/search_property.png"
+                            class="img-fluid"
+                    >
+                </button>
+
+                <!-- PRINT -->
+                <button type="button" onclick="print_po()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <img
+                            src="../../assets/icons/home/print.png"
                             class="img-fluid"
                     >
                 </button>
@@ -104,7 +125,7 @@
                             <p class="m-0 p-0 text-elipse">Loc</p>
                         </div>
                         <div class="w-60 d-flex flex-wrap justify-content-between">
-                            <div class="prod_inp_view w-25">001</div>
+                            <div class="prod_inp_view w-25" id="loc_id"></div>
                             <div class="prod_inp_view w-65" id="location">Description</div>
                         </div>
                     </div>
@@ -174,7 +195,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Last Edited</p>
                         </div>
-                        <div class="prod_inp_view" id="edited_at"></div>
+                        <div class="prod_inp_view" id="edited_on"></div>
                     </div>
                 </div>
 
@@ -186,10 +207,16 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th>Item</th><th>Description</th><th>Pack ID</th><th>Qty</th><th>Cost</th><th>Amount</th>
+                            <th>Item Code</th>
+                            <th>Description</th>
+                            <th>Pack ID</th>
+                            <th>Pack Desc</th>
+                            <th>Quantity</th>
+                            <th>Cost</th>
+                            <th>Total Cost</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="po_items_list">
                         <tr>
                             <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
                         </tr>
@@ -218,3 +245,6 @@
     </div>
 
 </div>
+    <script>
+
+    </script>

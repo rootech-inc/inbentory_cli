@@ -80,8 +80,8 @@
                             <p class="m-0 p-0 text-elipse">Loc</p>
                         </div>
                         <div class="w-60 d-flex flex-wrap justify-content-between">
-                            <select onchange="getPoLocation(this.value)" class="prod_inp_view w-25" id="location">
-                                <option value="" disabled selected>Loc</option>
+                            <select onchange="getPoLocation(this.value)" class="prod_inp_view w-25" name="location" id="location">
+                                <option value="0" selected>Loc</option>
                                 <?php
                                     while ($loc = $locations->fetch(PDO::FETCH_ASSOC)){
                                         $loc_id = $loc['loc_id'];
@@ -100,7 +100,7 @@
                             <p class="m-0 p-0 text-elipse">Supplier</p>
                         </div>
                         <select name="supplier" class="prod_inp_view" id="supplier">
-                            <option value="0">Select Supplier</option>
+                            <option value="0" selected>Select Supplier</option>
                             <?php
                                 while ($supp = $suppliers->fetch(PDO::FETCH_ASSOC))
                                 {

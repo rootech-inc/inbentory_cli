@@ -27,6 +27,7 @@
             elseif ($function === 'query')
             {
                 $query = $_POST['query'];
+                echo($query);
                 $db->db_connect()->exec($query);
             }
 
