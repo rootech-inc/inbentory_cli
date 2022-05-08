@@ -3,7 +3,7 @@
     $function  = $anton->post('function');
     //print_r($function);
 
-    if($function === 'new_po') // adding new po
+    if($function === 'new_po')// adding new po
     {
         // add
         $location = $anton->post('location');
@@ -67,7 +67,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
 
     }
 
-    elseif ($function === 'print_po')
+    elseif ($function === 'print_po') // print po into pdf
     {
         // make pdf of po
 //        require('../../includes/pdf/fpdf.php');
@@ -227,7 +227,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
 
             $pdf->Cell(40,7,$po_t['item_code'],1,0,"L");
             $pdf->Cell(40,7,$po_t['item_description'],1,0,"L");
-            $pdf->Cell(40,7,$pack_desc_x,1,0,"L");
+            $pdf->Cell(40,7,$po_t['pack_desc'],1,0,"L");
             $pdf->Cell(40,7,$po_t['packing'],1,0,"L");
             $pdf->Cell(40,7,$po_t['qty'],1,0,"L");
             $pdf->Cell(40,7,$po_t['cost'],1,0,"L");
@@ -268,4 +268,55 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->Output("test.pdf",'F');
         echo 'done';
     }
-// print_r($_POST);
+
+    elseif ($function == 'update_po') // update po
+    {
+        $po_number = $anton->get_session('po_number');
+        if(empty($po_number)) // validate if there is a po number
+        {
+            $anton->err("Could ot set PO Number");
+            die();
+        }
+
+        if($db->row_count('po_hd',"`doc_no` = '$po_number'") !== 1) // validate if po exist
+        {
+            $anton->err("Document $po_number cannot be found");
+            die();
+        }
+
+        // get values from form and validate
+        $loc_id = $anton->post('loc_id');
+        if(empty($loc_id)) // validate if there is a po number
+        {
+            $anton->err("Invalid Location");
+            die();
+        }
+
+        $remarks = $anton->post('remarks');
+
+
+        // get sum of po items in values
+        $total_cost = $db->col_sum('po_trans','total_cost',"`parent` = '$po_number'");
+
+
+        $update_details = array(
+            'table' => 'po_hd',
+            'columns' => array('location','remarks','total_amount','edited_by','edited_on'),
+            'values' => array($loc_id,$remarks,$total_cost,$myName,$current_time),
+            'condition' =>  "`doc_no` = '$po_number'"
+        );
+
+        if($db->update_record($update_details))
+        {
+            // unset po_numer and set action to view
+            $anton->set_session(['action=view']);
+            unset($_SESSION['po_number']);
+            $anton->done('done_reload');
+        } else
+        {
+            $anton->err("Could not save PO");
+        }
+
+
+    }
+

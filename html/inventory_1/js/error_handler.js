@@ -1,3 +1,23 @@
+function swal_reload()
+{
+    Swal.fire({
+
+        icon: 'success',
+        title: 'Process Completed',
+        showDenyButton: false,
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+        denyButtonText: `Don't save`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            location.reload()
+        } else if (result.isDenied) {
+            location.reload()
+        }
+    })
+}
+
 // error handler
 function error_handler(response)
 {
@@ -62,6 +82,9 @@ function error_handler(response)
                         break;
                     case 'prod_added':
                         location.reload();
+                        break;
+                    case 'done_reload':
+                        swal_reload()
                         break;
                     default:
                         swal.fire(response_message);

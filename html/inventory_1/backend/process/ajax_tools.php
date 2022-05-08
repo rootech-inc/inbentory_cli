@@ -42,6 +42,7 @@
             elseif ($function === 'insert') // insert into table
             {
                 $query = $_POST['query'];
+//                echo($query);
                 try {
                     $db->db_connect()->exec($query);
                     echo '1';

@@ -62,12 +62,13 @@ class db_handler extends anton
     {
           if($condition === 'none')
           {
-              $sum_query =   $this->db_connect()->query("SELECT SUM($column) as summed from $table");
+              $sql = "SELECT SUM($column) as summed from $table";
           } else
           {
-              $sum_query =   $this->db_connect()->query("SELECT SUM($column) as summed from $table WHERE $condition");
+              $sql = "SELECT SUM($column) as summed from $table WHERE $condition";
           }
-
+//          echo $sql;
+          $sum_query =   $this->db_connect()->query($sql);
           $sum_res = $sum_query->fetch(PDO::FETCH_ASSOC);
           return $sum_res['summed'];
     }
@@ -279,6 +280,89 @@ class db_handler extends anton
         $dis_value = $_SESSION['disc_value'];
         unset($_SESSION['sub_total']);
         return $dis_value;
+    }
+
+    // update
+    function update_record($details)
+    {
+        $error = '0';
+
+        if(!is_array($details))
+        {
+            $error = '1';
+            return $this->err("Can't Continue");
+        }
+
+
+        $table = $details['table'];
+        $columns = $details['columns'];
+        $set = '';
+        $values = $details['values'];
+        $cond = $details['condition'];
+
+
+        // validate cols and vals
+        if(!is_array($columns) && !is_array($values))
+        {
+            return $this->err("Columns or Values not an array");
+            die();
+        }
+
+        // validate cols and vals length
+        if(count($columns) !== count($values))
+        {
+           return $this->err("Columns and Value Miss match");
+
+        }
+        $cols_count = count($details);
+
+        //die('_'.count($columns,''));
+
+        // iterate to match vals and colums
+        foreach ($columns as $key => $value)
+        {
+
+            $col = $columns[$key];
+            $val = $values[$key];
+
+
+            $set .= "`$col` = \"$val\",";
+
+        }
+        $sen_set = rtrim($set,',');
+
+        if($cond === 'none')
+        {
+            $sql = "UPDATE `$table` SET $sen_set";
+        } else
+        {
+            $sql = "UPDATE `$table` SET $sen_set WHERE $cond";
+        }
+
+
+
+        if($error === '0')
+        {
+            //echo $sql;
+            try {
+                $this->db_connect()->exec($sql);
+                return true;
+            } catch (PDOException $e)
+            {
+
+                $message = $e->getMessage();
+                $error_show = "Message : $message, Query : $sql";
+                $this->err($error_show);
+//                return $e->getMessage();
+                return false;
+            }
+        }
+        elseif ($error === '1')
+        {
+            $this->err("Error saving PO, Contact System Administrator");
+            return false;
+        }
+
     }
 
 

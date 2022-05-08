@@ -3,8 +3,12 @@
 const today = new Date();
 const dd = String(today.getDate()).padStart(2, '0');
 const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+const hh = String(today.getHours())
+const mmm = String(today.getMinutes())
+const sss = String(today.getSeconds())
 const yyyy = today.getFullYear();
 const  toDay = yyyy + '-' + mm + '-' + dd;
+const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":" + sss
 
 
 
@@ -16,21 +20,24 @@ var form_process = "/backend/process/form_process.php";
 // swal confirm
 function swal_confirm(message = 'Continue?')
 {
+    var r;
     Swal.fire({
-        title: message,
-        icon: 'info',
+        title: 'Do you want to save the changes?',
         showDenyButton: true,
         showCancelButton: true,
-        confirmButtonText: 'Yes',
-        denyButtonText: `No`,
+        confirmButtonText: 'Save',
+        denyButtonText: `Don't save`,
     }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed) {
-            return true;
+            r = true;
         } else if (result.isDenied) {
-            return false
+            r = false;
         }
     })
+
+
+    return r;
 }
 
 function percentage(rate,vale)
@@ -167,7 +174,7 @@ function delete_item(module,item) {
             let item_code = item;
             let my_user_name = $('#my_user_name').val();
             // delete from item row
-            let query = "DELETE FROM `po_trans` WHERE `item_code` = '"+item_code+"' AND `owner` = '"+my_user_name+"' AND `date_added` = '"+toDay+"'";
+            let query = "DELETE FROM `po_trans` WHERE `item_code` = '"+item_code+"' AND `owner` = '"+my_user_name+"' AND `date_added` = '"+toDay+"' AND `parent` is null";
             exec(query)
             loadPoTrans()
         }

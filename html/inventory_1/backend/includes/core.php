@@ -13,6 +13,7 @@
     $anton = new anton();
     $db = new db_handler();
     $today = date('Y-m-d');
+    $current_time = date("Y-m-d H:m:s");
     $machine_number = $db->machine_number();
     $root_host = $_SERVER['DOCUMENT_ROOT'];
 //    die($root_host);

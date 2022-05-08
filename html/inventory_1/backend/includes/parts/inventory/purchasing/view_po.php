@@ -45,7 +45,7 @@
                 </button>
 
                 <!--DELETE-->
-                <button onclick="gen_modal('delete_product')" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button id="delete_button" onclick="gen_modal('delete_product')" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/delete_document.png"
                             class="img-fluid"
@@ -55,7 +55,7 @@
 
 
                 <!--EDIT-->
-                <button onclick="set_session('action:edit')" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button id="edit_button" onclick="set_session(['action=edit','po_number='+$('#po_number').text()])" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/edit_property.png"
                             class="img-fluid"
@@ -63,7 +63,7 @@
                 </button>
 
                 <!--SORT LEFT-->
-                <button type="button" onclick="loadProduct(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button type="button" onclick="previewPoTrans(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_left.png"
                             class="img-fluid"
@@ -71,7 +71,7 @@
                 </button>
 
                 <!--SORT RIGHT-->
-                <button onclick="loadProduct(this.value)" value="" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="previewPoTrans(this.value)" value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_right.png"
                             class="img-fluid"
@@ -82,7 +82,7 @@
 
             <!--HEADER RIGHT-->
             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
-                <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="barcode_search">
+                <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="po_search">
                 <!--SEARCH-->
                 <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
@@ -95,6 +95,14 @@
                 <button type="button" onclick="print_po()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/print.png"
+                            class="img-fluid"
+                    >
+                </button>
+
+                <!-- APPORVE -->
+                <button type="button" id="approve_button" onclick="approve_po()" title="Approve" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <img
+                            src="../../assets/icons/home/approve.png"
                             class="img-fluid"
                     >
                 </button>
@@ -154,6 +162,8 @@
                         <div class="prod_inp_view" id="remarks"></div>
                     </div>
 
+
+
                 </div>
                 <!--Prod Right-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
@@ -197,6 +207,10 @@
                         </div>
                         <div class="prod_inp_view" id="edited_on"></div>
                     </div>
+
+                    <!-- APPROVE INFO -->
+                    <div id="approved_container" class="text-right"><i id="approved_msg">Not Approved</i></div>
+
                 </div>
 
             </div>
@@ -207,6 +221,7 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-light">
                         <tr>
+                            <th>LN</th>
                             <th>Item Code</th>
                             <th>Description</th>
                             <th>Pack ID</th>

@@ -173,10 +173,17 @@
                             }
                             // view purchasing order
                             require 'backend/includes/parts/inventory/purchasing/view_po.php';
-                        } elseif ($action === 'new'){ // new purchasing order
+                        }
+
+                        elseif ($action === 'new'){ // new purchasing order
                             $suppliers = $db->db_connect()->query("SELECT * FROm supp_mast order by supp_name asc");
                             $locations = $db->db_connect()->query("SELECT * FROM loc");
                             require 'backend/includes/parts/inventory/purchasing/new_po.php';
+                        }
+
+                        elseif ($action === 'edit'){ // new purchasing order
+
+                            require 'backend/includes/parts/inventory/purchasing/edit_po.php';
                         }
                     }
                 ?>
@@ -190,6 +197,10 @@
                     {
 
                         echo "<script>previewPoTrans('$po_number')</script>";
+                    } elseif ($action === 'edit')
+                    {
+                        $po_number = $anton->get_session('po_number');
+                        echo "<script>editPoTrans('$po_number')</script>";
                     }
                 endif; ?>
 

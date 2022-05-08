@@ -25,7 +25,7 @@ function row_count(table,condition = 'none') {
         }
     );
 
-    return result;
+    return parseInt(result);
 
 }
 
@@ -114,6 +114,7 @@ function insert(table,data) {
         }
 
         let query = "INSERT INTO "+ table + " (" + columns + ") values ("+values+")";
+        echo(query)
 
         // prepare ajax submission
         var form_data = {
