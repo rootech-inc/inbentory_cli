@@ -69,7 +69,7 @@ $('#po_search').on('keyup',function (e) {
     {
         // get po value and validate
         po_number = $('#po_search').val()
-        if(row_count('po_hd',"`doc_no` = '"+po_number+"'") === '1')
+        if(row_count('po_hd',"`doc_no` = '"+po_number+"'") === 1)
         {
             // load po in view
             previewPoTrans(po_number)
@@ -381,149 +381,179 @@ function previewPoTrans(po_number) // LOAD PO ITEMS IN FOR PREVIEW IN VIEW MOOD
     let prev;
     let next_po_number;
     let prev_po_number;
-    if (row_count('po_trans', "`parent` = '" + po_number + "'") > 0) {
-        // get po trans items
-        po_items = JSON.parse(
-            get_row('po_trans', "`parent` = '" + po_number + "'")
-        );
-        var sn = 0;
-        for (let i = 0; i < po_items.length; i++) {
 
-            sn += 1
-            this_entery = po_items[i];
+    // approve not approved
+    var status = po_header.status
+    if(status === 1)
+    {
+        /*
+        * approved
+        * disable edit
+        * disable approved
+        * show approved
+        * */
+        arr_disable('approve_button,edit_button,delete_button')
+        $('#document_stat').text("Approved")
+        $('#document_stat').removeClass('text-muted text-danger')
+        $('#document_stat').addClass('text-success')
+        $('#approved_msg').html(
+            po_header.approved_by + " <i class=\"fas fa-user\"></i><br>"
+            + po_header.approved_on + " <i class='fas fa-calendar-check'></i>"
+        )
+        echo("###### Approved")
+    }
+    else if(status === -1)
+    {
+        /*
+        * DELETED
+        * */
+        arr_disable('approve_button,edit_button,delete_button')
 
-            item_code = this_entery.item_code;
-            item_desc = this_entery.item_description;
-            item_packagin = this_entery.packing;
-            item_qty = this_entery.qty;
-            item_cost = this_entery.cost;
-            item_total_cost = this_entery.total_cost;
+        $('#document_stat').text("Deleted")
+        $('#document_stat').removeClass('text-muted text-success')
+        $('#document_stat').addClass('text-danger')
+        $('#approved_msg').html(
+            po_header.approved_by + " <i class=\"fas fa-user\"></i><br>"
+            + po_header.approved_on + " <i class='fas fa-calendar-check'></i>"
+        )
+        echo("###### Deleted")
+    }
+    else if (status === 0)
+    {
+        /*
+        * not approved
+        * enable approved
+        * show not approved
+        * */
+        arr_enable('approve_button,edit_button,delete_button')
+        $('#document_stat').text("Pending")
+        $('#document_stat').removeClass('text-success text-danger')
+        $('#document_stat').addClass('text-muted')
+        $('#approved_msg').text('')
 
-            po_total_amount += parseInt(item_total_cost)
+        echo("##### Not Approved")
+    }
 
-            // get packing for each item
-            this_packing = JSON.parse(
-                get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
+    // check if po is deleted
+    echo(status)
+    $('#po_items_list').html('')
+    if(status !== -1)
+    {
+        // load po trans
+        if (row_count('po_trans', "`parent` = '" + po_number + "'") > 0) {
+            // get po trans items
+            po_items = JSON.parse(
+                get_row('po_trans', "`parent` = '" + po_number + "'")
             );
-            pack_id = this_packing[0].pack_id;
-            x_pack_desc = this_packing.packing
-            pack_desc = JSON.parse(
-                get_row('packaging', "`id` = '" + pack_id + "'")
-            )[0].desc;
-            pac_qty = this_packing[0].qty
-            echo(pac_qty)
+            var sn = 0;
+            for (let i = 0; i < po_items.length; i++) {
 
-            // set ids
-            let item_code_id = "itemCode_" + i.toString();
-            let item_desc_id = "itemDesc_" + i.toString();
-            let item_pack_id = "itemPack_" + i.toString();
-            let item_packing_id = "itemPacking_" + i.toString();
-            let item_qty_id = "itemQty_" + i.toString();
-            let item_cost_id = "itemCost_" + i.toString();
-            let item_amount_id = "itemAmount_" + i.toString();
+                sn += 1
+                this_entery = po_items[i];
 
-            t_row += "<tr>" +
-                "<td>" + sn + "</td>" +
-                "<td>" + item_code + "</td>" +
-                "<td>" + item_desc + "</td>" +
-                "<td>" + pack_desc + "</td>" +
-                "<td>" + item_packagin + "</td>" +
-                "<td>" + item_qty + "</td>" +
-                "<td>" + item_cost + "</td>" +
-                "<td>" + item_total_cost + "</td>" +
-                "</tr>";
+                item_code = this_entery.item_code;
+                item_desc = this_entery.item_description;
+                item_packagin = this_entery.packing;
+                item_qty = this_entery.qty;
+                item_cost = this_entery.cost;
+                item_total_cost = this_entery.total_cost;
 
-        }
+                po_total_amount += parseInt(item_total_cost)
 
-        $('#po_items_list').html(t_row)
-        $('#total_amount').val(po_total_amount.toFixed(2))
+                // get packing for each item
+                this_packing = JSON.parse(
+                    get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
+                );
+                pack_id = this_packing[0].pack_id;
+                x_pack_desc = this_packing.packing
+                pack_desc = JSON.parse(
+                    get_row('packaging', "`id` = '" + pack_id + "'")
+                )[0].desc;
+                pac_qty = this_packing[0].qty
+                echo(pac_qty)
 
-        // check if there is more po
-        po_hd_id = po_header.id
-        next = row_count('po_hd', "`id` > '" + po_hd_id + "'")
-        prev = row_count('po_hd', "`id` < '" + po_hd_id + "'")
+                // set ids
+                let item_code_id = "itemCode_" + i.toString();
+                let item_desc_id = "itemDesc_" + i.toString();
+                let item_pack_id = "itemPack_" + i.toString();
+                let item_packing_id = "itemPacking_" + i.toString();
+                let item_qty_id = "itemQty_" + i.toString();
+                let item_cost_id = "itemCost_" + i.toString();
+                let item_amount_id = "itemAmount_" + i.toString();
 
+                t_row += "<tr>" +
+                    "<td>" + sn + "</td>" +
+                    "<td>" + item_code + "</td>" +
+                    "<td>" + item_desc + "</td>" +
+                    "<td>" + pack_desc + "</td>" +
+                    "<td>" + item_packagin + "</td>" +
+                    "<td>" + item_qty + "</td>" +
+                    "<td>" + item_cost + "</td>" +
+                    "<td>" + item_total_cost + "</td>" +
+                    "</tr>";
 
-        if (next > 0) // if there is next
-        {
+            }
 
-            // get next po number
-            next_po_number = JSON.parse(
-                get_row('po_hd', "`id` > '" + po_hd_id + " LIMIT 1'")
-            )[0].doc_no
+            $('#po_items_list').html(t_row)
+            $('#total_amount').val(po_total_amount.toFixed(2))
 
-            $('#sort_right').val(next_po_number)
-
-            // enable next
-            arr_enable('sort_right')
 
         }
         else
         {
-            //disable next button
-            arr_disable('sort_right')
+            $('#po_items_list').html("NO PO TRANS ITEMS")
+            echo("no po item")
         }
-
-        if (prev > 0) // if there is prev
-        {
-
-            // get next po number
-            prev_po_number = JSON.parse(
-                get_row('po_hd', "`id` < '" + po_hd_id + " order by `id` desc LIMIT 1'")
-            )[0].doc_no
-
-            echo("###### previous : " + prev_po_number)
-
-            $('#sort_left').val(prev_po_number)
-
-            // enable next
-            arr_enable('sort_left')
-
-        }
-        else {
-            //disable next button
-            arr_disable('sort_left')
-        }
-
-        // approve not approved
-        var approved = po_header.status
-        if(approved === 1)
-        {
-            /*
-            * approved
-            * disable edit
-            * disable approved
-            * show approved
-            * */
-            arr_disable('approve_button,edit_button,delete_button')
-            $('#approved_container').removeClass('text-muted')
-            $('#approved_container').addClass('text-success')
-            $('#approved_msg').html(
-                po_header.approved_by + " <i class=\"fas fa-user\"></i><br>"
-                + po_header.approved_on + " <i class='fas fa-calendar-check'></i>"
-            )
-            echo("###### Approved")
-        }
-        else if (approved === 0)
-        {
-            /*
-            * not approved
-            * enable approved
-            * show not approved
-            * */
-            arr_enable('approve_button,edit_button,delete_button')
-            $('#approved_container').removeClass('text-success')
-            $('#approved_container').addClass('text-muted')
-            $('#approved_msg').text('Pending Approval')
-
-            echo("##### Not Approved")
-        }
-        echo(approved)
-
-    } else {
-        $('#po_items_list').html("Add Item to list")
-        echo("no po item")
     }
+
+    // check if there is more po
+    po_hd_id = po_header.id
+    next = row_count('po_hd', "`id` > '" + po_hd_id + "'")
+    prev = row_count('po_hd', "`id` < '" + po_hd_id + "'")
+
+    if (next > 0) // if there is next
+    {
+
+        // get next po number
+        next_po_number = JSON.parse(
+            get_row('po_hd', "`id` > '" + po_hd_id + " LIMIT 1'")
+        )[0].doc_no
+
+        $('#sort_right').val(next_po_number)
+
+        // enable next
+        arr_enable('sort_right')
+
+    }
+    else
+    {
+        //disable next button
+        arr_disable('sort_right')
+    }
+
+    if (prev > 0) // if there is prev
+    {
+
+        // get next po number
+        prev_po_number = JSON.parse(
+            get_row('po_hd', "`id` < " + po_hd_id + " order by `id` desc LIMIT 1")
+        )[0].doc_no
+
+        echo("###### previous : " + prev_po_number)
+
+        $('#sort_left').val(prev_po_number)
+
+        // enable next
+        arr_enable('sort_left')
+
+    }
+    else {
+        //disable next button
+        arr_disable('sort_left')
+    }
+
+
+
 
 }
 
@@ -742,6 +772,7 @@ function getPoLocation(location) // get location selected
 
         echo(loc_desc)
         $('#location_desc').text(loc_desc)
+        set_new_po_remarks()
 
     } else {
         swal_error("Cannot find location")
@@ -803,3 +834,61 @@ function approve_po() // approve po
     }
 }
 
+function delete_po() // delete po
+{
+    Swal.fire({
+        title: "Are you sure you want to delete document?",
+        icon: 'info',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Yes',
+        denyButtonText: `No`,
+    }).then((result) => {
+        if (result.isConfirmed)
+        {
+            // get po number
+            var po_number = $("#po_number").text()
+
+
+            // comfirm if po exist
+            if(row_count('po_hd',"`doc_no` = '"+po_number+"'") === 1)
+            {
+                echo("Document Found")
+                // marke all po_trans as deleted
+                let my_user_name = $('#my_user_name').val();
+                var update_trans_query = "UPDATE `po_trans` SET `status` = -1 where `parent` = '"+po_number+"'";
+                var update_hd_query = "UPDATE `po_hd` SET `status` = -1 , `approved_by` = '"+my_user_name+"',`approved_on` = '"+current_time_stamp+"' where `doc_no` = '"+po_number+"'";
+
+                exec(update_trans_query)
+                exec(update_hd_query)
+                error_handler('done%%done_reload')
+            }
+            else
+            {
+                swal_error("Can't find document " + po_number)
+            }
+        }
+        else
+        {
+            echo("Canceled Deletion")
+        }
+
+    })
+}
+
+
+function set_new_po_remarks()
+{
+    var location = $('#location_desc').text()
+    var supp_id = $('#supplier').val()
+    var supp_desc = "";
+    if(row_count('supp_mast',"`supp_id` = '"+supp_id+"'") === 1)
+    {
+        supp_desc = JSON.parse(
+            get_row('supp_mast',"`supp_id` = '"+supp_id+"'")
+        )[0].supp_name
+    }
+
+    $('#remarks').val("Purchase from "+supp_desc+" and delivered to " +location)
+
+}

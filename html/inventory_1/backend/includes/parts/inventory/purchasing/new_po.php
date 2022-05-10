@@ -99,7 +99,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Supplier</p>
                         </div>
-                        <select name="supplier" class="prod_inp_view" id="supplier">
+                        <select onchange="set_new_po_remarks()" name="supplier" class="prod_inp_view" id="supplier">
                             <option value="0" selected>Select Supplier</option>
                             <?php
                                 while ($supp = $suppliers->fetch(PDO::FETCH_ASSOC))
@@ -122,11 +122,11 @@
                     </div>
 
                     <!--Description-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                    <div class="w-100 d-flex flex-wrap prod_inp_container" style="overflow: visible !important;">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <input class="prod_inp_view" id="remarks" name="remarks">
+                        <textarea class="w-60 form-control form-control-sm bg-info" id="remarks" name="remarks" rows="2"></textarea>
                     </div>
 
                 </div>

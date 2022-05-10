@@ -68,7 +68,7 @@ function get_row(table,condition) {
             success: function (response)
             {
                 result = response;
-                echo("SELECT * FROM " + table + " WHERE " + condition.toString())
+                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
 
             }
         }

@@ -45,7 +45,7 @@
                 </button>
 
                 <!--DELETE-->
-                <button id="delete_button" onclick="gen_modal('delete_product')" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button id="delete_button" onclick="delete_po()" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/delete_document.png"
                             class="img-fluid"
@@ -162,6 +162,8 @@
                         <div class="prod_inp_view" id="remarks"></div>
                     </div>
 
+                    <i id="document_stat" class="">Pending</i>
+
 
 
                 </div>
@@ -209,7 +211,7 @@
                     </div>
 
                     <!-- APPROVE INFO -->
-                    <div id="approved_container" class="text-right"><i id="approved_msg">Not Approved</i></div>
+                    <div id="approved_container" class="text-info text-right"><i id="approved_msg">Not Approved</i></div>
 
                 </div>
 
@@ -232,24 +234,7 @@
                         </tr>
                     </thead>
                     <tbody id="po_items_list">
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
-                        <tr>
-                            <td>1000101</td><td>Test Item</td><td>PCS</td><td>1</td><td>100.00</td><td>100.00</td>
-                        </tr>
+
                     </tbody>
                 </table>
 

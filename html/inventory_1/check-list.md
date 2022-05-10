@@ -47,5 +47,5 @@
          - If PO is approved through error issues
     - [x] Search Purchase Order
     - [x] PO Navigation
-    - [ ] Approve PO
-    - [ ] Delete PO
+    - [x] Approve PO
+    - [x] Delete PO

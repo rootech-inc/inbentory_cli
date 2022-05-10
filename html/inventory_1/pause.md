@@ -1,1 +1,1 @@
-saving po does not update po_trans parent
+making grn from po

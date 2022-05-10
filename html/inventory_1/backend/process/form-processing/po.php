@@ -14,6 +14,7 @@
 
 
 
+
         if($db->row_count('loc',"`loc_id` = '$location'") != 1) // check location
         {
             $anton->err('Select Location');
@@ -57,11 +58,11 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
 
             // update po item
             $db->db_connect()->query(
-                "UPDATE po_trans SET `parent` = '$po_number' where `date_added` = '$today' AND `owner` = '$myName' AND `item_code` = '$item_code'"
+                "UPDATE po_trans SET `parent` = '$po_number' where `date_added` = '$today' AND `owner` = '$myName' AND `barcode` = '$item_code' AND `parent` is null"
             );
         }
         $anton->set_session(['action=view']);
-        $anton->done("PO Created with number $po_number");
+        $anton->done("done_reload");
 
         //print_r($_POST);
 
