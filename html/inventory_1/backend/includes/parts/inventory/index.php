@@ -19,6 +19,7 @@
                             <button onclick="set_session(['sub_module=products','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Products</p></button>
                             <button onclick="set_session(['sub_module=purchasing','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Purchasing</p></button>
                             <button onclick="set_session(['sub_module=receiving','action=view'])" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Receive</p></button>
+                            <button onclick="download_products()" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Download</p></button>
                         </article>
 
                     </div>
@@ -151,8 +152,7 @@
 
                 <?php endif; ?>
 
-                <?php
-                    if($sub_module === 'purchasing'):
+                <?php if($sub_module === 'purchasing'):
                     {
                         if($action === 'view')
                         {
@@ -194,6 +194,62 @@
                     {
                         echo "<script>loadPoTrans()</script>";
                     } elseif ($action === 'view')
+                    {
+
+                        echo "<script>previewPoTrans('$po_number')</script>";
+                    } elseif ($action === 'edit')
+                    {
+                        $po_number = $anton->get_session('po_number');
+                        echo "<script>editPoTrans('$po_number')</script>";
+                    }
+                endif; ?>
+
+                <?php if($sub_module === 'receiving'):
+                    {
+                        if($action === 'view')
+                        {
+                            # check if there is po
+                            $grn_count = $db->row_count('grn_hd',"none");
+                            if($grn_count > 0)
+                            {
+                                // get first po
+                                $grn_sql = $db->db_connect()->query("SELECT * FROM `grn_hd` order by id desc LIMIT 1");
+                                $grn_res = $grn_sql->fetch(PDO::FETCH_ASSOC);
+
+                                $grn_id = $grn_res['id'];
+                                $grn_number = $grn_res['doc_no'];
+                            }
+                            else{
+                                $anton->set_session(['action=new']);
+                                echo "<script>location.reload()</script>";
+                            }
+                            // view purchasing order
+                            require 'backend/includes/parts/inventory/purchasing/view_po.php';
+                        }
+
+                        elseif ($action === 'new'){ // new purchasing order
+
+                            require 'backend/includes/parts/inventory/receiving/new.php';
+                        }
+
+                        elseif ($action === 'edit'){ // new purchasing order
+
+                            require 'backend/includes/parts/inventory/purchasing/edit_po.php';
+                        }
+                    }
+                    ?>
+                    <script src="js/grn.js"></script>
+
+                    <?php
+                    if($action === 'new' && $sub_module === 'purchasing')
+                    {
+                        echo "<script>loadPoTrans()</script>";
+                    }
+                    if($action === 'new' && $sub_module === 'receiving')
+                    {
+//                        echo "<script>loadPoTrans()</script>";
+                    }
+                    elseif ($action === 'view')
                     {
 
                         echo "<script>previewPoTrans('$po_number')</script>";

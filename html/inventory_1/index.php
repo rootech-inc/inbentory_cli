@@ -17,7 +17,7 @@ error_reporting(E_ALL);
     <link rel="stylesheet" href="css/anton.css">
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="css/keyboard.css">
-    <link rel="icon" type="image/x-icon" href="/assets/logo/logo.ico">
+    <link rel="icon" type="image/png" href="/assets/logo/logo.ico">
 
 
     <script src="js/jquery.min.js"></script>
@@ -332,7 +332,7 @@ error_reporting(E_ALL);
                 }
                 elseif ($module === 'billing'){
                     // get categories
-                    $item_groups = $db->db_connect()->query("SELECT * from `item_group`");
+                    $item_groups = $db->db_connect()->query("SELECT * from `item_buttons`");
 
 
                     // include billing

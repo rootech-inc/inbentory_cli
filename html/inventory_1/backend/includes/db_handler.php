@@ -365,6 +365,30 @@ class db_handler extends anton
 
     }
 
+    ### GRN FUNCTIONS ###
 
+    function grn_list_item($query_details,$supplier)
+    {
+        if(strlen($query_details) < 1)
+        {
+            // return error
+            return $this->return_error();
+
+        } else {
+            // search for item and return result as array
+            $sql = "SELECT * FROM `prod_master` WHERE `item_code` like '%$query_details%' OR item_desc like '%$query_details%' OR barcode like '%$query_details%' AND supplier = '$supplier'";
+//            echo $sql;
+            $query =  $this->db_connect()->query($sql);
+            $rows = $this->row_count('prod_master',"`item_code` like '%$query_details%' OR item_desc like '%$query_details%' OR barcode like '%$query_details%' AND supplier = '$supplier'");
+            if($rows > 0 )
+            {
+                header('Content-Type: application/json');
+                $res = $query->fetchAll(PDO::FETCH_ASSOC);
+                return json_encode($res);
+            }
+        }
+    }
+
+    ### GRN FUNCTIONS ###
 
 }

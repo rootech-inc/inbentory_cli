@@ -13,6 +13,16 @@ const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":
 
 
 //
+function recursiveEach($element){
+    $element.children().each(function () {
+        var $currentElement = $(this);
+        // Show element
+        console.info($currentElement[0]);
+
+        // Loop her children
+        recursiveEach($currentElement);
+    });
+}
 
 var form_data;
 var form_process = "/backend/process/form_process.php";
@@ -49,7 +59,7 @@ function swal_error(message = 'there is an error')
 {
     Swal.fire({
         icon: 'error',
-        text: message,
+        html: "<p>"+message+"</p>",
     })
 }
 
@@ -596,6 +606,7 @@ function get_bill()
                     {
                         var disable_list = "cash_payment,momo_payment";
                         arr_disable(disable_list);
+
 
                     }
 
@@ -1214,8 +1225,37 @@ function gen_modal(params,title='Not Set',content = 'none') {
             break;
 
         case 'select_item_for_po':
-
             break;
+
+        case 'ret_po_for_grn':
+            $('.modal-title').text('Retrieve Purchase Order'); // set modal title
+            $('.modal-dialog').addClass('modal-lg');
+
+            //get all approved po
+            var all_app_po = JSON.parse(
+                get_row('po_hd',"`status` = 1")
+            );
+            let app_po;
+            let app_po_number;
+            let grn_exist;
+            for (let i = 0; i < all_app_po.length; i++) {
+                app_po = all_app_po[i]
+                app_po_number = app_po.doc_no // po number
+
+                // check if there is grn for this po
+                grn_exist = row_count('grn_hd', "`po_number` = '"+app_po_number+"'")
+                if(grn_exist === 0)
+                {
+                    // grn not made
+
+                }
+
+            }
+
+            $('#grn_modal_res').html("Hllo World");
+            show_modal('gen_modal')
+            show_modal('gen_modal')
+            break
 
         default:
             break;
@@ -1383,4 +1423,175 @@ function windowPopUp(url, title, w, h)
     reAssignWindow.focus();
 }
 
+function set_value(id,val) {
+    $("#"+id.toString()).val(val)
+}
 
+function set_text(id,val) {
+    $("#"+id.toString()).text(val)
+}
+
+function tax_input(inv_amt,tax_cls)
+{
+    // prepare and send data to server through ajax
+    var post_data = {
+        'function':'get_input_tax',
+        'invoice_value':inv_amt,
+        'tax_class':tax_cls
+    }
+
+    var result = 0;
+
+    $.ajax({
+        url:'backend/process/ajax_tools.php',
+        'async': false,
+        'type': "POST",
+        'global': false,
+        'dataType': 'html',
+        data: post_data,
+        success: function (response)
+        {
+            echo(response)
+            result = response
+        }
+    });
+
+    return result;
+
+}
+
+
+function download_products() // download products
+{
+    swal.fire("Downloading.....")
+    // delete all and download al buttons
+    exec("DELETE FROM item_buttons");
+    // download item buttons
+    var item_groups = JSON.parse(
+        get_row('item_group', "`id` > 0")
+    );
+    echo(item_groups)
+    for (let b = 0; b < item_groups.length; b++) {
+        var button = item_groups[b];
+
+        // get index (id) and short description
+        var index = button.id;
+        var description = button.shrt_name
+
+        // check if group has item
+        if(row_count('prod_master',"`group` = '"+index+"'") > 0 )
+        {
+            var data = {
+                'cols': ['button_index', 'description'],
+                'vars': [index, description]
+            }
+
+            insert('item_buttons', data)
+        }
+
+
+
+    }
+
+    // delete all items
+    exec("DELETE FROM prod_mast");
+    // download item buttons
+    var items = JSON.parse(
+        get_row('prod_master', "`item_code` > 0")
+    );
+
+    for (let i = 0; i < items.length; i++) {
+        var item = items[i];
+
+        // get index (id) and short description
+        let item_id, uni, group, sub_group, barcode, desc, cost, retail, tax_grp, packing, discount, discount_rate,
+            stock_type;
+
+        item_id = item.item_code
+        uni = item.item_uni;
+        group = item.group
+        sub_group = item.sub_group;
+        barcode = item.barcode;
+        desc = item.item_desc
+        cost = item.cost;
+        retail = item.retail
+        tax_grp = item.tax
+        packing = item.packing;
+        stock_type = item.stock_type
+
+
+        var data = {
+            'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp'],
+            'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group]
+        }
+
+        insert('prod_mast', data)
+
+    }
+
+    swal.fire("Downloading Complete")
+}
+
+function new_line(doc,item_code)
+{
+    let body = '#po_items_list', tr = '';
+    let item_detail;
+    let item_in_list = 'no';
+
+
+
+    if (doc === 'grn') {
+        item_detail = JSON.parse(
+            get_row('prod_master',"`item_code` = '"+item_code+"'")
+        )[0]
+
+        let sn = $('#po_items_list tr').length + 1
+        let barcode = item_detail.barcode
+        let description = item_detail.item_desc;
+        let pack_id = 0;
+        let packing = 0;
+        let qty = 0;
+        let tax_amount = 0;
+        let net_amount = 0;
+        let price = 0;
+        let total_amt = 0;
+        let this_cost = 0;
+        let retail = 0;
+
+        // ids
+        let tr_id = 'row_'+item_code.toString();
+        let price_id = 'price_'+sn.toString();
+        let qty_id = "qty_"+sn.toString();
+        let total_id = 'total_'+sn.toString();
+
+        if($("#"+tr_id).length > 0 )
+        {
+            var line = $("#"+tr_id).find("td:first").text()
+            swal_error("Item Exist in list on line " + line)
+            item_in_list = 'yes'
+        }
+
+        tr += "<tr id='" + tr_id + "'>\n" +
+            "                            <td class='text_xs'><input type='hidden' name='item_code[]' value='"+item_code+"'>" + sn + "</td>\n" +
+            "                             <td class='text_xs'>" + barcode + "</td>\n" +
+            "                            <td class='text_xs'>" + description + "</td>\n" +
+            "                            <td class='text_xs'>" + pack_id + "</td>\n" +
+            "                            <td class='text_xs'>" + packing + "</td>\n" +
+            "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'></td>\n" +
+            "                            <td class='text_xs'>" + tax_amount + "</td>\n" +
+            "                            <td class='text_xs'>" + net_amount + "</td>\n" +
+            "                            <td class='text_xs'><input type='number' class='grn_nums' name='cost[]' value='" + this_cost + "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' class='grn_nums' name='retail[]' value='" + retail + "'></td>\n" +
+            "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
+            "                        </tr>";
+
+
+        if(item_in_list === 'no')
+        {
+            $(body).append(tr)
+        }
+    }
+
+}

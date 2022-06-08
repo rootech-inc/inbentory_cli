@@ -10,8 +10,11 @@
     // initialize classes
     require 'anton.php';
     require 'db_handler.php';
+    require 'tax_calculator.php';
     $anton = new anton();
     $db = new db_handler();
+    $taxCalc = new tax_calculator();
+
     $today = date('Y-m-d');
     $current_time = date("Y-m-d H:m:s");
     $machine_number = $db->machine_number();

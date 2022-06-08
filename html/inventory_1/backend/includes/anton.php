@@ -74,6 +74,11 @@ class anton extends FPDF
         exit();
     }
 
+    function return_error($message = ''): string
+    {
+        return "error%%$message";
+    }
+
     public function not_session($variable,$value)
     {
         if(!isset($_SESSION["$variable"]))

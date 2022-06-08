@@ -159,6 +159,7 @@ function addToPoTrans(item_code) // ADD NEW PO ITEM IN CREATION MOOD
         )[0]
         var package_description = item_packing.pack_desc
         var pack_id_id = item_packing.pack_id
+        var pack_um = item_packing.qty
 
 
 
@@ -170,8 +171,8 @@ function addToPoTrans(item_code) // ADD NEW PO ITEM IN CREATION MOOD
         echo(pack_id_desc)
 
         x_data = {
-            'cols': ['item_code','barcode','item_description',`owner`,`packing`,`pack_desc`],
-            'vars': [item_code,barcode,item_desc,my_user_name,package_description,pack_id_desc]
+            'cols': ['item_code','barcode','item_description','owner','packing','pack_desc','pack_um'],
+            'vars': [item_code,barcode,item_desc,my_user_name,package_description,pack_id_desc,pack_um]
         }
 
 
@@ -215,6 +216,7 @@ function appendToPoTrans(item_code,po_number) // ADD NEW PO ITEM IN EDIT MOOD
         )[0]
         var package_description = item_packing.pack_desc
         var pack_id_id = item_packing.pack_id
+        var pack_um = item_packing.qty
 
 
 
@@ -226,15 +228,15 @@ function appendToPoTrans(item_code,po_number) // ADD NEW PO ITEM IN EDIT MOOD
         echo(pack_id_desc)
 
         x_data = {
-            'cols': ['item_code','barcode','item_description',`owner`,`parent`,`packing`,`pack_desc`],
-            'vars': [item_code,barcode,item_desc,my_user_name,po_number,package_description,pack_id_desc]
+            'cols': ['item_code','barcode','item_description',`owner`,'parent','packing','pack_desc','pack_um'],
+            'vars': [item_code,barcode,item_desc,my_user_name,po_number,package_description,pack_id_desc,pack_um]
         }
 
 
         if(insert('po_trans', x_data) == 1)
         {
             // inserted
-            loadPoTrans()
+            editPoTrans(po_number)
 
         } else
         {
@@ -393,6 +395,7 @@ function previewPoTrans(po_number) // LOAD PO ITEMS IN FOR PREVIEW IN VIEW MOOD
         * show approved
         * */
         arr_disable('approve_button,edit_button,delete_button')
+        arr_enable('print_po')
         $('#document_stat').text("Approved")
         $('#document_stat').removeClass('text-muted text-danger')
         $('#document_stat').addClass('text-success')
@@ -695,7 +698,8 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
 
 
 
-    } else {
+    }
+    else {
         $('#po_items_list').html("Add Item to list")
         echo("no po item")
     }

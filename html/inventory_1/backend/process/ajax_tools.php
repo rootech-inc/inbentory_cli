@@ -50,5 +50,16 @@
                     echo $e->getMessage();
                 }
             }
+
+            elseif ($function === 'get_input_tax')
+            {
+
+                $invoice_value = $anton->post('invoice_value');
+                $tax_class = $anton->post('tax_class');
+                $tax_trigger = $tax_class."($invoice_value)";
+                $tax_return = $taxCalc->tax_input($invoice_value,$tax_class);
+
+                echo $tax_return;
+            }
         }
     }

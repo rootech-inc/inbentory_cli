@@ -62,16 +62,16 @@
                             <div id="category" class="h-80 w-100 d-flex flex-wrap justify-content-center overflow-hidden align-content-start border">
 
                                 <?php while ($group = $item_groups->fetch(PDO::FETCH_ASSOC)):
-                                    $uni = $group['grp_uni'];
+                                    $grp_id = $group['button_index'];
                                     ?>
-                                    <button onclick="change_category('<?php echo $uni ?>')" class="<?php if($anton->get_session('current_group') == $uni){echo 'cat_button_active';} else {echo 'cat_button';} ?> btn text-center shadow m-2">
+                                    <button onclick="change_category('<?php echo $grp_id ?>')" class="<?php if($anton->get_session('current_group') == $grp_id){echo 'cat_button_active';} else {echo 'cat_button';} ?> btn text-center shadow m-2">
                                     <img
                                         style="height: 45px; width: 45px;"
                                         class="img-fluid"
                                         src="../assets/icons/home/category_image.png"
                                     >
     
-                                    <p class="m-0 text-elipse p-0"><?php echo $group['group_name'] ?></p>
+                                    <p class="m-0 text-elipse p-0"><?php echo $group['description'] ?></p>
     
                                 </button>
                                 <?php endwhile; ?>
@@ -210,7 +210,7 @@
                                     <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         LKUP
                                     </button>
-                                    <button id="recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
+                                    <button id="recall" onclick="recall_bill('token')" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>
                                     <button id="discount" disabled

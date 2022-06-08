@@ -21,15 +21,19 @@
 
 
                 // check if group exist
-                if($db->row_count('item_group',"`grp_uni` = '$group'") > 0)
+                if($db->row_count('item_buttons',"`button_index` = '$group'") > 0)
                 {
-                    $grp_id = $db->get_rows('item_group',"`grp_uni` = '$group'")['id'];
+                    $grp_id = $db->get_rows('item_buttons',"`button_index` = '$group'")['button_index'];
+
 
                     if($db->row_count('prod_mast',"`item_grp` = '$grp_id'") > 0)
                     {
                         // get items
                         $items = '';
-                        $items_sql = $db->db_connect()->query("SELECT * FROM `prod_mast` WHERE `item_grp` = '$grp_id' order by `desc` ASC");
+                        $sql = "SELECT * FROM `prod_mast` WHERE `item_grp` = '$grp_id' order by `desc` ASC";
+
+
+                        $items_sql = $db->db_connect()->query($sql);
                         while ($item = $items_sql->fetch(PDO::FETCH_ASSOC))
                         {
                             $name = $item['desc'];
@@ -71,8 +75,8 @@
                     {
                         $items = "
                             <div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>
-                            <p class='enc'>No Item</p>
-</div>
+                                <p class='enc'>No Item</p>
+                            </div>
                         ";
                         $anton->done($items);
                     }
@@ -368,6 +372,8 @@
                     {
                         $barcode = $item['item_barcode'];
                         $item_qty = $item['item_qty'];
+//                        print_r($barcode);
+//                        die();
 
                         // insert into bill
                         $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
