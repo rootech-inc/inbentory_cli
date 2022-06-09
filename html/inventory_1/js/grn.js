@@ -380,13 +380,43 @@ $(document).ready(function (){
             cl("Line " + sn + " has " + qty + " item in quantity")
         }
 
-        if(error > 0)
+        // check if location exist
+        var loc_id = $('#loc_id').val();
+        if(row_count('loc',"`loc_id` = '"+loc_id+"'") !== 1)
         {
-            swal_error("There are "+error+" error(s) in item list " + error_log)
-        } else
+            error += 1;
+            error_log += "Location Does Not Exist";
+        }
+
+        // check supplier
+        var supp_id = $('#supp_id').val();
+        if(row_count('supp_mast',"`supp_id` = '"+supp_id+"'") !== 1)
+        {
+            error += 1;
+            error_log += "Suppler Does Not Exist";
+        }
+
+        // check if grn exist
+        var ref_doc = $('#ref_doc').val();
+        if(row_count('grn_hd',"`po_number` = '"+ref_doc+"'") > 0)
+        {
+            error += 1;
+            error_log += "GRN Made for PO";
+        }
+
+        //TODO:: Applying tax
+
+        if(error === 1)
+        {
+            swal_error("There is "+error+" error " + error_log)
+        } else if (error > 1)
+        {
+            swal_error("There are "+error+" error(s) " + error_log)
+        }
+        else
         {
             // submit form
-            swal_error("Form Pass")
+            $('#general_form').submit()
         }
 
     });
