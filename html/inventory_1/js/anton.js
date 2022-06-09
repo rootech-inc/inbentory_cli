@@ -1542,37 +1542,51 @@ function new_line(doc,item_code)
 
     if (doc === 'grn') {
         item_detail = JSON.parse(
-            get_row('prod_master',"`item_code` = '"+item_code+"'")
+            get_row('prod_master', "`item_code` = '" + item_code + "'")
         )[0]
+
+        cl(JSON.stringify(item_detail))
 
         let sn = $('#po_items_list tr').length + 1
         let barcode = item_detail.barcode
         let description = item_detail.item_desc;
-        let pack_id = 0;
-        let packing = 0;
+        // getting pack id
+        var prod_packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = 2"))[0]
+        let pack_pk = prod_packing.pack_id;
+        var pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack_pk + "'"))[0].desc
+        let packing = prod_packing.pack_desc;
+
         let qty = 0;
         let tax_amount = 0;
         let net_amount = 0;
         let price = 0;
         let total_amt = 0;
-        let this_cost = 0;
-        let retail = 0;
+        let this_cost = item_detail.cost;
+        let retail = item_detail.retail;
 
         // ids
-        let tr_id = 'row_'+item_code.toString();
-        let price_id = 'price_'+sn.toString();
-        let qty_id = "qty_"+sn.toString();
-        let total_id = 'total_'+sn.toString();
+        let tr_id = 'row_' + item_code.toString();
+        let price_id = 'price_' + sn.toString();
+        let qty_id = "qty_" + sn.toString();
+        let total_id = 'total_' + sn.toString();
+        let cost_id = 'cost_' + sn.toString()
+        let retail_id = 'retail_' + sn.toString()
+        let code_id = 'code_id_' + sn.toString()
+        let net_id = 'net_' + sn.toString()
 
-        if($("#"+tr_id).length > 0 )
-        {
-            var line = $("#"+tr_id).find("td:first").text()
+        if ($("#" + tr_id).length > 0) {
+            var line = $("#" + tr_id).find("td:first").text()
             swal_error("Item Exist in list on line " + line)
             item_in_list = 'yes'
         }
+        let retail_bg = '';
+        if (this_cost >= retail) {
+            // danger
+            retail_bg = 'bg-danger'
+        }
 
         tr += "<tr id='" + tr_id + "'>\n" +
-            "                            <td class='text_xs'><input type='hidden' name='item_code[]' value='"+item_code+"'>" + sn + "</td>\n" +
+            "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
             "                             <td class='text_xs'>" + barcode + "</td>\n" +
             "                            <td class='text_xs'>" + description + "</td>\n" +
             "                            <td class='text_xs'>" + pack_id + "</td>\n" +
@@ -1581,15 +1595,14 @@ function new_line(doc,item_code)
             "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
             "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'></td>\n" +
             "                            <td class='text_xs'>" + tax_amount + "</td>\n" +
-            "                            <td class='text_xs'>" + net_amount + "</td>\n" +
-            "                            <td class='text_xs'><input type='number' class='grn_nums' name='cost[]' value='" + this_cost + "'></td>\n" +
-            "                            <td class='text_xs'><input type='number' class='grn_nums' name='retail[]' value='" + retail + "'></td>\n" +
+            "                            <td class='text_xs' id='" + net_id + "'> " + net_amount + "</td>\n" +
+            "                            <td class='text_xs'><input type='number' id='" + cost_id + "' onkeyup=\"grn_list_calc(" + sn + ")\" class='grn_nums' name='cost[]' value='" + this_cost + "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' id='" + retail_id + "' onkeyup=\"grn_list_calc(" + sn + ")\" class='grn_nums " + retail_bg + "' name='retail[]' value='" + retail + "'></td>\n" +
             "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
             "                        </tr>";
 
 
-        if(item_in_list === 'no')
-        {
+        if (item_in_list === 'no') {
             $(body).append(tr)
         }
     }

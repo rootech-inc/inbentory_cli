@@ -25,7 +25,7 @@
                 </button>
 
                 <!--ADD-->
-                <button type="submit" form="general_form" title="Save Document" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button id="save_grn" title="Save Document" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/save_close.png"
                             class="img-fluid"

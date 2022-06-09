@@ -8,6 +8,7 @@ $('#po_search').on('keyup',function (e) // search for po
 {
     let key = e.which, po_number;
     let po_details;
+
     if (key === 13) {
         // get po value and validate
         po_number = $('#po_search').val()
@@ -15,11 +16,9 @@ $('#po_search').on('keyup',function (e) // search for po
         var grn_made = row_count('grn_hd', "`po_number` = '" + po_number + "'")
         if (po_exist === 1) {
 
-            if(grn_made === 1)
-            {
+            if (grn_made === 1) {
                 swal_error("Goods has been received")
-            }
-            else
+            } else
 
 
             if (grn_made === 0) {
@@ -33,19 +32,18 @@ $('#po_search').on('keyup',function (e) // search for po
 
                     // header details
 
-                    var supplier = JSON.parse(get_row('supp_mast',"`supp_id` = '"+po_details.suppler+"'"))[0].supp_name
+                    var supplier = JSON.parse(get_row('supp_mast', "`supp_id` = '" + po_details.suppler + "'"))[0].supp_name
                     var loc = po_details.location
-                    var location_desc = JSON.parse(get_row('loc',"`loc_id` = '"+loc+"'"))[0].loc_desc
-
+                    var location_desc = JSON.parse(get_row('loc', "`loc_id` = '" + loc + "'"))[0].loc_desc
 
 
                     // populate header
-                    set_value('loc_id',loc)
-                    set_text('loc_desc',location_desc)
-                    set_value('supp_id',po_details.suppler)
-                    set_text('supplier',supplier)
-                    set_value('ref_doc',po_number)
-                    set_value('remarks',po_details.remarks)
+                    set_value('loc_id', loc)
+                    set_text('loc_desc', location_desc)
+                    set_value('supp_id', po_details.suppler)
+                    set_text('supplier', supplier)
+                    set_value('ref_doc', po_number)
+                    set_value('remarks', po_details.remarks)
                     arr_enable('tax_grp')
 
                     // get po trans
@@ -61,7 +59,8 @@ $('#po_search').on('keyup',function (e) // search for po
                         var grn_total = 0;
                         for (let t = 0; t < po_trans.length; t++) {
                             var po_tran = po_trans[t]
-                            let item_code,barcode,description,pack_id,packing,qty,price,total_amt,tax_amount,net_amount,retail,pack_um,cost,this_cost;
+                            let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
+                                net_amount, retail, pack_um, cost, this_cost;
                             item_code = po_tran.item_code
                             barcode = po_tran.barcode
                             description = po_tran.item_description
@@ -76,7 +75,7 @@ $('#po_search').on('keyup',function (e) // search for po
                             tax_amount = 0
                             net_amount = total_amt - tax_amount
                             retail = JSON.parse(
-                                get_row('prod_master',"`barcode` = '"+barcode+"'")
+                                get_row('prod_master', "`barcode` = '" + barcode + "'")
                             )[0].retail
 
                             sn++
@@ -85,33 +84,43 @@ $('#po_search').on('keyup',function (e) // search for po
 
 
                             // ids
-                            var qty_id = "qty_"+sn.toString();
-                            var price_id = 'price_'+sn.toString();
-                            var total_id = 'total_'+sn.toString();
-                            var tr_id = 'row_'+item_code.toString();
+                            var qty_id = "qty_" + sn.toString();
+                            var price_id = 'price_' + sn.toString();
+                            var total_id = 'total_' + sn.toString();
+                            var tr_id = 'row_' + item_code.toString();
+                            let cost_id = 'cost_' + sn.toString()
+                            let retail_id = 'retail_' + sn.toString()
+                            let code_id = 'code_id_' + sn.toString()
+                            let net_id = 'net_' + sn.toString()
+
+                            let retail_bg = '';
+                            if (this_cost >= retail) {
+                                // danger
+                                retail_bg = 'bg-danger'
+                            }
 
 
-                            tr += "<tr id='"+tr_id+"'>\n" +
-                                "                            <td class='text_xs'><input type='hidden' name='item_code[]' value='"+item_code+"'>" + sn + "</td>\n" +
+                            tr += "<tr id='" + tr_id + "'>\n" +
+                                "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
                                 "                            <td class='text_xs'>" + barcode + "</td>\n" +
-                                "                            <td class='text_xs'>"+description+"</td>\n" +
-                                "                            <td class='text_xs'>"+pack_id+"</td>\n" +
-                                "                            <td class='text_xs'>"+packing+"</td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc("+sn+")\" name='qty[]' id='"+qty_id+"' class='grn_nums' value='"+qty+"'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc("+sn+")\" name='price[]' id='"+price_id+"' class='grn_nums' value='"+price+"'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='"+total_id+"' class='grn_nums' value='"+total_amt+"'></td>\n" +
-                                "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
-                                "                            <td class='text_xs'>"+net_amount+"</td>\n" +
-                                "                            <td class='text_xs'><input type='number' class='grn_nums' name='cost[]' value='"+this_cost.toFixed(2)+"'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' class='grn_nums' name='retail[]' value='"+retail+"'></td>\n" +
-                                "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\""+description+"\",\"#"+tr_id+"\")'></i></td>" +
+                                "                            <td class='text_xs'>" + description + "</td>\n" +
+                                "                            <td class='text_xs'>" + pack_id + "</td>\n" +
+                                "                            <td class='text_xs'>" + packing + "</td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'></td>\n" +
+                                "                            <td class='text_xs'>" + tax_amount + "</td>\n" +
+                                "                            <td class='text_xs' id='" + net_id + "'>" + net_amount.toFixed(2) + "</td>\n" +
+                                "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
+                                "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
                                 "                        </tr>";
                             echo(sn)
                         }
                         $('#po_items_list').html(tr)
                         // get grn total
                         echo(grn_total)
-                        set_value('total_amount',grn_total.toFixed(2))
+                        set_value('total_amount', grn_total.toFixed(2))
                         arr_enable('new_item')
                         $('#new_item').show()
 
@@ -125,8 +134,6 @@ $('#po_search').on('keyup',function (e) // search for po
                 }
 
             }
-
-
 
 
             // hide po search
@@ -181,37 +188,6 @@ $('#new_grn_item').on('keyup', function (e) {
         $('#grn_item_search_table').html("No item match for suppler qurying against item_code, barcode, and description")
     }
 
-
-    // let form_date = {
-    //     'function': 'search_grn_item',
-    //     'search_query': item_detail,
-    //     'supp_id':supp_id
-    // }
-    // if(item_detail.length > 0)
-    // {
-    //     // search
-    //     $.ajax(
-    //         {
-    //             url:'backend/process/form-processing/grn.php',
-    //             type:'POST',
-    //             data: form_date,
-    //             success:function (response) {
-    //                 if(responseType(response) === 'done')
-    //                 {
-    //                     // pick response
-    //                 }
-    //                 else
-    //                 {
-    //                     swal_error('There is response, but cannot be displayed. Please contact System Administrator')
-    //                     cl(response)
-    //                 }
-    //             }
-    //         }
-    //     );
-    // } else
-    // {
-    //     $('#grn_item_search_table').html('')
-    // }
 });
 
 
@@ -221,17 +197,49 @@ function grn_list_calc(sn) {
     var qty_id = "#qty_"+sn.toString();
     var price_id = '#price_'+sn.toString();
     var total_id = '#total_'+sn.toString();
+    let cost_id = '#cost_'+sn.toString()
+    let retail_id = '#retail_'+sn.toString()
+    let code_id = '#code_id_'+sn.toString()
+    let net_id = '#net_'+sn.toString()
 
     // get field values
+    var item_code = $(code_id).val();
     var qty_val = $(qty_id).val();
     var price_val = $(price_id).val()
     var total_val = $(total_id).val()
 
+    // item details
+    var item_detail = JSON.parse(
+        get_row('prod_master',"`item_code` = '"+item_code+"'")
+    )[0]
+    let item_pack_details = JSON.parse(get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = 2"))[0]
+    let item_details = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
+    let retail = item_details.retail
+
+    var pack_qty = item_pack_details.qty;
+
     var new_total = qty_val * price_val;
+
+    // cost price = price / un
+    var cost_price = price_val / pack_qty
+
 
     echo(qty_val + " * " + price_val + " = " + new_total.toFixed(2))
 
     $(total_id).val(new_total.toFixed(2))
+    $(cost_id).val(cost_price.toFixed(2))
+    $(net_id).text(new_total.toFixed(2))
+
+    if(cost_price >= retail)
+    {
+        // danger
+        $(retail_id).addClass('bg-danger')
+    } else {
+
+        $(retail_id).removeClass('bg-danger')
+    }
+
+
 
 
     // echo("Quantity : " + qty_val.toString() + " Price : " + price_val.toString() + " Total : " + total_val.toString() + " New Total : " + new_total.toFixed())
@@ -298,3 +306,87 @@ function remove_grn_item(item_description,id)
         }
     })
 }
+
+// save grn
+$(document).ready(function (){
+    $('#save_grn').on('click', function(){
+        // check all grn items have quantity
+        let last_row = $('#po_items_list tr').length;
+        let qty;
+        let price;
+        let total;
+        let cost;
+        let retail;
+        var error = 0;
+        var error_log = '';
+        for (let sn = 1; sn <= last_row; sn++) {
+            let tr_id = '#row_' + sn.toString()
+            let price_id = '#price_' + sn.toString();
+            let qty_id = "#qty_" + sn.toString();
+            let total_id = '#total_' + sn.toString();
+            let cost_id = '#cost_' + sn.toString()
+            let retail_id = '#retail_' + sn.toString()
+            let code_id = '#code_id_' + sn.toString()
+            let net_id = '#net_' + sn.toString()
+
+            qty = $(qty_id).val()
+            price = $(price_id).val()
+            total = $(total_id).val()
+            cost = $(cost_id).val()
+            retail = $(retail_id).val()
+
+            // check quantity
+            if(qty < 1)
+            {
+                $(qty_id).addClass('bg-warning')
+                error ++;
+                error_log += "<p>Line "+sn+" : Quantity is less than 1</p>";
+            } else
+            {
+                $(qty_id).removeClass('bg-warning')
+            }
+
+            //check price
+            if(price < 1)
+            {
+                $(price_id).addClass('bg-warning')
+                error ++;
+                error_log += "<p>Line "+sn+" : Peice is less than 1.00</p>";
+            } else
+            {
+                $(price_id).removeClass('bg-warning')
+            }
+
+            // check cost retail
+            if(cost >= retail)
+            {
+                $(retail_id).addClass('bg-danger');
+                error ++
+                if(cost > retail)
+                {
+                    error_log += "<p>Line "+sn+" : Retail price is Less than cost</p>";
+                }
+                else
+                {
+                    error_log += "<p>Line "+sn+" : Retail price is equal to cost</p>";
+                }
+
+            } else
+            {
+                $(retail_id).removeClass('bg-danger');
+            }
+
+            cl("Line " + sn + " has " + qty + " item in quantity")
+        }
+
+        if(error > 0)
+        {
+            swal_error("There are "+error+" error(s) in item list " + error_log)
+        } else
+        {
+            // submit form
+            swal_error("Form Pass")
+        }
+
+    });
+});
