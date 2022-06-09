@@ -332,15 +332,15 @@ $(document).ready(function (){
             qty = $(qty_id).val()
             price = $(price_id).val()
             total = $(total_id).val()
-            cost = $(cost_id).val()
-            retail = $(retail_id).val()
+            cost = parseFloat($(cost_id).val())
+            retail = parseFloat($(retail_id).val())
 
             // check quantity
             if(qty < 1)
             {
                 $(qty_id).addClass('bg-warning')
                 error ++;
-                error_log += "<p>Line "+sn+" : Quantity is less than 1</p>";
+                error_log += "<p class='border border-bottom'>Line "+sn+" : Quantity is less than 1</p>";
             } else
             {
                 $(qty_id).removeClass('bg-warning')
@@ -351,7 +351,7 @@ $(document).ready(function (){
             {
                 $(price_id).addClass('bg-warning')
                 error ++;
-                error_log += "<p>Line "+sn+" : Peice is less than 1.00</p>";
+                error_log += "<p class='border border-bottom'>Line "+sn+" : Peice is less than 1.00</p>";
             } else
             {
                 $(price_id).removeClass('bg-warning')
@@ -360,15 +360,16 @@ $(document).ready(function (){
             // check cost retail
             if(cost >= retail)
             {
+
                 $(retail_id).addClass('bg-danger');
                 error ++
                 if(cost > retail)
                 {
-                    error_log += "<p>Line "+sn+" : Retail price is Less than cost</p>";
+                    error_log += "<p class='border border-bottom'>Line "+sn+" : Retail price is Less than cost</p>";
                 }
                 else
                 {
-                    error_log += "<p>Line "+sn+" : Retail price is equal to cost</p>";
+                    error_log += "<p class='border border-bottom'>Line "+sn+" : Retail price is equal to cost</p>";
                 }
 
             } else
