@@ -319,6 +319,26 @@ $(document).ready(function (){
         let retail;
         var error = 0;
         var error_log = '';
+
+
+        let invoice_number = $("#invoice_number").val()
+
+
+        // check invoice number
+        if (invoice_number.length < 1) {
+            $("#invoice_number").addClass('bg-warning')
+            error += 1;
+            error_log += "<p class='border border-bottom'> HD : Please Enter invoice number</p>";
+        }
+        if(row_count('gn_hd',"`invoice_num` = '"+invoice_number+"'") > 0 )
+        {
+            $("#invoice_number").addClass('bg-warning')
+            error +=1 ;
+            error_log += "<p class='border border-bottom'> HD : Please Check Invoice Number</p>";
+        }
+
+
+
         for (let sn = 1; sn <= last_row; sn++) {
             let tr_id = '#row_' + sn.toString()
             let price_id = '#price_' + sn.toString();
@@ -329,51 +349,47 @@ $(document).ready(function (){
             let code_id = '#code_id_' + sn.toString()
             let net_id = '#net_' + sn.toString()
 
+
             qty = $(qty_id).val()
             price = $(price_id).val()
             total = $(total_id).val()
             cost = parseFloat($(cost_id).val())
             retail = parseFloat($(retail_id).val())
 
+
+
             // check quantity
-            if(qty < 1)
-            {
+            if (qty < 1) {
                 $(qty_id).addClass('bg-warning')
-                error ++;
-                error_log += "<p class='border border-bottom'>Line "+sn+" : Quantity is less than 1</p>";
-            } else
-            {
+                error++;
+                error_log += "<p class='border border-bottom'>Line " + sn + " : Quantity is less than 1</p>";
+            } else {
                 $(qty_id).removeClass('bg-warning')
             }
 
+
+
             //check price
-            if(price < 1)
-            {
+            if (price < 1) {
                 $(price_id).addClass('bg-warning')
-                error ++;
-                error_log += "<p class='border border-bottom'>Line "+sn+" : Peice is less than 1.00</p>";
-            } else
-            {
+                error++;
+                error_log += "<p class='border border-bottom'>Line " + sn + " : Peice is less than 1.00</p>";
+            } else {
                 $(price_id).removeClass('bg-warning')
             }
 
             // check cost retail
-            if(cost >= retail)
-            {
+            if (cost >= retail) {
 
                 $(retail_id).addClass('bg-danger');
-                error ++
-                if(cost > retail)
-                {
-                    error_log += "<p class='border border-bottom'>Line "+sn+" : Retail price is Less than cost</p>";
-                }
-                else
-                {
-                    error_log += "<p class='border border-bottom'>Line "+sn+" : Retail price is equal to cost</p>";
+                error++
+                if (cost > retail) {
+                    error_log += "<p class='border border-bottom'>Line " + sn + " : Retail price is Less than cost</p>";
+                } else {
+                    error_log += "<p class='border border-bottom'>Line " + sn + " : Retail price is equal to cost</p>";
                 }
 
-            } else
-            {
+            } else {
                 $(retail_id).removeClass('bg-danger');
             }
 
@@ -415,9 +431,58 @@ $(document).ready(function (){
         }
         else
         {
+
             // submit form
+            loader('show')
             $('#general_form').submit()
         }
 
     });
 });
+
+// view grn
+function viewGrn(entry_no)
+{
+    // check if grn exist
+    if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
+    {
+        // proceed
+        var grn_hd = JSON.parse(get_row('grn_hd',"`entry_no` = '"+entry_no+"'"))
+
+        if(grn_hd.length === 1)
+        {
+            // load header
+            var grn_header = grn_hd[0];
+            $('#entry_no').text(grn_header.entry_no)
+            $('#loc_id').text(grn_header.loc)
+            $('#loc_desc').text(
+                JSON.parse(
+                    get_row('loc',"`loc_id` = '"+grn_header.loc+"'"))[0].loc_desc
+            )
+            $('#supplier').text(
+                JSON.parse(
+                    get_row('supp_mast',"`supp_id` = '"+grn_header.supplier+"'")
+                )[0].supp_name
+            )
+            $('#po_entry').text(grn_header.po_number)
+            $('#remarks').text(grn_header.remarks)
+            $('#inv_number').text(grn_header.invoice_num)
+            $('#total_amount').text(grn_header.invoice_amt)
+            $('#tax_amount').text(
+                JSON.parse(
+                    get_row('tax_trans',"`doc` = 'GR' AND `entry_no` = '"+grn_header.entry_no+"'")
+                )[0].tax_amt
+            )
+            $('#net_amount').text(grn_header.net_amt)
+        }
+        else
+        {
+            // throw error
+            swal_error('Cannot load Document')
+        }
+    }
+    else
+    {
+        swal_error("Document <i>"+entry_no+"</i> Not Found")
+    }
+}

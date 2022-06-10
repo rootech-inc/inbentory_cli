@@ -122,9 +122,9 @@
                     <!--PO NUMBER-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">PO Number</p>
+                            <p class="m-0 p-0 text-elipse">Entry Number</p>
                         </div>
-                        <div class="prod_inp_view" id="po_number"></div>
+                        <div class="prod_inp_view" id="entry_no"></div>
                     </div>
 
                     <!-- LOCATION -->
@@ -134,7 +134,7 @@
                         </div>
                         <div class="w-60 d-flex flex-wrap justify-content-between">
                             <div class="prod_inp_view w-25" id="loc_id"></div>
-                            <div class="prod_inp_view w-65" id="location">Description</div>
+                            <div class="prod_inp_view w-65" id="loc_desc">Description</div>
                         </div>
                     </div>
 
@@ -149,9 +149,9 @@
                     <!--PO TYPE-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">PO Type</p>
+                            <p class="m-0 p-0 text-elipse">Ref PO</p>
                         </div>
-                        <div class="prod_inp_view" id="po_type"></div>
+                        <div class="prod_inp_view" id="po_entry"></div>
                     </div>
 
                     <!--Description-->
@@ -159,7 +159,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <div class="prod_inp_view" id="remarks"></div>
+                        <div class="prod_inp_view text-elipse" id="remarks"></div>
                     </div>
 
                     <i id="document_stat" class="">Pending</i>
@@ -170,45 +170,38 @@
                 <!--Prod Right-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
 
-                    <!--Total Amount-->
+                    <!-- INVOICE NUMBER -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Total Amount</p>
+                            <p class="m-0 p-0 text-elipse">Invoice</p>
+                        </div>
+                        <div class="prod_inp_view" id="inv_number"></div>
+                    </div>
+
+                    <!--Inv Amount-->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Invoice Amount</p>
                         </div>
                         <div class="prod_inp_view" id="total_amount"></div>
                     </div>
 
-                    <!--Owner-->
+                    <!-- TAX Amount -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Owner</p>
+                            <p class="m-0 p-0 text-elipse">Tax Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="owner"></div>
+                        <div class="prod_inp_view" id="tax_amount"></div>
                     </div>
 
-                    <!--Date Created-->
+                    <!-- NET AMOUNT -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Date Created</p>
+                            <p class="m-0 p-0 text-elipse">Net Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="created_at"></div>
+                        <div class="prod_inp_view" id="net_amount"></div>
                     </div>
 
-                    <!-- EDITED BY -->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Edited By</p>
-                        </div>
-                        <div class="prod_inp_view" id="edited_by"></div>
-                    </div>
-
-                    <!--Last Edited-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Last Edited</p>
-                        </div>
-                        <div class="prod_inp_view" id="edited_on"></div>
-                    </div>
 
                     <!-- APPROVE INFO -->
                     <div id="approved_container" class="text-info text-right"><i id="approved_msg">Not Approved</i></div>

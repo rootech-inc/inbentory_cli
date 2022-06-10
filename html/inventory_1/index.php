@@ -41,6 +41,17 @@ error_reporting(E_ALL);
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
 
+    <div class="modal" id="loader">
+        <div class="w-100 h-100 bg_trans_50 d-flex flex-wrap align-content-center justify-content-center">
+            <div style="width: 100px; height: 100px; background: none !important">
+                <img src="assets/icons/home/loader.gif" alt="" class="img-fluid">
+            </div>
+            <div class="m-2 w-100 text-center">
+                <button class="btn btn-light rounded-0" onclick="loader('hide')">CLOSE</button>
+            </div>
+        </div>
+    </div>
+
     <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
         <i class="fa fa-keyboard"></i>
     </button>

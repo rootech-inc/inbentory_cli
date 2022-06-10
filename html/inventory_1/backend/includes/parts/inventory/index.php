@@ -217,14 +217,14 @@
                                 $grn_res = $grn_sql->fetch(PDO::FETCH_ASSOC);
 
                                 $grn_id = $grn_res['id'];
-                                $grn_number = $grn_res['doc_no'];
+                                $grn_number = $grn_res['entry_no'];
                             }
                             else{
                                 $anton->set_session(['action=new']);
                                 echo "<script>location.reload()</script>";
                             }
                             // view purchasing order
-                            require 'backend/includes/parts/inventory/purchasing/view_po.php';
+                            require 'backend/includes/parts/inventory/receiving/view_grn.php';
                         }
 
                         elseif ($action === 'new'){ // new purchasing order
@@ -252,7 +252,7 @@
                     elseif ($action === 'view')
                     {
 
-                        echo "<script>previewPoTrans('$po_number')</script>";
+                        echo "<script>viewGrn('$grn_number')</script>";
                     } elseif ($action === 'edit')
                     {
                         $po_number = $anton->get_session('po_number');

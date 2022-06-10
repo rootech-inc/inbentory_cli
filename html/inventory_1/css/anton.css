@@ -368,6 +368,10 @@ input[type=number] {
     background-color: #d15f63; color: #f1f1f1 !important;
 }
 
+.bg_trans_50{
+    background: rgba(0, 0, 0, 0.8);
+}
+
 .bg-x
 {
     background: #E5B9A8 !important;

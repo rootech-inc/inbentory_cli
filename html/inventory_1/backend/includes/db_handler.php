@@ -391,4 +391,15 @@ class db_handler extends anton
 
     ### GRN FUNCTIONS ###
 
+    // unlock table
+    function unlock($table)
+    {
+        $this->db_connect()->exec("UNLOCK TABLES");
+    }
+    // lock table
+    function lock_write($table)
+    {
+        $this->db_connect()->exec("TABLES TABLE `$table`");
+    }
+
 }

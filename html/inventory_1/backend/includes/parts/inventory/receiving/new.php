@@ -101,6 +101,14 @@
                 <!--PO Left-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
 
+                    <!-- RECEIVED DATE -->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Rec. Date</p>
+                        </div>
+                        <input class="prod_inp_view" id="rec_date" name="rec_date" type="date" value="<?php echo $today ?>">
+                    </div>
+
                     <!-- LOCATION -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
@@ -142,13 +150,7 @@
                         </select>
                     </div>
 
-                    <!--Description-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container" style="overflow: visible !important;">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Remarks</p>
-                        </div>
-                        <textarea class="w-60 form-control form-control-sm bg-info" id="remarks" name="remarks" rows="2"></textarea>
-                    </div>
+
 
                 </div>
                 <!--Prod Right-->
@@ -162,10 +164,21 @@
                         <input class="prod_inp_view" id="total_amount" name="total_amount" type="number" readonly value="0.00">
                     </div>
 
-                    <!-- TAX VALUE -->
+                    <!-- INVOICE NUMBER -->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Invoice Number</p>
+                        </div>
+                        <input class="prod_inp_view" id="invoice_number" name="invoice_number" type="text" required>
+                    </div>
 
-                    <!-- TOTAL VALUE -->
-
+                    <!-- REMARKS -->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container" style="overflow: visible !important;">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Remarks</p>
+                        </div>
+                        <textarea class="w-60 form-control form-control-sm bg-info" id="remarks" name="remarks" rows="2"></textarea>
+                    </div>
 
                 </div>
 

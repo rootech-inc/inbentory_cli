@@ -24,6 +24,19 @@ function recursiveEach($element){
     });
 }
 
+function loader(action)
+{
+    if(action === 'show')
+    {
+        $('#loader').modal('show')
+    } else
+    {
+        $('#loader').removeClass('fade');
+        $('#loader').modal('hide')
+    }
+
+}
+
 var form_data;
 var form_process = "/backend/process/form_process.php";
 

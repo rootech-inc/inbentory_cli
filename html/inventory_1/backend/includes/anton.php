@@ -164,5 +164,10 @@ class anton extends FPDF
         echo "<script>location.reload()</script>";
     }
 
+    public function br($str = '')
+    {
+        echo "\n $str \n";
+    }
+
 
 }
