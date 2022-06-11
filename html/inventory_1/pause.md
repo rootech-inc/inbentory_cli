@@ -1,2 +1,2 @@
 # view GRN
-- check grn status and show equalled information
+- load grn items in list
