@@ -474,6 +474,27 @@ function viewGrn(entry_no)
                 )[0].tax_amt
             )
             $('#net_amount').text(grn_header.net_amt)
+
+            // set status message
+            var status = parseInt(grn_header.status);
+            var status_message = '';
+            // 1 approved
+            // -1 deleted
+            // 0 not approved
+            if(status === 0)
+            {
+                status_message = '<i class="text-info">Pending</i>'
+            } else if (status === 1)
+            {
+                status_message = '<i class="text-success">Approved</i>'
+            } else if (status === -1)
+            {
+                status_message = '<i class="text-danger">Deleted</i>';
+            }
+            $('#approved_container').html(status_message)
+            cl(status)
+            cl(status_message)
+
         }
         else
         {

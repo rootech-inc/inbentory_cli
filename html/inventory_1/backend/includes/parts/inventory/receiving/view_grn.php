@@ -204,7 +204,7 @@
 
 
                     <!-- APPROVE INFO -->
-                    <div id="approved_container" class="text-info text-right"><i id="approved_msg">Not Approved</i></div>
+                    <div id="approved_container" class="text-right"></div>
 
                 </div>
 
