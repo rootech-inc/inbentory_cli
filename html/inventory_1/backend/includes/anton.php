@@ -169,5 +169,16 @@ class anton extends FPDF
         echo "\n $str \n";
     }
 
+    public function input_tax($value,$class) // return an input tax
+    {
+        $tax_amount = 0;
+        if($class === 'V3')
+        {
+            $tax_amount = $this->tax(3,$value);
+        }
+
+        return $tax_amount;
+    }
+
 
 }

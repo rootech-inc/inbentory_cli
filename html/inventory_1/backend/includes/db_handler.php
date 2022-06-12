@@ -402,4 +402,7 @@ class db_handler extends anton
         $this->db_connect()->exec("TABLES TABLE `$table`");
     }
 
+    // update price
+
+
 }

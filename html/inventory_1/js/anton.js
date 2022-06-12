@@ -1586,6 +1586,7 @@ function new_line(doc,item_code)
         let retail_id = 'retail_' + sn.toString()
         let code_id = 'code_id_' + sn.toString()
         let net_id = 'net_' + sn.toString()
+        let tax_id = 'tax_' + sn.toString()
 
         if ($("#" + tr_id).length > 0) {
             var line = $("#" + tr_id).find("td:first").text()
@@ -1600,17 +1601,17 @@ function new_line(doc,item_code)
 
         tr += "<tr id='" + tr_id + "'>\n" +
             "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
-            "                             <td class='text_xs'>" + barcode + "</td>\n" +
+            "                            <td class='text_xs'>" + barcode + "</td>\n" +
             "                            <td class='text_xs'>" + description + "</td>\n" +
             "                            <td class='text_xs'>" + pack_id + "</td>\n" +
             "                            <td class='text_xs'>" + packing + "</td>\n" +
             "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
             "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
-            "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'></td>\n" +
-            "                            <td class='text_xs'>" + tax_amount + "</td>\n" +
-            "                            <td class='text_xs' id='" + net_id + "'> " + net_amount + "</td>\n" +
-            "                            <td class='text_xs'><input type='number' id='" + cost_id + "' onkeyup=\"grn_list_calc(" + sn + ")\" class='grn_nums' name='cost[]' value='" + this_cost + "'></td>\n" +
-            "                            <td class='text_xs'><input type='number' id='" + retail_id + "' onkeyup=\"grn_list_calc(" + sn + ")\" class='grn_nums " + retail_bg + "' name='retail[]' value='" + retail + "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
+            "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+            "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
+            "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost+ "'></td>\n" +
+            "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
             "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
             "                        </tr>";
 

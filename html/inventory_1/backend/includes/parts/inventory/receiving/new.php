@@ -145,7 +145,7 @@
                         </div>
                         <select disabled onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
                             <option value="0">No</option>
-                            <option value="1">YES</option>
+                            <option value="V3">VAT 3%</option>
 
                         </select>
                     </div>

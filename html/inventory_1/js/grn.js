@@ -92,6 +92,7 @@ $('#po_search').on('keyup',function (e) // search for po
                             let retail_id = 'retail_' + sn.toString()
                             let code_id = 'code_id_' + sn.toString()
                             let net_id = 'net_' + sn.toString()
+                            let tax_id = 'tax_' + sn.toString()
 
                             let retail_bg = '';
                             if (this_cost >= retail) {
@@ -108,9 +109,9 @@ $('#po_search').on('keyup',function (e) // search for po
                                 "                            <td class='text_xs'>" + packing + "</td>\n" +
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'></td>\n" +
-                                "                            <td class='text_xs'>" + tax_amount + "</td>\n" +
-                                "                            <td class='text_xs' id='" + net_id + "'>" + net_amount.toFixed(2) + "</td>\n" +
+                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
+                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+                                "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
                                 "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
                                 "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
@@ -190,6 +191,36 @@ $('#new_grn_item').on('keyup', function (e) {
 
 });
 
+// tax in line
+function tax_inline(tax_class, value) {
+    var form_data = {
+        'function':'line_tax',
+        'tax_class':tax_class,
+        'value':value
+    }
+    var result = 0;
+    $.ajax(
+        {
+            url:'backend/process/form-processing/grn.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response) {
+                cl(response)
+                if(responseType(response) === 'done')
+                {
+
+                    result =  responseMessage(response)
+
+                }
+            }
+        }
+    );
+
+    return result;
+}
 
 // calculate grn list value
 function grn_list_calc(sn) {
@@ -201,6 +232,7 @@ function grn_list_calc(sn) {
     let retail_id = '#retail_'+sn.toString()
     let code_id = '#code_id_'+sn.toString()
     let net_id = '#net_'+sn.toString()
+    let tax_id = '#tax_'+sn.toString()
 
     // get field values
     var item_code = $(code_id).val();
@@ -228,7 +260,9 @@ function grn_list_calc(sn) {
 
     $(total_id).val(new_total.toFixed(2))
     $(cost_id).val(cost_price.toFixed(2))
-    $(net_id).text(new_total.toFixed(2))
+    $(net_id).val(new_total.toFixed(2))
+    var tax_class = $('#tax_grp').val()
+    new_grn_tax_calc(tax_class,sn)
 
     if(cost_price >= retail)
     {
@@ -246,43 +280,101 @@ function grn_list_calc(sn) {
 
 }
 
-function new_grn_tax_calc(tax) {
-    if(tax === '1')
+function new_grn_tax_calc(tax_class,line='*') {
+    if(tax_class !== '0')
     {
-        var supplier = $('#supp_id').val();
 
-        // check if supplier exist
-        if(row_count('supp_mast',"`supp_id` = '"+supplier+"'") === 1)
+        // check lines
+        if(line === '*') // all lines
         {
-
-            // get supplier tax group
-            var sup_tax_grp = JSON.parse(
-                get_row('supp_mast',"`supp_id` = '"+supplier+"'")
-            )[0].tax_grp
-
-            // check if tax group exist
-            if(row_count('tax_master',"`id` = '"+sup_tax_grp+"'") === 1)
+            let last_row = $('#po_items_list tr').length;
+            for(let sn = 1; sn<= last_row; sn++)
             {
-                // get tax class
-                var tax_class = JSON.parse(
-                    get_row('tax_master',"`id` = '"+sup_tax_grp+"'")
-                )[0].cls
+                var tr_id = '#row_' + sn.toString()
+                var price_id = '#price_' + sn.toString();
+                var qty_id = "#qty_" + sn.toString();
+                var total_id = '#total_' + sn.toString();
+                var cost_id = '#cost_' + sn.toString()
+                var retail_id = '#retail_' + sn.toString()
+                var code_id = '#code_id_' + sn.toString()
+                var net_id = '#net_' + sn.toString()
+                let tax_id = '#tax_' + sn.toString()
 
-                var invoice_amount = $('#total_amount').val();
+                var total_amt = parseFloat($(total_id).val())
+                var tax_amt  = tax_inline(tax_class,total_amt);
+                $(tax_id).val(tax_amt)
 
-                var tax_value = tax_input(invoice_amount,tax_class)
-                swal_error(tax_value)
+                var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
+                $(net_id).val(net_amt.toFixed(2))
 
-            } else {
-                swal_error("Tax Group for supplier ( "+supplier+" ) does not exist")
+
             }
-
-        } else
+        }
+        else // single line
         {
-            swal_error("Cant find suppler")
+            var sn = line;
+            var tr_id = '#row_' + sn.toString()
+            var price_id = '#price_' + sn.toString();
+            var qty_id = "#qty_" + sn.toString();
+            var total_id = '#total_' + sn.toString();
+            var cost_id = '#cost_' + sn.toString()
+            var retail_id = '#retail_' + sn.toString()
+            var code_id = '#code_id_' + sn.toString()
+            var net_id = '#net_' + sn.toString()
+            let tax_id = '#tax_' + sn.toString()
+
+            var total_amt = parseFloat($(total_id).val())
+            var tax_amt  = tax_inline(tax_class,total_amt);
+            $(tax_id).val(tax_amt)
+
+            var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
+            $(net_id).val(net_amt.toFixed(2))
         }
 
+        // there is tax
+
+
     }
+    else
+    {
+        // do nothing
+    }
+    // if(tax === '1')
+    // {
+    //     var supplier = $('#supp_id').val();
+    //
+    //     // check if supplier exist
+    //     if(row_count('supp_mast',"`supp_id` = '"+supplier+"'") === 1)
+    //     {
+    //
+    //         // get supplier tax group
+    //         var sup_tax_grp = JSON.parse(
+    //             get_row('supp_mast',"`supp_id` = '"+supplier+"'")
+    //         )[0].tax_grp
+    //
+    //         // check if tax group exist
+    //         if(row_count('tax_master',"`id` = '"+sup_tax_grp+"'") === 1)
+    //         {
+    //             // get tax class
+    //             var tax_class = JSON.parse(
+    //                 get_row('tax_master',"`id` = '"+sup_tax_grp+"'")
+    //             )[0].cls
+    //
+    //             var invoice_amount = $('#total_amount').val();
+    //
+    //             var tax_value = tax_input(invoice_amount,tax_class)
+    //
+    //
+    //         } else {
+    //             swal_error("Tax Group for supplier ( "+supplier+" ) does not exist")
+    //         }
+    //
+    //     } else
+    //     {
+    //         swal_error("Cant find suppler")
+    //     }
+    //
+    // }
 }
 
 // remove item from grn list
@@ -363,18 +455,18 @@ $(document).ready(function (){
                 $(qty_id).addClass('bg-warning')
                 error++;
                 error_log += "<p class='border border-bottom'>Line " + sn + " : Quantity is less than 1</p>";
-            } else {
+            }
+            else {
                 $(qty_id).removeClass('bg-warning')
             }
-
-
 
             //check price
             if (price < 1) {
                 $(price_id).addClass('bg-warning')
                 error++;
                 error_log += "<p class='border border-bottom'>Line " + sn + " : Peice is less than 1.00</p>";
-            } else {
+            }
+            else {
                 $(price_id).removeClass('bg-warning')
             }
 
@@ -389,11 +481,11 @@ $(document).ready(function (){
                     error_log += "<p class='border border-bottom'>Line " + sn + " : Retail price is equal to cost</p>";
                 }
 
-            } else {
+            }
+            else {
                 $(retail_id).removeClass('bg-danger');
             }
 
-            cl("Line " + sn + " has " + qty + " item in quantity")
         }
 
         // check if location exist
@@ -494,6 +586,49 @@ function viewGrn(entry_no)
             $('#approved_container').html(status_message)
             cl(status)
             cl(status_message)
+
+            // load grn trans
+            var grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"))
+            let sn = 0;
+            let grn_tran = '';
+            let tr = ''
+
+            for(let grn = 0; grn < grn_trans.length; grn++)
+            {
+                grn_tran = grn_trans[grn];
+                sn ++;
+                let barcode = grn_tran.barcode
+                let item_desc = grn_tran.item_description
+                let packing_id = grn_tran.packing
+                let packing = grn_tran.pack_desc
+                let quantity = grn_tran.qty
+                let price = grn_tran.cost
+                let invoice_amount = grn_tran.total_cost
+                let tax_amount = grn_tran.tax_amt
+                let net_amt = grn_tran.net_amt
+                let cost = grn_tran.prod_cost
+                let retail = grn_tran.ret_amt
+
+                tr += "<tr>\n" +
+                    "                            <td class='text_xs'>"+sn+"</td>\n" +
+                    "                            <td class='text_xs'>"+barcode+"</td>\n" +
+                    "                            <td class='text_xs'>"+item_desc+"</td>\n" +
+                    "                            <td class='text_xs'>"+packing_id+"</td>\n" +
+                    "                            <td class='text_xs'>"+packing+"</td>\n" +
+                    "                            <td class='text_xs'>"+quantity+"</td>\n" +
+                    "                            <td class='text_xs'>"+price+"</td>\n" +
+                    "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
+                    "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
+                    "                            <td class='text_xs'>"+net_amt+"</td>\n" +
+                    "                            <td class='text_xs'>"+cost+"</td>\n" +
+                    "                            <td class='text_xs'>"+retail+"</td>\n" +
+                    "\n" +
+                    "                        </tr>";
+
+            }
+
+            // load list window
+            $('#grn_items_list').html(tr)
 
         }
         else

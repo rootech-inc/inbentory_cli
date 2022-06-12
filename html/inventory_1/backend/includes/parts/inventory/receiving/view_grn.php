@@ -216,18 +216,36 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th>LN</th>
-                            <th>Item Code</th>
-                            <th>Description</th>
-                            <th>Pack ID</th>
-                            <th>Pack Desc</th>
-                            <th>Quantity</th>
-                            <th>Cost</th>
-                            <th>Total Cost</th>
+                            <th class="text_xs">SN</th>
+                            <th class="text_xs">Barcode</th>
+                            <th class="text_xs">Description</th>
+                            <th class="text_xs">Pack ID</th>
+                            <th class="text_xs">Packing</th>
+                            <th class="text_xs">Qty</th>
+                            <th class="text_xs">Price</th>
+                            <th class="text_xs">Inv Amount</th>
+                            <th class="text_xs">Tax Amt</th>
+                            <th class="text_xs">Net Amt</th>
+                            <th class="text_xs">Cost</th>
+                            <th class="text_xs">Retail</th>
                         </tr>
                     </thead>
-                    <tbody id="po_items_list">
+                    <tbody id="grn_items_list">
+                        <tr>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
+                            <td class='text_xs'>Text</td>
 
+                        </tr>
                     </tbody>
                 </table>
 

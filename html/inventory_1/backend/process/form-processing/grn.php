@@ -7,6 +7,8 @@
 
         if($function === 'new_grn') // save a new grn
         {
+//            print_r($_POST);
+//            die();
             // get grn_hd_values
             $loc_id = $anton->post('loc_id');
             $supp_id = $anton->post('supp_id');
@@ -55,13 +57,18 @@
             {
                 $item_code = $_POST['item_code'][$key];
                 $qty = $_POST['qty'][$key];
-                $price = $_POST['price'][$key];
+                $cost = $_POST['price'][$key];
                 $total_amt = $_POST['total_amt'][$key];
-                $cost = $_POST['cost'][$key];
+
+
+                $tax = $_POST['tax'][$key];
+                $net = $_POST['net'][$key];
+                $prod_cost = $_POST['cost'][$key];
                 $retail = $_POST['retail'][$key];
 
+
                 $inv_amt += $total_amt;
-                $tax = 0;
+
                 $tax_amt += $tax;
 
                 // get item details
@@ -76,12 +83,21 @@
                 $packing = $packing_d['desc'];
 
 
-                $insert = "INSERT INTO `grn_trans` (entry_no, item_code, barcode, item_description, owner, pack_desc, packing,qty,cost,total_cost,date_added,pack_um) VALUES 
-                                                   ('$entry_no','$item_code','$barcode','$item_desc','$myName','$pack_desc','$packing','$qty','$price','$total_amt','$today','$pack_um')";
+                $insert = "INSERT INTO `grn_trans` (entry_no, item_code, barcode, item_description, owner, pack_desc, packing,qty,cost,total_cost,date_added,pack_um,net_amt,tax_amt,prod_cost,ret_amt) VALUES 
+                                                   ('$entry_no','$item_code','$barcode','$item_desc','$myName','$pack_desc','$packing','$qty','$cost','$total_amt','$today','$pack_um','$net','$tax','$prod_cost','$retail')";
 
 //                $anton->br($insert);
                 $db->db_connect()->exec($insert);
 
+                // insert into price change
+                $prev_c = $item_details['cost'];
+                $o_cost = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','c','$prev_c','$prod_cost')";
+                $prev_r = $item_details['retail'];
+                $o_retail = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','r','$prev_r','$retail')";
+                $db->db_connect()->exec($o_cost);
+                $db->db_connect()->exec($o_retail);
+                // update cost and retail
+                $db->db_connect()->exec("UPDATE `prod_master` SET `cost` = '$prod_cost', `prev_retail` = `retail`, `retail` = '$retail' WHERE `item_code` = '$item_code'");
 
 //                echo "\n Item $item_code has $qty and each price is $price with cost price of $cost and retail of $retail \n";
 
@@ -101,13 +117,24 @@
 
 
         }
-        elseif ($function === 'search_grn_item')
+
+        elseif ($function === 'search_grn_item') // find item
         {
             $query = $anton->post('search_query');
             $supp_id = $anton->post('supp_id');
             $search_result = $db->grn_list_item($query,$supp_id);
             var_dump($search_result);
             echo("DONE");
+        }
+
+        elseif ($function === 'line_tax') // calculate line tax
+        {
+            $tax_class = $anton->post('tax_class');
+            $value = floatval($anton->post('value'));
+
+//            print_r($_POST);
+
+            $anton->done(number_format($db->input_tax($value,$tax_class),2));
         }
 
     }
