@@ -113,7 +113,15 @@
             $db->db_connect()->exec("UPDATE `po_hd` set `grn` = 1 where `doc_no` = '$ref_doc'");
 
             $anton->set_session(['action=view']);
-            $anton->done('done');
+            if($db->doc_trans('GRN',"$entry_no",'ADD'))
+            {
+                $anton->done('done');
+            } else
+            {
+                $anton->err("Document Saved but could not generate entry transactions");
+            }
+
+
 
 
         }
@@ -135,6 +143,23 @@
 //            print_r($_POST);
 
             $anton->done(number_format($db->input_tax($value,$tax_class),2));
+        }
+
+        elseif ($function === 'print_grn') // print grn
+        {
+            $entry_no = $anton->post('entry_no');
+            $grn_hd = $db->get_rows('grn_hd',"`entry_no` = '$entry_no'");
+            $grn_trans = $db->db_connect()->query("SELECT * FROm grn_trans where entry_no = '$entry_no'");
+
+            if($grn_hd['status'] == '0')
+            {
+                $approved = 'Pending';
+            }
+            elseif ($grn_hd['status'] == '1')
+            {
+
+            }
+
         }
 
     }

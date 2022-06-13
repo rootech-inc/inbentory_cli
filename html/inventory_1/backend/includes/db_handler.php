@@ -402,7 +402,20 @@ class db_handler extends anton
         $this->db_connect()->exec("TABLES TABLE `$table`");
     }
 
-    // update price
+    // add doc transactions
+    function doc_trans($document,$entry_no,$function): bool
+    {
+        @!session_start();
+        $owner = $this->get_session('clerk_id');
+        if(!empty($document) && !empty($entry_no) && !empty($function) && !empty($owner))
+        {
+            $this->db_connect()->query("INSERT INTO `doc_trans` (`doc_type`,`entry_no`,`trans_func`,`created_by`) VALUES ('$document','$entry_no','$function','$owner')");
+            return true;
+        } else
+        {
+            return false;
+        }
 
+    }
 
 }

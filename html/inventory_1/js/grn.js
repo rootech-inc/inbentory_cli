@@ -545,7 +545,8 @@ function viewGrn(entry_no)
         {
             // load header
             var grn_header = grn_hd[0];
-            $('#entry_no').text(grn_header.entry_no)
+
+            $('#entry_no').text(entry_no)
             $('#loc_id').text(grn_header.loc)
             $('#loc_desc').text(
                 JSON.parse(
@@ -640,5 +641,44 @@ function viewGrn(entry_no)
     else
     {
         swal_error("Document <i>"+entry_no+"</i> Not Found")
+    }
+}
+
+// print grn
+function print_grn() {
+    var entry_no = $('#entry_no').text();
+    if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") !== 1)
+    {
+        swal_error("GRN "+ entry_no +" not found")
+    }
+    else
+    {
+        // print grn
+        var form_data = {
+            'function':'print_grn',
+            'entry_no':entry_no
+        }
+
+        $.ajax({
+            url:'backend/process/form-processing/grn.php',
+            type:'POST',
+            data:form_data,
+            success: function (response) {
+                if(response === 'done')
+                {
+                    // set ifram
+                    $('#pdf_body').html(
+                        "<embed src=\"backend/process/form-processing/test.pdf\" width=\"100%\" height=\"100%\"\n" +
+                        "                           type=\"application/pdf\">"
+                    )
+                    // show pdf modal
+                    $('#pdf_modal').modal('show')
+                } else
+                {
+                    swal_error(response)
+                }
+            }
+        });
+
     }
 }

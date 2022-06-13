@@ -85,18 +85,12 @@
                 <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="po_search">
                 <!--SEARCH-->
                 <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/search_property.png"
-                            class="img-fluid"
-                    >
+                    <i class="fa fa-search text-info"></i>
                 </button>
 
                 <!-- PRINT -->
-                <button type="button" onclick="print_po()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/print.png"
-                            class="img-fluid"
-                    >
+                <button type="button" onclick="print_grn()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa fa-print text-danger"></i>
                 </button>
 
                 <!-- APPORVE -->

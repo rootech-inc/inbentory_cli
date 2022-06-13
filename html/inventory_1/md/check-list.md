@@ -34,9 +34,9 @@
 - [ ] Keyboard
     - [x] Numeric
     - [ ] Alphabetical
-  
 
-- [ ] Purchase Order
+### PO
+- [x] Purchase Order
     - [x] Make Pack ID static base on current document
     - [x] Edit Purchase Order
          - If PO is not approved
@@ -49,3 +49,7 @@
     - [x] PO Navigation
     - [x] Approve PO
     - [x] Delete PO
+
+### GRN
+- [ ] View document transactions on document
+- [ ] Print document
