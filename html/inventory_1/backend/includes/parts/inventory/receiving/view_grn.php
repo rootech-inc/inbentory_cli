@@ -101,6 +101,11 @@
                     >
                 </button>
 
+                <!-- TRANSACTIONS -->
+                <button type="button" id="grn_transactions" onclick="gen_modal('grn_trans','GRN Transactions','grn_trans')" title="Transactions" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa fa-list text-dark"></i>
+                </button>
+
             </div>
 
         </div>

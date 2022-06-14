@@ -152,3 +152,40 @@ function insert(table,data) {
 
     //echo("INSERT INTO " + table + " (" + col +") values ("+data+")")
 }
+
+// get user details
+function getUser(id,fetch_get='none') {
+    var form_data = {
+        'function':'getUser',
+        'id':id,
+    }
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+
+
+                if(fetch_get === 'none')
+                {
+                    result = response;
+                } else
+                {
+                    result = JSON.parse(response)[0][fetch_get]
+                }
+                cl(response)
+
+            }
+        }
+    );
+
+    return result;
+}

@@ -1270,6 +1270,44 @@ function gen_modal(params,title='Not Set',content = 'none') {
             show_modal('gen_modal')
             break
 
+        case 'grn_trans':
+            loader('show')
+
+            var entry_no = $('#entry_no').text()
+            // get document transactions
+            var grn_trans = JSON.parse(
+                get_row('doc_trans',"`entry_no` = '"+entry_no+"' AND `doc_type` =  'GRN'")
+            )
+            var tr = '';
+            var res = "<div class='w-100 h-100 d-flex flex-wrap align-content-center justify-content-center'>" +
+                "<p class='text-info'>No Document Transactions</p>" +
+                "</div>";
+            if(row_count('doc_trans',"`entry_no` = '"+entry_no+"' AND `doc_type` =  'GRN'") > 0)
+            {
+                for (let r = 0; r < grn_trans.length; r++)
+                {
+                    let line = grn_trans[r]
+                    let func = line.trans_func
+                    let user = line.created_by
+                    let username = getUser(user,'clerk_name');
+                    let timeStamp = line.created_on
+                    tr += "<tr>" +
+                        "<td>"+func+"</td><td>"+username+"</td><td>"+timeStamp+"</td>" +
+                        "</tr>"
+                }
+                var table = "<table class='table table-sm table-bordered'>" +
+                    "<thead class='thead-dark'><tr><th>Function</th><th>User</th><th>Time</th></tr></thead>" +
+                    "<tbody>"+tr+"</tbody>" +
+                    "</table>";
+                res = table;
+            }
+
+
+            $('#grn_modal_res').html(res)
+            loader('hide')
+            show_modal('gen_modal')
+            // get grn transactions
+
         default:
             break;
     }

@@ -61,5 +61,12 @@
 
                 echo $tax_return;
             }
+
+            elseif ($function === 'getUser') // get user details
+            {
+                $id = $anton->post('id');
+                $res = $db->get_rows('clerk',"`id` = $id",'json');
+                print_r($res);
+            }
         }
     }
