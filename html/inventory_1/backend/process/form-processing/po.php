@@ -162,7 +162,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
             }
         }
 
-        // Instanciation of inherited class
+        // Instantiation of inherited class
         $pdf = new PDF('L','mm','A4');
         $pdf->AliasNbPages();
         $pdf->AddPage();

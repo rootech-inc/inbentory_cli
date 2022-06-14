@@ -51,5 +51,7 @@
     - [x] Delete PO
 
 ### GRN
-- [ ] View document transactions on document
-- [ ] Print document
+- [x] View document transactions on document
+- [x] save tax value when saving grn
+- [x] Print document
+- [ ] Edit GRN

@@ -19,6 +19,7 @@
             $rec_date = $anton->post('rec_date');
             $invoice_number = $anton->post('invoice_number');
 
+
             if($db->row_count('grn_hd',"`po_number` = '$ref_doc'") > 0)
             {
                 $grn_details = $db->get_rows('grn_hd',"`po_number` = '$ref_doc'");
@@ -106,7 +107,7 @@
 
             $net_amt = $inv_amt + $tax_amt;
             // update invoice amount
-            $db->db_connect()->exec("UPDATE `grn_hd` SET `invoice_amt` = '$inv_amt',`net_amt` = '$net_amt'");
+            $db->db_connect()->exec("UPDATE `grn_hd` SET `invoice_amt` = '$inv_amt',`net_amt` = '$net_amt', `tax_amt` = '$tax_amt'");
             // insert into tax transaction
             $db->db_connect()->exec("INSERT INTO `tax_trans` (doc, tax_amt,entry_no) values ('GR','$tax_amt','$entry_no')");
             // update po to done
@@ -150,15 +151,207 @@
             $entry_no = $anton->post('entry_no');
             $grn_hd = $db->get_rows('grn_hd',"`entry_no` = '$entry_no'");
             $grn_trans = $db->db_connect()->query("SELECT * FROm grn_trans where entry_no = '$entry_no'");
+            $company = $db->get_rows('company','none');
+            $grn_status = $grn_hd['status'];
+            $supplier = $grn_hd['supplier'];
 
-            if($grn_hd['status'] == '0')
+            if($grn_status == '0')
             {
                 $approved = 'Pending';
             }
-            elseif ($grn_hd['status'] == '1')
+            elseif ($grn_status == '1')
             {
+                // get approved person
+                $approved = $db->get_rows('doc_trans',"`doc_type` = `trans_func` = 'ADD' AND 'GRN' AND `entry_no` = '$entry_no'")['created_by'];
+            }
+            elseif ($grn_status == '-1')
+            {
+                // get deleted
+                $approved = $db->get_rows('doc_trans',"`doc_type` = `trans_func` = 'DEL' AND 'GRN' AND `entry_no` = '$entry_no'")['created_by'];
 
             }
+
+            class PDF extends FPDF
+            {
+
+                // Page header
+                function Header()
+                {
+
+//                // Logo
+//               $this->Image('logo.png',10,6,30,);
+//                // Arial bold 15
+//                $this->SetFont('Arial','B',12);
+//                // Move to the right
+//
+//                // Title
+//                $this->Cell(280,5,$company['c_name'],0,1,'R');
+//                $this->Cell(280,5,'VAT : '.$company['vat_code'],0,1,'R');
+//                $this->Cell(280,5,$company['box']. ", ".$company['country'].", ".$company['city'].", ".$company['street'],0,1,'R');
+//                $this->Cell(280,5,'Tel : '.$company['phone'],0,1,'R');
+//                $this->Cell(280,5,'Email : '.$company['email'],0,1,'R');
+//
+//                $this->SetFont('Arial','B',20);
+//                $this->Cell(93,10,'',0,0,'C');
+//                $this->Cell(93,15,'PURCHASE ORDER',1,0,'C');
+//                $this->Cell(93,10,'',0,1,'C');
+//
+//                $this->SetFont('Arial','B',12);
+//                $this->Cell(140,10,"Delivery Details",0,0,'L');
+//                $this->Cell(140,10,"Order Details",0,1,'R');
+//                $this->SetFont('Arial','',12);
+
+                    // branch % date
+//                $this->Cell(140,5,"Delivery Date : 00/00/0000",0,0,'L');
+//                $this->Cell(140,5,"Date : ".$po_hd['created_on'],0,1,'R');
+//                # branch & order number
+//                $this->Cell(140,5,"Branch : Test Branch",0,0,'L');
+//                $this->Cell(140,5,"Order No : $po_number",0,1,'R');
+//                # address & Supplier Code
+//                $this->Cell(140,5,"Address : PO BOX 150",0,0,'L');
+//                $this->Cell(140,5,"Supplier Code : ".$po_hd['suppler'],0,1,'R');
+//                # city & Suppler Name
+//                $this->Cell(140,5,"City : Accra , Adenta",0,0,'L');
+//                $this->Cell(140,5,"Supplier Name : ".$db->get_rows('supp_mast',"`supp_id` = '$supplier'")['supp_name'],0,1,'R');
+//                #empty and total amount
+//                $this->Cell(140,5,"",0,0,'L');
+//                $this->Cell(140,5,"Total Cost : ".number_format($po_hd['total_amount'],2),0,1,'R');
+
+                    // Line break
+//                $this->Ln(20);
+//                // table
+//                $this->SetFont('Arial','B',12);
+//                $this->Cell(40,10,"Item Code",1,0,"L");
+//                $this->Cell(40,10,"Description",1,0,"L");
+//                $this->Cell(40,10,"Pack Id",1,0,"L");
+//                $this->Cell(40,10,"Pack Desc",1,0,"L");
+//                $this->Cell(40,10,"Quantity",1,0,"L");
+//                $this->Cell(40,10,"Cost",1,0,"L");
+//                $this->Cell(40,10,"Total Cost",1,1,"L");
+                    // Line break
+                }
+
+                // Page footer
+                function Footer()
+                {
+                    // Position at 1.5 cm from bottom
+                    $this->SetY(-15);
+                    // Arial italic 8
+                    $this->SetFont('Arial','I',8);
+                    // Page number
+                    $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}',0,0,'C');
+                }
+            }
+
+            // Instantiation of inherited class
+            $pdf = new PDF('L','mm','A4');
+            $pdf->AliasNbPages();
+            $pdf->AddPage();
+
+            // Logo
+//            $pdf->Image('logo.png',10,6,30,);
+            // Arial bold 15
+            $pdf->SetFont('Arial','B',12);
+            // Move to the right
+
+            // Title
+//            $pdf->Cell(280,5,$company['c_name'],0,1,'R');
+//            $pdf->Cell(280,5,'VAT : '.$company['vat_code'],0,1,'R');
+//            $pdf->Cell(280,5,$company['box']. ", ".$company['country'].", ".$company['city'].", ".$company['street'],0,1,'R');
+//            $pdf->Cell(280,5,'Tel : '.$company['phone'],0,1,'R');
+//            $pdf->Cell(280,5,'Email : '.$company['email'],0,1,'R');
+
+            $pdf->SetFont('Arial','B',20);
+            $pdf->Cell(93,10,'',0,0,'C');
+            $pdf->Cell(93,15,'Goods Received Note',1,0,'C');
+            $pdf->Cell(93,10,'',0,1,'C');
+
+            $pdf->SetFont('Arial','B',12);
+            $pdf->Cell(140,10,"Delivery Details",0,0,'L');
+            $pdf->Cell(140,10,"Order Details",0,1,'R');
+            $pdf->SetFont('Arial','',12);
+
+            // branch % date
+            $pdf->Cell(140,7,"GRN No : $entry_no",0,0,'L');
+            $pdf->Cell(140,7,"Rec Date : ".$grn_hd['date_received'],0,1,'R');
+            # branch & order number
+            $pdf->Cell(140,7,"PO No : ".$grn_hd['po_number'],0,0,'L');
+            $pdf->Cell(140,7,"Inv No : ".$grn_hd['invoice_num'],0,1,'R');
+            # address & Supplier Code
+            $pdf->Cell(140,7,"Entry Date : ".$grn_hd['created_on'],0,0,'L');
+            $pdf->Cell(140,7,"Inv Amt : ".number_format($grn_hd['invoice_amt'],2),0,1,'R');
+
+            # city & Suppler Name
+            $loc = $grn_hd['loc'];
+            $location = $db->get_rows('loc',"`loc_id` = '$loc'")['loc_desc'];
+
+            $pdf->Cell(140,7,"Location : $loc - $location",0,0,'L');
+            $pdf->Cell(140,7,"Tax Amt : ".number_format($grn_hd['tax_amt'],2),0,1,'R');
+
+            # Supplier
+            $supp = $grn_hd['supplier'];
+            $supplier = $db->get_rows('supp_mast',"`supp_id` = '$supp'")['supp_name'];
+            $pdf->Cell(140,7,"Suppler : $supplier",0,0,'L');
+            $pdf->Cell(140,7,"Net Amt : ".number_format($grn_hd['net_amt'],2),0,1,'R');
+            # remarks
+            $pdf->Cell(100,7,"Remarks : " . $grn_hd['remarks'],0,1,'L');
+
+
+            // Line break
+            $pdf->Ln(20);
+
+            // table
+            $pdf->SetFont('Arial','B',10);
+            $pdf->Cell(10,10,"LN",1,0,"L");
+            $pdf->Cell(40,10,"Item",1,0,"L");
+            $pdf->Cell(43,10,"Description",1,0,"L");
+            $pdf->Cell(23,10,"Pack ID",1,0,"L");
+            $pdf->Cell(23,10,"Packing",1,0,"L");
+            $pdf->Cell(20,10,"QTY",1,0,"L");
+            $pdf->Cell(23,10,"Price",1,0,"L");
+            $pdf->Cell(23,10,"Inv Amt",1,0,"L");
+            $pdf->Cell(23,10,"Tax Amt",1,0,"L");
+            $pdf->Cell(23,10,"Net Amt",1,0,"L");
+            $pdf->Cell(23,10,"Retail",1,1,"L");
+
+            $pdf->SetFont('Times','',10);
+            // get grn trans
+            $grn_trans = $db->db_connect()->query("SELECT * FROM grn_trans WHERE entry_no = '$entry_no'");
+            $grn_ln = 0;
+            while ($grn_tran = $grn_trans->fetch(PDO::FETCH_ASSOC))
+            {
+                $grn_ln ++;
+                $pdf->Cell(10,10,"$grn_ln",1,0,"L");
+                $pdf->Cell(40,10,$grn_tran['barcode'],1,0,"L");
+                $pdf->Cell(43,10,$grn_tran['item_description'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['packing'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['pack_desc'],1,0,"L");
+                $pdf->Cell(20,10,$grn_tran['qty'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['cost'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['total_cost'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['tax_amt'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['net_amt'],1,0,"L");
+                $pdf->Cell(23,10,$grn_tran['ret_amt'],1,1,"L");
+            }
+
+            // signs box
+            $pdf->Ln(20);
+            $pdf->SetFont('Times','B',15);
+            $pdf->Cell(80,10,$grn_hd['created_by'],1,0,'C');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(80,10,$approved,1,1,'C');
+            // sign text
+            $pdf->SetFont('Times','',12);
+            $pdf->Cell(80,10,'Created By',0,0,'C');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(40,10,'',0,0,'L');
+            $pdf->Cell(80,10,'Approved By',0,1,'C');
+
+            $pdf->Output("$entry_no.pdf",'F');
+            $anton->done("$entry_no.pdf");
 
         }
 

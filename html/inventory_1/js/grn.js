@@ -664,11 +664,13 @@ function print_grn() {
             type:'POST',
             data:form_data,
             success: function (response) {
-                if(response === 'done')
+
+                if(responseType(response) === 'done')
                 {
                     // set ifram
+                    var pdf = responseMessage(response);
                     $('#pdf_body').html(
-                        "<embed src=\"backend/process/form-processing/test.pdf\" width=\"100%\" height=\"100%\"\n" +
+                        "<embed src=\"backend/process/form-processing/"+pdf+"\" width=\"100%\" height=\"100%\"\n" +
                         "                           type=\"application/pdf\">"
                     )
                     // show pdf modal
