@@ -27,6 +27,31 @@ class anton extends FPDF
         }
     }
 
+    public function unset_session($arr_of_data)
+    {
+        foreach ($arr_of_data as $iValue) // loop through each session data
+        {
+            $sess_data = $iValue;
+            if(count(explode('=',$sess_data)) === 2) //if it is exploded and count is exactly 2
+            {
+                $sess_data_explode = explode('=',$sess_data);
+                $session_variable = $sess_data_explode[0]; // session variable
+                $session_value = $sess_data_explode[1]; // session value
+
+                if(isset($_SESSION["$session_variable"]))
+                {
+                    unset($session_variable);
+                }
+
+
+
+
+
+            }
+
+        }
+    }
+
     public function get_session($variable)
     {
         if(isset($_SESSION[$variable]))

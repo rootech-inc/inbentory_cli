@@ -227,14 +227,17 @@
                             require 'backend/includes/parts/inventory/receiving/view_grn.php';
                         }
 
-                        elseif ($action === 'new'){ // new purchasing order
+                        elseif ($action === 'new'){ // new grn
 
                             require 'backend/includes/parts/inventory/receiving/new.php';
                         }
 
-                        elseif ($action === 'edit'){ // new purchasing order
+                        elseif ($action === 'edit'){ // edit grn
 
-                            require 'backend/includes/parts/inventory/purchasing/edit_po.php';
+//                            print_r($_SESSION);
+//                            die();
+                            require 'backend/includes/parts/inventory/receiving/edit_grn.php';
+
                         }
                     }
                     ?>
@@ -255,14 +258,12 @@
                         echo "<script>viewGrn('$grn_number')</script>";
                     } elseif ($action === 'edit')
                     {
-                        $po_number = $anton->get_session('po_number');
-                        echo "<script>editPoTrans('$po_number')</script>";
+                        $entry_no = $anton->get_session('entry_no');
+                        echo "<script>editGrn()</script>";
                     }
                 endif; ?>
 
             </div>
-
-            </row>
 
         </div>
 </main>

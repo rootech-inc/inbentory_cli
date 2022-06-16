@@ -54,4 +54,4 @@
 - [x] View document transactions on document
 - [x] save tax value when saving grn
 - [x] Print document
-- [ ] Edit GRN
+- [ ] Edit GRN - enable tax change

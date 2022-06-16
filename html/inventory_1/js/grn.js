@@ -684,3 +684,126 @@ function print_grn() {
 
     }
 }
+
+// edit grn
+function editGrn() {
+    //entry_no = get_session('entry_no')
+    let entry_no = a_sess.get_session('entry_no')
+    loader('show')
+
+    // check if entry exist
+    if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
+    {
+        // get hd
+        var grn_hd = JSON.parse(get_row('grn_hd',"`entry_no` = '"+entry_no+"'"))[0];
+        var doc_status = grn_hd.status
+        if(doc_status === 0 )
+        {
+            // edit is possible. get header details
+            let loc,loc_desc,supp,po,remarks,inv_num,inv_amt,tax_amt,net_amt; //ini grn header vars
+
+            // define grn header variables
+            loc = grn_hd.loc
+            loc_desc = JSON.parse(get_row('loc',"`loc_id` = '"+loc+"'"))[0].loc_desc
+            supp = grn_hd.supplier
+            po = grn_hd.po_number
+            remarks = grn_hd.remarks
+            inv_num = grn_hd.invoice_num
+            inv_amt = grn_hd.invoice_amt
+            tax_amt = grn_hd.tax_amt
+            net_amt = grn_hd.net_amt
+
+            // change text ot target places on document
+
+            var id_text = {
+                'entry_no':entry_no,
+                'loc_id':loc,
+                'loc_desc':loc_desc,
+                'supplier':supp,
+                'po_entry':po,
+                'remarks':remarks,
+                'inv_number':inv_num,
+                'inv_amt':inv_amt,
+                'tax_amount':tax_amt,
+                'net_amount':net_amt
+            }
+            jqh.setText(id_text)
+
+            // load grn trans
+            let grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"));
+            let tr ="";
+            let sn = 0;
+            for (let g_tr = 0; g_tr < grn_trans.length; g_tr ++)
+            {
+                let grn_tran = grn_trans[g_tr];
+
+                // vars
+                let item_code = grn_tran.item_code
+                let barcode = grn_tran.barcode
+                let description = grn_tran.item_description
+                let pack_id = grn_tran.packing
+                let packing = grn_tran.pack_desc
+                let qty = grn_tran.qty
+                let price = grn_tran.cost
+                let total_amt = grn_tran.total_cost
+                let tax_amount = grn_tran.tax_amt
+                let net_amount = grn_tran.net_amt
+                let prod_cost = grn_tran.prod_cost
+                let retail = grn_tran.ret_amt
+
+                // set bg
+                let retail_bg = '';
+                if (prod_cost >= retail) {
+                    // danger
+                    retail_bg = 'bg-danger'
+                }
+
+                // ids
+                sn++
+                let qty_id = "qty_" + sn.toString();
+                let price_id = 'price_' + sn.toString();
+                let total_id = 'total_' + sn.toString();
+                let tr_id = 'row_' + item_code.toString();
+                let cost_id = 'cost_' + sn.toString()
+                let retail_id = 'retail_' + sn.toString()
+                let code_id = 'code_id_' + sn.toString()
+                let net_id = 'net_' + sn.toString()
+                let tax_id = 'tax_' + sn.toString()
+
+
+
+
+                tr += "<tr id='" + tr_id + "'>\n" +
+                    "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
+                    "                            <td class='text_xs'>" + barcode + "</td>\n" +
+                    "                            <td class='text_xs'>" + description + "</td>\n" +
+                    "                            <td class='text_xs'>" + pack_id + "</td>\n" +
+                    "                            <td class='text_xs'>" + packing + "</td>\n" +
+                    "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                    "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                    "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
+                    "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+                    "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount + "' /></td>\n" +
+                    "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + prod_cost + "'></td>\n" +
+                    "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
+                    "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
+                    "                        </tr>";
+
+            }
+            $('#grn_items_list').html(tr)
+            cl(tr)
+        }
+
+        loader('hide')
+    }
+    else
+    {
+        swal_error("Cannot find document " + entry_no)
+        //unset session variable
+        a_sess.unset_session([entry_no])
+        // change session to view
+        a_sess.set_session(['action=view'])
+        reload()
+    }
+
+}

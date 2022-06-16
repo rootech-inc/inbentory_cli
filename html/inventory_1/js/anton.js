@@ -10,6 +10,15 @@ const yyyy = today.getFullYear();
 const  toDay = yyyy + '-' + mm + '-' + dd;
 const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":" + sss
 
+// instantiate classes
+const a_sess = new a_session();
+const jqh = new J_query_supplies();
+
+// send j text
+function setText(id,text)
+{
+    jqh.setText(id,text)
+}
 
 
 //
@@ -535,6 +544,33 @@ function set_session(data,reload = 1) {
         }
     );
 }
+
+// get session
+function get_session(sess_var) {
+    var form_data = {
+        'token':'none',
+        'function':'get_session',
+        'sess_var':sess_var
+    }
+    cl("session var : " + sess_var)
+    var result = null;
+    $.ajax(
+        {
+            url:'/backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data: form_data,
+            success: function (response) {
+                result = response;
+            }
+        }
+    );
+    return result;
+}
+
+// unset session
 
 // scroll categories
 function custom_scroll(id,direction) {

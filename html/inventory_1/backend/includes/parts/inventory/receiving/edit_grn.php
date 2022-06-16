@@ -37,7 +37,7 @@
                 </button>
 
                 <!--ADD-->
-                <button onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
 <!--                    <img-->
 <!--                            src="../../assets/icons/home/new_property.png"-->
 <!--                            class="img-fluid"-->
@@ -47,7 +47,7 @@
 
 
                 <!--DELETE-->
-                <button id="delete_button" onclick="delete_po()" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled id="delete_button" onclick="delete_po()" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
 <!--                    <img-->
 <!--                            src="../../assets/icons/home/delete_document.png"-->
 <!--                            class="img-fluid"-->
@@ -58,7 +58,7 @@
 
 
                 <!--EDIT-->
-                <button id="edit_button" onclick="set_session(['action=edit','entry_no='+$('#entry_no').text()])" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled id="edit_button" onclick="set_session(['action=edit','entry_no='+$('#entry_no').text()])" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
 <!--                    <img-->
 <!--                            src="../../assets/icons/home/edit_property.png"-->
 <!--                            class="img-fluid"-->
@@ -67,7 +67,7 @@
                 </button>
 
                 <!--SORT LEFT-->
-                <button type="button" onclick="previewPoTrans(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled type="button" onclick="previewPoTrans(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_left.png"
                             class="img-fluid"
@@ -75,7 +75,7 @@
                 </button>
 
                 <!--SORT RIGHT-->
-                <button onclick="previewPoTrans(this.value)" value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled onclick="previewPoTrans(this.value)" value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_right.png"
                             class="img-fluid"
@@ -88,17 +88,17 @@
             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
                 <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="po_search">
                 <!--SEARCH-->
-                <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <i class="fa fa-search text-info"></i>
                 </button>
 
                 <!-- PRINT -->
-                <button type="button" onclick="print_grn()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled type="button" onclick="print_grn()" title="Print" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <i class="fa fa-print text-danger"></i>
                 </button>
 
                 <!-- APPORVE -->
-                <button type="button" id="approve_button" onclick="approve_po()" title="Approve" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled type="button" id="approve_button" onclick="approve_po()" title="Approve" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/approve.png"
                             class="img-fluid"
@@ -106,7 +106,7 @@
                 </button>
 
                 <!-- TRANSACTIONS -->
-                <button type="button" id="grn_transactions" onclick="gen_modal('grn_trans','GRN Transactions','grn_trans')" title="Transactions" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button disabled type="button" id="grn_transactions" onclick="gen_modal('grn_trans','GRN Transactions','grn_trans')" title="Transactions" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <i class="fa fa-list text-dark"></i>
                 </button>
 
@@ -186,7 +186,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Invoice Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="total_amount"></div>
+                        <div class="prod_inp_view" id="inv_amt"></div>
                     </div>
 
                     <!-- TAX Amount -->

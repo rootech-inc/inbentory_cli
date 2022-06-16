@@ -15,6 +15,21 @@
                 $anton->set_session($session_data);
             }
 
+            elseif ($function === 'unset_session')
+            {
+                // get form data
+                $session_data = $_POST['sess_var'];
+//                print_r($session_data);
+                $anton->unset_session($session_data);
+
+            }
+
+            elseif ($function === 'get_session')
+            {
+                $sess_var = $anton->post('sess_var');
+                echo $anton->get_session("$sess_var");
+            }
+
             elseif ($function === 'row_count') // count rows
             {
                 $table = $anton->post('table');

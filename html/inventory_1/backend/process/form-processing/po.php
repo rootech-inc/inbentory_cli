@@ -267,6 +267,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
 
 
         $pdf->Output("test.pdf",'F');
+        $db->doc_trans('PO',"$po_number","PRI");
         echo 'done';
     }
 
