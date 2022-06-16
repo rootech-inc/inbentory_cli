@@ -157,6 +157,12 @@
                         <div class="prod_inp_view" id="po_entry"></div>
                     </div>
 
+                    <!-- TAX -->
+                    <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
+                        <option value="0">No</option>
+                        <option value="V3">VAT 3%</option>
+                    </select>
+
                     <!--Description-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
