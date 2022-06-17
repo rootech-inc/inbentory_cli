@@ -162,12 +162,12 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Taxable</p>
                         </div>
-                        <select disabled onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
+                        <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
                             <option value="0">No</option>
                             <option value="V3">VAT 3%</option>
 
                         </select>
-                    </div>ppdd
+                    </div>
 
                     <!--Description-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
@@ -243,6 +243,7 @@
                             <th class="text_xs">Net Amt</th>
                             <th class="text_xs">Cost</th>
                             <th class="text_xs">Retail</th>
+                            <th class="text_xs"><i class="fa fa-tools"></i></th>
                         </tr>
                     </thead>
                     <tbody id="grn_items_list">
