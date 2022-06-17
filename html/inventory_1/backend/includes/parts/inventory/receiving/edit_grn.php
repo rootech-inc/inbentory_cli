@@ -167,7 +167,7 @@
                             <option value="V3">VAT 3%</option>
 
                         </select>
-                    </div>
+                    </div>ppdd
 
                     <!--Description-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
