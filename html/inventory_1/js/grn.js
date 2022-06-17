@@ -714,9 +714,6 @@ function editGrn() {
             net_amt = grn_hd.net_amt
             supp_desc = JSON.parse(get_row('supp_mast',"`supp_id` = '"+supp+"'"))[0].supp_name
 
-            // todo get supplier description
-            //  ( name of supplier )
-
             // change text of target places on document
 
             var id_val = {
