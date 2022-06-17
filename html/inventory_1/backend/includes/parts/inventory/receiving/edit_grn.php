@@ -115,7 +115,8 @@
         </div>
 
         <!--PRODUCT BODY-->
-        <div class="product_body">
+        <form id="general_form" action="backend/process/form-processing/grn.php" method="post" class="product_body">
+            <input type="hidden" value="update_grn" name="function">
             <!--TOP-->
             <div class="w-100 h-40 overflow-hidden d-flex flex-wrap">
 
@@ -127,16 +128,16 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Entry Number</p>
                         </div>
-                        <div class="prod_inp_view" id="entry_no"></div>
+                        <input type="text" readonly name="entry_no" class="prod_inp_view" id="entry_no" />
                     </div>
 
                     <!-- LOCATION -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Loc</p>
+                            <p class="m-0 p-0 text-elipse">Location</p>
                         </div>
                         <div class="w-60 d-flex flex-wrap justify-content-between">
-                            <div class="prod_inp_view w-25" id="loc_id"></div>
+                            <input type="text" readonly name="loc_id" class="prod_inp_view w-25" id="loc_id" />
                             <div class="prod_inp_view w-65" id="loc_desc">Description</div>
                         </div>
                     </div>
@@ -146,7 +147,10 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Supplier</p>
                         </div>
-                        <div class="prod_inp_view" id="supplier"></div>
+                        <div class="w-60 d-flex flex-wrap justify-content-between">
+                            <input type="text" readonly name="supplier" class="prod_inp_view w-25" id="supplier" />
+                            <div class="prod_inp_view w-65" id="supp_desc">Description</div>
+                        </div>
                     </div>
 
                     <!--PO TYPE-->
@@ -154,7 +158,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Ref PO</p>
                         </div>
-                        <div class="prod_inp_view" id="po_entry"></div>
+                        <input type="text" readonly name="po_entry" class="prod_inp_view" id="po_entry" />
                     </div>
 
                     <!-- TAX -->
@@ -165,7 +169,6 @@
                         <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
                             <option value="0">No</option>
                             <option value="V3">VAT 3%</option>
-
                         </select>
                     </div>
 
@@ -174,7 +177,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <div class="prod_inp_view text-elipse" id="remarks"></div>
+                        <input type="text" readonly name="remarks" class="prod_inp_view" id="remarks" />
                     </div>
 
                     <i id="document_stat" class="">Pending</i>
@@ -190,7 +193,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Invoice</p>
                         </div>
-                        <div class="prod_inp_view" id="inv_number"></div>
+                        <input type="text" readonly name="inv_number" class="prod_inp_view" id="inv_number" />
                     </div>
 
                     <!--Inv Amount-->
@@ -198,7 +201,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Invoice Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="inv_amt"></div>
+                        <input type="text" readonly name="inv_amt" class="prod_inp_view" id="inv_amt" />
                     </div>
 
                     <!-- TAX Amount -->
@@ -206,7 +209,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Tax Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="tax_amount"></div>
+                        <input type="text" readonly name="tax_amount" class="prod_inp_view" id="tax_amount" />
                     </div>
 
                     <!-- NET AMOUNT -->
@@ -214,7 +217,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Net Amount</p>
                         </div>
-                        <div class="prod_inp_view" id="net_amount"></div>
+                        <input type="text" readonly name="net_amount" class="prod_inp_view" id="net_amount" />
                     </div>
 
 
@@ -267,7 +270,7 @@
 
             </div>
 
-        </div>
+        </form>
 
     </div>
 
