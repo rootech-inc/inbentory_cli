@@ -199,7 +199,11 @@ class anton extends FPDF
         $tax_amount = 0;
         if($class === 'V3')
         {
-            $tax_amount = $this->tax(3,$value);
+            // calculate levies
+            $levies_rate = 5;
+            $levies_value = $this->tax($levies_rate,$value);
+            $new_vale = $value + $levies_value;
+            $tax_amount = $this->tax(12.5,$new_vale);
         }
 
         return $tax_amount;

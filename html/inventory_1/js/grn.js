@@ -287,9 +287,10 @@ function new_grn_tax_calc(tax_class,line='*') {
         // check lines
         if (line === '*') // all lines
         {
-            swal_error("This is all  rows")
-            let last_row = $('#po_items_list tr').length;
+
+            let last_row = $('#grn_items_list tr').length;
             for (let sn = 1; sn <= last_row; sn++) {
+
                 var tr_id = '#row_' + sn.toString()
                 var price_id = '#price_' + sn.toString();
                 var qty_id = "#qty_" + sn.toString();
