@@ -18,4 +18,39 @@ class J_query_supplies {
             $(id).val(text)
         }
     }
+
+    setHtml(data) // set html
+    {
+        for(let x in data)
+        {
+            let id = "#"+x;
+            let text = data[x]
+            $(id).html(text)
+
+        }
+
+    }
+
+    loadTax() // load taxes
+    {
+
+        if(row_count('tax_master','none') > 0)
+        {
+            // get all tax
+            let all_tax = JSON.parse(get_row('tax_master','none'));
+            let option = '';
+            // loop tax
+            for(let tax_row = 0; tax_row < all_tax.length; tax_row++)
+            {
+                let tax = all_tax[tax_row];
+                let tax_description = tax.description;
+                let tax_attr = tax.attr
+                option += "<option value='"+tax_attr+"'>"+tax_description+"</option>";
+            }
+
+            let data = {'tax_grp':option}
+            this.setHtml(data)
+
+        }
+    }
 }

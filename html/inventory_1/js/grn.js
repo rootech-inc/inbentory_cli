@@ -287,6 +287,7 @@ function new_grn_tax_calc(tax_class,line='*') {
         // check lines
         if (line === '*') // all lines
         {
+            swal_error("This is all  rows")
             let last_row = $('#po_items_list tr').length;
             for (let sn = 1; sn <= last_row; sn++) {
                 var tr_id = '#row_' + sn.toString()
@@ -308,7 +309,9 @@ function new_grn_tax_calc(tax_class,line='*') {
 
 
             }
-        } else // single line
+        }
+
+        else // single line
         {
             var sn = line;
             var tr_id = '#row_' + sn.toString()
@@ -695,6 +698,7 @@ function editGrn() {
 
             jqh.setText(id_text)
             jqh.setVal(id_val)
+            jqh.loadTax()
 
             // load grn trans
             let grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"));
