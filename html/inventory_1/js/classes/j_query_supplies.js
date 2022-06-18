@@ -31,7 +31,7 @@ class J_query_supplies {
 
     }
 
-    loadTax() // load taxes
+    loadTax(active_tax) // load taxes
     {
 
         if(row_count('tax_master','none') > 0)
@@ -45,7 +45,21 @@ class J_query_supplies {
                 let tax = all_tax[tax_row];
                 let tax_description = tax.description;
                 let tax_attr = tax.attr
-                option += "<option value='"+tax_attr+"'>"+tax_description+"</option>";
+                let tax_id = tax.id
+
+                if(tax_id === active_tax)
+                {
+
+                    option += "<option selected value='"+tax_attr+"'>"+tax_description+"</option>";
+
+                }
+                else
+                {
+
+                    option += "<option value='"+tax_attr+"'>"+tax_description+"</option>";
+                }
+
+
             }
 
             let data = {'tax_grp':option}

@@ -660,7 +660,7 @@ function editGrn() {
         if(doc_status === 0 )
         {
             // edit is possible. get header details
-            let loc,loc_desc,supp,po,remarks,inv_num,inv_amt,tax_amt,net_amt,supp_desc; //ini grn header vars
+            let loc,loc_desc,supp,po,remarks,inv_num,inv_amt,tax_amt,net_amt,supp_desc,tax_grp; //ini grn header vars
 
             // define grn header variables
             loc = grn_hd.loc
@@ -673,6 +673,7 @@ function editGrn() {
             tax_amt = grn_hd.tax_amt
             net_amt = grn_hd.net_amt
             supp_desc = JSON.parse(get_row('supp_mast',"`supp_id` = '"+supp+"'"))[0].supp_name
+            tax_grp = grn_hd.tax
 
             // change text of target places on document
 
@@ -699,7 +700,7 @@ function editGrn() {
 
             jqh.setText(id_text)
             jqh.setVal(id_val)
-            jqh.loadTax()
+            jqh.loadTax(tax_grp)
 
             // load grn trans
             let grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"));
@@ -762,7 +763,10 @@ function editGrn() {
                     "                        </tr>";
 
             }
-            $('#grn_items_list').html(tr)
+            // load table rows
+            jqh.setHtml({'grn_items_list':tr})
+            // todo calculate tax for grn trans
+            let active_tax = JSON.parse(get_row('tax_master',"``"))
             cl(tr)
         }
 

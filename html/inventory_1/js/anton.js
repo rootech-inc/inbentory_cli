@@ -146,6 +146,12 @@ function cl(params) { // console log
     console.log(params + '\n')
 }
 
+// alert function
+function al(params)
+{
+    alert(params + '\n')
+}
+
 function if_id(id)
 {
     return !!document.getElementById(id);
