@@ -359,7 +359,17 @@
 
         elseif ($function === 'update_grn')
         {
+            # todo 1. delete all transactions
+            # todo 2. insert entries as new again
+            # todo 3. update header details ( inv_amt, tax_amt, net_amt )
+            # todo 4. update tax transaction
+            # todo 5. add document transaction
+
             print_r($_POST);
+            // get values from form
+            $entry_no = $anton->post('entry_no');
+
+            // delete all entry number
         }
 
     }
