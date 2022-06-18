@@ -36,50 +36,19 @@
                     >
                 </button>
 
-                <!--ADD-->
-                <button disabled onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-<!--                    <img-->
-<!--                            src="../../assets/icons/home/new_property.png"-->
-<!--                            class="img-fluid"-->
-<!--                    >-->
-                    <i class="fa fa-plus-square text-primary"></i>
+
+                <button type="submit" form="general_form" title="Save" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <!--                    <img-->
+                    <!--                            src="../../assets/icons/home/new_property.png"-->
+                    <!--                            class="img-fluid"-->
+                    <!--                    >-->
+                    <i class="fa fa-save text-primary"></i>
                 </button>
 
-
-                <!--DELETE-->
-                <button disabled id="delete_button" onclick="delete_po()" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-<!--                    <img-->
-<!--                            src="../../assets/icons/home/delete_document.png"-->
-<!--                            class="img-fluid"-->
-<!--                    >-->
-                    <i class="fa fa-trash text-danger text-success"></i>
-                </button>
-
-
-
-                <!--EDIT-->
-                <button disabled id="edit_button" onclick="set_session(['action=edit','entry_no='+$('#entry_no').text()])" type="button" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-<!--                    <img-->
-<!--                            src="../../assets/icons/home/edit_property.png"-->
-<!--                            class="img-fluid"-->
-<!--                    >-->
-                    <i class="fa fa-edit text-success"></i>
-                </button>
-
-                <!--SORT LEFT-->
-                <button disabled type="button" onclick="previewPoTrans(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/sort_left.png"
-                            class="img-fluid"
-                    >
-                </button>
 
                 <!--SORT RIGHT-->
-                <button disabled onclick="previewPoTrans(this.value)" value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/sort_right.png"
-                            class="img-fluid"
-                    >
+                <button onclick="set_session(['action=view'])" value="xx" type="button" id="sort_right" title="Cancel" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                   <i class="fa fa-window-close text-danger"></i>
                 </button>
 
             </div>

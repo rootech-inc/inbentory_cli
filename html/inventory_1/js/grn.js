@@ -281,15 +281,14 @@ function grn_list_calc(sn) {
 }
 
 function new_grn_tax_calc(tax_class,line='*') {
-    if(tax_class !== '0')
-    {
 
+    // check if tax exist
+    if (row_count('tax_master', "`attr` = '" + tax_class + "'")  === 1) {
         // check lines
-        if(line === '*') // all lines
+        if (line === '*') // all lines
         {
             let last_row = $('#po_items_list tr').length;
-            for(let sn = 1; sn<= last_row; sn++)
-            {
+            for (let sn = 1; sn <= last_row; sn++) {
                 var tr_id = '#row_' + sn.toString()
                 var price_id = '#price_' + sn.toString();
                 var qty_id = "#qty_" + sn.toString();
@@ -301,7 +300,7 @@ function new_grn_tax_calc(tax_class,line='*') {
                 let tax_id = '#tax_' + sn.toString()
 
                 var total_amt = parseFloat($(total_id).val())
-                var tax_amt  = tax_inline(tax_class,total_amt);
+                var tax_amt = tax_inline(tax_class, total_amt);
                 $(tax_id).val(tax_amt)
 
                 var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
@@ -309,8 +308,7 @@ function new_grn_tax_calc(tax_class,line='*') {
 
 
             }
-        }
-        else // single line
+        } else // single line
         {
             var sn = line;
             var tr_id = '#row_' + sn.toString()
@@ -324,57 +322,15 @@ function new_grn_tax_calc(tax_class,line='*') {
             let tax_id = '#tax_' + sn.toString()
 
             var total_amt = parseFloat($(total_id).val())
-            var tax_amt  = tax_inline(tax_class,total_amt);
+            var tax_amt = tax_inline(tax_class, total_amt);
             $(tax_id).val(tax_amt)
 
             var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
             $(net_id).val(net_amt.toFixed(2))
         }
-
-        // there is tax
-
-
+    } else {
+        swal_error("Cannot find tax class")
     }
-    else
-    {
-        // do nothing
-    }
-    // if(tax === '1')
-    // {
-    //     var supplier = $('#supp_id').val();
-    //
-    //     // check if supplier exist
-    //     if(row_count('supp_mast',"`supp_id` = '"+supplier+"'") === 1)
-    //     {
-    //
-    //         // get supplier tax group
-    //         var sup_tax_grp = JSON.parse(
-    //             get_row('supp_mast',"`supp_id` = '"+supplier+"'")
-    //         )[0].tax_grp
-    //
-    //         // check if tax group exist
-    //         if(row_count('tax_master',"`id` = '"+sup_tax_grp+"'") === 1)
-    //         {
-    //             // get tax class
-    //             var tax_class = JSON.parse(
-    //                 get_row('tax_master',"`id` = '"+sup_tax_grp+"'")
-    //             )[0].cls
-    //
-    //             var invoice_amount = $('#total_amount').val();
-    //
-    //             var tax_value = tax_input(invoice_amount,tax_class)
-    //
-    //
-    //         } else {
-    //             swal_error("Tax Group for supplier ( "+supplier+" ) does not exist")
-    //         }
-    //
-    //     } else
-    //     {
-    //         swal_error("Cant find suppler")
-    //     }
-    //
-    // }
 }
 
 // remove item from grn list

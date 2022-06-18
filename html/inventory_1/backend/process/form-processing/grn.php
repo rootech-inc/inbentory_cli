@@ -357,4 +357,9 @@
 
         }
 
+        elseif ($function === 'update_grn')
+        {
+            print_r($_POST);
+        }
+
     }
