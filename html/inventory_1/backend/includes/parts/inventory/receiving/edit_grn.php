@@ -146,7 +146,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <input type="text" readonly name="remarks" class="prod_inp_view" id="remarks" />
+                        <input type="text" name="remarks" class="prod_inp_view" id="remarks" />
                     </div>
 
                     <i id="document_stat" class="">Pending</i>
