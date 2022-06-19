@@ -765,8 +765,10 @@ function editGrn() {
             }
             // load table rows
             jqh.setHtml({'grn_items_list':tr})
-            // todo calculate tax for grn trans
-            let active_tax = JSON.parse(get_row('tax_master',"``"))
+            // calculate tax for grn trans
+            let active_tax = JSON.parse(get_row('tax_master',"`id` = '"+tax_grp+"'"))[0].attr
+            new_grn_tax_calc(active_tax,'*')
+            
             cl(tr)
         }
 
