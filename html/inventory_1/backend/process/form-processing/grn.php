@@ -107,7 +107,7 @@
 
             $net_amt = $inv_amt + $tax_amt;
             // update invoice amount
-            $db->db_connect()->exec("UPDATE `grn_hd` SET `invoice_amt` = '$inv_amt',`net_amt` = '$net_amt', `tax_amt` = '$tax_amt'");
+            $db->db_connect()->exec("UPDATE `grn_hd` SET `invoice_amt` = '$inv_amt',`net_amt` = '$net_amt', `tax_amt` = '$tax_amt'  WHERE entry_no = '$entry_no'");
             // insert into tax transaction
             $db->db_connect()->exec("INSERT INTO `tax_trans` (doc, tax_amt,entry_no) values ('GR','$tax_amt','$entry_no')");
             // update po to done
@@ -359,15 +359,79 @@
 
         elseif ($function === 'update_grn')
         {
-            # todo 1. delete all transactions
-            # todo 2. insert entries as new again
-            # todo 3. update header details ( inv_amt, tax_amt, net_amt )
-            # todo 4. update tax transaction
-            # todo 5. add document transaction
-
-            print_r($_POST);
             // get values from form
             $entry_no = $anton->post('entry_no');
+
+            # todo 1. delete all transactions
+            $db->delete('grn_trans',"`entry_no` = '$entry_no'");
+
+            # todo 2. insert entries as new again
+            $inv_amt = 0;
+            $tax_amt = 0;
+            foreach ($_POST['item_code'] as $key => $value)
+            {
+                $item_code = $_POST['item_code'][$key];
+                $qty = $_POST['qty'][$key];
+                $cost = $_POST['price'][$key];
+                $total_amt = $_POST['total_amt'][$key];
+
+
+                $tax = $_POST['tax'][$key];
+                $net = $_POST['net'][$key];
+                $prod_cost = $_POST['cost'][$key];
+                $retail = $_POST['retail'][$key];
+
+
+                $inv_amt += $total_amt;
+
+                $tax_amt += $tax;
+
+                // get item details
+                $item_details = $db->get_rows('prod_master',"`item_code` = '$item_code'");
+                $barcode = $item_details['barcode'];
+                $item_desc = $item_details['item_desc'];
+                $packing_details = $db->get_rows('prod_packing',"`item_code` = '$item_code' AND `purpose` = 2");
+                $pack_desc = $packing_details['pack_desc'];
+                $pack_um = $packing_details['qty'];
+                $pack_id = $packing_details['pack_id'];
+                $packing_d = $db->get_rows('packaging',"`id` = '$pack_id'");
+                $packing = $packing_d['desc'];
+
+
+                $insert = "INSERT INTO `grn_trans` (entry_no, item_code, barcode, item_description, owner, pack_desc, packing,qty,cost,total_cost,date_added,pack_um,net_amt,tax_amt,prod_cost,ret_amt) VALUES 
+                                                   ('$entry_no','$item_code','$barcode','$item_desc','$myName','$pack_desc','$packing','$qty','$cost','$total_amt','$today','$pack_um','$net','$tax','$prod_cost','$retail')";
+
+//                $anton->br($insert);
+                $db->db_connect()->exec($insert);
+
+                // insert into price change
+                $prev_c = $item_details['cost'];
+                $o_cost = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','c','$prev_c','$prod_cost')";
+                $prev_r = $item_details['retail'];
+                $o_retail = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','r','$prev_r','$retail')";
+                $db->db_connect()->exec($o_cost);
+                $db->db_connect()->exec($o_retail);
+                // update cost and retail
+                $db->db_connect()->exec("UPDATE `prod_master` SET `cost` = '$prod_cost', `prev_retail` = `retail`, `retail` = '$retail' WHERE `item_code` = '$item_code'");
+
+//                echo "\n Item $item_code has $qty and each price is $price with cost price of $cost and retail of $retail \n";
+
+            }
+
+            # todo 3. update header details ( inv_amt, tax_amt, net_amt )
+            $net_amt = $inv_amt + $tax_amt;
+            $db->db_connect()->exec("UPDATE `grn_hd` SET `invoice_amt` = '$inv_amt',`net_amt` = '$net_amt', `tax_amt` = '$tax_amt' WHERE entry_no = '$entry_no'");
+
+            # todo 4. update tax transaction
+            $db->delete('tax_trans',"`doc` = 'GRN' AND `entry_no` = '$entry_no'");
+            $db->db_connect()->exec("INSERT INTO `tax_trans` (doc, tax_amt,entry_no) values ('GR','$tax_amt','$entry_no')");
+
+            # todo 5. add document transaction
+            $db->doc_trans('GRN',"$entry_no",'ED');
+
+            $anton->set_session(['action=view']);
+            $anton->done('done');
+
 
             // delete all entry number
         }
