@@ -67,7 +67,7 @@
                 </button>
 
                 <!--SORT LEFT-->
-                <button type="button" onclick="previewPoTrans(this.value)" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button type="button" value="" id="sort_left" title="Sort Left" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_left.png"
                             class="img-fluid"
@@ -75,7 +75,7 @@
                 </button>
 
                 <!--SORT RIGHT-->
-                <button onclick="previewPoTrans(this.value)" value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button value="xx" type="button" id="sort_right" title="Sort Right" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/sort_right.png"
                             class="img-fluid"
@@ -97,8 +97,8 @@
                     <i class="fa fa-print text-danger"></i>
                 </button>
 
-                <!-- APPORVE -->
-                <button type="button" id="approve_button" onclick="approve_po()" title="Approve" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <!-- APPROVE -->
+                <button type="button" id="approve_button" onclick="approve_doc('GRN')" title="Approve" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="../../assets/icons/home/approve.png"
                             class="img-fluid"

@@ -83,5 +83,13 @@
                 $res = $db->get_rows('clerk',"`id` = $id",'json');
                 print_r($res);
             }
+
+            elseif ($function === 'doc_trans') // document transaction
+            {
+                $doc = $anton->post('doc');
+                $func = $anton->post('func');
+                $entry_no = $anton->post('entry_no');
+                $db->doc_trans($doc,$entry_no,$func);
+            }
         }
     }

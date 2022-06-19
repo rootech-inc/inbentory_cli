@@ -13,6 +13,7 @@ const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":
 // instantiate classes
 const a_sess = new a_session();
 const jqh = new J_query_supplies();
+const db = new Db_trans();
 
 // send j text
 function setText(id,text)
@@ -1625,7 +1626,7 @@ function download_products() // download products
     swal.fire("Downloading Complete")
 }
 
-function new_line(doc,item_code)
+function new_line(doc,item_code) // insert new line
 {
     let body = '#po_items_list', tr = '';
     let item_detail;
@@ -1700,5 +1701,48 @@ function new_line(doc,item_code)
             $(body).append(tr)
         }
     }
+
+}
+
+function approve_doc(doc) // approve document
+{
+
+    Swal.fire({
+        title: 'Are you sure you want to approve document?',
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'YES',
+        denyButtonText: `NO`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+
+            // approve grn
+            if(doc === 'GRN')
+            {
+                //get grn number
+                let entry_no = $('#entry_no').text();
+                if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
+                {
+                    // approve
+                    exec("UPDATE `grn_hd` SET `status` = 1 WHERE `entry_no` = '"+entry_no+"'")
+                    // load document again
+                    viewGrn(entry_no)
+
+                    // add entry
+                    db.new_doc_trans("GRN",entry_no,"AP")
+
+                } else {
+                    swal_error("Cannot find document <i>"+entry_no+"</i>")
+                }
+            }
+
+
+
+        } else if (result.isDenied) {
+
+        }
+    })
+
 
 }

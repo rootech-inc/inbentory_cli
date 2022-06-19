@@ -540,9 +540,12 @@ function viewGrn(entry_no)
             } else if (status === 1)
             {
                 status_message = '<i class="text-success">Approved</i>'
+                arr_disable('delete_button,edit_button,approve_button')
+                // disable edit, approve, delete
             } else if (status === -1)
             {
                 status_message = '<i class="text-danger">Deleted</i>';
+                arr_enable('delete_button,edit_button,approve_button')
             }
             $('#approved_container').html(status_message)
             cl(status)
@@ -785,3 +788,32 @@ function editGrn() {
     }
 
 }
+
+// grn nav
+function grn_nav(dir)
+{
+    let current_entry_id = $('#entry_no').text().split('R')[1];
+
+    let count = 0;
+    if(dir === 'next')
+    {
+        count = row_count('grn_hd',"`id` > '"+current_entry_id+"'")
+    } else if(dir === 'prev')
+    {
+        count = row_count('grn_hd',"`id` < '"+current_entry_id+"'")
+    }
+
+    cl(count)
+}
+
+// navidate grn
+$(document).ready(function() {
+    $("#sort_right").click(function(){
+        grn_nav('next')
+    });
+});
+$(document).ready(function() {
+    $("#sort_left").click(function(){
+        grn_nav('prev')
+    });
+});

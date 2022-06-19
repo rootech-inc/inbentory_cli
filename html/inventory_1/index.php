@@ -25,6 +25,7 @@ error_reporting(E_ALL);
     <script src="js/bootstrap.min.js"></script>
     <script src="js/classes/session.js"></script>
     <script src="js/classes/j_query_supplies.js"></script>
+    <script src="js/classes/db_trans.js"></script>
 
     <script src="js/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/sweetalert.min.css">

@@ -49,6 +49,7 @@
     - [x] PO Navigation
     - [x] Approve PO
     - [x] Delete PO
+    - [ ] PO remarks should be in an ellipse
 
 ### GRN
 - [x] View document transactions on document
