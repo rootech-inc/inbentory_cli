@@ -156,6 +156,14 @@
                 <!--Prod Right-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
 
+                    <!-- INVOICE NUMBER -->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Invoice Number</p>
+                        </div>
+                        <input class="prod_inp_view" id="invoice_number" name="invoice_number" type="text" required>
+                    </div>
+
                     <!--Total Amount-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
@@ -164,13 +172,22 @@
                         <input class="prod_inp_view" id="total_amount" name="total_amount" type="number" readonly value="0.00">
                     </div>
 
-                    <!-- INVOICE NUMBER -->
+                    <!--Tax Amount-->
                     <div class="w-100 d-flex flex-wrap prod_inp_container">
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Invoice Number</p>
+                            <p class="m-0 p-0 text-elipse">Tax Amount</p>
                         </div>
-                        <input class="prod_inp_view" id="invoice_number" name="invoice_number" type="text" required>
+                        <input class="prod_inp_view" id="tax_amt" name="tax_amt" type="number" readonly value="0.00">
                     </div>
+
+                    <!-- NET AMT -->
+                    <div class="w-100 d-flex flex-wrap prod_inp_container">
+                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                            <p class="m-0 p-0 text-elipse">Net Amount</p>
+                        </div>
+                        <input class="prod_inp_view" id="net_amt" name="net_amt" type="number" readonly value="0.00">
+                    </div>
+
 
                     <!-- REMARKS -->
                     <div class="w-100 d-flex flex-wrap prod_inp_container" style="overflow: visible !important;">
@@ -229,7 +246,7 @@
                             <th class="text_xs">Del</th>
                         </tr>
                     </thead>
-                    <tbody id="po_items_list">
+                    <tbody id="grn_items_list">
                         <tr>
                             <td class='text_xs'>Text</td>
                             <td class='text_xs'>Text</td>

@@ -1,5 +1,6 @@
-### Pending Check List
+# Pending Check List
 
+### Billing
 - [ ] Refund
 - [x] Discount *
     - [x] Check if general field has input
@@ -34,6 +35,7 @@
 - [ ] Keyboard
     - [x] Numeric
     - [ ] Alphabetical
+- [ ] Printing Invoice
 
 ### PO
 - [x] Purchase Order
@@ -59,3 +61,13 @@
 - [ ] Approve GRN
 - [ ] Search for GRN Entry
 - [ ] Navigate GRN
+
+### Systems
+- [ ] Company Setup
+- [ ] Create Clerks
+- [ ] Create Supplier
+- [ ] Create Branches
+
+### Reports
+- [ ] Z-Reports
+- [ ] EOD Report

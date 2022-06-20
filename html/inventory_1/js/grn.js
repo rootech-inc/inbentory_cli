@@ -45,6 +45,7 @@ $('#po_search').on('keyup',function (e) // search for po
                     set_value('ref_doc', po_number)
                     set_value('remarks', po_details.remarks)
                     arr_enable('tax_grp')
+                    jqh.loadTax()
 
                     // get po trans
                     var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
@@ -118,7 +119,7 @@ $('#po_search').on('keyup',function (e) // search for po
                                 "                        </tr>";
                             echo(sn)
                         }
-                        $('#po_items_list').html(tr)
+                        $('#grn_items_list').html(tr)
                         // get grn total
                         echo(grn_total)
                         set_value('total_amount', grn_total.toFixed(2))
@@ -262,7 +263,7 @@ function grn_list_calc(sn) {
     $(cost_id).val(cost_price.toFixed(2))
     $(net_id).val(new_total.toFixed(2))
     var tax_class = $('#tax_grp').val()
-    new_grn_tax_calc(tax_class,sn)
+    new_grn_tax_calc(tax_class,'*')
 
     if(cost_price >= retail)
     {
@@ -287,7 +288,9 @@ function new_grn_tax_calc(tax_class,line='*') {
         // check lines
         if (line === '*') // all lines
         {
-
+            let gen_tax, gen_net_amt;
+            gen_tax = 0;
+            gen_net_amt = 0;
             let last_row = $('#grn_items_list tr').length;
             for (let sn = 1; sn <= last_row; sn++) {
 
@@ -304,12 +307,17 @@ function new_grn_tax_calc(tax_class,line='*') {
                 var total_amt = parseFloat($(total_id).val())
                 var tax_amt = tax_inline(tax_class, total_amt);
                 $(tax_id).val(tax_amt)
+                gen_tax += parseFloat(tax_amt);
 
                 var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
+                gen_net_amt += net_amt;
                 $(net_id).val(net_amt.toFixed(2))
 
-
             }
+            jqh.setVal({
+                'tax_amt':gen_tax,
+                'net_amt':gen_net_amt
+            })
         }
 
         else // single line
@@ -382,11 +390,13 @@ $(document).ready(function (){
             error += 1;
             error_log += "<p class='border border-bottom'> HD : Please Enter invoice number</p>";
         }
+
+
         if(row_count('gn_hd',"`invoice_num` = '"+invoice_number+"'") > 0 )
         {
             $("#invoice_number").addClass('bg-warning')
             error +=1 ;
-            error_log += "<p class='border border-bottom'> HD : Please Check Invoice Number</p>";
+            error_log += "<p class='border border-bottom'> HD : Cannot insert duplicate invoice number</p>";
         }
 
 
@@ -537,6 +547,8 @@ function viewGrn(entry_no)
             if(status === 0)
             {
                 status_message = '<i class="text-info">Pending</i>'
+                // enable edit, approve, delete
+                arr_enable('delete_button,edit_button,approve_button')
             } else if (status === 1)
             {
                 status_message = '<i class="text-success">Approved</i>'
@@ -545,7 +557,7 @@ function viewGrn(entry_no)
             } else if (status === -1)
             {
                 status_message = '<i class="text-danger">Deleted</i>';
-                arr_enable('delete_button,edit_button,approve_button')
+                arr_disable('delete_button,edit_button,approve_button')
             }
             $('#approved_container').html(status_message)
             cl(status)
@@ -795,12 +807,19 @@ function grn_nav(dir)
     let current_entry_id = $('#entry_no').text().split('R')[1];
 
     let count = 0;
+    let row;
     if(dir === 'next')
     {
         count = row_count('grn_hd',"`id` > '"+current_entry_id+"'")
+        row = JSON.parse(get_row('grn_hd',"`id` > '"+current_entry_id+"'  LIMIT 1"))[0]
+        let next_entry_no = row.entry_no;
+        viewGrn(next_entry_no)
     } else if(dir === 'prev')
     {
         count = row_count('grn_hd',"`id` < '"+current_entry_id+"'")
+        row = JSON.parse(get_row('grn_hd',"`id` < '"+current_entry_id+"' ORDER BY `id` DESC LIMIT 1"))[0]
+        let prev_entry_no = row.entry_no;
+        viewGrn(prev_entry_no)
     }
 
     cl(count)

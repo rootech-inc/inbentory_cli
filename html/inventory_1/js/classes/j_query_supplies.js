@@ -31,7 +31,7 @@ class J_query_supplies {
 
     }
 
-    loadTax(active_tax) // load taxes
+    loadTax(active_tax = 'none') // load taxes
     {
 
         if(row_count('tax_master','none') > 0)
