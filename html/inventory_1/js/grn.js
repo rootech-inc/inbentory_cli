@@ -10,143 +10,156 @@ $('#po_search').on('keyup',function (e) // search for po
     let po_details;
 
     if (key === 13) {
+        // get session action
+        let action = a_sess.get_session('action');
         // get po value and validate
         po_number = $('#po_search').val()
-        var po_exist = row_count('po_hd', "`doc_no` = '" + po_number + "'");
-        var grn_made = row_count('grn_hd', "`po_number` = '" + po_number + "'")
-        if (po_exist === 1) {
+        if(action === 'new') // load po for grn
+        {
 
-            if (grn_made === 1) {
-                swal_error("Goods has been received")
-            } else
+            var po_exist = row_count('po_hd', "`doc_no` = '" + po_number + "'");
+            var grn_made = row_count('grn_hd', "`po_number` = '" + po_number + "'")
+            if (po_exist === 1) {
 
-
-            if (grn_made === 0) {
-                po_details = JSON.parse(
-                    get_row('po_hd', "`doc_no` = '" + po_number + "'")
-                )[0]
-
-                // check if po is approved
-                var po_status = po_details.status;
-                if (po_status === 1) {
-
-                    // header details
-
-                    var supplier = JSON.parse(get_row('supp_mast', "`supp_id` = '" + po_details.suppler + "'"))[0].supp_name
-                    var loc = po_details.location
-                    var location_desc = JSON.parse(get_row('loc', "`loc_id` = '" + loc + "'"))[0].loc_desc
+                if (grn_made === 1) {
+                    swal_error("Goods has been received")
+                } else
 
 
-                    // populate header
-                    set_value('loc_id', loc)
-                    set_text('loc_desc', location_desc)
-                    set_value('supp_id', po_details.suppler)
-                    set_text('supplier', supplier)
-                    set_value('ref_doc', po_number)
-                    set_value('remarks', po_details.remarks)
-                    arr_enable('tax_grp')
-                    jqh.loadTax()
+                if (grn_made === 0) {
+                    po_details = JSON.parse(
+                        get_row('po_hd', "`doc_no` = '" + po_number + "'")
+                    )[0]
 
-                    // get po trans
-                    var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
-                    echo("#### Transaction Rows : " + po_trans_rows)
-                    if (po_trans_rows > 0) {
-                        // there is po trans items
-                        var po_trans = JSON.parse(
-                            get_row('po_trans', "`parent` = '" + po_number + "'")
-                        )
-                        var sn = 0;
-                        var tr = "";
-                        var grn_total = 0;
-                        for (let t = 0; t < po_trans.length; t++) {
-                            var po_tran = po_trans[t]
-                            let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
-                                net_amount, retail, pack_um, cost, this_cost;
-                            item_code = po_tran.item_code
-                            barcode = po_tran.barcode
-                            description = po_tran.item_description
-                            pack_id = po_tran.pack_desc
-                            packing = po_tran.packing
-                            qty = po_tran.qty
-                            price = po_tran.cost
-                            total_amt = po_tran.total_cost
-                            pack_um = po_tran.pack_um
-                            cost = po_tran.cost
-                            this_cost = parseFloat(price) / parseFloat(pack_um)
-                            tax_amount = 0
-                            net_amount = total_amt - tax_amount
-                            retail = JSON.parse(
-                                get_row('prod_master', "`barcode` = '" + barcode + "'")
-                            )[0].retail
+                    // check if po is approved
+                    var po_status = po_details.status;
+                    if (po_status === 1) {
 
-                            sn++
-                            grn_total += parseFloat(net_amount);
-                            echo("##### " + total_amt)
+                        // header details
+
+                        var supplier = JSON.parse(get_row('supp_mast', "`supp_id` = '" + po_details.suppler + "'"))[0].supp_name
+                        var loc = po_details.location
+                        var location_desc = JSON.parse(get_row('loc', "`loc_id` = '" + loc + "'"))[0].loc_desc
 
 
-                            // ids
-                            var qty_id = "qty_" + sn.toString();
-                            var price_id = 'price_' + sn.toString();
-                            var total_id = 'total_' + sn.toString();
-                            var tr_id = 'row_' + item_code.toString();
-                            let cost_id = 'cost_' + sn.toString()
-                            let retail_id = 'retail_' + sn.toString()
-                            let code_id = 'code_id_' + sn.toString()
-                            let net_id = 'net_' + sn.toString()
-                            let tax_id = 'tax_' + sn.toString()
+                        // populate header
+                        set_value('loc_id', loc)
+                        set_text('loc_desc', location_desc)
+                        set_value('supp_id', po_details.suppler)
+                        set_text('supplier', supplier)
+                        set_value('ref_doc', po_number)
+                        set_value('remarks', po_details.remarks)
+                        arr_enable('tax_grp')
+                        jqh.loadTax()
 
-                            let retail_bg = '';
-                            if (this_cost >= retail) {
-                                // danger
-                                retail_bg = 'bg-danger'
+                        // get po trans
+                        var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
+                        echo("#### Transaction Rows : " + po_trans_rows)
+                        if (po_trans_rows > 0) {
+                            // there is po trans items
+                            var po_trans = JSON.parse(
+                                get_row('po_trans', "`parent` = '" + po_number + "'")
+                            )
+                            var sn = 0;
+                            var tr = "";
+                            var grn_total = 0;
+                            for (let t = 0; t < po_trans.length; t++) {
+                                var po_tran = po_trans[t]
+                                let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
+                                    net_amount, retail, pack_um, cost, this_cost;
+                                item_code = po_tran.item_code
+                                barcode = po_tran.barcode
+                                description = po_tran.item_description
+                                pack_id = po_tran.pack_desc
+                                packing = po_tran.packing
+                                qty = po_tran.qty
+                                price = po_tran.cost
+                                total_amt = po_tran.total_cost
+                                pack_um = po_tran.pack_um
+                                cost = po_tran.cost
+                                this_cost = parseFloat(price) / parseFloat(pack_um)
+                                tax_amount = 0
+                                net_amount = total_amt - tax_amount
+                                retail = JSON.parse(
+                                    get_row('prod_master', "`barcode` = '" + barcode + "'")
+                                )[0].retail
+
+                                sn++
+                                grn_total += parseFloat(net_amount);
+                                echo("##### " + total_amt)
+
+
+                                // ids
+                                var qty_id = "qty_" + sn.toString();
+                                var price_id = 'price_' + sn.toString();
+                                var total_id = 'total_' + sn.toString();
+                                var tr_id = 'row_' + item_code.toString();
+                                let cost_id = 'cost_' + sn.toString()
+                                let retail_id = 'retail_' + sn.toString()
+                                let code_id = 'code_id_' + sn.toString()
+                                let net_id = 'net_' + sn.toString()
+                                let tax_id = 'tax_' + sn.toString()
+
+                                let retail_bg = '';
+                                if (this_cost >= retail) {
+                                    // danger
+                                    retail_bg = 'bg-danger'
+                                }
+
+
+                                tr += "<tr id='" + tr_id + "'>\n" +
+                                    "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
+                                    "                            <td class='text_xs'>" + barcode + "</td>\n" +
+                                    "                            <td class='text_xs'>" + description + "</td>\n" +
+                                    "                            <td class='text_xs'>" + pack_id + "</td>\n" +
+                                    "                            <td class='text_xs'>" + packing + "</td>\n" +
+                                    "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                                    "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                    "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
+                                    "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+                                    "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
+                                    "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
+                                    "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
+                                    "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
+                                    "                        </tr>";
+                                echo(sn)
                             }
+                            $('#grn_items_list').html(tr)
+                            // get grn total
+                            echo(grn_total)
+                            set_value('total_amount', grn_total.toFixed(2))
+                            arr_enable('new_item')
+                            $('#new_item').show()
 
-
-                            tr += "<tr id='" + tr_id + "'>\n" +
-                                "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
-                                "                            <td class='text_xs'>" + barcode + "</td>\n" +
-                                "                            <td class='text_xs'>" + description + "</td>\n" +
-                                "                            <td class='text_xs'>" + pack_id + "</td>\n" +
-                                "                            <td class='text_xs'>" + packing + "</td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
-                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
-                                "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
-                                "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
-                                "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
-                                "                        </tr>";
-                            echo(sn)
+                        } else {
+                            swal_error("No items in PO Transaction")
                         }
-                        $('#grn_items_list').html(tr)
-                        // get grn total
-                        echo(grn_total)
-                        set_value('total_amount', grn_total.toFixed(2))
-                        arr_enable('new_item')
-                        $('#new_item').show()
-
+                    } else if (po_status === 0) {
+                        swal_error("Document " + po_number + " Has not been approved")
                     } else {
-                        swal_error("No items in PO Transaction")
+                        swal_error("Document " + po_number + " Not Found")
                     }
-                } else if (po_status === 0) {
-                    swal_error("Document " + po_number + " Has not been approved")
-                } else {
-                    swal_error("Document " + po_number + " Not Found")
+
                 }
 
+
+                // hide po search
+                $('#po_search').val('')
+                $('#po_search').hide(500)
+            } else {
+                swal.fire(po_number + " Does Not Exist")
+                $('#po_search').focus()
             }
 
-
-            // hide po search
-            $('#po_search').val('')
-            $('#po_search').hide(500)
-        } else {
-            swal.fire(po_number + " Does Not Exist")
-            $('#po_search').focus()
+            echo("Search Fired")
+        } else if(action === 'view')
+        {
+            viewGrn(po_number)
         }
 
-        echo("Search Fired")
+        $('#po_search').val('')
+        $('#po_search').hide(500)
+
     } else {
         // do nothin
         echo("Keep Inputting")
@@ -505,6 +518,7 @@ $(document).ready(function (){
 // view grn
 function viewGrn(entry_no)
 {
+    cl("Loading GRN " + entry_no)
     // check if grn exist
     if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
     {
@@ -544,6 +558,7 @@ function viewGrn(entry_no)
             // 1 approved
             // -1 deleted
             // 0 not approved
+            let load_items = 1;
             if(status === 0)
             {
                 status_message = '<i class="text-info">Pending</i>'
@@ -558,53 +573,63 @@ function viewGrn(entry_no)
             {
                 status_message = '<i class="text-danger">Deleted</i>';
                 arr_disable('delete_button,edit_button,approve_button')
+                load_items = 0;
             }
             $('#approved_container').html(status_message)
             cl(status)
             cl(status_message)
-
+            cl(load_items)
+            cl(typeof (load_items))
             // load grn trans
-            var grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"))
-            let sn = 0;
-            let grn_tran = '';
             let tr = ''
-
-            for(let grn = 0; grn < grn_trans.length; grn++)
+            if (load_items === 1)
             {
-                grn_tran = grn_trans[grn];
-                sn ++;
-                let barcode = grn_tran.barcode
-                let item_desc = grn_tran.item_description
-                let packing_id = grn_tran.packing
-                let packing = grn_tran.pack_desc
-                let quantity = grn_tran.qty
-                let price = grn_tran.cost
-                let invoice_amount = grn_tran.total_cost
-                let tax_amount = grn_tran.tax_amt
-                let net_amt = grn_tran.net_amt
-                let cost = grn_tran.prod_cost
-                let retail = grn_tran.ret_amt
+                var grn_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'"))
+                let sn = 0;
+                let grn_tran = '';
 
-                tr += "<tr>\n" +
-                    "                            <td class='text_xs'>"+sn+"</td>\n" +
-                    "                            <td class='text_xs'>"+barcode+"</td>\n" +
-                    "                            <td class='text_xs'>"+item_desc+"</td>\n" +
-                    "                            <td class='text_xs'>"+packing_id+"</td>\n" +
-                    "                            <td class='text_xs'>"+packing+"</td>\n" +
-                    "                            <td class='text_xs'>"+quantity+"</td>\n" +
-                    "                            <td class='text_xs'>"+price+"</td>\n" +
-                    "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
-                    "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
-                    "                            <td class='text_xs'>"+net_amt+"</td>\n" +
-                    "                            <td class='text_xs'>"+cost+"</td>\n" +
-                    "                            <td class='text_xs'>"+retail+"</td>\n" +
-                    "\n" +
-                    "                        </tr>";
 
+                for(let grn = 0; grn < grn_trans.length; grn++)
+                {
+                    grn_tran = grn_trans[grn];
+                    sn ++;
+                    let barcode = grn_tran.barcode
+                    let item_desc = grn_tran.item_description
+                    let packing_id = grn_tran.packing
+                    let packing = grn_tran.pack_desc
+                    let quantity = grn_tran.qty
+                    let price = grn_tran.cost
+                    let invoice_amount = grn_tran.total_cost
+                    let tax_amount = grn_tran.tax_amt
+                    let net_amt = grn_tran.net_amt
+                    let cost = grn_tran.prod_cost
+                    let retail = grn_tran.ret_amt
+
+                    tr += "<tr>\n" +
+                        "                            <td class='text_xs'>"+sn+"</td>\n" +
+                        "                            <td class='text_xs'>"+barcode+"</td>\n" +
+                        "                            <td class='text_xs'>"+item_desc+"</td>\n" +
+                        "                            <td class='text_xs'>"+packing_id+"</td>\n" +
+                        "                            <td class='text_xs'>"+packing+"</td>\n" +
+                        "                            <td class='text_xs'>"+quantity+"</td>\n" +
+                        "                            <td class='text_xs'>"+price+"</td>\n" +
+                        "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
+                        "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
+                        "                            <td class='text_xs'>"+net_amt+"</td>\n" +
+                        "                            <td class='text_xs'>"+cost+"</td>\n" +
+                        "                            <td class='text_xs'>"+retail+"</td>\n" +
+                        "\n" +
+                        "                        </tr>";
+
+                }
+                // load list window
+
+            } else
+            {
+                cl('Canot load items')
             }
+            jqh.setHtml({'grn_items_list':tr})
 
-            // load list window
-            $('#grn_items_list').html(tr)
 
         }
         else
@@ -811,15 +836,21 @@ function grn_nav(dir)
     if(dir === 'next')
     {
         count = row_count('grn_hd',"`id` > '"+current_entry_id+"'")
-        row = JSON.parse(get_row('grn_hd',"`id` > '"+current_entry_id+"'  LIMIT 1"))[0]
-        let next_entry_no = row.entry_no;
-        viewGrn(next_entry_no)
+        if(count > 0)
+        {
+            row = JSON.parse(get_row('grn_hd',"`id` > '"+current_entry_id+"'  LIMIT 1"))[0]
+            let next_entry_no = row.entry_no;
+            viewGrn(next_entry_no)
+        }
     } else if(dir === 'prev')
     {
         count = row_count('grn_hd',"`id` < '"+current_entry_id+"'")
-        row = JSON.parse(get_row('grn_hd',"`id` < '"+current_entry_id+"' ORDER BY `id` DESC LIMIT 1"))[0]
-        let prev_entry_no = row.entry_no;
-        viewGrn(prev_entry_no)
+        if(count > 0)
+        {
+            row = JSON.parse(get_row('grn_hd',"`id` < '"+current_entry_id+"' ORDER BY `id` DESC LIMIT 1"))[0]
+            let prev_entry_no = row.entry_no;
+            viewGrn(prev_entry_no)
+        }
     }
 
     cl(count)
@@ -834,5 +865,26 @@ $(document).ready(function() {
 $(document).ready(function() {
     $("#sort_left").click(function(){
         grn_nav('prev')
+    });
+});
+
+// delete grn
+$(document).ready(function (){
+    $('#delete_button').click(function (){
+        let entry_no = $('#entry_no').text()
+        Swal.fire({
+            title: 'Do you want to delete document ( '+entry_no+' )?',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'YES',
+            denyButtonText: `NO`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                delete_doc('GRN',entry_no)
+            } else if (result.isDenied) {
+
+            }
+        })
     });
 });

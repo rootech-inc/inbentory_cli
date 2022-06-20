@@ -47,7 +47,7 @@
 
 
                 <!--DELETE-->
-                <button id="delete_button" onclick="delete_po()" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button id="delete_button" type="button" title="Delete" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
 <!--                    <img-->
 <!--                            src="../../assets/icons/home/delete_document.png"-->
 <!--                            class="img-fluid"-->

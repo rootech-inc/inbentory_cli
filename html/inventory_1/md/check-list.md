@@ -52,15 +52,18 @@
     - [x] Approve PO
     - [x] Delete PO
     - [ ] PO remarks should be in an ellipse
+    - [ ] Set amount values
 
 ### GRN
 - [x] View document transactions on document
 - [x] save tax value when saving grn
 - [x] Print document
 - [x] Edit GRN - enable tax change 
-- [ ] Approve GRN
-- [ ] Search for GRN Entry
-- [ ] Navigate GRN
+- [x] Approve GRN
+- [X] Search for GRN Entry
+- [X] Navigate GRN
+- [x] Delete GRN
+- [ ] Only change cost and retail price when approving grn not saving
 
 ### Systems
 - [ ] Company Setup

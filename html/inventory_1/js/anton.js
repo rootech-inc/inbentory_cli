@@ -1746,3 +1746,41 @@ function approve_doc(doc) // approve document
 
 
 }
+
+function delete_doc(doc,entry_no) // delete document
+{
+    if(a_sess.get_session('action') === 'view')
+    {
+        if(doc === 'GRN')
+        {
+
+            // check availability
+            if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
+            {
+                // get document details
+                let doc = JSON.parse(get_row('grn_hd',"`entry_no` = '"+entry_no+"'"))[0];
+                let status = doc.status;
+
+                if(status === 1) // approved
+                {
+                    swal_error("Document has already been approved ")
+                } else
+                {
+                    // swal_error('lets go')
+                    // delete
+                    exec("UPDATE `grn_hd` set status = -1 WHERE `entry_no` = '"+entry_no+"'")
+                    db.new_doc_trans('GRN',entry_no,'DEL')
+                    // load grn
+                    viewGrn(entry_no)
+                }
+            } else
+            {
+                swal_error("Cannot find document");
+            }
+
+        } else
+        {
+            swal_error("Go into view mode")
+        }
+    }
+}
