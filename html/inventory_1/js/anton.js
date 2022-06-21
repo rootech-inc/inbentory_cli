@@ -1724,7 +1724,40 @@ function approve_doc(doc) // approve document
                 let entry_no = $('#entry_no').text();
                 if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
                 {
-                    // approve
+
+
+                    /*
+                    * update cost and retail prices
+                    * 1. get all transactions with entry number same as header
+                    * 2. loop through and in each loop
+                    * 3. get item code, cost price, and retail price
+                    * 4. with the item code, get item current cost and retail price from prod_master
+                    * 5. save current prices into price_history
+                    * 6. finally update current price and cost for item
+                    *  */
+
+                    let doc_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'")); //1
+                    for(let t = 0; t < doc_trans.length; t++) // 2
+                    {
+                        let tran = doc_trans[t]; // access current item in JSON result
+                        // 3
+                        let item_code = tran.item_code;
+                        let cost = tran.prod_cost;
+                        let retail = tran.ret_amt
+                        // 4
+                        let item_det = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"' LIMIT 1"))[0];
+                        let cur_cost,cur_ret;
+                        cur_cost = item_det['cost'];
+                        cur_ret = item_det['retail'];
+                        //5
+                        exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','c','"+cur_cost+"','"+cost+"')")
+                        exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','r','"+cur_ret+"','"+retail+"')")
+                        // 6
+                        exec("UPDATE prod_master set prev_retail = retail, retail = '"+retail+"', cost = '"+cost+"' WHERE `item_code` = '"+item_code+"' ")
+
+                    }
+
+                    // set document state to approved
                     exec("UPDATE `grn_hd` SET `status` = 1 WHERE `entry_no` = '"+entry_no+"'")
                     // load document again
                     viewGrn(entry_no)

@@ -305,6 +305,7 @@ function new_grn_tax_calc(tax_class,line='*') {
             gen_tax = 0;
             gen_net_amt = 0;
             let last_row = $('#grn_items_list tr').length;
+
             for (let sn = 1; sn <= last_row; sn++) {
 
                 var tr_id = '#row_' + sn.toString()
