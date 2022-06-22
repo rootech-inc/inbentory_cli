@@ -1730,7 +1730,7 @@ function approve_doc(doc) // approve document
                     * update cost and retail prices
                     * 1. get all transactions with entry number same as header
                     * 2. loop through and in each loop
-                    * 3. get item code, cost price, and retail price
+                    * 3. get item code, cost price, and retail price from current JSON object in loop
                     * 4. with the item code, get item current cost and retail price from prod_master
                     * 5. save current prices into price_history
                     * 6. finally update current price and cost for item
@@ -1739,8 +1739,8 @@ function approve_doc(doc) // approve document
                     let doc_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'")); //1
                     for(let t = 0; t < doc_trans.length; t++) // 2
                     {
-                        let tran = doc_trans[t]; // access current item in JSON result
                         // 3
+                        let tran = doc_trans[t];
                         let item_code = tran.item_code;
                         let cost = tran.prod_cost;
                         let retail = tran.ret_amt

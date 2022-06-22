@@ -52,7 +52,8 @@
     - [x] Approve PO
     - [x] Delete PO
     - [ ] PO remarks should be in an ellipse
-    - [ ] Set amount values
+    - [x] Set amount values
+    - [ ] Save PO transactions in database only when saving.
 
 ### GRN
 - [x] View document transactions on document
@@ -63,7 +64,7 @@
 - [X] Search for GRN Entry
 - [X] Navigate GRN
 - [x] Delete GRN
-- [ ] Only change cost and retail price when approving grn not saving
+- [x] Only change cost and retail price when approving grn not saving
 
 ### Systems
 - [ ] Company Setup

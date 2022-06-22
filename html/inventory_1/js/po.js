@@ -759,9 +759,21 @@ function poItemAmount(id) // CALCULATE PO ITEM TOTAL COST AND UPDATE VALUES
 
 
 
-
         $(total_amt_id).val(total_cost.toFixed(2))
-        echo(total_cost.toFixed(2))
+        let last_row = $('#po_items_list tr').length;
+
+        let tot_amt = 0;
+        for(let sn = 0; sn < last_row; sn++)
+        {
+            let line_amt = "#itemAmount_"+sn.toString();
+            let line_val = parseFloat($(line_amt).val())
+            tot_amt += line_val
+            cl(line_amt)
+            cl(line_val)
+        }
+        cl(tot_amt)
+        jqh.setVal({'total_amount':tot_amt.toFixed(2)})
+
     }
 }
 

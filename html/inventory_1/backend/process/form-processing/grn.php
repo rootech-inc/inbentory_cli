@@ -91,14 +91,14 @@
                 $db->db_connect()->exec($insert);
 
                 // insert into price change
-                $prev_c = $item_details['cost'];
-                $o_cost = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','c','$prev_c','$prod_cost')";
-                $prev_r = $item_details['retail'];
-                $o_retail = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','r','$prev_r','$retail')";
-                $db->db_connect()->exec($o_cost);
-                $db->db_connect()->exec($o_retail);
-                // update cost and retail
-                $db->db_connect()->exec("UPDATE `prod_master` SET `cost` = '$prod_cost', `prev_retail` = `retail`, `retail` = '$retail' WHERE `item_code` = '$item_code'");
+//                $prev_c = $item_details['cost'];
+//                $o_cost = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','c','$prev_c','$prod_cost')";
+//                $prev_r = $item_details['retail'];
+//                $o_retail = "INSERT INTO `price_change` (item_code, price_type, previous, current) VALUES ('$item_code','r','$prev_r','$retail')";
+//                $db->db_connect()->exec($o_cost);
+//                $db->db_connect()->exec($o_retail);
+//                // update cost and retail
+//                $db->db_connect()->exec("UPDATE `prod_master` SET `cost` = '$prod_cost', `prev_retail` = `retail`, `retail` = '$retail' WHERE `item_code` = '$item_code'");
 
 //                echo "\n Item $item_code has $qty and each price is $price with cost price of $cost and retail of $retail \n";
 
