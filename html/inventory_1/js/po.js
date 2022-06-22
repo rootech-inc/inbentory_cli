@@ -37,7 +37,7 @@ $(document).ready(function(){
             } else
             {
 
-                t_row += "<tr ondblclick= \"addToPoTrans('"+item_code+"')\">\n" +
+                t_row += "<tr ondblclick= \"addToPoTransV2('"+item_code+"')\">\n" +
                     "                                            <td>"+item_code+"</td>\n" +
                     "                                            <td>"+item_barcode+"</td>\n" +
                     "                                            <td>"+item_desc+"</td>\n" +
@@ -177,6 +177,7 @@ function addToPoTrans(item_code) // ADD NEW PO ITEM IN CREATION MOOD
 
 
         if(insert('po_trans', x_data) == 1)
+        
         {
             // inserted
             loadPoTrans()
@@ -188,6 +189,25 @@ function addToPoTrans(item_code) // ADD NEW PO ITEM IN CREATION MOOD
 
     } else {
         swal_error('Item added already')
+    }
+}
+
+function addToPoTransV2(item_code) {
+    cl(item_code)
+    /* todo Adding an item to po trans
+    * 1. if item with item code exist, get item details else show an item not found error
+    * 2. get needed details for trans record (barcode,item_description,pack_desc,packing,packing_um)
+    * 4. put it in a table row and append it to the list with other input fields (trans_qty,cost,total_cost)
+    * */
+    if(row_count('prod_master',"`item_code` = '"+item_code+"'") === 1) // 1
+    {
+        // 2
+        let product = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
+
+
+    } else
+    {
+        swal_error("Item not found")
     }
 }
 
@@ -334,7 +354,7 @@ function loadPoTrans() // LOAD PO ITEMS WHEN CREATING A NEW PO
 
 
     } else {
-        $('#po_items_list').html("Add Item to list")
+        // $('#po_items_list').html("Add Item to list")
         echo("no po item")
     }
 
