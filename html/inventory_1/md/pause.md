@@ -1,2 +1,2 @@
 # view GRN
-- load grn items in list
+- check po items list and then save

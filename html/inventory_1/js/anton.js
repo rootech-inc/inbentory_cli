@@ -210,12 +210,13 @@ function delete_item(module,item) {
         if(module === 'po_trans')
         {
             // delete from module trans
-            let item_code = item;
-            let my_user_name = $('#my_user_name').val();
-            // delete from item row
-            let query = "DELETE FROM `po_trans` WHERE `item_code` = '"+item_code+"' AND `owner` = '"+my_user_name+"' AND `date_added` = '"+toDay+"' AND `parent` is null";
-            exec(query)
-            loadPoTrans()
+            $('#'+item).remove()
+            // let item_code = item;
+            // let my_user_name = $('#my_user_name').val();
+            // // delete from item row
+            // let query = "DELETE FROM `po_trans` WHERE `item_code` = '"+item_code+"' AND `owner` = '"+my_user_name+"' AND `date_added` = '"+toDay+"' AND `parent` is null";
+            // exec(query)
+            // loadPoTrans()
         }
 
     } else {

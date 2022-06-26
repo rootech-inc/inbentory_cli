@@ -25,11 +25,12 @@
                 </button>
 
                 <!--ADD-->
-                <button  type="submit" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/save_close.png"
-                            class="img-fluid"
-                    >
+                <button  type="button" id="save_po" title="Save Document" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+<!--                    <img-->
+<!--                            src="../../assets/icons/home/save_close.png"-->
+<!--                            class="img-fluid"-->
+<!--                    >-->
+                    <i class="fa text-success fa-save"></i>
                 </button>
 
                 <!--DELETE-->
@@ -180,23 +181,23 @@
                         </tr>
                     </thead>
                     <tbody id="po_items_list">
-                        <tr>
-                            <td>
-                                <kbd class="">&plus;</kbd>
-                            </td>
-                            <td><input ondblclick="selectItemForPo(this.id)" onkeyup="loadPoItem(this.id,event)" type="text" name="item_code[]" id="itemCode_1" style="width: 100px" value="1000101"></td>
-                            <td>
-                                <input type="text" readonly name="item_desc[]" id="itemDesc_1" value="Test Item">
-                            </td>
-                            <td>
-                                <select name="item_pack[]" id="itemPack_1" style="width: 50px">
-                                    <option value="">CTN</option>
-                                </select>
-                            </td>
-                            <td><input style="width: 50px" type="text" name="item_qty[]" id="itemQty_1"></td>
-                            <td><input style="width: 50px" type="text" name="item_cost[]" id="itemCost_1"></td>
-                            <td><input style="width: 50px" type="text" readonly name="item_amount[]" id="itemAmount_1"></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td>-->
+<!--                                <kbd class="">&plus;</kbd>-->
+<!--                            </td>-->
+<!--                            <td><input ondblclick="selectItemForPo(this.id)" onkeyup="loadPoItem(this.id,event)" type="text" name="item_code[]" id="itemCode_1" style="width: 100px" value="1000101"></td>-->
+<!--                            <td>-->
+<!--                                <input type="text" readonly name="item_desc[]" id="itemDesc_1" value="Test Item">-->
+<!--                            </td>-->
+<!--                            <td>-->
+<!--                                <select name="item_pack[]" id="itemPack_1" style="width: 50px">-->
+<!--                                    <option value="">CTN</option>-->
+<!--                                </select>-->
+<!--                            </td>-->
+<!--                            <td><input style="width: 50px" type="text" name="item_qty[]" id="itemQty_1"></td>-->
+<!--                            <td><input style="width: 50px" type="text" name="item_cost[]" id="itemCost_1"></td>-->
+<!--                            <td><input style="width: 50px" type="text" readonly name="item_amount[]" id="itemAmount_1"></td>-->
+<!--                        </tr>-->
                     </tbody>
                 </table>
 

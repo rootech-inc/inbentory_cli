@@ -202,9 +202,50 @@ function addToPoTransV2(item_code) {
     if(row_count('prod_master',"`item_code` = '"+item_code+"'") === 1) // 1
     {
         // 2
-        let product = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
+        let product,barcode,item_desc,item_packing,pack_desc,pack_id,packing,packing_um;
+        product = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
+        barcode = product.barcode;
+        item_desc = product.item_desc
+        item_packing = JSON.parse(
+            get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = '2'")
+        )[0]
+        pack_desc = item_packing.pack_desc
+        pack_id = item_packing.pack_id
+        packing_um = item_packing.qty
+        pack_id = JSON.parse(
+            get_row('packaging',"`id` = '"+pack_id+"'"))[0]
+        var pack_id_desc = pack_id.desc
 
+        let last_row = $('#po_items_list tr').length + 1;
 
+        let item_code_id = "itemCode_" + last_row.toString();
+        let item_desc_id = "itemDesc_" + last_row.toString();
+        let item_pack_id = "itemPack_" + last_row.toString();
+        let item_packing_id = "itemPacking_" + last_row.toString();
+        let item_qty_id = "itemQty_" + last_row.toString();
+        let item_cost_id = "itemCost_" + last_row.toString();
+        let item_amount_id = "itemAmount_" + last_row.toString();
+        let row_id = 'row_' + last_row.toString();
+
+        let t_row = "<tr id='"+row_id+"'>\n" +
+            "                            <td>\n" +
+            "                                <button onclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
+            "                            </td>\n" +
+            "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + barcode + "' readonly></td>\n" +
+            "                            <td>\n" +
+            "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
+            "                            </td>\n" +
+            "                            <td>\n" +
+            "                                <select name=\"item_pack[]\" id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
+            "                                    <option value='" + pack_id_desc + "'>" + pack_id_desc + " </option>\n" +
+            "                                </select>\n" +
+            "                            </td>\n" +
+            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
+            "                               <td><input style=\"width: 50px\" required onkeyup=\"poItemAmount(" + "'" + item_cost_id + "'" + ")\" type=\"text\" value='0' name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required onkeyup='poItemAmount(this.id)' min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required type=\"text\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
+            "                        </tr>";
+            $('#po_items_list').append(t_row)
     } else
     {
         swal_error("Item not found")
@@ -224,12 +265,8 @@ function appendToPoTrans(item_code,po_number) // ADD NEW PO ITEM IN EDIT MOOD
             get_row('prod_master', "`item_code` = '" + item_code + "'")
         );
         // insert into tabl
-
         let barcode = item_details[0].barcode;
         let item_desc = item_details[0].item_desc;
-
-
-
         // get item packing
         var item_packing = JSON.parse(
             get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = '2'")
@@ -928,3 +965,33 @@ function set_new_po_remarks()
     $('#remarks').val("Purchase from "+supp_desc+" and delivered to " +location)
 
 }
+
+
+// save po
+$(document).ready(function(){
+   $('#save_po').on('click',function () {
+        /*TODO SAVE PO DOCUMENT
+        * 1. Check if there are items in po list else show error
+        * 2. Check po header to make sure, lic, suppler and remarks ae not empty
+        * 3. get last po hd id, add 1 to it to create entry number (PO+last_id+1)
+        * 4. insert header details
+        * 5. loop through po items and save it
+        * */
+       // check po trans
+       let po_trans_count = $('#po_items_list tr').length
+       if(po_trans_count > 0) // 1
+       {
+
+           //2
+           let loc_id,loc_desc,suppler,remarks;
+           loc_id = $('#location').val();
+           loc_desc = $('#location_desc').text();
+           suppler = $('#supplier').val();
+           remarks = $('#remarks').val();
+
+       } else // 1 error
+       {
+           swal_error("Cannot save an empty document")
+       }
+   })
+});
