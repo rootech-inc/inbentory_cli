@@ -67,4 +67,28 @@ class J_query_supplies {
 
         }
     }
+
+    strLen(ref_id,ref_attr)
+    {
+        // get attr type
+        let id = "#"+ref_id;
+        let val = '';
+        if(ref_attr === 'val')
+        {
+            val = $(id).val()
+        }
+
+        if(val.length < 1 )
+        {
+            // empty
+            $(id).addClass('border-danger')
+        } else
+        {
+            // not empty
+            $(id).removeClass('border-danger')
+        }
+
+
+    }
+
 }

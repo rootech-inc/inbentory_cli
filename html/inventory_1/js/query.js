@@ -189,3 +189,32 @@ function getUser(id,fetch_get='none') {
 
     return result;
 }
+
+// return query row
+function return_rows(query) {
+    var form_data = {
+        'function':'return_rows',
+        'query':query,
+    }
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+                result = response;
+                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
+
+            }
+        }
+    );
+
+    return result;
+}

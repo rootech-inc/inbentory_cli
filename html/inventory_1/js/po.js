@@ -988,6 +988,17 @@ $(document).ready(function(){
            loc_desc = $('#location_desc').text();
            suppler = $('#supplier').val();
            remarks = $('#remarks').val();
+           jqh.strLen('location','val')
+           jqh.strLen('location_desc','val')
+           jqh.strLen('supplier','val')
+           jqh.strLen('remarks','val')
+
+           // 3
+           // get last po id
+           if(row_count('po_hd','none') < 1)
+           {
+               // insert this as po hd, get the inserted id and use it as po doc number
+           }
 
        } else // 1 error
        {

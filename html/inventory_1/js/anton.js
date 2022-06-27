@@ -21,6 +21,12 @@ function setText(id,text)
     jqh.setText(id,text)
 }
 
+// check string
+function empti(str)
+{
+    return str.length >= 1;
+}
+
 
 //
 function recursiveEach($element){

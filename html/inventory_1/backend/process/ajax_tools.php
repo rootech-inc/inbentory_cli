@@ -54,6 +54,15 @@
                 print_r($res);
             }
 
+            elseif ($function === 'return_rows') // return row
+            {
+                $query = $_POST['query'];
+                $stmt = $db->db_connect()->query($query);
+                header('Content-Type: application/json');
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                print_r($res);
+            }
+
             elseif ($function === 'insert') // insert into table
             {
                 $query = $_POST['query'];
