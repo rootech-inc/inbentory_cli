@@ -240,10 +240,10 @@ function addToPoTransV2(item_code) {
             "                                    <option value='" + pack_id_desc + "'>" + pack_id_desc + " </option>\n" +
             "                                </select>\n" +
             "                            </td>\n" +
-            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
-            "                               <td><input style=\"width: 50px\" required onkeyup=\"poItemAmount(" + "'" + item_cost_id + "'" + ")\" type=\"text\" value='0' name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
-            "                            <td><input style=\"width: 50px\" required onkeyup='poItemAmount(this.id)' min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
-            "                            <td><input style=\"width: 50px\" required type=\"text\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_qty[]\" id='" + item_packing_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_packing[]\" id='" + item_qty_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
             "                        </tr>";
             $('#po_items_list').append(t_row)
     } else
@@ -967,13 +967,32 @@ function set_new_po_remarks()
 }
 
 
+// calculate po line
+function po_line_calculate(row) {
+    // split row
+    let row_split = row.split('_');
+    let line_number = row_split[1];
+
+    let qty,cost,amount,qty_val,cost_val,amount_val;
+    qty = "#itemQty_"+line_number;
+    qty_val = $(qty).val()
+    cost = "#itemCost_"+line_number;
+    cost_val = $(cost).val()
+    amount = "#itemAmount_"+line_number
+
+
+    // multiple cost by value
+    let t_amt = cost_val * qty_val;
+    $(amount).val(t_amt.toFixed(2))
+}
+
 // save po
 $(document).ready(function(){
    $('#save_po').on('click',function () {
         /*TODO SAVE PO DOCUMENT
         * 1. Check if there are items in po list else show error
         * 2. Check po header to make sure, lic, suppler and remarks ae not empty
-        * 3. get last po hd id, add 1 to it to create entry number (PO+last_id+1)
+        * 3. make sure valus are not 0 for po items
         * 4. insert header details
         * 5. loop through po items and save it
         * */
@@ -981,6 +1000,7 @@ $(document).ready(function(){
        let po_trans_count = $('#po_items_list tr').length
        if(po_trans_count > 0) // 1
        {
+           let error = 0;
 
            //2
            let loc_id,loc_desc,suppler,remarks;
@@ -988,17 +1008,84 @@ $(document).ready(function(){
            loc_desc = $('#location_desc').text();
            suppler = $('#supplier').val();
            remarks = $('#remarks').val();
-           jqh.strLen('location','val')
-           jqh.strLen('location_desc','val')
-           jqh.strLen('supplier','val')
-           jqh.strLen('remarks','val')
+           error += jqh.strLen('location','val')
+           error += jqh.strLen('location_desc','text')
+           error += jqh.strLen('supplier','val')
+           error += jqh.strLen('remarks','val')
 
-           // 3
-           // get last po id
-           if(row_count('po_hd','none') < 1)
+           if(error === 0)
            {
-               // insert this as po hd, get the inserted id and use it as po doc number
+               let row_err = 0;
+               let row_msg = '';
+               // 3
+               for (let l = 1; l <= po_trans_count; l++)
+               {
+                   let qty,cost,amount,amout_val,qty_val;
+                   qty = $("#itemQty_"+l)
+                   cost = $('#itemCost_'+l)
+                   amount = $('#itemAmount_'+l)
+
+                    qty_val = qty.val()
+                   cl("Quantity Is : " + qty_val)
+                   if(qty.val() < 1 ) // check quantity
+                   {
+                       qty.removeClass('bg-success')
+                       qty.addClass('bg-danger')
+                       row_err += 1;
+                       row_msg += "<i>Line "+l+" : Quantity is "+qty.val()+"</i> <br>"
+                   }
+                   else
+                   {
+                       qty.removeClass('bg-danger')
+                   }
+
+                   if(cost.val() < 1 ) // check cost
+                   {
+                       cost.removeClass('bg-success')
+                       cost.addClass('bg-danger')
+                        row_err += 1;
+                        row_msg += "<i>Line "+l+" : Cost is "+cost.val()+"</i> <br>"
+                   }
+                   else
+                   {
+                       cost.removeClass('bg-danger')
+                   }
+
+                   amout_val = amount.val()
+
+                   if(amount.val() < 1 ) // check amount
+                   {
+                       amount.removeClass('bg-success')
+                       amount.addClass('bg-danger')
+                       amount += 1;
+                       amount += "<i>Line "+l+" : Amount is "+amout_val+"</i> <br>"
+                   }
+                   else
+                   {
+                       amount.removeClass('bg-danger')
+                   }
+
+
+
+               }
+
+               if(row_err > 0)
+               {
+                   swal_error(row_msg)
+               }
+               else
+               {
+
+                   $('#general_form').submit()
+               }
+
+
+
+           } else
+           {
+               swal_error("There is "+error+" error(s)")
            }
+
 
        } else // 1 error
        {

@@ -77,15 +77,20 @@ class J_query_supplies {
         {
             val = $(id).val()
         }
+        else if(ref_attr === 'text'){
+            val = $(id).text()
+        }
 
         if(val.length < 1 )
         {
             // empty
             $(id).addClass('border-danger')
+            return 2;
         } else
         {
             // not empty
             $(id).removeClass('border-danger')
+            return 0;
         }
 
 

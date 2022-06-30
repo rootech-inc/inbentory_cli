@@ -12,6 +12,9 @@
         $remarks = $anton->post('remarks');
         $total_amount = $anton->post('total_amount');
 
+        print_r($_POST);
+        die();
+
 
 
 

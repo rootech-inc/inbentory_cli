@@ -14,7 +14,7 @@ class db_handler extends anton
         //set DSN
         $dns = 'mysql:host='.$host.';dbname='.$db;
 
-        //create pdo instanse
+        //create pdo instance
         $pdo = new PDO($dns,$user,$password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
