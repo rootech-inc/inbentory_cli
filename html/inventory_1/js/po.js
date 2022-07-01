@@ -240,8 +240,8 @@ function addToPoTransV2(item_code) {
             "                                    <option value='" + pack_id_desc + "'>" + pack_id_desc + " </option>\n" +
             "                                </select>\n" +
             "                            </td>\n" +
-            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_qty[]\" id='" + item_packing_id + "'></td>\n" +
-            "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_packing[]\" id='" + item_qty_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
             "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
             "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
             "                        </tr>";
@@ -1017,6 +1017,7 @@ $(document).ready(function(){
            {
                let row_err = 0;
                let row_msg = '';
+               let total_cost = 0;
                // 3
                for (let l = 1; l <= po_trans_count; l++)
                {
@@ -1024,6 +1025,8 @@ $(document).ready(function(){
                    qty = $("#itemQty_"+l)
                    cost = $('#itemCost_'+l)
                    amount = $('#itemAmount_'+l)
+
+                   total_cost += parseFloat(amount.val());
 
                     qty_val = qty.val()
                    cl("Quantity Is : " + qty_val)
@@ -1075,7 +1078,8 @@ $(document).ready(function(){
                }
                else
                {
-
+                   // cl(total_cost)
+                   $('#total_amount').val(total_cost)
                    $('#general_form').submit()
                }
 

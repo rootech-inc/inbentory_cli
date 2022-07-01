@@ -12,11 +12,6 @@
         $remarks = $anton->post('remarks');
         $total_amount = $anton->post('total_amount');
 
-        print_r($_POST);
-        die();
-
-
-
 
         if($db->row_count('loc',"`loc_id` = '$location'") != 1) // check location
         {
@@ -48,22 +43,29 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $db->db_connect()->exec("UNLOCK TABLES");
 //        $po_number = $db->db_connect()->lastInsertId();
 
-        for ($i = 0; $i < count($_POST['item_code']); $i++)
+        $total_cost = 0;
+        for ($index = 0; $index < count($_POST['item_code']); $index++)
         {
-            $key = $i;
-            $item_code = $_POST['item_code'][$i];
-            $item_desc = $_POST['item_desc'][$i];
-            $item_pack = $_POST['item_pack'][$i];
-            $item_qty = $_POST['item_qty'][$i];
-            $item_packing = $_POST['item_packing'][$i];
-            $item_cost = $_POST['item_cost'][$i];
-            $item_amount = $_POST['item_amount'][$i];
+            $barcode = $_POST['item_code'][$index];
+            $item_details = $db->get_rows('prod_master',"`barcode` = '$barcode'");
+            $item_code = $item_details['item_code'];
+            $item_desc = $_POST['item_desc'][$index];
+            $item_pack = $_POST['item_pack'][$index];
+            $item_qty = $_POST['item_qty'][$index];
+            $item_packing = $_POST['item_packing'][$index];
+            $item_cost = $_POST['item_cost'][$index];
+            $item_amount = $_POST['item_amount'][$index];
 
-            // update po item
-            $db->db_connect()->query(
-                "UPDATE po_trans SET `parent` = '$po_number' where `date_added` = '$today' AND `owner` = '$myName' AND `barcode` = '$item_code' AND `parent` is null"
-            );
+            $total_cost += $item_cost;
+
+            $insert_query = "insert into po_trans 
+            (item_code, barcode, item_description, owner, pack_desc, packing, cost,qty, parent,total_cost) values 
+            ('$item_code','$barcode','$item_desc','$myName','$item_pack','$item_packing','$item_cost','$item_qty','$po_number','$total_amount')";
+//            echo $insert_query;
+            $db->db_connect()->exec($insert_query);
+
         }
+        $db->db_connect()->exec("UPDATE po_hd set total_amount = $total_amount");
         $anton->set_session(['action=view']);
         $anton->done("done_reload");
 
