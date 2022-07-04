@@ -159,7 +159,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Remarks</p>
                         </div>
-                        <div class="prod_inp_view" id="remarks"></div>
+                        <div class="prod_inp_view text-elipse" id="remarks"></div>
                     </div>
 
                     <i id="document_stat" class="">Pending</i>
