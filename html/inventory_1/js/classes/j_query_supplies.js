@@ -96,4 +96,9 @@ class J_query_supplies {
 
     }
 
+    getId(id)
+    {
+        return $('#' + id).length > 0;
+    }
+
 }

@@ -88,7 +88,7 @@ function swal_error(message = 'there is an error')
 {
     Swal.fire({
         icon: 'error',
-        html: "<p>"+message+"</p>",
+        html: "<textarea class='form-control form-control-sm' style='font-size: small' rows='5'>"+message+"</textarea>",
     })
 }
 
