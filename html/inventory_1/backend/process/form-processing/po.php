@@ -243,33 +243,33 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         }
 
 
-            $pdf->Cell(160,7);
-            $pdf->Cell(40,7,number_format($total_quantity,2),1,0,'L');
-            $pdf->Cell(40,7,number_format($total_each_cost,2),1,0,'L');
-            $pdf->Cell(40,7,number_format($total_cost,2),1,1,'L');
+        $pdf->Cell(160,7);
+        $pdf->Cell(40,7,number_format($total_quantity,2),1,0,'L');
+        $pdf->Cell(40,7,number_format($total_each_cost,2),1,0,'L');
+        $pdf->Cell(40,7,number_format($total_cost,2),1,1,'L');
 
-            $pdf->Ln(10);
-            $pdf->SetFont('Times','I',10);
-            $pdf->Cell(0,5,"PLEASE NOTE, WE ARE PLEASED TO INFORM YOU THAT WE HAVE PLACED AN ORDER FOR THE ITEM AS PER THE ATTACHMENT.",0,1,'C');
-            $pdf->Cell(0,5,"This order has to be delivered within five working days of the order date otherwise purchase order will ",0,1,'C');
-            $pdf->Cell(0,5,"be treated as canceled order. ",0,1,'C');
-            $pdf->Cell(0,5,"Please contact the warehouse manager / procurement : 020 000 00000 ",0,1,'C');
+        $pdf->Ln(10);
+        $pdf->SetFont('Times','I',10);
+        $pdf->Cell(0,5,"PLEASE NOTE, WE ARE PLEASED TO INFORM YOU THAT WE HAVE PLACED AN ORDER FOR THE ITEM AS PER THE ATTACHMENT.",0,1,'C');
+        $pdf->Cell(0,5,"This order has to be delivered within five working days of the order date otherwise purchase order will ",0,1,'C');
+        $pdf->Cell(0,5,"be treated as canceled order. ",0,1,'C');
+        $pdf->Cell(0,5,"Please contact the warehouse manager / procurement : 020 000 00000 ",0,1,'C');
 
-            // signs box
-            $pdf->Ln(20);
-            $pdf->SetFont('Times','B',15);
-            $pdf->Cell(80,10,$po_hd['owner'],1,0,'C');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(80,10,$apprv,1,1,'C');
-            // sign text
-            $pdf->SetFont('Times','',12);
-            $pdf->Cell(80,10,'Created By',0,0,'C');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(40,10,'',0,0,'L');
-            $pdf->Cell(80,10,'Approved By',0,1,'C');
+        // signs box
+        $pdf->Ln(20);
+        $pdf->SetFont('Times','B',15);
+        $pdf->Cell(80,10,$po_hd['owner'],1,0,'C');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(80,10,$apprv,1,1,'C');
+        // sign text
+        $pdf->SetFont('Times','',12);
+        $pdf->Cell(80,10,'Created By',0,0,'C');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(40,10,'',0,0,'L');
+        $pdf->Cell(80,10,'Approved By',0,1,'C');
 
 
         $pdf->Output("test.pdf",'F');
