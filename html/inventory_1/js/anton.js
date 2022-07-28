@@ -1824,3 +1824,7 @@ function delete_doc(doc,entry_no) // delete document
         }
     }
 }
+
+function db_access(){
+
+}

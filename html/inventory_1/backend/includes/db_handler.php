@@ -7,18 +7,22 @@ class db_handler extends anton
 
     public function db_connect() // connect to database
     {
-        $host = "127.0.0.1";
-        $user = "root";
-        $password = "Sunderland@411";
-        $db = "SMHOS";
         //set DSN
-        $dns = 'mysql:host='.$host.';dbname='.$db;
+        $dns = 'mysql:host='.db_host.';dbname='.db_name;
 
         //create pdo instance
-        $pdo = new PDO($dns,$user,$password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-        return $pdo;
+        try {
+
+            $pdo = new PDO($dns, db_user, db_password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            return $pdo;
+        } catch (PDOException $err)
+        {
+            $_SESSION['db_err_msg'] = $err->getMessage();
+            require root.'/backend/includes/parts/core/no_db_connection.php';
+            die();
+        }
     }
 
 
@@ -26,8 +30,10 @@ class db_handler extends anton
     public function db_sqlite() // connect to sqlite
     {
 
+
         $l_route = '';
-        $local_sqlite = '/home/stuffs/Development/PHP/inbentory_cli/html/inventory_1/backend/includes/database/phpsqlite.db';
+        $local_sqlite = root.'/backend/includes/database/phpsqlite.db';
+
         return new PDO("sqlite:$local_sqlite");
     }
 

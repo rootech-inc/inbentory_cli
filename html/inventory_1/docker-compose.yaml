@@ -1,0 +1,20 @@
+services:
+  smhos:
+    container_name: smhos
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    expose:
+      - 80
+      - 433
+    image: rootleet411/ant_debian:latest
+    labels:
+      smhos: smhos
+      generated: by rootech.inc
+    ports:
+      - '60:80'
+      - '6060:8080'
+    volumes:
+      - /home/stuffs/Development/PHP/inbentory_cli/html/inventory_1/:/var/www/html
+

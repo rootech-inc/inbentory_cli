@@ -3,6 +3,12 @@
     ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     error_reporting(E_ALL);
+    define('root',$_SERVER['DOCUMENT_ROOT']);
+
+    const db_host = '172.17.0.1';
+    const db_user = 'root';
+    const db_password = 'Sunderland@411';
+    const db_name = "SMHOS";
 
     require 'session.php';
     $session_id = session_id();
@@ -13,6 +19,7 @@
     require 'tax_calculator.php';
     $anton = new anton();
     $db = new db_handler();
+    $db->db_connect();
     $taxCalc = new tax_calculator();
 
     $today = date('Y-m-d');
