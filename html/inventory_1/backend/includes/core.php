@@ -6,8 +6,8 @@
     define('root',$_SERVER['DOCUMENT_ROOT']);
 
     const db_host = '172.17.0.1';
-    const db_user = 'root';
-    const db_password = 'Sunderland@411';
+    const db_user = 'anton';
+    const db_password = '258963';
     const db_name = "SMHOS";
 
     require 'session.php';

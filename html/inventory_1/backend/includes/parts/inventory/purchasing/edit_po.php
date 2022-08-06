@@ -37,11 +37,8 @@
                 </button>
 
                 <!--SAVE-->
-                <button type="submit" form="general_form" title="Save" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/save_close.png"
-                            class="img-fluid"
-                    >
+                <button type="button" id="save_edited_po" title="Save Edited PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa text-success fa-save"></i>
                 </button>
 
 
@@ -88,9 +85,9 @@
         </div>
 
         <!--PRODUCT BODY-->
-        <div class="product_body">
+        <form method="post" id="general_form" action="backend/process/form-processing/po.php" class="product_body">
             <!--TOP-->
-            <form method="post" id="general_form" action="backend/process/form-processing/po.php" class="w-100 h-40 overflow-hidden d-flex flex-wrap">
+            <div  class="w-100 h-40 overflow-hidden d-flex flex-wrap">
                 <input type="hidden" name="function" value="update_po">
                 <!--PO Left-->
                 <div class="w-50 h-100 p-2 overflow-hidden">
@@ -100,7 +97,7 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">PO Number</p>
                         </div>
-                        <input type="text" name="" class="prod_inp_view" id="po_number" required disabled>
+                        <input type="text" name="" class="prod_inp_view" id="po_number" required readonly>
                     </div>
 
                     <!-- LOCATION -->
@@ -153,7 +150,7 @@
 
                 </div>
 
-            </form>
+            </div>
 
 
             <!--Bottom-->
@@ -162,14 +159,15 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th>LN</th>
-                            <th>Item Code</th>
-                            <th>Description</th>
-                            <th>Pack ID</th>
-                            <th>Pack Desc</th>
-                            <th>Quantity</th>
-                            <th>Cost</th>
-                            <th>Total Cost</th>
+                            <th class='text_xs'>LN</th>
+                            <th class='text_xs'>Item Code</th>
+                            <th class='text_xs'>Barcode</th>
+                            <th class='text_xs'>Description</th>
+                            <th class='text_xs'>Pack ID</th>
+                            <th class='text_xs'>Pack Desc</th>
+                            <th class='text_xs'>Quantity</th>
+                            <th class='text_xs'>Cost</th>
+                            <th class='text_xs'>Total Cost</th>
                         </tr>
                     </thead>
                     <tbody id="po_items_list">
@@ -179,7 +177,7 @@
 
             </div>
 
-        </div>
+        </form>
 
     </div>
 

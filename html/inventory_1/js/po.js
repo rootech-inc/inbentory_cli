@@ -322,73 +322,100 @@ function appendToPoTransV2(item_code) {
     let pack_desc;
     let pac_qty;
     let t_row;
-    if (row_count('prod_master', "`item_code` = '" + item_code + "'") === 1) {
-        // get item details
-        let this_entery = JSON.parse(get_row('prod_master', "`item_code` = '" + item_code + "'"))[0];
-        let x = $('#po_items_list tr').length + 1;
-        let i = item_code;
 
-        barcode = this_entery.barcode
-        item_desc = this_entery.item_desc;
-        item_packagin = this_entery.packing;
-        item_qty = 0;
-        item_cost = 0;
-        item_total_cost = 0;
-        let pack_id_desc = 0;
+    // check if item exist in row
+    let po_trans_row = $('#po_items_list tr').length
+    let item_code_id;
+    let exist = 0;
+    cl(po_trans_row)
+    for (let row = 0; row <= po_trans_row; row++) {
+        cl(row)
 
-        // get packing for each item
-        this_packing = JSON.parse(
-            get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
-        );
-        pack_id = this_packing[0].pack_id;
-        x_pack_desc = this_packing[0].pack_desc
-        pack_desc = JSON.parse(
-            get_row('packaging', "`id` = '" + pack_id + "'")
-        )[0].desc;
-        pac_qty = this_packing[0].qty
-
-        // set ids
-        let item_code_id = "itemCode_" + i.toString();
-        let item_desc_id = "itemDesc_" + i.toString();
-        let item_pack_id = "itemPack_" + i.toString();
-        let item_packing_id = "itemPacking_" + i.toString();
-        let item_qty_id = "itemQty_" + i.toString();
-        let item_cost_id = "itemCost_" + i.toString();
-        let item_amount_id = "itemAmount_" + i.toString();
-        let row_id = "row_" + i.toString();
-
-        if(jqh.getId(row_id))
+        item_code_id = $('#itemCode_' + row)
+        let row_val = item_code_id.val()
+        cl(`${item_code} : ${row_val} `)
+        if(row_val=== item_code)
         {
-            swal_error(item_desc+ " Already Added")
+            exist += 1;
+            break;
         }
-        else
-        {
-            // check if row exist
-
-            t_row = "<tr id='" + row_id + "'>\n" +
-                "                            <td>\n" +
-                "                                <button onclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
-                "                            </td>\n" +
-                "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + barcode + "' readonly></td>\n" +
-                "                            <td>\n" +
-                "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
-                "                            </td>\n" +
-                "                            <td>\n" +
-                "                                <input readonly type='text' name=\"item_pack[]\" id='" + item_pack_id + "' value='"+pack_desc+"'  style=\"width: 50px\">\n" +
-
-                "                            </td>\n" +
-                "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + x_pack_desc + "' readonly name=\"item_packing[]\" id='" + pack_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
-                "                        </tr>";
-
-            $('#po_items_list').append(t_row)
-        }
-
-    } else {
-        swal_error("Item with code " + item_code + " not found")
     }
+
+    if(exist === 0)
+    {
+        if (row_count('prod_master', "`item_code` = '" + item_code + "'") === 1) {
+            // get item details
+            let this_entery = JSON.parse(get_row('prod_master', "`item_code` = '" + item_code + "'"))[0];
+            let x = $('#po_items_list tr').length + 1;
+            let i = x;
+
+            barcode = this_entery.barcode
+            item_desc = this_entery.item_desc;
+            item_packagin = this_entery.packing;
+            item_qty = 0;
+            item_cost = 0;
+            item_total_cost = 0;
+            let pack_id_desc = 0;
+
+            // get packing for each item
+            this_packing = JSON.parse(
+                get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
+            );
+            pack_id = this_packing[0].pack_id;
+            x_pack_desc = this_packing[0].pack_desc
+            pack_desc = JSON.parse(
+                get_row('packaging', "`id` = '" + pack_id + "'")
+            )[0].desc;
+            pac_qty = this_packing[0].qty
+
+            // set ids
+            let item_code_id = "itemCode_" + i.toString();
+            let item_desc_id = "itemDesc_" + i.toString();
+            let item_pack_id = "itemPack_" + i.toString();
+            let item_packing_id = "itemPacking_" + i.toString();
+            let item_qty_id = "itemQty_" + i.toString();
+            let item_cost_id = "itemCost_" + i.toString();
+            let item_amount_id = "itemAmount_" + i.toString();
+            let row_id = "row_" + i.toString();
+
+            if(jqh.getId(row_id))
+            {
+                swal_error(item_desc+ " Already Added")
+            }
+            else
+            {
+                // check if row exist
+
+                t_row = "<tr id='" + row_id + "'>\n" +
+                    "                            <td>\n" +
+                    "                                <button onclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
+                    "                            </td>\n" +
+                    "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + barcode + "' readonly></td>\n" +
+                    "                            <td>\n" +
+                    "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
+                    "                            </td>\n" +
+                    "                            <td>\n" +
+                    "                                <input readonly type='text' name=\"item_pack[]\" id='" + item_pack_id + "' value='"+pack_desc+"'  style=\"width: 50px\">\n" +
+
+                    "                            </td>\n" +
+                    "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + x_pack_desc + "' readonly name=\"item_packing[]\" id='" + pack_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
+                    "                        </tr>";
+
+                $('#po_items_list').append(t_row)
+            }
+
+        } else {
+            swal_error("Item with code " + item_code + " not found")
+        }
+    } else
+    {
+        swal_error("Item Exist")
+    }
+
+
 
 }
 
@@ -773,12 +800,13 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
     $('#edited_on').text(po_header.edited_on)
 
 
+    let barcode;
     if (row_count('po_trans', "`parent` = '" + po_number + "'") > 0) {
         // get po trans items
         po_items = JSON.parse(
             get_row('po_trans', "`parent` = '" + po_number + "'")
         );
-        var sn =0;
+        var sn = 0;
         for (let i = 0; i < po_items.length; i++) {
 
             sn += 1
@@ -814,25 +842,27 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
             let item_qty_id = "itemQty_" + i.toString();
             let item_cost_id = "itemCost_" + i.toString();
             let item_amount_id = "itemAmount_" + i.toString();
-            let row_id = "row_"+i.toString();
+            let row_id = "row_" + i.toString();
+            let barcode_id = "barcode_" + i.toString();
 
-            t_row += "<tr id='"+row_id+"'>\n" +
+            t_row += "<tr id='" + row_id + "'>\n" +
                 "                            <td>\n" +
-                "                                <button onclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
+                "                                <button ondblclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
                 "                            </td>\n" +
-                "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + barcode + "' readonly></td>\n" +
+                "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + item_code + "' readonly></td>\n" +
+                "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_bar_code[]\" id='" + barcode_id + "' value='" + barcode + "' readonly></td>\n" +
                 "                            <td>\n" +
-                "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
+                "                                <input type=\"text\" class='text_xxs' readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
                 "                            </td>\n" +
                 "                            <td>\n" +
-                "                                <select name=\"item_pack[]\" id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
+                "                                <select name=\"item_pack[]\" class='text_xxs' id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
                 "                                    <option value='" + pack_desc + "'>" + pack_desc + " </option>\n" +
                 "                                </select>\n" +
                 "                            </td>\n" +
-                "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='"+item_qty+"' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='"+item_cost+"' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
-                "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='"+item_total_cost+"' id='" + item_amount_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='" + item_qty + "' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='" + item_cost + "' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" class='text_xxs' required type=\"number\" readonly name=\"item_amount[]\" value='" + item_total_cost + "' id='" + item_amount_id + "'></td>\n" +
                 "                        </tr>";
 
 
@@ -842,9 +872,7 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
         $('#total_amount').val(po_total_amount.toFixed(2))
 
 
-
-    }
-    else {
+    } else {
         $('#po_items_list').html("Add Item to list")
         echo("no po item")
     }
@@ -1184,4 +1212,123 @@ $(document).ready(function(){
            swal_error("Cannot save an empty document")
        }
    })
+});
+
+// save edited po
+$(document).ready(function(){
+    $('#save_edited_po').on('click',function () {
+        /*TODO SAVE PO DOCUMENT
+        * 1. Check po header to make sure, lic, suppler and remarks ae not empty
+        * 1. Check if there are items in po list else show error
+        * 3. make sure valus are not 0 for po items
+        * 4. insert header details
+        * 5. loop through po items and save it
+        * */
+        // check po trans
+        let po_trans_count = $('#po_items_list tr').length
+        if(po_trans_count > 0) // 1
+        {
+            let error = 0;
+
+            //2
+            let loc_id,loc_desc,suppler,remarks;
+            let entry_no = $('#po_number').val()
+            loc_id = $('#loc_id').val();
+            suppler = $('#supplier').val();
+            remarks = $('#remarks').val();
+            error += jqh.strLen('loc_id','val')
+            error += jqh.strLen('supplier','val')
+            error += jqh.strLen('remarks','val')
+
+            if(error === 0)
+            {
+                // update header
+                exec(`UPDATE po_hd set location = '${loc_id}' , suppler = '${suppler}', remarks = '${remarks}' where doc_no = '${entry_no}' `)
+
+                let row_err = 0;
+                let row_msg = '';
+                let total_cost = 0;
+                // 3
+                for (let l = 1; l <= po_trans_count; l++)
+                {
+                    let qty,cost,amount,amout_val,qty_val,barcode,item_desc,pack_id,pack_desc;
+
+                    barcode = $('#itemCode_'+l);
+                    item_desc = $('#itemDesc_'+l)
+                    pack_id = $('#itemPack_'+l)
+                    pack_desc = $('#itemPacking_'+l);
+                    qty = $("#itemQty_"+l)
+                    cost = $('#itemCost_'+l)
+                    amount = $('#itemAmount_'+l)
+
+                    total_cost += parseFloat(amount.val());
+
+                    qty_val = qty.val()
+                    cl("Quantity Is : " + qty_val)
+                    if(qty.val() < 1 ) // check quantity
+                    {
+                        qty.removeClass('bg-success')
+                        qty.addClass('bg-danger')
+                        row_err += 1;
+                        row_msg += "Line "+l+" : Quantity is "+qty.val()+" \n"
+                    }
+                    else
+                    {
+                        qty.removeClass('bg-danger')
+                    }
+
+                    if(cost.val() < 1 ) // check cost
+                    {
+                        cost.removeClass('bg-success')
+                        cost.addClass('bg-danger')
+                        row_err += 1;
+                        row_msg += "Line "+l+" : Cost is "+cost.val()+"\n"
+                    }
+                    else
+                    {
+                        cost.removeClass('bg-danger')
+                    }
+
+                    amout_val = amount.val()
+
+                    if(amount.val() < 1 ) // check amount
+                    {
+                        amount.removeClass('bg-success')
+                        amount.addClass('bg-danger')
+                        amount += 1;
+                        amount += "Line "+l+" : Amount is "+amout_val+"\n"
+                    }
+                    else
+                    {
+                        amount.removeClass('bg-danger')
+                    }
+
+
+
+                }
+
+                if(row_err > 0)
+                {
+                    swal_error(row_msg)
+                }
+                else
+                {
+                    // cl(total_cost)
+                    $('#total_amount').val(total_cost)
+                    $('#general_form').submit()
+                }
+
+
+
+            } else
+            {
+                swal_error("There is "+error+" error(s)")
+            }
+
+
+        } else // 1 error
+        {
+            swal_error("Cannot save an empty document")
+        }
+    })
 });

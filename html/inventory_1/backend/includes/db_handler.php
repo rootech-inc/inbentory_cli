@@ -33,7 +33,7 @@ class db_handler extends anton
 
         $l_route = '';
         $local_sqlite = root.'/backend/includes/database/phpsqlite.db';
-
+        
         return new PDO("sqlite:$local_sqlite");
     }
 
