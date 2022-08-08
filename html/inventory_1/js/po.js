@@ -305,7 +305,8 @@ function appendToPoTrans(item_code,po_number) // ADD NEW PO ITEM IN EDIT MOOD
     }
 }
 
-function appendToPoTransV2(item_code) {
+function appendToPoTransV2(item_code)  // save po v2
+{
     // get items details
     // check if item exist in rows
     // else append as input
@@ -376,6 +377,7 @@ function appendToPoTransV2(item_code) {
             let item_qty_id = "itemQty_" + i.toString();
             let item_cost_id = "itemCost_" + i.toString();
             let item_amount_id = "itemAmount_" + i.toString();
+            let barcode_id = "barcode_" + i.toString();
             let row_id = "row_" + i.toString();
 
             if(jqh.getId(row_id))
@@ -388,20 +390,22 @@ function appendToPoTransV2(item_code) {
 
                 t_row = "<tr id='" + row_id + "'>\n" +
                     "                            <td>\n" +
-                    "                                <button onclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
+                    "                                <button ondblclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
                     "                            </td>\n" +
-                    "                            <td><input ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + barcode + "' readonly></td>\n" +
+                    "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + item_code + "' readonly></td>\n" +
+                    "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_bar_code[]\" id='" + barcode_id + "' value='" + barcode + "' readonly></td>\n" +
                     "                            <td>\n" +
-                    "                                <input type=\"text\" readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
+                    "                                <input type=\"text\" class='text_xxs' readonly name=\"item_desc[]\" id='" + item_desc_id + "' value='" + item_desc + "'>\n" +
                     "                            </td>\n" +
                     "                            <td>\n" +
-                    "                                <input readonly type='text' name=\"item_pack[]\" id='" + item_pack_id + "' value='"+pack_desc+"'  style=\"width: 50px\">\n" +
-
+                    "                                <select name=\"item_pack[]\" class='text_xxs' id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
+                    "                                    <option value='" + pack_desc + "'>" + pack_desc + " </option>\n" +
+                    "                                </select>\n" +
                     "                            </td>\n" +
-                    "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + x_pack_desc + "' readonly name=\"item_packing[]\" id='" + pack_id + "'></td>\n" +
-                    "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
-                    "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
-                    "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='" + item_qty + "' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='" + item_cost + "' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" class='text_xxs' required type=\"number\" readonly name=\"item_amount[]\" value='" + item_total_cost + "' id='" + item_amount_id + "'></td>\n" +
                     "                        </tr>";
 
                 $('#po_items_list').append(t_row)
@@ -1226,103 +1230,145 @@ $(document).ready(function(){
         * */
         // check po trans
         let po_trans_count = $('#po_items_list tr').length
-        if(po_trans_count > 0) // 1
+        let barcode_id;
+        let item_desc_id;
+        let pack_id_id;
+        let pack_desc_id;
+        let my_user_name = $('#my_user_name').val()
+        let qty_id;
+        let cost_id;
+        let amount_id;
+        if (po_trans_count > 0) // 1
         {
             let error = 0;
 
             //2
-            let loc_id,loc_desc,suppler,remarks;
+            let loc_id, loc_desc, suppler, remarks;
             let entry_no = $('#po_number').val()
             loc_id = $('#loc_id').val();
             suppler = $('#supplier').val();
             remarks = $('#remarks').val();
-            error += jqh.strLen('loc_id','val')
-            error += jqh.strLen('supplier','val')
-            error += jqh.strLen('remarks','val')
+            error += jqh.strLen('loc_id', 'val')
+            error += jqh.strLen('supplier', 'val')
+            error += jqh.strLen('remarks', 'val')
 
-            if(error === 0)
-            {
+            if (error === 0) {
                 // update header
-                exec(`UPDATE po_hd set location = '${loc_id}' , suppler = '${suppler}', remarks = '${remarks}' where doc_no = '${entry_no}' `)
+                exec(`UPDATE po_hd
+                      set location = '${loc_id}',
+                          suppler  = '${suppler}',
+                          remarks  = '${remarks}'
+                      where doc_no = '${entry_no}' `)
 
                 let row_err = 0;
                 let row_msg = '';
                 let total_cost = 0;
                 // 3
-                for (let l = 1; l <= po_trans_count; l++)
-                {
-                    let qty,cost,amount,amout_val,qty_val,barcode,item_desc,pack_id,pack_desc;
+                let line_no = 0;
+                for (let l = 0; l < po_trans_count; l++) {
+                    let qty, cost, amount, amout_val, qty_val, barcode, item_desc, pack_id, pack_desc, item_code,
+                        item_code_id;
+                    let line_error = 0;
+                    item_code_id = $('#itemCode_' + l)
+                    barcode_id = $('#barcode_' + l);
+                    item_desc_id = $('#itemDesc_' + l)
+                    pack_id_id = $('#itemPack_' + l)
+                    pack_desc_id = $('#itemPacking_' + l);
+                    qty_id = $("#itemQty_" + l)
+                    cost_id = $('#itemCost_' + l)
+                    amount_id = $('#itemAmount_' + l)
 
-                    barcode = $('#itemCode_'+l);
-                    item_desc = $('#itemDesc_'+l)
-                    pack_id = $('#itemPack_'+l)
-                    pack_desc = $('#itemPacking_'+l);
-                    qty = $("#itemQty_"+l)
-                    cost = $('#itemCost_'+l)
-                    amount = $('#itemAmount_'+l)
+                    // values
+                    item_code = item_code_id.val()
+                    barcode = barcode_id.val();
+                    item_desc = item_desc_id.val()
+                    pack_id = pack_id_id.val()
+                    pack_desc = pack_desc_id.val()
+                    qty = qty_id.val()
+                    cost = cost_id.val()
+                    amount = amount_id.val()
+                    let this_line = l += 1;
 
-                    total_cost += parseFloat(amount.val());
+                    let item_packing = db.item_packing(item_code, 2)
+                    cl('##############')
+                    ct(item_packing)
+                    cl(item_packing)
+                    let container_desc = item_packing['container_desc'];
+                    let pack_descr = item_packing['pack_descr'];
+                    let qty_in_pack = item_packing['qty_in_pack'];
+                    cl('##############')
 
-                    qty_val = qty.val()
-                    cl("Quantity Is : " + qty_val)
-                    if(qty.val() < 1 ) // check quantity
+
+                    let x_data = {
+                        'cols': ['item_code', 'barcode', 'item_description', 'owner', 'pack_desc', 'packing', 'pack_um', 'qty', 'cost', 'total_cost', 'parent', 'line'],
+                        'vars': [item_code, barcode, item_desc, my_user_name, container_desc, pack_descr, qty_in_pack,qty,cost,amount,entry_no,this_line]
+                    }
+                    cl("Inserting")
+                    exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
+                    insert('po_trans',x_data)
+                    ct(x_data)
+
+                    total_cost += parseFloat(amount);
+
+                    qty_val = qty
+                    cl(`Quantity Is : ${qty_val} `)
+                    if (qty < 1) // check quantity
                     {
-                        qty.removeClass('bg-success')
-                        qty.addClass('bg-danger')
+                        qty_id.removeClass('bg-success')
+                        qty_id.addClass('bg-danger')
                         row_err += 1;
-                        row_msg += "Line "+l+" : Quantity is "+qty.val()+" \n"
-                    }
-                    else
-                    {
-                        qty.removeClass('bg-danger')
+                        line_error += 1;
+                        row_msg += "Line " + l + " : Quantity is " + qty.val() + " \n"
+                    } else {
+                        qty_id.removeClass('bg-danger')
                     }
 
-                    if(cost.val() < 1 ) // check cost
+                    if (cost < 1) // check cost
                     {
-                        cost.removeClass('bg-success')
-                        cost.addClass('bg-danger')
+                        cost_id.removeClass('bg-success')
+                        cost_id.addClass('bg-danger')
                         row_err += 1;
-                        row_msg += "Line "+l+" : Cost is "+cost.val()+"\n"
+                        line_error += 1;
+                        row_msg += "Line " + l + " : Cost is " + cost.val() + "\n"
+                    } else {
+                        cost_id.removeClass('bg-danger')
                     }
-                    else
+
+                    amout_val = amount
+
+                    if (amount < 1) // check amount
                     {
-                        cost.removeClass('bg-danger')
+                        amount_id.removeClass('bg-success')
+                        amount_id.addClass('bg-danger')
+                        row_err += 1;
+                        line_error += 1;
+                        amount += "Line " + l + " : Amount is " + amout_val + "\n"
+                    } else {
+                        amount_id.removeClass('bg-danger')
                     }
 
-                    amout_val = amount.val()
+                    if (line_error < 1) {
+                        line_no += 1;
 
-                    if(amount.val() < 1 ) // check amount
-                    {
-                        amount.removeClass('bg-success')
-                        amount.addClass('bg-danger')
-                        amount += 1;
-                        amount += "Line "+l+" : Amount is "+amout_val+"\n"
+                        ct("Save Line")
+
+                    } else {
+                        ct(`Cannot save line with ${line_error} s`)
                     }
-                    else
-                    {
-                        amount.removeClass('bg-danger')
-                    }
-
-
 
                 }
 
-                if(row_err > 0)
-                {
+                if (row_err > 0) {
                     swal_error(row_msg)
-                }
-                else
-                {
-                    // cl(total_cost)
-                    $('#total_amount').val(total_cost)
-                    $('#general_form').submit()
+                } else {
+                    cl(total_cost)
+                    // $('#total_amount').val(total_cost)
+                    // $('#general_form').submit()
                 }
 
 
-
-            } else
-            {
-                swal_error("There is "+error+" error(s)")
+            } else {
+                swal_error("There is " + error + " error(s)")
             }
 
 

@@ -112,6 +112,30 @@ class db_handler extends anton
 
     }
 
+    function fetch_rows($query, $result = 'array') // get rows from table
+    {
+
+        $stmt = $this->db_connect()->query($query);
+
+        if($result === 'array')
+        {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        elseif ($result === 'json')
+        {
+            header('Content-Type: application/json');
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return json_encode($res);
+        }
+        else
+        {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+
+
+    }
+
     public function add_item_bill($bill_number,$barcode,$qty,$myName)
     {
         //get item details

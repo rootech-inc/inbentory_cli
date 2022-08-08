@@ -153,6 +153,8 @@ function cl(params) { // console log
     console.log(params + '\n')
 }
 
+ct = (param) => console.table(param);
+
 // alert function
 function al(params)
 {

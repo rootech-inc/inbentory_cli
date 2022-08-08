@@ -196,6 +196,7 @@ function return_rows(query) {
         'function':'return_rows',
         'query':query,
     }
+    ct(query)
 
     var result = 0;
 
@@ -210,7 +211,37 @@ function return_rows(query) {
             success: function (response)
             {
                 result = response;
-                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
+                cl(response)
+
+            }
+        }
+    );
+
+    return result;
+}
+
+// fetch rows
+function fetch_rows(query) {
+    var form_data = {
+        'function':'fetch_rows',
+        'query':query,
+    }
+    ct(query)
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+                result = response;
+                cl(response)
 
             }
         }

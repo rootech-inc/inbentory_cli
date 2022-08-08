@@ -54,6 +54,14 @@
                 print_r($res);
             }
 
+            elseif ($function === 'fetch_rows')
+            {
+                $table = $anton->post('table');
+                $query = $_POST['query'];
+                $res =  $db->fetch_rows($query,'json');
+                print_r($res);
+            }
+
             elseif ($function === 'return_rows') // return row
             {
                 $query = $_POST['query'];
