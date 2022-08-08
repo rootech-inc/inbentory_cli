@@ -1268,7 +1268,7 @@ $(document).ready(function(){
                 for (let l = 0; l < po_trans_count; l++) {
                     let qty, cost, amount, amout_val, qty_val, barcode, item_desc, pack_id, pack_desc, item_code,
                         item_code_id;
-                    let line_error = 0;
+                    var line_error = 0;
                     item_code_id = $('#itemCode_' + l)
                     barcode_id = $('#barcode_' + l);
                     item_desc_id = $('#itemDesc_' + l)
@@ -1303,10 +1303,7 @@ $(document).ready(function(){
                         'cols': ['item_code', 'barcode', 'item_description', 'owner', 'pack_desc', 'packing', 'pack_um', 'qty', 'cost', 'total_cost', 'parent', 'line'],
                         'vars': [item_code, barcode, item_desc, my_user_name, container_desc, pack_descr, qty_in_pack,qty,cost,amount,entry_no,this_line]
                     }
-                    cl("Inserting")
-                    exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
-                    insert('po_trans',x_data)
-                    ct(x_data)
+
 
                     total_cost += parseFloat(amount);
 
@@ -1318,7 +1315,7 @@ $(document).ready(function(){
                         qty_id.addClass('bg-danger')
                         row_err += 1;
                         line_error += 1;
-                        row_msg += "Line " + l + " : Quantity is " + qty.val() + " \n"
+                        row_msg += "Line " + l + " : Quantity is " + qty+ " \n"
                     } else {
                         qty_id.removeClass('bg-danger')
                     }
@@ -1329,7 +1326,7 @@ $(document).ready(function(){
                         cost_id.addClass('bg-danger')
                         row_err += 1;
                         line_error += 1;
-                        row_msg += "Line " + l + " : Cost is " + cost.val() + "\n"
+                        row_msg += "Line " + l + " : Cost is " + cost + "\n"
                     } else {
                         cost_id.removeClass('bg-danger')
                     }
@@ -1347,12 +1344,19 @@ $(document).ready(function(){
                         amount_id.removeClass('bg-danger')
                     }
 
+                    alert(`${l} has ${line_error} erros`)
+
                     if (line_error < 1) {
                         line_no += 1;
 
                         ct("Save Line")
+                        cl("Inserting")
+                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
+                        insert('po_trans',x_data)
+                        ct(x_data)
 
                     } else {
+                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
                         ct(`Cannot save line with ${line_error} s`)
                     }
 
@@ -1376,5 +1380,153 @@ $(document).ready(function(){
         {
             swal_error("Cannot save an empty document")
         }
+    })
+});
+
+// commit po edit
+$(document).ready(function(){
+    $('#commit_edited_po').on('click',function () {
+        /*TODO SAVE PO DOCUMENT
+        * 1. Check po header to make sure, lic, suppler and remarks ae not empty
+        * 1. Check if there are items in po list else show error
+        * 3. make sure valus are not 0 for po items
+        * 4. insert header details
+        * 5. loop through po items and save it
+        * */
+        // check po trans
+        let po_trans_count = $('#po_items_list tr').length
+        let my_user_name = $('#my_user_name').val()
+//1
+        let loc_id, suppler, remarks,error = 0;
+        let entry_no = $('#po_number').val()
+        loc_id = $('#loc_id').val();
+        suppler = $('#supplier').val();
+        remarks = $('#remarks').val();
+        error += jqh.strLen('loc_id', 'val')
+        error += jqh.strLen('supplier', 'val')
+        error += jqh.strLen('remarks', 'val')
+        let row_err = 0;
+        let row_msg;
+        let total_amount = 0;
+        if (error === 0) {
+            //2
+            if (po_trans_count > 0) {
+
+                // loop ends with po_trans_count - 1 so < po_trans_count
+                for (let row = 1; row < po_trans_count; row++) {
+                    //define ids
+                    let line_error = 0;
+                    let row_id = $(`#row_${row}`)
+                    let itemCode_id = $(`#itemCode_${row}`)
+                    let barcode_id = $(`#barcode_${row}`)
+                    let itemDesc_id = $(`#itemDesc_${row}`)
+                    let itemQty_id = $(`#itemQty_${row}`)
+                    let itemCost_id = $(`#itemCost_${row}`)
+                    let itemAmount_id = $(`#itemAmount_${row}`)
+
+                    // define values
+                    let item_code, barcode, item_descr, item_qty, item_cost, item_amt;
+                    item_code = itemCode_id.val()
+                    barcode = barcode_id.val()
+                    item_descr = itemDesc_id.val()
+                    item_qty = itemQty_id.val()
+                    item_cost = itemCost_id.val()
+                    item_amt = itemAmount_id.val()
+                    var line = row;
+
+                    // check errors
+
+                    cl(`Quantity Is : ${item_qty} `)
+                    if (item_qty < 1) // check quantity
+                    {
+                        itemQty_id.removeClass('bg-success')
+                        itemQty_id.addClass('bg-danger')
+                        row_err += 1;
+                        line_error += 1;
+                        row_msg += "Line " + line + " : Quantity is " + item_qty + " \n"
+                    } else {
+                        itemQty_id.removeClass('bg-danger')
+                    }
+
+                    if (item_cost < 1) // check cost
+                    {
+                        itemCost_id.removeClass('bg-success')
+                        itemCost_id.addClass('bg-danger')
+                        row_err += 1;
+                        line_error += 1;
+                        row_msg += "Line " + line + " : Cost is " + item_cost + "\n"
+                    } else {
+                        itemCost_id.removeClass('bg-danger')
+                    }
+
+
+
+                    if (item_amt < 1) // check amount
+                    {
+                        itemAmount_id.removeClass('bg-success')
+                        itemAmount_id.addClass('bg-danger')
+                        row_err += 1;
+                        line_error += 1;
+                        row_msg += "Line " + line + " : Amount is " + item_amt + "\n"
+                    } else {
+                        itemAmount_id.removeClass('bg-danger')
+                    }
+
+                    if (line_error < 1) {
+                        total_amount += parseFloat(item_amt)
+                        ct("Save Line")
+                        cl(`######### ROW IS ${row}`)
+                        // packing details
+                        let packing_details, pack_descr, container_desc, qty_in_pack;
+                        packing_details = db.item_packing(item_code, 2)
+                        pack_descr = packing_details['pack_descr']
+                        container_desc = packing_details['container_desc']
+                        qty_in_pack = packing_details['qty_in_pack']
+
+                        let save_data = {
+                            'cols': ['item_code', 'barcode', 'item_description', 'owner', 'pack_desc', 'packing', 'pack_um', 'qty', 'cost', 'total_cost', 'parent', 'line'],
+                            'vars': [item_code, barcode, item_descr, my_user_name, container_desc, pack_descr, qty_in_pack,
+                                item_qty, item_cost, item_amt, entry_no, line]
+                        }
+                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
+                        insert('po_trans',save_data)
+                        ct(save_data)
+
+
+                    } else {
+                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
+                        ct(`Cannot save line with ${line_error} s`)
+                    }
+
+
+
+                }
+
+                if (row_err > 0) {
+                    swal_error(row_msg)
+                } else {
+                    cl(row_err)
+                    // $('#total_amount').val(total_cost)
+                    // $('#general_form').submit()
+                }
+
+                // update tran hd
+                cl(`### TOTAL ${total_amount}`)
+                exec(`UPDATE po_hd
+                      set location = '${loc_id}',
+                          suppler  = '${suppler}',
+                          remarks  = '${remarks}', 
+                          total_amount = '${total_amount}'
+                      where doc_no = '${entry_no}' `)
+
+            } else {
+                swal_error("Cannot save empty list")
+            }
+        } else {
+            swal_error(error)
+        }
+
+
+
     })
 });

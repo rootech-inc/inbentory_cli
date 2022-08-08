@@ -37,7 +37,7 @@
                 </button>
 
                 <!--SAVE-->
-                <button type="button" id="save_edited_po" title="Save Edited PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button type="button" id="commit_edited_po" title="Save Edited PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <i class="fa text-success fa-save"></i>
                 </button>
 
