@@ -41,6 +41,7 @@ function exec(query = 'none')
         $.ajax(
             {
                 url: 'backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
+                    cl(`###QUERY EXECUTE : ${query}`)
                     echo(respose)
                 }
             }
@@ -135,6 +136,7 @@ function insert(table,data) {
                 {
                     result = response;
                     echo(result)
+
 
                 }
             }

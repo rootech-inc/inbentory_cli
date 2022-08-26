@@ -345,8 +345,9 @@ input[type=number] {
 
 .abs_1
 {
-    background-size: cover;
-    background: url("../assets/bg/ab_1.jpg") ;
+    /*background-size: cover;*/
+    /*background: url("../assets/bg/ab_1.jpg") ;*/
+
 }
 
 .ant-bg-black{background-color: #000000 !important; color: #f0f0f7 !important;}
@@ -354,7 +355,15 @@ input[type=number] {
 .ant-bg-light{background: #C7C7C7; color: #1b1e21}
 .prod_button header{height: 15% !important; overflow: hidden !important; background-color: #B4B5B8;}
 .prod_button article{height: 85%; overflow: auto;}
-.btn_p_more_nav{background-color: #B4B5B8; color: #000000; font-weight: bold; font-size: 15px}
+.btn_p_more_nav{
+    background-color: #dae0e5; color: #000000; font-weight: bold; font-size: x-small;
+    padding: .3rem .3rem !important;
+    line-height: 1.5 !important;
+    margin-right: .35rem!important;
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
 .btn_p_more_nav:hover{background-color: #d15f63; color: #000000;}
 .btn_p_more_nav:focus{
     background-color: #FE7378; color: #000000; outline: none !important; border: 0px !important;
@@ -425,7 +434,7 @@ input
     border-radius: 0px !important;
     border: 2px inset #000000;
     height: 100%;
-    font-size: 10px;
+    font-size: xx-small;
     color: #ffffff;
     padding-left: .5rem!important;
     display: -ms-flexbox!important;
@@ -472,7 +481,7 @@ input
     background-color: #495a9c;
     outline: none !important;
 }
-.prod_inp_descriptio{width: 40%; height: 100%;color: #000000; font-weight: bolder;}
+.prod_inp_descriptio{width: 40%; height: 100%;color: #000000; font-weight: bolder; font-size: small}
 
 .inside_card_header{
     background-color: #303136;

@@ -168,6 +168,7 @@
                             <th class='text_xs'>Quantity</th>
                             <th class='text_xs'>Cost</th>
                             <th class='text_xs'>Total Cost</th>
+                            <th class="text_xs">Tool</th>
                         </tr>
                     </thead>
                     <tbody id="po_items_list">

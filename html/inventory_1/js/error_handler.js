@@ -1,9 +1,31 @@
-function swal_reload()
+function swal_reload(message='')
 {
     Swal.fire({
 
         icon: 'success',
-        title: 'Process Completed',
+        title: 'RELOAD',
+        text:message,
+        showDenyButton: false,
+        showCancelButton: false,
+        confirmButtonText: 'OK',
+        denyButtonText: `Don't save`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            location.reload()
+        } else if (result.isDenied) {
+            location.reload()
+        }
+    })
+}
+
+// process completed
+function task_successful(message='Task completed successfully')
+{
+    Swal.fire({
+
+        icon: 'success',
+        text:message,
         showDenyButton: false,
         showCancelButton: false,
         confirmButtonText: 'OK',

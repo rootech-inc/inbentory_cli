@@ -827,31 +827,37 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
             po_total_amount += parseInt(item_total_cost)
 
             // get packing for each item
-            this_packing = JSON.parse(
-                get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
-            );
-            pack_id = this_packing[0].pack_id;
-            x_pack_desc = this_packing.pack_desc
-            pack_desc = JSON.parse(
-                get_row('packaging', "`id` = '" + pack_id + "'")
-            )[0].desc;
-            pac_qty = this_packing[0].qty
+            // this_packing = JSON.parse(
+            //     get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
+            // );
+            // pack_id = this_packing[0].pack_id;
+            // x_pack_desc = this_packing.pack_desc
+            // pack_desc = JSON.parse(
+            //     get_row('packaging', "`id` = '" + pack_id + "'")
+            // )[0].desc;
+            // pac_qty = this_packing[0].qty
+            let packing_details, pack_descr, container_desc;
+            packing_details = db.item_packing(item_code, 2)
+            pack_descr = packing_details['pack_descr']
+            container_desc = packing_details['container_desc']
+            pac_qty = packing_details['qty_in_pack']
             echo(pac_qty)
 
             // set ids
-            let item_code_id = "itemCode_" + i.toString();
-            let item_desc_id = "itemDesc_" + i.toString();
-            let item_pack_id = "itemPack_" + i.toString();
-            let item_packing_id = "itemPacking_" + i.toString();
-            let item_qty_id = "itemQty_" + i.toString();
-            let item_cost_id = "itemCost_" + i.toString();
-            let item_amount_id = "itemAmount_" + i.toString();
-            let row_id = "row_" + i.toString();
-            let barcode_id = "barcode_" + i.toString();
+            let item_code_id = "itemCode_" + sn.toString();
+            let item_desc_id = "itemDesc_" + sn.toString();
+            let item_pack_id = "itemPack_" + sn.toString();
+            let item_packing_id = "itemPacking_" + sn.toString();
+            let item_qty_id = "itemQty_" + sn.toString();
+            let item_cost_id = "itemCost_" + sn.toString();
+            let item_amount_id = "itemAmount_" + sn.toString();
+            let row_id = "row_" + sn.toString();
+            let barcode_id = "barcode_" + sn.toString();
+
 
             t_row += "<tr id='" + row_id + "'>\n" +
                 "                            <td>\n" +
-                "                                <button ondblclick=\"delete_item('po_trans','" + row_id + "')\" class=\"btn-danger pointer\">&minus;</button>\n" +
+                "                                <i>"+ sn +"</i>" +
                 "                            </td>\n" +
                 "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_code[]\" id='" + item_code_id + "' value='" + item_code + "' readonly></td>\n" +
                 "                            <td><input style='width: 100px' class='text_xxs'  ondblclick=\"selectItemForPo(this.id)\" onkeyup=\"loadPoItem(this.id,event)\" type=\"text\" name=\"item_bar_code[]\" id='" + barcode_id + "' value='" + barcode + "' readonly></td>\n" +
@@ -860,13 +866,14 @@ function editPoTrans(po_number) // LOAD PO ITEMS FOR EDITING WHEN IN EDIT MOOD
                 "                            </td>\n" +
                 "                            <td>\n" +
                 "                                <select name=\"item_pack[]\" class='text_xxs' id='" + item_pack_id + "'  style=\"width: 50px\">\n" +
-                "                                    <option value='" + pack_desc + "'>" + pack_desc + " </option>\n" +
+                "                                    <option value='" + container_desc + "'>" + container_desc + " </option>\n" +
                 "                                </select>\n" +
                 "                            </td>\n" +
-                "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+                "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_descr + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
                 "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='" + item_qty + "' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
                 "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='" + item_cost + "' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
                 "                            <td><input style=\"width: 50px\" class='text_xxs' required type=\"number\" readonly name=\"item_amount[]\" value='" + item_total_cost + "' id='" + item_amount_id + "'></td>\n" +
+                "<td onclick =\"delete_item('po_trans','" + row_id + "')\" title='Remove'><span class='badge badge-pill badge-danger'><i class='fa fa-times'></i></span></td>"+
                 "                        </tr>";
 
 
@@ -1386,146 +1393,113 @@ $(document).ready(function(){
 // commit po edit
 $(document).ready(function(){
     $('#commit_edited_po').on('click',function () {
-        /*TODO SAVE PO DOCUMENT
-        * 1. Check po header to make sure, lic, suppler and remarks ae not empty
-        * 1. Check if there are items in po list else show error
-        * 3. make sure valus are not 0 for po items
-        * 4. insert header details
-        * 5. loop through po items and save it
-        * */
-        // check po trans
-        let po_trans_count = $('#po_items_list tr').length
-        let my_user_name = $('#my_user_name').val()
-//1
-        let loc_id, suppler, remarks,error = 0;
-        let entry_no = $('#po_number').val()
-        loc_id = $('#loc_id').val();
-        suppler = $('#supplier').val();
-        remarks = $('#remarks').val();
-        error += jqh.strLen('loc_id', 'val')
-        error += jqh.strLen('supplier', 'val')
-        error += jqh.strLen('remarks', 'val')
-        let row_err = 0;
-        let row_msg;
-        let total_amount = 0;
-        if (error === 0) {
-            //2
-            if (po_trans_count > 0) {
+        cl('commiting save')
+        // VALIDATE AND GET PO HD
+        let po_number,loc_id,supplier,po_type,remarks,po_total_amt,hd_error,hd_error_msg
+        po_number = $('#po_number').val()
+        loc_id = $('#loc_id').val()
+        supplier = $('#supplier').val()
+        po_type = $('#po_type').text()
+        remarks = $('#remarks').val()
+        po_total_amt = 0
 
-                // loop ends with po_trans_count - 1 so < po_trans_count
-                for (let row = 1; row < po_trans_count; row++) {
-                    //define ids
-                    let line_error = 0;
-                    let row_id = $(`#row_${row}`)
-                    let itemCode_id = $(`#itemCode_${row}`)
-                    let barcode_id = $(`#barcode_${row}`)
-                    let itemDesc_id = $(`#itemDesc_${row}`)
-                    let itemQty_id = $(`#itemQty_${row}`)
-                    let itemCost_id = $(`#itemCost_${row}`)
-                    let itemAmount_id = $(`#itemAmount_${row}`)
+        hd_error = 0;
+        hd_error_msg = ""
 
-                    // define values
-                    let item_code, barcode, item_descr, item_qty, item_cost, item_amt;
-                    item_code = itemCode_id.val()
-                    barcode = barcode_id.val()
-                    item_descr = itemDesc_id.val()
-                    item_qty = itemQty_id.val()
-                    item_cost = itemCost_id.val()
-                    item_amt = itemAmount_id.val()
-                    var line = row;
+        if (po_number.length < 1) {hd_error += 1;hd_error_msg += "INVALID PO NUMBER"}
+        if (loc_id.length < 1) {hd_error += 1;hd_error_msg += "INVALID LOCATION ID"}
+        if (supplier.length < 1) {hd_error += 1;hd_error_msg += "INVALID PO SUPPLIER"}
+        if (po_type.length < 1) {hd_error += 1;hd_error_msg += "INVALID PO TYPE"}
+        if (remarks.length < 1) {hd_error += 1;hd_error_msg += "INVALID PO REMARKS"}
 
-                    // check errors
+        if(hd_error > 0)
+        {
+            swal_error(hd_error_msg)
+        } else
+        {
+            // check po trans
+            let po_trans
+            let row_error  = 0;
+            let row_error_msg = ''
+            po_trans = $('#po_items_list tr').length // count starts from one
+            if(po_trans > 0)
+            {
 
-                    cl(`Quantity Is : ${item_qty} `)
-                    if (item_qty < 1) // check quantity
+                // delete all po trans for this document
+                exec(`DELETE FROM po_trans where parent = '${po_number}'`)
+                //Step 1: initialize the array making it a global variable
+                var rows = [];
+
+                //Step 2: Search for all IDs and add them to the array
+                $('#po_items_list tr').each(function(){
+                    rows.push($(this).attr('id'));
+                });
+
+                /*
+                Now you can do whatever you want with the array of ID names.
+                Each entry is stored as a string.
+                */
+                for (let i = 0; i < rows.length; i++) {
+                    let row_id = rows[i]
+                    let line = i+1
+                    let row = row_id.split('_')[1]
+                    let item_code,barcode,descr,packing,pack_descr,quantity,cost,total,line_error,pack_um
+
+                    line_error = 0
+                    item_code = $(`#itemCode_${row}`).val()
+                    barcode = $(`#barcode_${row}`).val()
+                    descr = $(`#itemDesc_${row}`).val()
+                    var packaging = JSON.parse(fetch_rows(`select \`desc\` as 'pack_id', pack_desc as 'pack_desc', qty as 'pack_um' from prod_packing right join packaging on pack_id = packaging.id where item_code = '${item_code}' and purpose = 2;`))[0];
+                    packing = $(`#itemPack_${row}`).val()
+                    pack_descr = $(`#itemPacking_${row}`).val()
+                    pack_um = packaging.pack_um
+                    quantity = $(`#itemQty_${row}`).val()
+                    cost = $(`#itemCost_${row}`).val()
+                    total = $(`#itemAmount_${row}`).val()
+
+                    if(quantity < 1){line_error += 1;row_error += 1;row_error_msg += `Line ${row} : Quantity is not valid \n`}
+                    if(cost < 1){line_error += 1;row_error += 1;row_error_msg += `Line ${row} : Cost is not valid \n`}
+                    if(total < 1){line_error += 1;row_error += 1;row_error_msg += `Line ${row} : Total Cost is not valid \n`}
+
+                    if(line_error === 0) // if there is no line error
                     {
-                        itemQty_id.removeClass('bg-success')
-                        itemQty_id.addClass('bg-danger')
-                        row_err += 1;
-                        line_error += 1;
-                        row_msg += "Line " + line + " : Quantity is " + item_qty + " \n"
-                    } else {
-                        itemQty_id.removeClass('bg-danger')
-                    }
+                        // insert into database
+                        var values = [item_code,barcode,descr,user_id,toDay,packing,pack_descr,quantity,cost,total,po_number,line,pack_um]
+                        var columns = ['item_code','barcode','item_description','owner','date_added','packing','pack_desc','qty','cost','total_cost','parent','line','pack_um']
 
-                    if (item_cost < 1) // check cost
-                    {
-                        itemCost_id.removeClass('bg-success')
-                        itemCost_id.addClass('bg-danger')
-                        row_err += 1;
-                        line_error += 1;
-                        row_msg += "Line " + line + " : Cost is " + item_cost + "\n"
-                    } else {
-                        itemCost_id.removeClass('bg-danger')
-                    }
-
-
-
-                    if (item_amt < 1) // check amount
-                    {
-                        itemAmount_id.removeClass('bg-success')
-                        itemAmount_id.addClass('bg-danger')
-                        row_err += 1;
-                        line_error += 1;
-                        row_msg += "Line " + line + " : Amount is " + item_amt + "\n"
-                    } else {
-                        itemAmount_id.removeClass('bg-danger')
-                    }
-
-                    if (line_error < 1) {
-                        total_amount += parseFloat(item_amt)
-                        ct("Save Line")
-                        cl(`######### ROW IS ${row}`)
-                        // packing details
-                        let packing_details, pack_descr, container_desc, qty_in_pack;
-                        packing_details = db.item_packing(item_code, 2)
-                        pack_descr = packing_details['pack_descr']
-                        container_desc = packing_details['container_desc']
-                        qty_in_pack = packing_details['qty_in_pack']
-
-                        let save_data = {
-                            'cols': ['item_code', 'barcode', 'item_description', 'owner', 'pack_desc', 'packing', 'pack_um', 'qty', 'cost', 'total_cost', 'parent', 'line'],
-                            'vars': [item_code, barcode, item_descr, my_user_name, container_desc, pack_descr, qty_in_pack,
-                                item_qty, item_cost, item_amt, entry_no, line]
+                        var data = {
+                            'cols':columns,'vars':values
                         }
-                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
-                        insert('po_trans',save_data)
-                        ct(save_data)
 
+                        insert('po_trans',data)
+                        po_total_amt += parseFloat(total)
 
-                    } else {
-                        exec(`DELETE FROM po_trans where parent = '${entry_no}' AND item_code = '${item_code}'`)
-                        ct(`Cannot save line with ${line_error} s`)
+                        let row_detail = `'${item_code}',${barcode}','${descr}',${packing}','${pack_descr}',${quantity}','${cost}',${total}'`
+
+                        ct(data)
                     }
-
-
-
                 }
 
-                if (row_err > 0) {
-                    swal_error(row_msg)
-                } else {
-                    cl(row_err)
-                    // $('#total_amount').val(total_cost)
-                    // $('#general_form').submit()
-                }
-
-                // update tran hd
-                cl(`### TOTAL ${total_amount}`)
-                exec(`UPDATE po_hd
-                      set location = '${loc_id}',
-                          suppler  = '${suppler}',
-                          remarks  = '${remarks}', 
-                          total_amount = '${total_amount}'
-                      where doc_no = '${entry_no}' `)
-
-            } else {
-                swal_error("Cannot save empty list")
             }
-        } else {
-            swal_error(error)
-        }
+            else
+            {
+                row_error += 1;
+                row_error_msg = "No change done to document. An empty document cannot be saved"
+            }
 
+            // errors after all transactions checked
+            if(row_error === 0 )
+            {
+                // set session to view
+                exec(`UPDATE po_hd SET total_amount = '${po_total_amt}', edited_by = '${user_id}', edited_on = '${toDay}' where doc_no = '${po_number}' `)
+                a_sess.set_session(['action=view'],0)
+                task_successful()
+
+            } else
+            {
+                swal_error(`${row_error_msg}`)
+            }
+        }
 
 
     })

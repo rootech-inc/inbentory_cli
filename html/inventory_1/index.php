@@ -35,6 +35,7 @@ error_reporting(E_ALL);
     <script src="js/anton.js"></script>
     <script src="js/keyboard.js"></script>
     <script src="js/query.js"></script>
+    <script src="js/classes/buttons.js"></script>
 
 
 
@@ -44,7 +45,7 @@ error_reporting(E_ALL);
 
 
 </head>
-<body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
+<body onload="initialize()" onresize="validateSize('yes')" class="abs_1 ant-bg-black p-0 d-flex flex-wrap align-content-center">
 
     <div class="modal" id="loader">
         <div class="w-100 h-100 bg_trans_50 d-flex flex-wrap align-content-center justify-content-center">

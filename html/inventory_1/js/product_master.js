@@ -389,6 +389,20 @@ function loadProduct(prod_id,action='view')
 
         }
         $('#packaginf_row').html(package_row)
+
+        // get barcodes
+        let barcode_row = "";
+        let barcodes = JSON.parse(get_row('barcode',`item_code = '${prod_result.item_code}'`));
+        for (let i = 0; i < barcodes.length; i++) {
+            let this_barcode = barcodes[i]
+            let this_barcode_barcode, this_barcode_item
+            this_barcode_barcode = this_barcode.barcode
+            this_barcode_item = this_barcode.item_desc
+            barcode_row += `<tr><td class="p-1">${this_barcode_barcode}</td><td class="p-1">${this_barcode_item}</td></tr>`
+        }
+        $('#more_barcode_row').html(barcode_row)
+
+        //todo get suppliers
     }
 
 

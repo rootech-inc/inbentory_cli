@@ -15,6 +15,9 @@ const a_sess = new a_session();
 const jqh = new J_query_supplies();
 const db = new Db_trans();
 
+const user_id = a_sess.get_session('clerk_id')
+
+
 // send j text
 function setText(id,text)
 {
@@ -1733,6 +1736,8 @@ function approve_doc(doc) // approve document
                 let entry_no = $('#entry_no').text();
                 if(row_count('grn_hd',"`entry_no` = '"+entry_no+"'") === 1)
                 {
+                    let grn_hd = JSON.parse(get_row('grn_hd',"`entry_no` = '"+entry_no+"'"))[0];
+                    let grn_loc = grn_hd.loc
 
 
                     /*
@@ -1743,6 +1748,7 @@ function approve_doc(doc) // approve document
                     * 4. with the item code, get item current cost and retail price from prod_master
                     * 5. save current prices into price_history
                     * 6. finally update current price and cost for item
+                    * 7. update stock
                     *  */
 
                     let doc_trans = JSON.parse(get_row('grn_trans',"`entry_no` = '"+entry_no+"'")); //1
@@ -1753,6 +1759,7 @@ function approve_doc(doc) // approve document
                         let item_code = tran.item_code;
                         let cost = tran.prod_cost;
                         let retail = tran.ret_amt
+
                         // 4
                         let item_det = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"' LIMIT 1"))[0];
                         let cur_cost,cur_ret;
@@ -1763,6 +1770,26 @@ function approve_doc(doc) // approve document
                         exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','r','"+cur_ret+"','"+retail+"')")
                         // 6
                         exec("UPDATE prod_master set prev_retail = retail, retail = '"+retail+"', cost = '"+cost+"' WHERE `item_code` = '"+item_code+"' ")
+
+                        //7
+                        let tran_qty = tran.qty;
+                        let tran_um = tran.pack_um;
+
+                        let actual_tran_qty = tran_qty * tran_um;
+                        let stock_query = "";
+                        if(row_count('stock',"`item_code` = '' AND 'loc_id' = '' ") > 0)
+                        {
+                            // update stock
+                            stock_query = "UPDATE stock SET qty = qty + " + actual_tran_qty + " WHERE `item_code` = '"+item_code+"' AND `loc_id` = '"+grn_loc+"'";
+                        } else
+                        {
+                            //insert new stock
+                            stock_query = `INSERT INTO stock (item_code, loc_id, qty) VALUES ('${item_code}','${grn_loc}','${actual_tran_qty}')`;
+                        }
+                        cl("#################")
+                        cl(stock_query)
+                        cl('#################')
+                        exec(stock_query)
 
                     }
 

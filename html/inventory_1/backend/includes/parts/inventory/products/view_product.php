@@ -197,19 +197,34 @@
             <!--Bottom-->
             <div class="w-100 h-50 overflow-hidden prod_button d-flex flex-wrap">
 
-                <header class="w-100 h-20 d-flex flex-wrap overflow-hidden p-1">
-                    <button type="button" onclick="arr_hide('stock,packing_tab');arr_show('price')" autofocus class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">PRICE</p>
-                    </button>
-                    <button type="button" onclick="arr_hide('price,packing_tab');arr_show('stock')" class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">STOCK</p>
-                    </button>
-                    <button type="button" onclick="arr_hide('price,stock');arr_show('packing_tab')" class="btn rounded-0 btn_p_more_nav mr-1 w-15">
-                        <p class="m-0 p-0 text-elipse">Packing</p>
-                    </button>
+                <header class="w-100 h-20 d-flex flex-wrap align-content-center overflow-hidden p-1">
+<!--                    <button type="button" onclick="arr_hide('stock,packing_tab');arr_show('price')" autofocus class="rounded-0 btn_p_more_nav mr-1">-->
+<!--                        <p class="m-0 p-0 text-elipse">PRICE</p>-->
+<!--                    </button>-->
+<!--                    <button type="button" onclick="arr_hide('price,packing_tab');arr_show('stock')" class="rounded-0 btn_p_more_nav mr-1">-->
+<!--                        <p class="m-0 p-0 text-elipse">STOCK</p>-->
+<!--                    </button>-->
+<!--                    <button type="button" onclick="arr_hide('price,stock');arr_show('packing_tab')" class="rounded-0 btn_p_more_nav mr-1">-->
+<!--                        <p class="m-0 p-0 text-elipse">Packing</p>-->
+<!--                    </button>-->
+                    <?php
+                        $buttons = $db->db_connect()->query("SELECT * FROM system_buttons where module = 'inventory' AND sub_module = 'products' AND sub_sub_module = 'product_details' AND status = 1");
+                        while($button = $buttons->fetch(PDO::FETCH_ASSOC)):
+                    ?>
+                            <button
+                                    type="button"
+                                    class="rounded-0 btn_p_more_nav mr-1"
+                                    id="<?php echo $button['elem_id'] ?>"
+                                    name="<?php echo $button['elem_name'] ?>"
+                                    onclick="prodScreen(this.id)"
+                                    screen_type = 'gello'
+                            >
+                                <p class="m-0 p-0 text-elipse"><?php echo $button['descr'] ?></p>
+                            </button>
+                    <?php endwhile; ?>
                 </header>
 
-                <article class="p-2">
+                <article class="p-2" style="font-size: xx-small">
                     <div id="price" class="w-50 h-100">
 
                         <!-- TAX -->
@@ -274,6 +289,44 @@
                                     </tr>
                                 </thead>
                                 <tbody id="packaginf_row">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <div id="more_barcode" style="display: none;" class="w-50 h-100">
+                        <!--PACKING-->
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                <tr class="thead-light">
+                                    <th class="p-1">Barcode</th>
+                                    <th class="p-1">Description</th>
+                                </tr>
+                                </thead>
+                                <tbody id="more_barcode_row">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!-- SUPPLIERS -->
+                    <div id="more_supplier" style="display: none;" class="w-50 h-100">
+                        <!--PACKING-->
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                <tr class="thead-light">
+                                    <th class="p-1">Code</th>
+                                    <th class="p-1">Description</th>
+                                    <th class="p-1">Level</th>
+                                </tr>
+                                </thead>
+                                <tbody id="more_supplier_row">
 
                                 </tbody>
                             </table>
