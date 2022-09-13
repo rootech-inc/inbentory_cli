@@ -402,7 +402,19 @@ function loadProduct(prod_id,action='view')
         }
         $('#more_barcode_row').html(barcode_row)
 
-        //todo get suppliers
+        //get suppliers
+        let supp_row = "";
+        var suppliers = JSON.parse(fetch_rows(`select supplier_code,supp_name,level from supp_mast right join prod_supplier ps on supp_mast.supp_id = ps.supplier_code where item_code = '${prod_result.item_code}' order by ps.level;`));
+        for (let i = 0; i < suppliers.length; i++) {
+            let supplier = suppliers[i]
+            let supp_code,supp_desc,supp_lev
+            supp_code = supplier.supplier_code;
+            supp_desc = supplier.supp_name
+            supp_lev = supplier.level
+
+            supp_row = `<tr><td class="p-1">${supp_code}</td><td class="p-1">${supp_desc}</td><td class="p-1">${supp_lev}</td></tr>`
+        }
+        $('#more_supplier_row').html(supp_row)
     }
 
 
