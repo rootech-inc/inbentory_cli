@@ -5,7 +5,7 @@
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
 
-    const db_host = '172.17.0.1';
+    const db_host = '192.168.2.3';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
