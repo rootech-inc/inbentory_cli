@@ -436,7 +436,7 @@ function newProductSubGroup(group) // load sub groups for selected group
 {
     let sub_row, sub_object, sub_result,sub_id,sub_desc;
 
-    // get subs
+    // get subsjh
     sub_row = get_row('item_group_sub',"`parent` = '" + group + "'")
     sub_object = JSON.parse(sub_row)
 
