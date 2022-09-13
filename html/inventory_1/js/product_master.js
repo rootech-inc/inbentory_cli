@@ -431,7 +431,7 @@ function catDesc(val) {
         $('#short_description').val(val.substr(0,15))
     }
 }
-
+//lleho
 function newProductSubGroup(group) // load sub groups for selected group
 {
     let sub_row, sub_object, sub_result,sub_id,sub_desc;
