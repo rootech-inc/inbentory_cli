@@ -1,6 +1,6 @@
 <?php
 
-    if($sub_module === 'settings'){
+    if($sub_module === 'system'){
         require 'backend/includes/parts/settings/home.php';
     } else
     {
