@@ -38,7 +38,7 @@
 </head>
 
 <body style="height: 100vh; overflow: hidden">
-    <header>
+    <header class="p-2">
         <button class="btn btn-info rounded-0 btn-sm">New Tax Group</button>
     </header>
     <article>
