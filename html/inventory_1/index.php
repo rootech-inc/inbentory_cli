@@ -359,8 +359,13 @@ error_reporting(E_ALL);
                     // inventory
                     include 'backend/includes/parts/inventory/index.php';
                 }
+                elseif ($module === 'system') // system settings
+                {
+                    // settings
+                    $sub_module = $anton->get_session('sub_module');
+                    include 'backend/includes/parts/settings/core.php';
 
-                # todo system module
+                }
 
             ?>
         </main>

@@ -24,7 +24,7 @@
         <p class="m-0 text-elipse text-center p-0">inventory</p>
     </div>
 
-    <div onclick="set_session('module=system,sub_module=system')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+    <div onclick="set_session(['module=system,sub_module=system'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
         <p class="m-0 text-elipse text-center p-0">System</p>
     </div>
 
