@@ -1,4 +1,5 @@
 <!--Core Nav-->
+<!-- TODO FIX ACTIVE NAV BUTTON -->
 <div class="col-sm-2 h-100 p-2 pl-0 ant-bg-dark">
 
     <!-- MACHIEN NUMBER AND LOGOUT-->

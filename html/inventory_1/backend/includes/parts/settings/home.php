@@ -12,7 +12,7 @@
 
                     <article class="d-flex flex-wrap align-content-start overflow-auto">
 
-                        <button onclick="set_session(['sub_module=category','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Categories</p></button>
+                        <button onclick="windowPopUp('','Tax Master',100,100)" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Tax Master</p></button>
 
                     </article>
 
