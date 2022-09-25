@@ -136,7 +136,7 @@ class ProductCategory {
                     'date_mod':grp['date_modified']
                 })
 
-                ct()
+
 
             } else
             {
@@ -150,6 +150,8 @@ class ProductCategory {
         if(nav === 1 && id !== 0)
         {
             this.Nav(id)
+            // get subs
+            
         }
 
     }

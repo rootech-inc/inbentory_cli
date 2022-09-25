@@ -18,6 +18,7 @@ const db = new Db_trans();
 const sys = new System()
 const taxMaster = new TaxMaster()
 const pCategory = new ProductCategory()
+const User = new UserConfig()
 
 const user_id = a_sess.get_session('clerk_id')
 

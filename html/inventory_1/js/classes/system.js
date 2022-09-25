@@ -114,3 +114,128 @@ class TaxMaster{
 
     }
 }
+
+class UserConfig {
+
+
+    // create user group
+    async CreateGroup () {
+
+        const {value: formValues} = await Swal.fire({
+            title: 'Creating User Group',
+            html:
+                '<input id="new_name" autocomplete="off" placeholder="Group Name" class="swal2-input">' +
+                '<input id="new_descr" placeholder="Description" class="swal2-input">' ,
+            focusConfirm: false,
+            preConfirm: () => {
+                let obj = {
+                    'new_name': $('#new_name').val(),
+                    'new_descr': $('#new_descr').val(),
+                }
+                return obj
+            }
+        })
+
+        if (formValues) {
+            let new_name = formValues['new_name']
+            let new_descr = formValues['new_descr']
+
+            // insert
+            let data = {
+                'cols': ['descr', 'remarks'],
+                'vars': [new_name,new_descr]
+            }
+
+            insert('user_group', data)
+
+            // insert user_access
+            // fetch last group
+            let querySet = JSON.parse(fetch_rows("SELECT * FROM user_group ORDER BY id DESC LIMIT 1"))[0]
+            let gid = querySet['id']
+
+            let screens = JSON.parse(get_row('screens','none'));
+            for (let i = 0; i < screens.length; i++) {
+                let ss = screens[i]
+                let screen_id,user_grp,i_date
+                screen_id = ss['id']
+                user_grp = gid
+
+                i_date = {
+                    'cols':['group','screen'],
+                    'vars':[user_grp,screen_id]
+                }
+
+                insert('user_access',i_date)
+
+            }
+
+
+            Swal.fire("Group Added")
+        }
+
+        this.LoadGroupsScreen()
+    }
+
+    GetGroup(id = 'all'){
+        let condition
+        if(id === 'all')
+        {
+            condition = 'none'
+        } else
+        {
+            condition = ` id = '${id}'`
+        }
+
+        return {
+            'count':row_count('user_group',condition),
+            'result':JSON.parse(get_row('user_group',condition))
+        }
+
+
+
+    }
+
+    LoadGroupsScreen(){
+        if(row_count('user_group','none') > 0)
+        {
+            // fetch last group
+            let querySet = JSON.parse(fetch_rows("SELECT * FROM user_group ORDER BY id DESC LIMIT 1"))[0]
+            let id = querySet['id']
+
+            let group = this.GetGroup(id)['result'][0]
+            jqh.setText({
+                'desc':group['descr'],'code':group['id']
+            })
+
+            set_session([`user_grp=${id}`],0)
+
+            // check nav
+            // next
+            if(row_count('user_group',`id > '${id}'`) > 0 )
+            {
+                // enable
+                arr_enable("sort_right")
+            } else
+            {
+                // disable
+                arr_disable("sort_right")
+            }
+
+            // previous
+            if(row_count('user_group',`id < '${id}'`) > 0 )
+            {
+                // enable
+                arr_enable("sort_left")
+            } else
+            {
+                // disable
+                arr_disable("sort_left")
+            }
+
+        }
+        else
+        {
+            this.CreateGroup()
+        }
+    }
+}
