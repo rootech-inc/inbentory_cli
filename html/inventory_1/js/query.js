@@ -253,3 +253,32 @@ function fetch_rows(query) {
 
     return result;
 }
+
+function md5(str) {
+    var form_data = {
+        'function':'make_md5',
+        'str':str,
+    }
+    ct(query)
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'/backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+                result = response;
+                cl(response)
+
+            }
+        }
+    );
+
+    return result;
+}

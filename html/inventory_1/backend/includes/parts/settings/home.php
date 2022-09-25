@@ -14,6 +14,8 @@
 
                         <button onclick="windowPopUp('backend/includes/parts/add-ons/taxMaster.php','Tax Master',700,700)" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Tax Master</p></button>
                         <button onclick="set_session(['sub_module=user_group'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">User Group</p></button>
+                        <button onclick="set_session(['sub_module=users','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Users</p></button>
+
 
                     </article>
 

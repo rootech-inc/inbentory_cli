@@ -238,4 +238,126 @@ class UserConfig {
             this.CreateGroup()
         }
     }
+
+    LoadClerksScreen(){
+        if(row_count('clerk','none') > 0)
+        {
+            // fetch last group
+            let querySet = JSON.parse(fetch_rows("SELECT * FROM clerk ORDER BY id DESC LIMIT 1"))[0]
+            let id = querySet['id']
+            let group;
+
+            let ug = this.GetGroup(querySet['user_grp'])
+            if(ug['count'] === 1)
+            {
+                group = ug['result']['descr']
+            } else
+            {
+                group = 'Unknown';
+            }
+
+
+            jqh.setText({
+                'desc':querySet['clerk_name'],'code':querySet['clerk_code'],'group':group
+            })
+
+            set_session([`user_act=${id}`],0)
+            $('#edit_property').val(id)
+
+            // check nav
+            // next
+            if(row_count('clerk',`id > '${id}'`) > 0 )
+            {
+                // enable
+                arr_enable("sort_right")
+            } else
+            {
+                // disable
+                arr_disable("sort_right")
+            }
+
+            // previous
+            if(row_count('clerk',`id < '${id}'`) > 0 )
+            {
+                // enable
+                arr_enable("sort_left")
+            } else
+            {
+                // disable
+                arr_disable("sort_left")
+            }
+
+        }
+        else
+        {
+            this.CreateUser()
+        }
+    }
+
+    async CreateUser() {
+
+        var groups = this.GetGroup('all')
+        if(groups['count'] > 0)
+        {
+            let res = JSON.parse(groups['result'])
+            let options = {
+
+            }
+            for (let i = 0; i < res.length; i++) {
+
+                let row = res[i]
+                ct(row)
+                let id = row['id']
+                let descr = row['descr']
+                options[id] = descr
+            }
+
+            ct(options)
+
+            const { value: fruit } = await Swal.fire({
+                title: 'Create New User',
+                input: 'select',
+                inputOptions: options,
+                inputPlaceholder: 'Select Group',
+                showCancelButton: true,
+                inputValidator: async (value) => {
+                    const {value: formValues} = await Swal.fire({
+                        title: 'Description',
+                        html:
+                            '<input id="code" class="swal2-input">' +
+                            '<input id="name" class="swal2-input">' +
+                            '<input id="password" class="swal2-input">',
+                        focusConfirm: false,
+                        preConfirm: () => {
+                            return [
+                                document.getElementById('description').value,
+                                $('#password').val()
+                            ]
+                        }
+                    })
+
+                    if (formValues) {
+                        let code = formValues[0]
+                        let name = formValues[1]
+                        let password = md5(formValues[2])
+                        let grp = value
+
+                        let data = {
+                            'cols':['clerk_code','clerk_key','clerk_name','user_grp'],
+                            'vars':[code,password,name,grp]
+                        }
+                        insert('clerk',data)
+                        swal_reload('Process Completed')
+                    }
+                }
+            })
+
+            this.LoadClerksScreen()
+        } else
+        {
+            await this.CreateGroup()
+        }
+
+
+    }
 }

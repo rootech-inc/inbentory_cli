@@ -108,5 +108,11 @@
                 $entry_no = $anton->post('entry_no');
                 $db->doc_trans($doc,$entry_no,$func);
             }
+
+            elseif ($function === 'make_md5')
+            {
+                $str = $anton->post('str');
+                echo md5($str);
+            }
         }
     }
