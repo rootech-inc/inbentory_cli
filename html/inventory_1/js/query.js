@@ -11,7 +11,7 @@ function row_count(table,condition = 'none') {
 
     $.ajax(
         {
-            url:'backend/process/ajax_tools.php',
+            url:'/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
@@ -40,7 +40,7 @@ function exec(query = 'none')
         }
         $.ajax(
             {
-                url: 'backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
+                url: '/backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
                     cl(`###QUERY EXECUTE : ${query}`)
                     echo(respose)
                 }
@@ -60,7 +60,7 @@ function get_row(table,condition) {
 
     $.ajax(
         {
-            url:'backend/process/ajax_tools.php',
+            url:'/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
@@ -79,7 +79,9 @@ function get_row(table,condition) {
 }
 
 function insert(table,data) {
-
+    // cl('obj')
+    // ct(data['vars'])
+    // cl('obj_end')
     let cols = data['cols']
     let vars = data['vars']
 
@@ -126,7 +128,7 @@ function insert(table,data) {
 
         $.ajax(
             {
-                url:'backend/process/ajax_tools.php',
+                url:'/backend/process/ajax_tools.php',
                 'async': false,
                 'type': "POST",
                 'global': false,
@@ -234,7 +236,7 @@ function fetch_rows(query) {
 
     $.ajax(
         {
-            url:'backend/process/ajax_tools.php',
+            url:'/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,

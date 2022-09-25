@@ -4,8 +4,9 @@
     ini_set('display_startup_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
+    define('host_ip',$_SERVER['SERVER_ADDR']);
 
-    const db_host = '192.168.2.3';
+    const db_host = '172.27.160.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";

@@ -12,7 +12,7 @@
 
                     <article class="d-flex flex-wrap align-content-start overflow-auto">
 
-                        <button onclick="windowPopUp('backend/includes/parts/add-ons/taxMaster.php','Tax Master',500,500)" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Tax Master</p></button>
+                        <button onclick="windowPopUp('backend/includes/parts/add-ons/taxMaster.php','Tax Master',700,700)" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Tax Master</p></button>
 
                     </article>
 

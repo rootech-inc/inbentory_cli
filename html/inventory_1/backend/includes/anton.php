@@ -27,6 +27,12 @@ class anton extends FPDF
         }
     }
 
+    public function error_handler($title = 'Error',$message='There is an error, Please contact System Administrator'){
+        $error_detail = array('title'=>$title,'message'=>$message);
+        require root.'/backend/includes/parts/core/no_db_connection.php';
+        die();
+    }
+
     public function unset_session($arr_of_data)
     {
         foreach ($arr_of_data as $iValue) // loop through each session data

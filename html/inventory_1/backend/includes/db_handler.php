@@ -19,9 +19,7 @@ class db_handler extends anton
             return $pdo;
         } catch (PDOException $err)
         {
-            $_SESSION['db_err_msg'] = $err->getMessage();
-            require root.'/backend/includes/parts/core/no_db_connection.php';
-            die();
+            $this->error_handler('Database Error',$err->getMessage());
         }
     }
 
@@ -30,11 +28,17 @@ class db_handler extends anton
     public function db_sqlite() // connect to sqlite
     {
 
+        try {
+            $l_route = '';
+            $local_sqlite = root.'/backend/includes/database/phpsqlite.db';
 
-        $l_route = '';
-        $local_sqlite = root.'/backend/includes/database/phpsqlite.db';
-        
-        return new PDO("sqlite:$local_sqlite");
+            return new PDO("sqlite:$local_sqlite");
+        } catch (PDOException $err)
+        {
+
+            $this->error_handler('SQLITE Database Error',$err->getMessage());
+        }
+
     }
 
     public function machine_details() // get machine details

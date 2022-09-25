@@ -33,10 +33,9 @@
                             // get last category
                             $active_category_sql = $db->db_connect()->query("SELECT * FROM `item_group` order by id desc LIMIT 1");
 
-                            $ac_result = $active_category_sql->fetch(PDO::FETCH_ASSOC);
-                            $last = $ac_result['id'];
 
                             include 'backend/includes/parts/inventory/category/category.php';
+
                         ?>
                         <script>
                             // disable buttons
@@ -83,9 +82,11 @@
                     <script>
                         <?php
                         if($action === 'view')
-                        {
-                            echo "loadCategory($last)";
-                        }
+                        { ?>
+
+                        pCategory.LoadScreen('ini',1)
+
+                        <?php }
                         elseif ($action === 'edit')
                         {
                             echo "loadCategory($last,'edit')";

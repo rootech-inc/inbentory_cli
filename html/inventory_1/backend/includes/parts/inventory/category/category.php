@@ -186,5 +186,5 @@
 </div>
 
 <script>
-    loadCategory(1)
+
 </script>

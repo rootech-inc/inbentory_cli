@@ -27,6 +27,8 @@ error_reporting(E_ALL);
     <script src="js/classes/session.js"></script>
     <script src="js/classes/j_query_supplies.js"></script>
     <script src="js/classes/db_trans.js"></script>
+    <script src="js/classes/system.js"></script>
+    <script src="js/classes/inventory.js"></script>
 
     <script src="js/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/sweetalert.min.css">
@@ -45,7 +47,7 @@ error_reporting(E_ALL);
 
 
 </head>
-<body onload="initialize()" onresize="validateSize('yes')" class="abs_1 ant-bg-black p-0 d-flex flex-wrap align-content-center">
+<body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
 
     <div class="modal" id="loader">
         <div class="w-100 h-100 bg_trans_50 d-flex flex-wrap align-content-center justify-content-center">

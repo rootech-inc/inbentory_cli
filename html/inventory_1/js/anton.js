@@ -8,14 +8,19 @@ const mmm = String(today.getMinutes())
 const sss = String(today.getSeconds())
 const yyyy = today.getFullYear();
 const  toDay = yyyy + '-' + mm + '-' + dd;
+const time_x = `${hh}:${mmm}:${sss}`
 const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":" + sss
 
 // instantiate classes
 const a_sess = new a_session();
 const jqh = new J_query_supplies();
 const db = new Db_trans();
+const sys = new System()
+const taxMaster = new TaxMaster()
+const pCategory = new ProductCategory()
 
 const user_id = a_sess.get_session('clerk_id')
+
 
 
 // send j text
