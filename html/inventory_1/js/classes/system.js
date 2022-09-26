@@ -248,18 +248,20 @@ class UserConfig {
             let group;
 
             let ug = this.GetGroup(querySet['user_grp'])
+            ct(ug)
             if(ug['count'] === 1)
             {
-                group = ug['result']['descr']
+                group = ug['result'][0]['descr']
             } else
             {
                 group = 'Unknown';
             }
 
-
-            jqh.setText({
+            var data = {
                 'desc':querySet['clerk_name'],'code':querySet['clerk_code'],'group':group
-            })
+            }
+            ct(data)
+            jqh.setText(data)
 
             set_session([`user_act=${id}`],0)
             $('#edit_property').val(id)
@@ -357,6 +359,37 @@ class UserConfig {
         {
             await this.CreateGroup()
         }
+
+
+    }
+
+    SaveClerk()
+    {
+        let code,name,group,data,password;
+
+        code = $('#code').val()
+        password = $('#password').val()
+        name = $('#name').val()
+        group = $('#group').val()
+
+
+
+        data = {
+            'cols':['clerk_code','clerk_key','clerk_name','user_grp'],
+            'vars':[code,md5(password),name,group]
+        }
+
+        if(row_count('clerk',`clerk_code = '${code}'`) === 0 )
+        {
+            insert('clerk',data)
+
+            set_session(['action=view'],1)
+        } else {
+            swal_error(`Clerk Code (${code}) is taken`)
+        }
+
+
+
 
 
     }

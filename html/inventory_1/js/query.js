@@ -259,7 +259,7 @@ function md5(str) {
         'function':'make_md5',
         'str':str,
     }
-    ct(query)
+
 
     var result = 0;
 

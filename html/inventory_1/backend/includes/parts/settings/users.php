@@ -63,7 +63,7 @@
 
                             <?php if($action === 'edit'): ?>
 
-                                <button id="edit_property" title="Save" type="button" class="btn p-0">
+                                <button id="edit_property" onclick="User.SaveClerk()" title="Save" type="button" class="btn p-0">
                                     <img
                                             src="/assets/icons/home/save_close.png"
                                             class="img-fluid"
@@ -139,6 +139,13 @@
                                                     <p class="m-0 p-0 text-elipse">Name</p>
                                                 </div>
                                                 <input type="text" autocomplete="off"  required name="name" id="name" class="prod_inp">
+                                            </div>
+
+                                            <div class="prod_inp_container d-flex flex-wrap">
+                                                <div class="inp_text d-flex flex-wrap align-content-center">
+                                                    <p class="m-0 p-0 text-elipse">Name</p>
+                                                </div>
+                                                <input type="password" autocomplete="off"  required name="password" id="password" class="prod_inp">
                                             </div>
 
                                             <div class="prod_inp_container d-flex flex-wrap">
