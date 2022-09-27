@@ -239,14 +239,44 @@ class UserConfig {
         }
     }
 
-    LoadClerksScreen(){
-        if(row_count('clerk','none') > 0)
+    LoadClerksScreen(target='ini'){
+        let querySet,id;
+        let error = false;
+        if(target === 'ini') // if fetching user for screen ini
         {
-            // fetch last group
-            let querySet = JSON.parse(fetch_rows("SELECT * FROM clerk ORDER BY id DESC LIMIT 1"))[0]
-            let id = querySet['id']
-            let group;
+            if(row_count('clerk','none') > 0) // if there are rows in clerks
+            {
+                // fetch last group
+                querySet = JSON.parse(fetch_rows("SELECT * FROM clerk ORDER BY id DESC LIMIT 1"))[0]
+                id = querySet['id']
 
+
+            }
+            else // create new clerk
+            {
+                error = true;
+                this.CreateUser()
+            }
+        }
+
+        else // means an id has been passed
+        {
+            if(row_count('clerk',`id = '${target}'`) > 0)
+            {
+                // fetch last group
+                querySet = JSON.parse(fetch_rows(`SELECT * FROM clerk WHERE id = '${target}' `))[0]
+                id = querySet['id']
+            }
+            else
+            {
+                error = true
+            }
+        }
+
+
+        if (error === false) // if no error from above
+        {
+            let group;
             let ug = this.GetGroup(querySet['user_grp'])
             ct(ug)
             if(ug['count'] === 1)
@@ -288,12 +318,15 @@ class UserConfig {
                 // disable
                 arr_disable("sort_left")
             }
-
         }
-        else
+        else if (error === true && target !== 'ini')
         {
-            this.CreateUser()
+            swal_error(`Cannot get user property Target : ${target}`)
         }
+
+
+
+
     }
 
     async CreateUser() {
@@ -363,6 +396,21 @@ class UserConfig {
 
     }
 
+    GetClerk(id_param='*')
+    {
+        let condition = 'none'
+        if(id_param !== '*')
+        {
+            condition = ` id = ${id_param}`
+        }
+
+        return {
+            'count':row_count('clerk',condition),
+            'result':get_row('clerk',condition)
+        }
+
+    }
+
     SaveClerk()
     {
         let code,name,group,data,password;
@@ -392,5 +440,27 @@ class UserConfig {
 
 
 
+    }
+
+    ClerkNav(direction)
+    {
+        let clerk_details
+        let clk_act = get_session('user_act');
+        if(direction === '>')
+        {
+            if(row_count('clerk',`id > ${clk_act}`) > 0)
+            {
+                clerk_details = JSON.parse(fetch_rows(`SELECT * FROM clerk WHERE id > ${clk_act} LIMIT 1`))[0]
+                this.LoadClerksScreen(clerk_details['id'])
+            }
+        }
+        else if(direction === '<')
+        {
+            if(row_count('clerk',`id < ${clk_act}`) > 0)
+            {
+                clerk_details = JSON.parse(fetch_rows(`SELECT * FROM clerk WHERE id < ${clk_act} ORDER BY id desc LIMIT 1`))[0]
+                this.LoadClerksScreen(clerk_details['id'])
+            }
+        }
     }
 }

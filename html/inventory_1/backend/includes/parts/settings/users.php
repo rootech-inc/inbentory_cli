@@ -45,14 +45,14 @@
                                 </button>
 
 
-                                <button id="sort_left" value="<?php echo $last ?>" onclick="item_sort('product_category','left',$('#code').text())" title="Sort Left" type="button" class="btn p-0">
+                                <button id="sort_left" onclick="User.ClerkNav('<')" title="Sort Left" type="button" class="btn p-0">
                                     <img
                                         src="../../assets/icons/home/sort_left.png"
                                         class="img-fluid"
                                     >
                                 </button>
 
-                                <button id="sort_right" value="<?php echo $last ?>" onclick="item_sort('product_category','right',this.value)" title="Sort Right" type="button" class="btn p-0">
+                                <button id="sort_right"  onclick="User.ClerkNav('>')" title="Sort Right" type="button" class="btn p-0">
                                     <img
                                         src="../../assets/icons/home/sort_right.png"
                                         class="img-fluid"
@@ -118,7 +118,7 @@
 
                             </div>
                                     <script>
-                                        User.LoadClerksScreen()
+                                        User.LoadClerksScreen('ini')
                                     </script>
                                 <?php endif; ?>
 
