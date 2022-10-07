@@ -6,7 +6,7 @@
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['SERVER_ADDR']);
 
-    const db_host = '172.29.112.1';
+    const db_host = '172.24.112.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";

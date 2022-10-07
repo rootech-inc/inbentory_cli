@@ -117,6 +117,11 @@ class TaxMaster{
 
 class UserConfig {
 
+    constructor() {
+        this.clerk = get_session('clerk_id')
+        this.exist = row_count('clerk',`id = '${this.session}'`)
+
+    }
 
     // create user group
     async CreateGroup () {
@@ -463,4 +468,12 @@ class UserConfig {
             }
         }
     }
+
+    ThisClerk(){
+        return this.GetClerk(this.clerk)
+    }
+
+
+
+
 }

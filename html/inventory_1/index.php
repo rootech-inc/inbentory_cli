@@ -29,6 +29,7 @@ error_reporting(E_ALL);
     <script src="js/classes/db_trans.js"></script>
     <script src="js/classes/system.js"></script>
     <script src="js/classes/inventory.js"></script>
+    <script src="/js/classes/screen.js"></script>
 
     <script src="js/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/sweetalert.min.css">
