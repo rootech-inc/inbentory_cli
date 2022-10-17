@@ -476,10 +476,14 @@ function newProductTaxCalculate(val)
 function retailWithoutTax()
 {
 
-    let tax_rate,val;
+    let tax_rate,tax_id,val;
     val = $('#retail_with_tax').val()
 
-    tax_rate = $('#tax').val();
+    tax_id = $('#tax').val();
+
+    tax_rate = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0].rate
+
+    ct(tax_rate)
 
     if(tax_rate !== 'null')
     {
@@ -487,7 +491,8 @@ function retailWithoutTax()
 
         let tax_value = percentage(tax_rate,val)
         let retail_with_no_tax = parseFloat(val) - parseFloat(tax_value)
-        echo(retail_with_no_tax)
+        // echo(retail_with_no_tax)
+        echo(`rate ${tax_rate}`)
         if(isNaN(retail_with_no_tax))
         {
             $('#retail_without_tax').val(0.00)

@@ -30,7 +30,9 @@
                 else
                 {
                     $db->db_connect()->exec($sql);
-                    $anton->done("Group Added Successfully");
+                    $anton->set_session(['action=view']);
+                    $anton->done("done");
+
                 }
 
 

@@ -1,3 +1,5 @@
+
+
 <script src="js/billing.js"></script>
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">

@@ -452,4 +452,56 @@ class db_handler extends anton
 
     }
 
+
+    // get user screen access
+    function screen_access($screen_id){
+        //check if screen exist
+        $screen_exist =  $this->row_count('screens',"`scr_uni` = '$screen_id'");
+
+        if($screen_exist == 1)
+        {
+            // check if user has screen
+            $user = $_SESSION['clerk_id'];
+
+            if($this->row_count('clerk',"`id` = '$user'") == 1)
+            {
+                $user_details = $this->get_rows('clerk',"`id` = '$user'");
+                $user_group = $user_details['user_grp'];
+
+                $q = "select * from screens join user_access ug on screens.id = ug.screen where ug.`group` = '$user_group';";
+                $query = $this->db_connect()->query($q);
+
+                if($query->rowCount() == 1)
+                {
+                    //screen access
+                    $result = $query->fetch(PDO::FETCH_ASSOC);
+                    $page_read = $result['read'];
+                    $page_write = $result['write'];
+                    $page_print = $result['print'];
+
+                    // todo create page permissions json format and return it
+
+
+                } else
+                {
+                    $this->error_handler("Screen Error","No Group Access $q");
+                    die();
+                }
+
+
+            }
+            else
+            {
+                $this->error_handler("Screen Error",'User does not exist');
+                die();
+            }
+
+
+        } else {
+            // no screen
+            $this->error_handler("No Screen",'Screen Not Found');
+            die();
+        }
+    }
+
 }

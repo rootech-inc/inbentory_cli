@@ -18,6 +18,9 @@
             $total_amount = $anton->post('total_amount');
             $rec_date = $anton->post('rec_date');
             $invoice_number = $anton->post('invoice_number');
+            $tax_amt = $anton->post('tax_amt');
+
+
 
 
             if($db->row_count('grn_hd',"`po_number` = '$ref_doc'") > 0)
@@ -37,7 +40,7 @@
             // insert into grn hd
             $db->db_connect()->exec(
                 "INSERT INTO grn_hd (po_number, date_received, supplier, remarks, invoice_num, invoice_amt, tax, tax_amt,created_by,loc) VALUES 
-                          ('$ref_doc','$rec_date','$supp_id','$remarks','$invoice_number',0.00,0,0.00,'$myName','$loc_id')"
+                          ('$ref_doc','$rec_date','$supp_id','$remarks','$invoice_number',$total_amount,$tax_grp,$tax_amt,'$myName','$loc_id')"
             );
 
             // get last document

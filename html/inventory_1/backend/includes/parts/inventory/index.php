@@ -30,8 +30,7 @@
                     <?php if($action === 'view'): ?>
 
                         <?php
-                            // get last category
-                            $active_category_sql = $db->db_connect()->query("SELECT * FROM `item_group` order by id desc LIMIT 1");
+
 
 
                             include 'backend/includes/parts/inventory/category/category.php';

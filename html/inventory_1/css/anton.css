@@ -288,7 +288,7 @@ button
 
 
 .master_input{height: 35px;  background-color: #5E75D1;}
-.master_button{background-color: #EB9682; border: 5px solid #FFFFFF; color: #020204; height: 74px; width: 22%;font-weight: bold;}
+.master_button{background-color: #EB9682; border: 5px solid #FFFFFF; color: #020204; height: 74px; width: 28% !important;font-weight: bold;}
 .master_button:hover{background-color: #af6757; border: 5px solid rgb(0, 0, 0); color: #f0f0f0; height: 74px; width: 22%;font-weight: bold;}
 
 .product_container{background-color: #303136 !important;border-radius: 18px !important;}

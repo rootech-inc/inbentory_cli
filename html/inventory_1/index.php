@@ -15,7 +15,7 @@ error_reporting(E_ALL);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SMHOS - CLI</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/anton.css">
+
     <link rel="stylesheet" href="css/all.css">
     <link rel="stylesheet" href="css/keyboard.css">
     <link rel="icon" type="image/png" href="/assets/logo/logo.ico">
@@ -24,6 +24,7 @@ error_reporting(E_ALL);
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/query.js"></script>
     <script src="js/classes/session.js"></script>
     <script src="js/classes/j_query_supplies.js"></script>
     <script src="js/classes/db_trans.js"></script>
@@ -37,8 +38,10 @@ error_reporting(E_ALL);
     <script src="js/error_handler.js"></script>
     <script src="js/anton.js"></script>
     <script src="js/keyboard.js"></script>
-    <script src="js/query.js"></script>
+
     <script src="js/classes/buttons.js"></script>
+
+    <link rel="stylesheet" href="css/anton.css">
 
 
 
@@ -341,16 +344,21 @@ error_reporting(E_ALL);
     </div>
 
 
-    <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){ ?>
+    <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){  ?>
         <main onclick="hideKboard()" class="p-0 mx-auto card ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php
 
+
                 if($module === 'home')
                 {
+
+
                     include 'backend/includes/parts/home/home_index.php';
                 }
                 elseif ($module === 'billing'){
+
+
                     // get categories
                     $item_groups = $db->db_connect()->query("SELECT * from `item_buttons`");
 

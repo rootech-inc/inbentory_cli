@@ -50,13 +50,13 @@ class J_query_supplies {
                 if(tax_id === active_tax)
                 {
 
-                    option += "<option selected value='"+tax_attr+"'>"+tax_description+"</option>";
+                    option += "<option selected value='"+tax_id+"'>"+tax_description+"</option>";
 
                 }
                 else
                 {
 
-                    option += "<option value='"+tax_attr+"'>"+tax_description+"</option>";
+                    option += "<option value='"+tax_id+"'>"+tax_description+"</option>";
                 }
 
 

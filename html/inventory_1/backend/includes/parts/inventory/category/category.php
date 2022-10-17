@@ -45,14 +45,14 @@
                         class="img-fluid"
                 >
             </button>
-            <button id="sort_left" value="<?php echo $last ?>" onclick="item_sort('product_category','left',$('#code').text())" title="Sort Left" type="button" class="btn p-0">
+            <button id="sort_left" value="" onclick="pCategory.Nav('prev')" title="Sort Left" type="button" class="btn p-0">
                 <img
                         src="../../assets/icons/home/sort_left.png"
                         class="img-fluid"
                 >
             </button>
 
-            <button id="sort_right" value="<?php echo $last ?>" onclick="item_sort('product_category','right',this.value)" title="Sort Right" type="button" class="btn p-0">
+            <button id="sort_right" value="" onclick="pCategory.Nav('next')" title="Sort Right" type="button" class="btn p-0">
                 <img
                         src="../../assets/icons/home/sort_right.png"
                         class="img-fluid"
@@ -174,9 +174,20 @@
                 </div>
             </div>
 
-            <div class="w-100 h-45 overflow-hidden">
-                <div id="categorySub" class="w-100 p-2 d-flex bg_more_table border-info flex-wrap align-content-center justify-content-center h-100 overflow-hidden">
-                    <div class="spinner-border spinner-grow-sm"></div>
+            <div class="w-100 h-45 p-2 overflow-hidden bg_more_table">
+                <div class="table-responsive mb-0 h-100 overflow-auto">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>LINE</th>
+                                <th>DESCRIPTION</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="catSubsBody">
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
 

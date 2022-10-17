@@ -88,9 +88,27 @@ class ProductCategory {
 
     }
 
+    GetCategory(id)
+    {
+        let count = row_count('item_group',`id = '${id}'`)
+        let result = JSON.parse(fetch_rows(`SELECT * FROM item_group where id = '${id}' `))
+
+        return {
+            'count':count,'result':result
+        }
+    }
+
+    // get subs
+    CategorySubs(parent)
+    {
+        return {
+            'count':row_count('item_group_sub',`parent='${parent}'`),
+            'result':get_row('item_group_sub',`parent='${parent}'`)
+        }
+    }
 
     // check nav
-    Nav(id){
+    CheckNav(id){
         // next
         if(row_count('item_group',`id > '${id}'`) > 0 )
         {
@@ -114,46 +132,165 @@ class ProductCategory {
         }
     }
 
+    //Nav
+    Nav(sort)
+    {
+        let current_category = $('#code').text()
+
+        if(current_category.length > 0)
+        {
+            let target ;
+            switch (sort){
+                case 'next':
+                    target = JSON.parse(fetch_rows(`SELECT id FROM item_group where id > '${current_category}' LIMIT 1`))[0].id
+                    break
+                case 'prev':
+                    target = JSON.parse(fetch_rows(`SELECT id FROM item_group where id < '${current_category}' order by id desc LIMIT 1`))[0].id
+                    break
+                default:
+                    target = 0
+
+            }
+            if(target > 0)
+            {
+                // load screen
+                this.LoadScreen(target)
+            } else
+            {
+                cl("CANNOT NAVIGATE")
+            }
+        }
+
+    }
+
     // loadScreen
     LoadScreen(target='*',nav=1){
         let id = 0;
-        if (target === 'ini')
+        let row
+        if(target === 'ini')
         {
-            let row = this.GetLast()
-            if (row['count'] > 0){
-                //
-                ct(row)
-                let grp = row['result'][0]
-                let descr;
-                id = grp['id']
-                descr = grp['group_name']
-                jqh.setText({
-                    'desc':descr,
-                    'short_desc':grp['shrt_name'],
-                    'code':grp['id'],
-                    'owner':grp['owner'],
-                    'date_created':grp['date_created'],
-                    'date_mod':grp['date_modified']
-                })
+            row = this.GetLast()
+        } else {
+            row = this.GetCategory(target)
+        }
+
+        if (row['count'] > 0)
+        {
+            //
+            ct(row)
+            let grp = row['result'][0]
+            let descr;
+            id = grp['id']
+            descr = grp['group_name']
+            jqh.setText({
+                'desc':descr,
+                'short_desc':grp['shrt_name'],
+                'code':grp['id'],
+                'owner':grp['owner'],
+                'date_created':grp['date_created'],
+                'date_mod':grp['date_modified']
+            })
 
 
 
-            } else
-            {
-                // create new group
-                this.Create()
-            }
+        } else
+        {
+            // create new group
+            set_session(['action=new'])
         }
 
 
         // nav
         if(nav === 1 && id !== 0)
         {
-            this.Nav(id)
-            // get subs
+            this.CheckNav(id)
+
             
         }
 
+        // subs
+        if(id !== 0)
+        {
+            let subs = this.CategorySubs(id)
+            let tr = ''
+
+            if(subs['count'] > 0)
+            {
+
+                // load subs
+                let result = JSON.parse(subs['result'])
+                ct(result)
+                for (let i = 0; i < result.length; i++)
+                {
+                    let this_result = result[i]
+                    let sn, descr
+                    sn = i + 1;
+                    descr = this_result['description']
+
+                    tr += `<tr onclick="">
+                                <td>${sn}</td>
+                                <td>${descr}</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                            </tr>`
+                }
+
+
+            } else
+            {
+                // show no subs
+
+            }
+            $('#catSubsBody').html(tr)
+        }
+
     }
+
+    // supplier
+
+    async CreateSupplier () {
+
+        const {value: formValues} = await Swal.fire({
+            title: 'Supplier Creation',
+            html:
+                '<input id="supp_code" maxlength="3"  placeholder="Code" class="swal2-input"> <input id="descr" placeholder="Description" class="swal2-input">',
+            focusConfirm: false,
+            preConfirm: () => {
+                let obj = {
+
+                    'descr': $('#descr').val(),
+                    'code': $('#supp_code').val()
+                }
+                return obj
+                //return [
+                //  document.getElementById('code').value,
+                //document.getElementById('descr').value,
+                //document.getElementById('rate').value
+                //]
+            }
+        })
+
+        if (formValues) {
+
+            let descr = formValues['descr']
+            let code = formValues['code']
+
+
+            // insert
+            let data = {
+                'cols': ['supp_name',  'tax_grp','supp_id'],
+                'vars': [descr, 1,code]
+            }
+
+            insert('supp_mast', data)
+
+
+            swal_reload('Process Completed')
+        }
+
+
+    }
+
+    // supplier
+
 
 }

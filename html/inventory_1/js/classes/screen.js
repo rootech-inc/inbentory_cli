@@ -1,4 +1,4 @@
-class Screen {
+class screenMaster {
 
 
 
@@ -15,6 +15,7 @@ class Screen {
             {
                 swal_error('error%%Screen Not Found')
 
+
             }
 
         } else
@@ -28,17 +29,25 @@ class Screen {
 
     screenAccess(clerk_id,screen)
     {
-        if(get_row('clerk',`id = '${clerk_id}'`) > 0)
+        let user_exist = row_count('clerk',`id = '${clerk_id}'`);
+        if(user_exist > 0)
         {
-            // todo get user details
+            // get user details
+            let clerk = JSON.parse(User.GetClerk(clerk_id)['result'])
 
             // todo get user group
+            let clerk_grp = clerk['usr_grp']
 
-            // todo get user screen id
 
-            // todo check if user group has read access in screen access
-            
+            if(this.getScreen(screen) !== 'invalid')
+            {
+                ct(clerk)
+                // todo get screen id
+                // todo check if user group has read access in screen access
+            }
 
+        } else {
+            swal_error(`error%%User Not Found ${user_exist}`)
         }
     }
 

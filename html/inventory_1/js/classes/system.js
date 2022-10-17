@@ -1,5 +1,47 @@
 class System {
 
+    // new location
+    async NewLocation () {
+
+        const {value: formValues} = await Swal.fire({
+            title: 'Add Location',
+            html:
+                '<input id="loc_id" autocomplete="off" placeholder="loc id" maxlength="3" class="swal2-input">' +
+                '<input id="descr" placeholder="Description" class="swal2-input">' ,
+            focusConfirm: false,
+            preConfirm: () => {
+                let obj = {
+                    'loc_id': $('#loc_id').val(),
+                    'descr': $('#descr').val()
+                }
+                return obj
+                //return [
+                //  document.getElementById('code').value,
+                //document.getElementById('descr').value,
+                //document.getElementById('rate').value
+                //]
+            }
+        })
+
+        if (formValues) {
+            let loc_id = formValues['loc_id']
+            let descr = formValues['descr']
+
+            // insert
+            let data = {
+                'cols': ['loc_id', 'loc_desc'],
+                'vars': [loc_id, descr]
+            }
+
+            insert('loc', data)
+
+
+            swal_reload('Location Added')
+        }
+
+
+    }
+
 
 }
 
@@ -116,6 +158,7 @@ class TaxMaster{
 }
 
 class UserConfig {
+    session = get_session('clerk_id');
 
     constructor() {
         this.clerk = get_session('clerk_id')
@@ -477,3 +520,4 @@ class UserConfig {
 
 
 }
+

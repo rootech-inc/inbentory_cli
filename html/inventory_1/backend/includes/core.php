@@ -6,7 +6,7 @@
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['SERVER_ADDR']);
 
-    const db_host = '172.24.112.1';
+    const db_host = '172.29.0.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -37,6 +37,7 @@
         $clerk_id = $anton->get_session('clerk_id');
         $my = $db->get_rows('clerk',"`id` = '$clerk_id'");
         $myName = $my['clerk_name'];
+
         if(!isset($_SESSION['action']))
         {
             $_SESSION['action'] = 'view';

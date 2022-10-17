@@ -109,7 +109,7 @@ function error_handler(response)
                         swal_reload()
                         break;
                     default:
-                        swal.fire(response_message);
+                        swal_reload(response_message);
                 }
         }
 

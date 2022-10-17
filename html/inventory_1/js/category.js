@@ -57,7 +57,8 @@ function newSub(target,parent = '') { // create new sub
     if(target === 'item_group_sub') // create item group sub
     {
         // check if there are sub in current subs
-        let current_group = $('#sort_left').val();
+        let current_group = $('#code').text();
+
         let table = 'item_group_sub';
         let condition = "`parent` = '" + current_group.toString() + "'";
 
@@ -67,6 +68,7 @@ function newSub(target,parent = '') { // create new sub
 }
 
 function categorySub(id,action='view') {
+
     let table, condition,sub_res,all_subs;
     table = 'item_group_sub';
     condition = "`parent` = '" + id.toString() + "'";
@@ -354,3 +356,37 @@ $(function() {
 
 });
 
+
+function save_new_sub() {
+    let parent,descr
+
+    parent = $('#cat_parent').val()
+    descr = $('#sub_desc').val()
+
+    if(parent.length < 1)
+    {
+        error_handler('error%%Parent Is Unknown')
+    } else if(descr.length < 1)
+    {
+        error_handler('error%%Invalid Description')
+    } else
+    {
+        // check if description exist
+        if(row_count('item_group_sub',`parent = '${parent}' AND description = '${descr}'`) < 1)
+        {
+            // insert
+            let data = {
+                'cols':['parent','description','owner'],
+                'vars':[parent,descr,user_id]
+            }
+
+            insert('item_group_sub',data)
+            $('#gen_modal').modal('hide')
+            pCategory.LoadScreen(parent)
+
+        } else
+        {
+            error_handler('error%%Sub Exist')
+        }
+    }
+}

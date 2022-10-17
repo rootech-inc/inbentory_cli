@@ -18,8 +18,9 @@ const db = new Db_trans();
 const sys = new System()
 const taxMaster = new TaxMaster()
 const pCategory = new ProductCategory()
+const prod_master = new ProductCategory()
 const User = new UserConfig()
-const Screen = new Screen()
+const screens = new screenMaster()
 
 const user_id = a_sess.get_session('clerk_id')
 
@@ -549,13 +550,13 @@ function arr_enable(elements) {
 }
 
 // set session
-function set_session(data,reload = 1) {
+function set_session(array_data,reload = 1) {
     var form_data = {
         'token':'none',
         'function':'set_session',
-        'session_data':data
+        'session_data':array_data
     }
-    echo(data)
+    echo(array_data)
     $.ajax(
         {
             url:'/backend/process/ajax_tools.php',
@@ -1289,12 +1290,12 @@ function gen_modal(params,title='Not Set',content = 'none') {
             break;
 
         case 'new_item_sub_group':
-            var form = "<form action='backend/process/form-processing/category-form-process.php' method='post' id='sub_category_form'>" +
-                "<input type='text' placeholder='Description' class='form-control rounded-0' autocomplete='off' name='desc'>" +
+            var form = "<div  id='sub_category_form'>" +
+                "<input type='text' placeholder='Description' id='sub_desc' class='form-control rounded-0' autocomplete='off' name='desc'>" +
                 "<input type='hidden' name='function' value='new_item_sub_group'>" +
-                "<input type='hidden' name='parent' value='" + content + "'>" +
-                "<button type='submit' class='rounded-0 btn btn-success w-100 mt-2'>SAVE</button>"
-                "</form>";
+                "<input type='hidden' name='parent' id='cat_parent' value='" + content + "'>" +
+                "<button type='button' onclick='save_new_sub()' class='rounded-0 btn btn-success w-100 mt-2'>SAVE</button>"
+                "</div>";
             $('#grn_modal_res').html(form);
             show_modal('gen_modal')
             break;
