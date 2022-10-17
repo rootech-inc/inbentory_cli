@@ -108,6 +108,10 @@ function error_handler(response)
                     case 'done_reload':
                         swal_reload()
                         break;
+                    case 'bill_done':
+                        // get last bill summary
+                        al('bill_done')
+                        break
                     default:
                         swal_reload(response_message);
                 }

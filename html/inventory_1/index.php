@@ -377,6 +377,9 @@ error_reporting(E_ALL);
                     include 'backend/includes/parts/settings/core.php';
 
                 }
+                elseif ($module === 'reports'){
+                    include 'backend/includes/parts/reports/reports.php';
+                }
 
             ?>
         </main>

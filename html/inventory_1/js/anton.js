@@ -1,4 +1,12 @@
 
+// usefull root functions
+function cl(params) { // console log
+    console.log(params + '\n')
+}
+
+ct = (param) => console.table(param);
+
+
 // date
 const today = new Date();
 const dd = String(today.getDate()).padStart(2, '0');
@@ -159,12 +167,7 @@ function responseMessage(response)
 }
 
 
-// usefull root functions
-function cl(params) { // console log
-    console.log(params + '\n')
-}
 
-ct = (param) => console.table(param);
 
 // alert function
 function al(params)
@@ -634,6 +637,11 @@ function subTotal() {
                     {
                         $('#sub_total').text(message.split('()')[0]);
                         $('#tax').text(message.split('()')[1]);
+
+                        jqh.setText({
+                            'amount_paid':0.00,
+                            'amount_balance':0.00
+                        })
                     }
 
                 }
@@ -808,6 +816,8 @@ function make_payment(method) {
 
         var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
 
+        var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
+
         // compare balance
         if(actual_paid >= actual_balance)
         {
@@ -825,13 +835,24 @@ function make_payment(method) {
                 type:'POST',
                 data:form_data,
                 success: function (response) {
-                    //echo(response);
+                    echo(response);
                     get_bill();
-                    $('#amount_paid').text(actual_paid);
-                    $('#amount_balance').text(actual_balance - actual_paid);
-                    $('#general_input').val('');
-                    $('#sub_total').val(0.00);
-                    $('#tax').val(0.00);
+                    let r_split = response.split('%')
+                    ct(r_split)
+                    if(r_split[0] === 'done')
+                    {
+
+                        let b_n = parseInt(r_split[2]) + 1
+                        jqh.setText({'bill_num':b_n,'amount_balance':b_balance})
+                        jqh.setVal({'bill_number':b_n})
+
+
+
+                    } else
+                    {
+                        al('not done')
+                    }
+
                     //location.reload()
 
 
@@ -1009,13 +1030,17 @@ function take_report(params) {
 
 // reports function
 function report(params) {
+
     switch (params) { // switch with param
 
         case 'sales': // sales
             // get sales report, fill it in reports
-            $('#modal_d').removeClass('modal-lg');
+            $('#gen_modal').removeClass('modal-lg');
             $('#report_res').removeClass('modal_card'); // remove backgroudd of modal body
             $('.modal-title').text('Sales Report');
+
+            // get total sales
+
             var response = "<div class='w-100 p-2'> \
                 <div class='w-100 text-center'> \
                     <p class='font-weight-bolder text-center text-elipse'>$ 2000.00</p>\
@@ -1177,9 +1202,9 @@ function report(params) {
             break;
     }
     
-    $("#report_res").html(response); // send result into modal
+    $("#grn_modal_res").html(response); // send result into modal
 
-    show_modal('report_modal'); // show modal
+    show_modal('gen_modal'); // show modal
     
 }
 // cearch product

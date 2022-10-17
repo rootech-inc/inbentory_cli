@@ -173,7 +173,9 @@
                                     </div>
             
                                     <div class=\"w-50 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                    <small>$barcode</small>
                                         <p class=\"m-0 p-0\">$item_name</p>
+                                        
                                     </div>
             
                                     <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
@@ -328,7 +330,6 @@
                 $method = $anton->post('method');
                 $amount_paid = $anton->post('amount_paid');
 
-                // todo paused
 
                 // make payment
                 if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
@@ -336,15 +337,26 @@
                     // todo print bill
 
                     // get bill quantity items
-                    $itm_qty = $db->db_connect()->query("SELECT SUM(bill_amt) from `bill_trans` WHERE `bill_number` = '$bill_number'");
-                    $itm_qty_stmt = $itm_qty->fetch(PDO::FETCH_ASSOC);
-                    $num_of_items = $itm_qty_stmt['SUM(bill_amt)'];
+//                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
+                    $tran_qty = $db->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
+
+                    $gross_amt  = $db->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+
+
+                    $tax_amt = $db->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+
+
+
+                    $bill_header_insert = "INSERT INTO smhos.bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
+                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
+";
                     // mark bill as canceled
                     try {
                         // todo print_bill
                         //$anton->print_bill($bill_number,'P');
+                        $db->db_connect()->exec($bill_header_insert);
                         $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
-                        $anton->done('bill_done');
+                        $anton->done($bill_number);
                     } catch (PDOException $exception)
                     {
                         $error = $exception->getMessage();

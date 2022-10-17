@@ -49,26 +49,7 @@
 //        print_r($module);
 
 
-        if($module === 'billing' || $module === 'home')
-        {
-            // check my bill
-            //$bill_num_sql = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` != 'i' OR `trans_type` != 'D' AND `clerk` = '$myName' AND `date_added` = '$today' order by id DESC LIMIT 1");
-            $bill_num_sql = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'P' or `trans_type` = 'C' AND `clerk` = '$myName' AND `date_added` = '$today' order by id DESC LIMIT 1");
-            if($bill_num_sql->rowCount() > 0 )
-            {
-                $bill_num_res = $bill_num_sql->fetch(PDO::FETCH_ASSOC);
-
-                $bill_number = $bill_num_res['bill_number'] + 1;
-            }
-            else
-            {
-                $bill_number = 1;
-            }
-        }
-        elseif ($module === 'inventory')
-        {
-
-        }
+        $bill_number = $db->row_count('bill_header',"`mach_no` = '$machine_number' and `bill_date` = '$today'") + 1;
 
 
 

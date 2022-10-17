@@ -7,7 +7,7 @@
     <main class="p-0 d-flex flex-wrap align-content-start justify-content-center">
         <header class="billing-header border-light m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
-                Bill #<?php echo $bill_number ?>
+                Bill #<div id="bill_num"><?php echo $bill_number ?></div>
             </div>
 
             <div class="d-flex flex-wrap w-25 h-100 justify-content-start align-content-center overflow-hidden">
@@ -169,7 +169,7 @@
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <form id="general_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
+                            <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
                                 <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">

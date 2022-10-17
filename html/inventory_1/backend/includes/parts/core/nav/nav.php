@@ -17,7 +17,7 @@
         <p class="m-0 text-elipse text-center p-0">Billing</p>
     </div>
 
-    <div onclick="set_session('module=reports,sub_module=reports')" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+    <div onclick="set_session(['module=reports','sub_module=reports'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
         <p class="m-0 text-elipse text-center p-0">Reports</p>
     </div>
 

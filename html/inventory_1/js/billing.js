@@ -1,3 +1,52 @@
+$(function() {
+    //hang on event of form with id=myform
+    $("#add_to_bill_form").submit(function(e) {
+//prevent Default functionality
+        e.preventDefault();
+        //get the action-url of the form
+        var actionurl = e.currentTarget.action;
+
+        //$("#loader").modal("show");
+        let formData = new FormData($(this).parents('form')[0]);
+
+        formData = new FormData($('#add_to_bill_form')[0]); // The form with the file inputs.
+        const that = $(this),
+            url = that.attr('action'),
+            type = that.attr('method'),
+            data = {};
+        //console.log(url)
+
+        that.find('[name]').each(function (index,value){
+            var that = $(this), name = that.attr('name');
+            data[name] = that.val();
+        });
+
+        $.ajax({
+
+            url: url,
+            type: type,
+            data: formData,
+            processData: false,  // tell jQuery not to process the data
+            contentType: false,  // tell jQuery not to set contentType
+            success: function (response){
+                echo(response);
+                i_hide('numericKeyboard')
+                $('#general_input').val('');
+                error_handler(response);
+
+                // clear input
+                $('#general_input').val('')
+
+            },
+
+        });
+
+        return false;
+
+    });
+
+});
+
 // check for void
 function checkVoud() {
     let table = 'bill_trans';
