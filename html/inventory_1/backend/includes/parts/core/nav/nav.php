@@ -5,7 +5,7 @@
     <!-- MACHIEN NUMBER AND LOGOUT-->
     <div class="mach_num_and_exit mb-4 d-flex flex-wrap align-content-center justify-content-between">
         <div class="mach_num d-flex flex-wrap align-content-center justify-content-center">
-            <?php echo $db->machine_number() ?>
+            <?php echo mech_no ?>
         </div>
 
         <button id="logout" class="logout btn rounded-0 text-light d-flex flex-wrap align-content-center justify-content-center fa fa-power-off">

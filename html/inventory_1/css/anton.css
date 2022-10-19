@@ -332,7 +332,7 @@ input[type=number] {
 .h-80 {height: 80% !important;}  .h-20{height: 20% !important}
 .h-30{height: 30% !important}
 
-.w-85{width: 85% !important}.w-15{width: 15% !important}
+.w-85{width: 85% !important}.w-15{width: 15% !important}.w-fit{width: fit-content !important}
 
 .text_xs
 {

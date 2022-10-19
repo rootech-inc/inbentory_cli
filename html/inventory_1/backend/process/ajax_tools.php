@@ -2,6 +2,7 @@
 
     require '../includes/core.php';
 
+
     if($_SERVER['REQUEST_METHOD'] === 'POST')
     {
         if(isset($_POST['function']))
@@ -13,6 +14,33 @@
                 $session_data = $_POST['session_data'];
                 print_r($session_data);
                 $anton->set_session($session_data);
+            }
+
+            elseif ($function === 'mech_ini')
+            {
+                $desc = $anton->post('desc');
+                $mac_addr = $anton->post('mac_addr');
+                $mech_no = $anton->post('mech_no');
+                $ip = $anton->myIp();
+
+                $mysql_ins = "INSERT INTO mech_setup (mech_no, descr, mac_addr) value ($mech_no,'$desc','$mac_addr') ";
+                $sqlite_ins = "INSERT INTO machine_config (mechine_number, discr, mac_addr) value ($mech_no,'$desc','$mac_addr') ";
+
+                try {
+                    (new \db_handeer\db_handler())->db_connect()->query($mysql_ins);
+                    (new \mechconfig\MechConfig())->ini_device($mech_no,$mac_addr,$desc);
+
+                    $anton->done("reload");
+                } catch (PDOException $e)
+                {
+                    (new \db_handeer\db_handler())->db_connect()->query("DELETE FROM mech_setup where mech_no = $mech_no");
+                    (new \mechconfig\MechConfig())->mech_db()->query('DELETE FROM machine_config');
+
+                    $anton->err("Could Not initialize machine");
+
+                }
+
+
             }
 
             elseif ($function === 'unset_session')

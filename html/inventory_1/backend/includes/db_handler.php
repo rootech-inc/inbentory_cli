@@ -1,7 +1,11 @@
 <?php
 
+namespace db_handeer;
 
-class db_handler extends anton
+use PDO;
+use PDOException;
+
+class db_handler
 {
 
 
@@ -19,37 +23,13 @@ class db_handler extends anton
             return $pdo;
         } catch (PDOException $err)
         {
-            $this->error_handler('Database Error',$err->getMessage());
+            (new \anton)->err('Database Error',$err->getMessage());
+            return false;
         }
     }
 
 
 
-    public function db_sqlite() // connect to sqlite
-    {
-
-        try {
-            $l_route = '';
-            $local_sqlite = root.'/backend/includes/database/phpsqlite.db';
-
-            return new PDO("sqlite:$local_sqlite");
-        } catch (PDOException $err)
-        {
-
-            $this->error_handler('SQLITE Database Error',$err->getMessage());
-        }
-
-    }
-
-    public function machine_details() // get machine details
-    {
-        $machine_detail = $this->db_sqlite()->query("select * from machine_config");
-        return $machine_detail->fetch(PDO::FETCH_ASSOC);
-    }
-    public function machine_number() // machine number
-    {
-       return $this->machine_details()['machine_number'];
-    }
 
     function row_count($table,$condition='none'): int // row count of a table
     {
@@ -143,7 +123,7 @@ class db_handler extends anton
     public function add_item_bill($bill_number,$barcode,$qty,$myName)
     {
         //get item details
-        $machine_number = $this->machine_number();
+        $machine_number = mech_no;
         $clerk = $_SESSION['clerk_id'];
 
         // get item details
@@ -160,7 +140,7 @@ class db_handler extends anton
 
             //$retail_p = $item_retail;
             $discount_rate = $item['discount_rate'];
-            $retail_p = $item_retail - $this->percentage($discount_rate,$item_retail);
+            $retail_p = $item_retail - (new \anton())->percentage($discount_rate,$item_retail);
         }
         else
         {
@@ -182,7 +162,7 @@ class db_handler extends anton
         else
         {
             // calculate for tax
-            $taxAmount = $this->tax($rate,$bill_amt);
+            $taxAmount = (new \anton)->tax($rate,$bill_amt);
         }
 
 
@@ -219,7 +199,7 @@ class db_handler extends anton
 
     public function uniqieStr(string $table, string $column, int $length)
     {
-        $unique = $this->generateRandomString($length);
+        $unique = (new \anton)->generateRandomString($length);
 
         if($this->row_count("$table","$column = '$unique'") > 0)
         {
@@ -262,7 +242,7 @@ class db_handler extends anton
 
 
             // compare
-            if($this->compare(md5($key),$db_key))
+            if((new \anton)->compare(md5($key),$db_key))
             {
                 // login pass
                 return true;
@@ -285,7 +265,7 @@ class db_handler extends anton
         $_SESSION['sub_total'] = 0;
         $_SESSION['disc_value'] = 0;
         $disc_rate = $this->get_rows('bill_trans',"$disc_condition")['bill_amt'];
-        // calculate sub total with discount
+        // calculate sub-total with discount
         $items = $this->db_connect()->query("SELECT * FROM `bill_trans` WHERE $bill_condition");
         while($it = $items->fetch(PDO::FETCH_ASSOC))
         {
@@ -301,8 +281,8 @@ class db_handler extends anton
             {
                 //apply discount
                 $b_amt = $it['bill_amt'];
-                $_SESSION['disc_value'] += $this->percentage($disc_rate,$b_amt);
-                $s_toal = $b_amt - $this->percentage($disc_rate,$b_amt);
+                $_SESSION['disc_value'] += (new \anton)->percentage($disc_rate,$b_amt);
+                $s_toal = $b_amt - (new \anton)->percentage($disc_rate,$b_amt);
             }
 
             $s = $_SESSION['sub_total'];
@@ -324,7 +304,7 @@ class db_handler extends anton
         if(!is_array($details))
         {
             $error = '1';
-            return $this->err("Can't Continue");
+            return (new \anton)->err("Can't Continue");
         }
 
 
@@ -338,14 +318,14 @@ class db_handler extends anton
         // validate cols and vals
         if(!is_array($columns) && !is_array($values))
         {
-            return $this->err("Columns or Values not an array");
-            die();
+            return (new \anton)->err("Columns or Values not an array");
+            
         }
 
         // validate cols and vals length
         if(count($columns) !== count($values))
         {
-           return $this->err("Columns and Value Miss match");
+           return (new \anton)->err("Columns and Value Miss match");
 
         }
         $cols_count = count($details);
@@ -386,14 +366,14 @@ class db_handler extends anton
 
                 $message = $e->getMessage();
                 $error_show = "Message : $message, Query : $sql";
-                $this->err($error_show);
+                (new \anton)->err($error_show);
 //                return $e->getMessage();
                 return false;
             }
         }
         elseif ($error === '1')
         {
-            $this->err("Error saving PO, Contact System Administrator");
+            (new \anton)->err("Error saving PO, Contact System Administrator");
             return false;
         }
 
@@ -406,7 +386,7 @@ class db_handler extends anton
         if(strlen($query_details) < 1)
         {
             // return error
-            return $this->return_error();
+            return (new \anton)->return_error();
 
         } else {
             // search for item and return result as array
@@ -440,7 +420,7 @@ class db_handler extends anton
     function doc_trans($document,$entry_no,$function): bool
     {
         @!session_start();
-        $owner = $this->get_session('clerk_id');
+        $owner = (new \anton)->get_session('clerk_id');
         if(!empty($document) && !empty($entry_no) && !empty($function) && !empty($owner))
         {
             $this->db_connect()->query("INSERT INTO `doc_trans` (`doc_type`,`entry_no`,`trans_func`,`created_by`) VALUES ('$document','$entry_no','$function','$owner')");
@@ -484,7 +464,7 @@ class db_handler extends anton
 
                 } else
                 {
-                    $this->error_handler("Screen Error","No Group Access $q");
+                    (new \anton)->error_handler("Screen Error","No Group Access $q");
                     die();
                 }
 
@@ -492,14 +472,14 @@ class db_handler extends anton
             }
             else
             {
-                $this->error_handler("Screen Error",'User does not exist');
+                (new \anton)->error_handler("Screen Error",'User does not exist');
                 die();
             }
 
 
         } else {
             // no screen
-            $this->error_handler("No Screen",'Screen Not Found');
+            (new \anton)->error_handler("No Screen",'Screen Not Found');
             die();
         }
     }

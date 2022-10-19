@@ -34,6 +34,8 @@ const user_id = a_sess.get_session('clerk_id')
 
 
 
+
+
 // send j text
 function setText(id,text)
 {
@@ -1041,9 +1043,13 @@ function report(params) {
 
             // get total sales
 
-            var response = "<div class='w-100 p-2'> \
+            let gross = JSON.parse(fetch_rows(`SELECT SUM(gross_amt) as 'gross_amt' FROM bill_header`))[0].gross_amt
+
+            ct(gross)
+
+            var response = `<div class='w-100 p-2'> \
                 <div class='w-100 text-center'> \
-                    <p class='font-weight-bolder text-center text-elipse'>$ 2000.00</p>\
+                    <p class='font-weight-bolder text-center text-elipse'>${gross}</p>\
                     <hr class='mb-3 mt-3'>\
                 </div>\
                 <div class='modal_card p-4 mb-4'>\
@@ -1126,7 +1132,7 @@ function report(params) {
                     >\
                 </div>\
     \
-            </div>";
+            </div>`;
             break;
         
         case 'z_report': // Z REPORT

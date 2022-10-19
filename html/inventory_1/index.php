@@ -1,10 +1,16 @@
 <?php
 
+
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+
+
+
     require 'backend/includes/core.php';
+    (new \mechconfig\MechConfig)->validate_device();
 
 ?>
 <!DOCTYPE html>
@@ -352,8 +358,6 @@ error_reporting(E_ALL);
 
                 if($module === 'home')
                 {
-
-
                     include 'backend/includes/parts/home/home_index.php';
                 }
                 elseif ($module === 'billing'){
@@ -409,6 +413,7 @@ error_reporting(E_ALL);
                                     <div class="w-100 text-warning" id="error_box">
 
                                     </div>
+
                                     <div class="input-group mb-2">
                                         <input id="clerk_code" value="<?php if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?>" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>
                                     </div>
