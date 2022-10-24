@@ -143,6 +143,14 @@ function fail(fail_message = "Operation Not Successful!!") {
     swal_error(fail_message)
 }
 
+function alert(text ='',title = '',icon='info') {
+    swal.fire({
+        icon: icon,
+        title: title,
+        html:text,
+    })
+}
+
 function responseType(response) {
     var resp_split = response.split('%%');
     if(resp_split.length > 0)
@@ -668,7 +676,7 @@ function get_bill()
         type: 'POST',
         data: form_data,
         success: function (response) {
-            //console.log(response);
+            // console.log(response);
             if(response.split('%%').length === 2)
             {
                 var action = response.split('%%')[0];
@@ -716,7 +724,8 @@ function get_bill()
                 }
 
             }
-            // put response in box
+
+            $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")}, 1000);
 
         }
     });
@@ -799,7 +808,8 @@ function add_item_to_bill(barcode) {
     $('#general_input').val(newValue)
 
     // submit form
-    $('#general_form').submit();
+    $('#add_to_bill_form').submit();
+    $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")}, 1000);
     $('#gen_modal').modal('hide');
 
 }
@@ -864,7 +874,7 @@ function make_payment(method) {
         }
         else
         {
-            echo('amaount less')
+            alert('Paid amount less','','warning')
             $('#general_input').addClass('bg-danger');
             setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
 
@@ -872,8 +882,9 @@ function make_payment(method) {
     }
     else
     {
-        echo('no')
+        alert('Enter Payment Amount','','warning')
         $('#general_input').addClass('bg-danger');
+        $('#general_input').prop('autofocus',true)
         setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
     }
     

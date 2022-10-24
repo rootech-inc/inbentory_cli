@@ -109,8 +109,9 @@
                     $anton->err('item_does_not_exist');
                     exit();
                 }
+                $item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
 
-                if($db->add_item_bill($bill_number,$barcode,$qty,$myName))
+                if($MConfig->add_item_bill($bill_number,$item,$qty,$myName))
                 {
                     $anton->done('bill_added');
                 }
@@ -125,22 +126,25 @@
 
             elseif ($function === 'get_bill_items') // get bill
             {
-                // get all from bill
-                $bill_query = $db->db_connect()->query(
-                    "SELECT * FROM `bill_trans` WHERE 
+                $q = "SELECT * FROM `bill_trans` WHERE 
                                  `bill_number` = '$bill_number' AND 
                                  `mach` = '$machine_number' AND 
-                                 `trans_type` = 'i' AND `date_added` = '$today'"
-                );
-                if($bill_query->rowCount() < 1)
+                                 `trans_type` = 'i' AND `date_added` = '$today'";
+
+                // get all from bill
+                $bill_query = $MConfig->mech_db()->query($q);
+                if($MConfig->lite_row_count('bill_trans','bill_number',"`id` = '$bill_number'") < 1)
                 {
                     echo 'no_bill%%';
                     exit();
                 }
+
                 $bill_items = 'done%%';
                 $sn = 0;
+
                 while($bill = $bill_query->fetch(PDO::FETCH_ASSOC))
                 {
+
                     ++$sn;
                     $item = $bill['item_barcode'];
                     $item_barcode_md5 = md5($item);
@@ -278,47 +282,9 @@
                     $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
                     $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
 
-                    // check if there is discount
-                    if($db->row_count('bill_trans',"$disc_condition") > 0)
-                    {
-                        $_SESSION['sub_total'] = 0;
-                        $disc_rate = $db->get_rows('bill_trans',"$disc_condition")['bill_amt'];
-                        // calculate sub total with discount
-                        $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE $bill_condition");
-                        while($it = $items->fetch(PDO::FETCH_ASSOC))
-                        {
-                            $item_barcode = $it['item_barcode'];
-                            $item = $db->get_rows('prod_mast',"`barcode` = '$item_barcode'");
+                    $sub_total = $MConfig->sum('bill_trans',"bill_amt",$bill_condition);
 
-                            if($item['discount'] === 1)
-                            {
-                                //dont  apply discount
-
-                                $s_toal = $it['bill_amt'];
-                            }
-                            else
-                            {
-                                //apply discount
-                                $b_amt = $it['bill_amt'];
-                                $s_toal = $b_amt - $db->percentage($disc_rate,$b_amt);
-                            }
-
-                            $s = $_SESSION['sub_total'];
-                            $_SESSION['sub_total'] = $s + $s_toal;
-
-                        }
-
-                        $sub_total = $_SESSION['sub_total'];
-                        unset($_SESSION['sub_total']);
-
-                    }
-                    else
-                    {
-                        $sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
-                    }
-
-                    //$sub_total = $db->sum('bill_trans',"bill_amt",$bill_condition);
-                    $tax_total = $db->sum('bill_trans',"tax_amt",$bill_condition);
+                    $tax_total = $MConfig->sum('bill_trans',"tax_amt",$bill_condition);
 
                     $anton->done(number_format($sub_total,2)."()".number_format($tax_total,2));
 
@@ -327,36 +293,41 @@
 
             elseif ($function === 'payment') // making payment
             {
-                $method = $anton->post('method');
+
+
                 $amount_paid = $anton->post('amount_paid');
 
 
                 // make payment
-                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'") > 0 )
+                if($MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
+
+                    $method = $anton->post('method');
                     // todo print bill
 
                     // get bill quantity items
 //                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
-                    $tran_qty = $db->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
+                    $tran_qty = $MConfig->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
 
-                    $gross_amt  = $db->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-
-                    $tax_amt = $db->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+                    $gross_amt  = $MConfig->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
 
 
+                    $tax_amt = $MConfig->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
 
-                    $bill_header_insert = "INSERT INTO smhos.bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
+
+
+                    $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
                                                                         ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
 ";
                     // mark bill as canceled
                     try {
                         // todo print_bill
                         //$anton->print_bill($bill_number,'P');
-                        $db->db_connect()->exec($bill_header_insert);
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                        $MConfig->mech_db()->exec($bill_header_insert);
+                        $MConfig->mech_db()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+
                         $anton->done($bill_number);
+
                     } catch (PDOException $exception)
                     {
                         $error = $exception->getMessage();

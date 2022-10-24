@@ -8,7 +8,7 @@ ini_set('display_errors',1);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['SERVER_ADDR']);
 
-    const db_host = '172.21.144.1';
+    const db_host = '172.23.80.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -56,7 +56,7 @@ ini_set('display_errors',1);
 //        print_r($module);
 
 
-        $bill_number = $db->row_count('bill_header',"`mach_no` = '$machine_number' and `bill_date` = '$today'") + 1;
+        $bill_number = $MConfig->bill_number();
 
 
 

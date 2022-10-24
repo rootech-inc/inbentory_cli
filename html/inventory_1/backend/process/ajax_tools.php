@@ -23,7 +23,7 @@
                 $mech_no = $anton->post('mech_no');
                 $ip = $anton->myIp();
 
-                $mysql_ins = "INSERT INTO mech_setup (mech_no, descr, mac_addr) value ($mech_no,'$desc','$mac_addr') ";
+                $mysql_ins = "INSERT INTO mech_setup (mech_no, descr, mac_addr) values ($mech_no,'$desc','$mac_addr') ";
                 $sqlite_ins = "INSERT INTO machine_config (mechine_number, discr, mac_addr) value ($mech_no,'$desc','$mac_addr') ";
 
                 try {

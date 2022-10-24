@@ -69,8 +69,110 @@ class MechConfig
 
     public function ini_device($number,$mac_addr,$desc)
     {
-        $q = $this->mech_db();
-        $q->execute("INSERT INTO machine_config (mechine_number, discr, mac_addr) value ($number,'$desc','$mac_addr'");
+        $q = "INSERT INTO machine_config (mechine_number, discr, mac_addr) values ($number,'$desc','$mac_addr')";
+//        echo $q;
+        $this->mech_db()->prepare($q);
+        $this->mech_db()->exec($q);
+
+    }
+
+    // get current bill
+    public function bill_number()
+    {
+        $query = "SELECT count(bill_no) as 'bill_no' from bill_header";
+        $exe = $this->mech_db()->query($query);
+        $r = $exe->fetch(PDO::FETCH_ASSOC);
+        return $r['bill_no'] + 1;
+    }
+
+    function lite_row_count($table,$column,$condition): int // row count of a table
+    {
+
+        $xquery = "SELECT count($column) as 'col_count' from $table where $condition";
+//        echo "SQLITE ROW COUNT ::  $xquery";
+        $exe = $this->mech_db()->query($xquery);
+        $r = $exe->fetch(PDO::FETCH_ASSOC);
+        return $r['col_count'];
+    }
+
+    public function sum($table,$column,$condition,$as = 'result')
+    {
+        $sql = $this->mech_db()->query("SELECT SUM($column) as $as FROM `$table` WHERE $condition");
+        $stmt = $sql->fetch(PDO::FETCH_ASSOC);
+        return $stmt["$as"];
+    }
+
+    public function add_item_bill($bill_number,$item,$qty,$myName)
+    {
+        //get item details
+        $machine_number = mech_no;
+        $clerk = $_SESSION['clerk_id'];
+
+
+        // get item details
+        $item_desc = $item['desc'];
+        $item_retail = $item['retail'];
+        $barcode = $item['barcode'];
+        $disc = $item['discount'];
+//        echo $disc;
+
+
+        if($item['discount'] == '1')
+        {
+            // calculate discount rate off
+
+            //$retail_p = $item_retail;
+            $discount_rate = $item['discount_rate'];
+            $retail_p = $item_retail - (new \anton())->percentage($discount_rate,$item_retail);
+        }
+        else
+        {
+            $retail_p = $item_retail;
+        }
+
+        $bill_amt = $retail_p * $qty;
+        $tax_group = $item['tax_grp'];
+
+
+        // get tax rate
+        $taxDetails = (new \db_handeer\db_handler())->get_rows('tax_master',"`id` = '$tax_group'");
+        $rate = $taxDetails['rate'];
+        $tax_description =$taxDetails['description'];
+        if($taxDetails['rate'] < 1)
+        {
+            $taxAmount = 0.00;
+        }
+        else
+        {
+            // calculate for tax
+            $taxAmount = (new \anton)->tax($rate,$bill_amt);
+        }
+
+
+
+        // add to bill in trans
+        $sql = "insert into `bill_trans` 
+                (`mach`,`clerk`,`bill_number`,`item_barcode`,
+                 `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`) values
+                 ('$machine_number','$myName','$bill_number','$barcode',
+                  '$item_desc','$item_retail','$qty','$taxAmount',
+                  '$bill_amt','i','$tax_description','$rate')";
+
+
+        try {
+            $this->mech_db()->prepare($sql);
+            $this->mech_db()->exec($sql);
+
+            return true;
+
+        } catch (PDOException  $e)
+        {
+//            echo "error%%".$e->getMessage();
+            return false;
+        }
+
+
     }
 
 

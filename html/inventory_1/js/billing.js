@@ -29,10 +29,17 @@ $(function() {
             processData: false,  // tell jQuery not to process the data
             contentType: false,  // tell jQuery not to set contentType
             success: function (response){
-                echo(response);
+                // echo(response);
                 i_hide('numericKeyboard')
                 $('#general_input').val('');
-                error_handler(response);
+                if(response.split('%%')[0] === 'error')
+                {
+                    let er_msg = response.split('%%')[1]
+                    alert(`Could not add to bill <p class="text-danger">${er_msg}</p>`,'error')
+                } else {
+                    get_bill()
+                }
+                // alert(response.split('%%')[1]);
 
                 // clear input
                 $('#general_input').val('')
