@@ -79,7 +79,8 @@ class MechConfig
     // get current bill
     public function bill_number()
     {
-        $query = "SELECT count(bill_no) as 'bill_no' from bill_header";
+        $td = date('Y-m-d');
+        $query = "SELECT count(bill_no) as 'bill_no' from bill_header where bill_date = '$td'";
         $exe = $this->mech_db()->query($query);
         $r = $exe->fetch(PDO::FETCH_ASSOC);
         return $r['bill_no'] + 1;
@@ -175,6 +176,39 @@ class MechConfig
 
     }
 
+    // get row
+    function get_rows($table, $condition, $result = 'array') // get rows from table
+    {
+        if($condition === 'none')
+        {
+            $sql = "SELECT * FROM $table";
+        }
+        else
+        {
+            $sql = "SELECT * FROM $table WHERE $condition";
+        }
+        $stmt = $this->mech_db()->query($sql);
+
+
+
+        if($result === 'array')
+        {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+        elseif ($result === 'json')
+        {
+            header('Content-Type: application/json');
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return json_encode($res);
+        }
+        else
+        {
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+
+
+    }
 
 
 

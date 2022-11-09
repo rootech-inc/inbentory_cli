@@ -54,6 +54,8 @@ $(function() {
 
 });
 
+
+
 // check for void
 function checkVoud() {
     let table = 'bill_trans';
@@ -80,16 +82,48 @@ function void_bill_item()
 {
     let clerk = $('#clerk').val();
     let bill_number = $('#bill_number').val();
+    var form = new FormData();
+    form.append("function", "void");
+    var setting = {
 
-    let query = "delete from `bill_trans` where " +
-        "`clerk` = " + "'" + clerk +
-        "' AND `bill_number` = '" + bill_number +
-        "' AND `date_added` = '" + toDay +
-        "' AND `selected` = 1"  ;
+        "url": "/backend/process/form_process.php",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false,
+        "data": form,
+        success: function (response) {
+            get_bill()
+        }
+    }
 
-    // execute query
-    exec(query);
-    get_bill()
+    Swal.fire({
+        title: 'Are you sure you want to void items from bill?',
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: 'YES',
+        denyButtonText: `CANCEL`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax(setting)
+
+        }
+    })
+
+
+
+    //
+    // let query = "delete from `bill_trans` where " +
+    //     "`clerk` = " + "'" + clerk +
+    //     "' AND `bill_number` = '" + bill_number +
+    //     "' AND `date_added` = '" + toDay +
+    //     "' AND `selected` = 1"  ;
+    //
+    // // execute query
+    // exec(query);
+
 }
 // check for void
 
@@ -236,7 +270,8 @@ function itemLookup() {
     }
     else
     {
-        fail('Input is empty')
+        al('Input Cannot Be Empty')
+
     }
 }
 
@@ -276,6 +311,7 @@ function mark_bill_item(id) {
         success: function (response)
         {
             console.log(response);
+            get_bill();
         }
     });
 

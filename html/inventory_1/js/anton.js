@@ -32,6 +32,20 @@ const screens = new screenMaster()
 
 const user_id = a_sess.get_session('clerk_id')
 
+var form_settings = {
+    "url": "",
+    "method": "POST",
+    'async': false,
+    'global': false,
+    'dataType': 'html',
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": '',
+    'success': ''
+}
+
 
 
 
@@ -524,6 +538,7 @@ function arr_disable(elements) {
     for (let i = 0; i < spl.length; i++)
     {
         let id = "#"+spl[i];
+        cl(`${id} disabled`)
         $(id).prop('disabled',true)
         //echo(id)
     }
@@ -556,7 +571,9 @@ function arr_enable(elements) {
 
     for (let i = 0; i < spl.length; i++)
     {
+
         let id = "#"+spl[i];
+        cl(`${id} enabled`)
         $(id).prop('disabled',false)
         //echo(id)
     }
@@ -662,7 +679,7 @@ function subTotal() {
 }
 
 // get bill items
-function get_bill()
+function get_bill_v1()
 {
 
 
@@ -670,13 +687,15 @@ function get_bill()
         'function':'get_bill_items'
     }
 
+
+
     // send ajax request
     $.ajax({
         url:'/backend/process/form_process.php',
         type: 'POST',
         data: form_data,
         success: function (response) {
-            // console.log(response);
+            console.log(response);
             if(response.split('%%').length === 2)
             {
                 var action = response.split('%%')[0];
@@ -705,7 +724,7 @@ function get_bill()
                     }
 
 
-
+                    console.log(message)
                     // populate
                     $('#bill_loader').html(message);
                     subTotal()
@@ -730,6 +749,10 @@ function get_bill()
         }
     });
 
+}
+
+function get_bill() {
+    bill.loadBillsInTrans()
 }
 
 

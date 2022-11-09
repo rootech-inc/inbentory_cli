@@ -46,7 +46,8 @@
             {
                 print_r($_POST);
                 $id = $anton->post('id');
-                $selected = $db->get_rows('bill_trans',"`id` = '$id'")['selected'];
+//                $selected = $db->get_rows('bill_trans',"`id` = '$id'")['selected'];
+                $selected = $MConfig->get_rows('bill_trans',"`id` = '$id'")['selected'];
 
                 if($selected == '1')
                 {
@@ -58,7 +59,7 @@
                 }
                 echo $m;
 
-                $db->db_connect()->exec("UPDATE `bill_trans` set selected = '$m' where  `id` = '$id'");
+                $MConfig->mech_db()->exec("UPDATE `bill_trans` set selected = '$m' where  `id` = '$id'");
                 $anton->done();
             }
 

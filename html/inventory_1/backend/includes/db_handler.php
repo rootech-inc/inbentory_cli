@@ -23,7 +23,7 @@ class db_handler
             return $pdo;
         } catch (PDOException $err)
         {
-            (new \anton)->err('Database Error',$err->getMessage());
+            (new \anton)->error_handler('Database Error',$err->getMessage());
             return false;
         }
     }

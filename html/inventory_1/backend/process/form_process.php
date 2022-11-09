@@ -126,6 +126,7 @@
 
             elseif ($function === 'get_bill_items') // get bill
             {
+
                 $q = "SELECT * FROM `bill_trans` WHERE 
                                  `bill_number` = '$bill_number' AND 
                                  `mach` = '$machine_number' AND 
@@ -133,11 +134,13 @@
 
                 // get all from bill
                 $bill_query = $MConfig->mech_db()->query($q);
-                if($MConfig->lite_row_count('bill_trans','bill_number',"`id` = '$bill_number'") < 1)
+                if($MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number' AND `date_added` = '$today'") < 1)
                 {
                     echo 'no_bill%%';
                     exit();
                 }
+
+//                die('HELLO');
 
                 $bill_items = 'done%%';
                 $sn = 0;
@@ -156,14 +159,17 @@
                     $cost = $bill['bill_amt'];
                     $barcode = $bill['item_barcode'];
                     $id = $bill['id'];
-                    if($bill['selected'] === 1)
+                    $selected = '';
+                    if($bill['selected'] == '1')
                     {
                         $cart_item = 'cart_item active';
+                        $selected = 'selected';
                     }
                     else
                     {
                         $cart_item = 'cart_item';
                     }
+                    $selected = '';
 
 
                     // make bill item
@@ -179,7 +185,7 @@
                                     <div class=\"w-50 h-100 d-flex flex-wrap align-content-center pl-1\">
                                     <small>$barcode</small>
                                         <p class=\"m-0 p-0\">$item_name</p>
-                                        
+                                        <small class='text-info'>$selected</small>
                                     </div>
             
                                     <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
@@ -225,6 +231,91 @@
 
                 // return bill item
                 echo $bill_items.$discount_code;
+            }
+
+            elseif ($function === 'get_bill') // get bill v2
+            {
+                $response = ['status'=>404,'message'=>'null'];
+
+                // count bill tran count
+                $bill_tran_count = $MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number' AND `date_added` = '$today'") ;
+
+                $response['message'] = $bill_tran_count;
+                if($bill_tran_count > 0){
+
+                    // get all bill trans and loop
+                    $q = "SELECT * FROM `bill_trans` WHERE 
+                                 `bill_number` = '$bill_number' AND 
+                                 `mach` = '$machine_number' AND 
+                                 `trans_type` = 'i' AND `date_added` = '$today'";
+                    $bill_query = $MConfig->mech_db()->query($q);
+
+
+                    $bill_items = 'done%%';
+                    $sn = 0;
+                    $trans = [];
+                    $total = 0;
+                    $tax_total = 0;
+                    while($bill = $bill_query->fetch(PDO::FETCH_ASSOC)) {
+
+                        ++$sn;
+                        $item = $bill['item_barcode'];
+                        $item_barcode_md5 = md5($item);
+
+                        // get item details
+                        $i_d = $db->get_rows('prod_mast', "`barcode` = $item");
+                        $item_name = $bill['item_desc'];
+                        $qty = $bill['item_qty'];
+                        $cost = $bill['bill_amt'];
+                        $barcode = $bill['item_barcode'];
+                        $id = $bill['id'];
+                        $select = $bill['selected'] ;
+                        $tax = $bill['tax_amt'];
+                        $total += $cost;
+                        $tax_total += $tax;
+
+                        $this_tran = [
+                            'id'=>$id,
+                            'barcode'=>$barcode,
+                            'desc'=>$item_name,
+                            'qty'=>number_format($qty,2),
+                            'cost'=>number_format($cost,2),
+                            'tax'=>number_format($tax,2),
+                            'select'=>$select
+                        ];
+
+                        $trans[] = $this_tran;
+
+                        $selected = '';
+                        if ($bill['selected'] == '1') {
+                            $cart_item = 'cart_item active';
+                            $selected = 'selected';
+                        } else {
+                            $cart_item = 'cart_item';
+                        }
+                        $selected = '';
+
+                    }
+
+                    $bill_trans = [
+                        'count'=>$bill_tran_count,
+                        'total'=>number_format($total,2),
+                        'tax'=>number_format($tax_total,2),
+                        'trans'=>$trans
+                    ];
+                    $response['status'] = 202;
+                    $response['message'] = $bill_trans;
+                }
+
+
+                header('Content-Type: application/json');
+                echo json_encode($response);
+            }
+
+            elseif ($function === 'void') // void
+            {
+                $MConfig->mech_db()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1");
+                echo 'done';
             }
 
             elseif ($function === 'cancel_current_bill') // cancel current bill
@@ -276,7 +367,8 @@
             elseif ($function === 'sub_total')// sub total
             {
                 // sub total
-                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'") > 0 )
+                $bill_cond = "`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'";
+                if($MConfig->lite_row_count('bill_trans',"bill_number",$bill_cond) > 0 )
                 {
 
                     $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";

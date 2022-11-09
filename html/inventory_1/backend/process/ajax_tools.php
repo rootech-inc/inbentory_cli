@@ -142,5 +142,12 @@
                 $str = $anton->post('str');
                 echo md5($str);
             }
+
+            elseif ($function === 'isHold')
+            {
+               echo $hold_count = $MConfig->lite_row_count('hold_hd','entry_no','`id` > 0');
+
+            }
+
         }
     }

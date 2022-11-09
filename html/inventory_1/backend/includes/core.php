@@ -8,7 +8,7 @@ ini_set('display_errors',1);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['SERVER_ADDR']);
 
-    const db_host = '172.23.80.1';
+    const db_host = '172.25.80.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -30,11 +30,14 @@ ini_set('display_errors',1);
 
 
     $today = date('Y-m-d');
+    define('today',$today);
     $current_time = date("Y-m-d H:m:s");
     define('mech_no',$MConfig->mech_details()['mechine_number']);
     define('doc_root',$_SERVER['DOCUMENT_ROOT']);
     $machine_number = mech_no;
     $root_host = $_SERVER['DOCUMENT_ROOT'];
+
+
 
 
 
