@@ -111,7 +111,7 @@
                 }
                 $item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
 
-                if($MConfig->add_item_bill($bill_number,$item,$qty,$myName))
+                if((new \billing\Billing())->AddToBill($bill_number,$item,$qty,$myName))
                 {
                     $anton->done('bill_added');
                 }
@@ -133,8 +133,8 @@
                                  `trans_type` = 'i' AND `date_added` = '$today'";
 
                 // get all from bill
-                $bill_query = $MConfig->mech_db()->query($q);
-                if($MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number' AND `date_added` = '$today'") < 1)
+                $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
+                if((new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'") < 1)
                 {
                     echo 'no_bill%%';
                     exit();
@@ -238,7 +238,7 @@
                 $response = ['status'=>404,'message'=>'null'];
 
                 // count bill tran count
-                $bill_tran_count = $MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number' AND `date_added` = '$today'") ;
+                $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'");
 
                 $response['message'] = $bill_tran_count;
                 if($bill_tran_count > 0){
@@ -248,7 +248,7 @@
                                  `bill_number` = '$bill_number' AND 
                                  `mach` = '$machine_number' AND 
                                  `trans_type` = 'i' AND `date_added` = '$today'";
-                    $bill_query = $MConfig->mech_db()->query($q);
+                    $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
 
                     $bill_items = 'done%%';
@@ -314,7 +314,7 @@
 
             elseif ($function === 'void') // void
             {
-                $MConfig->mech_db()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1");
+                (new \mechconfig\MechConfig)->mech_db()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1");
                 echo 'done';
             }
 
@@ -341,42 +341,106 @@
                 //$anton->print_bill('2','hold');
 
 
-                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
+
+                if($MConfig->lite_row_count('bill_trans','bill_number',"bill_number = '$bill_number'") > 0 )
                 {
+
                     // todo print bill
                     // insert bill into holding
-                    $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'");
+
+                    $items = $MConfig->mech_db()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'");
                     while($item = $items->fetch(PDO::FETCH_ASSOC))
                     {
                         $item_barcode = $item['item_barcode'];
                         $item_qty = $item['item_qty'];
+                        echo $item_barcode;
+                        $db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')");
 
-                        if($db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')"))
-                        {
-                            // delete item
-                            $db->db_connect()->exec("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `item_barcode` = '$item_barcode'");
-                        }
+
 
 
                     }
+                    // todo print held bill
+                    $delete = "DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number'";
+                    // delete item
+                    echo $delete;
+                    $MConfig->mech_db()->exec($delete);
                     $anton->done('bill_held');
                     //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','H','$myName','not_item')");
                 }
+            }
+
+            elseif ($function === 'hold_bill_v2'){ // hold a bill
+
+
+
+                $response = ['code'=>500,'message'=>'NOT INITIALIZED'];
+                // generate random 4 digit number
+                $entry_number = str_replace('-','',$today) . (new \mechconfig\MechConfig)->lite_row_count('hold_hd','entry_no','`id` > 0') + 1;
+                $entry_no = str_rot13(str_shuffle($entry_number));
+
+
+                // insert  into header
+                try {
+                    $insert_hold_hd = "INSERT INTO hold_hd ('entry_no') values ('$entry_no')";
+                    (new \mechconfig\MechConfig)->mech_db()->query($insert_hold_hd);
+
+
+                    // loop through bill tran and add all pending
+                    $cur_q = "SELECT * FROM bill_trans where `bill_number` = '$bill_number' AND date_added = '$today'";
+                    $current_tran = (new \mechconfig\MechConfig)->mech_db()->query($cur_q);
+
+
+//                    $fetch = $current_tran->fetch(PDO::FETCH_ASSOC);
+//
+//                    while($tran = $fetch)
+//                    {
+//                        $barcode = $tran['item_barcode'];
+//                        $qty = $tran['item_qty'];
+//                        $vals = "('$entry_no','$barcode','$qty')";
+//                        $insert_tr = "INSERT INTO hold_tran (entry_no,barcode,tran_qty) values $vals";
+//                        // insert into hold bill
+//                        (new \mechconfig\MechConfig)->mech_db()->query($insert_tr);
+//
+//                    }
+
+
+                    // delete from bill trans
+//                    $del_tr = "DELETE FROM bill_trans where bill_number = '$bill_number' and date_added = '$today'";
+//                    (new \mechconfig\MechConfig)->mech_db()->query($del_tr);
+
+
+                    $response['code'] = 200;
+                    $response['message'] = $insert_tr;
+
+                } catch (PDOException $e)
+                {
+                    $response['code'] = 500;
+                    $response['message'] = $e->getMessage();
+                }
+
+
+
+
+                header('Content-Type: application/json');
+                echo json_encode($response);
+
+
             }
 
             elseif ($function === 'sub_total')// sub total
             {
                 // sub total
                 $bill_cond = "`trans_type` = 'i' AND `bill_number` = '$bill_number'  AND `date_added` = '$today'";
-                if($MConfig->lite_row_count('bill_trans',"bill_number",$bill_cond) > 0 )
+                if((new \mechconfig\MechConfig)->lite_row_count('bill_trans',"bill_number",$bill_cond) > 0 )
                 {
 
                     $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
                     $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
 
-                    $sub_total = $MConfig->sum('bill_trans',"bill_amt",$bill_condition);
+                    $sub_total = (new \mechconfig\MechConfig)->sum('bill_trans',"bill_amt",$bill_condition);
 
-                    $tax_total = $MConfig->sum('bill_trans',"tax_amt",$bill_condition);
+                    $tax_total = (new \mechconfig\MechConfig)->sum('bill_trans',"tax_amt",$bill_condition);
 
                     $anton->done(number_format($sub_total,2)."()".number_format($tax_total,2));
 
@@ -391,7 +455,7 @@
 
 
                 // make payment
-                if($MConfig->lite_row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
+                if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
                     $method = $anton->post('method');
@@ -399,12 +463,15 @@
 
                     // get bill quantity items
 //                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
-                    $tran_qty = $MConfig->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
+//                    $tran_qty = (new \mechconfig\MechConfig)->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
+                    $tran_qty = (new \db_handeer\db_handler())->col_sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
 
-                    $gross_amt  = $MConfig->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+//                    $gross_amt  = (new \mechconfig\MechConfig)->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+                    $gross_amt  = (new \db_handeer\db_handler())->col_sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
 
 
-                    $tax_amt = $MConfig->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+//                    $tax_amt = (new \mechconfig\MechConfig)->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+                    $tax_amt = (new \db_handeer\db_handler())->col_sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
 
 
 
@@ -415,8 +482,8 @@
                     try {
                         // todo print_bill
                         //$anton->print_bill($bill_number,'P');
-                        $MConfig->mech_db()->exec($bill_header_insert);
-                        $MConfig->mech_db()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                        (new \db_handeer\db_handler())->db_connect()->exec($bill_header_insert);
+                        (new \db_handeer\db_handler())->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
 
                         $anton->done($bill_number);
 

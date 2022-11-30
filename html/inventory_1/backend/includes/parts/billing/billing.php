@@ -206,7 +206,7 @@
                                     <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">
                                         SUB TOTAL
                                     </button>
-                                    <button id="hold" disabled onclick="hold_bill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">
+                                    <button id="hold" disabled onclick="bill.holdBill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">
                                         HOLD
                                     </button>
                                     <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">

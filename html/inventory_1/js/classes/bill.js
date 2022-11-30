@@ -148,6 +148,39 @@ class Bill {
         }
 
     }
+
+    holdBill(){ // HOLD A BILL
+
+        var form = new FormData();
+        form.append("function", "hold_current_bill")
+        form_settings['url'] = form_process
+        form_settings['data'] = form
+
+        form_settings['success'] = function (response){
+            ct(response)
+            let j_res = JSON.parse(response)
+            al(j_res['message'])
+
+        }
+
+        Swal.fire({
+            title: "Are your sure you want to hold bill?",
+            icon: 'info',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                // make ajax call
+                $.ajax(form_settings);
+                this.loadBillsInTrans()
+            } else if (result.isDenied) {
+
+            }
+        })
+    }
 }
 
 

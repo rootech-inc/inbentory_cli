@@ -6,9 +6,11 @@ ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
-    define('host_ip',$_SERVER['SERVER_ADDR']);
+    define('host_ip',$_SERVER['HTTP_HOST']);
 
-    const db_host = '172.25.80.1';
+    $bill_number = 0;
+
+    const db_host = 'localhost';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -21,8 +23,11 @@ ini_set('display_errors',1);
     require 'db_handler.php';
     require 'tax_calculator.php';
     require 'MechConfig.php';
+    require 'classes/Billing.php';
+    $bill = new \billing\Billing();
+
     $anton = new anton();
-    $db = (new \db_handeer\db_handler());
+    $db = new db_handler();
     $db->db_connect();
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
@@ -60,6 +65,8 @@ ini_set('display_errors',1);
 
 
         $bill_number = $MConfig->bill_number();
+        $bill_number = $bill->billNumber();
+        define('bill_no',$bill_number);
 
 
 
