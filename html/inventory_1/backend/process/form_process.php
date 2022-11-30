@@ -458,7 +458,7 @@
                 {
 
                     $method = $anton->post('method');
-                    $response = $bill->makePyament($method);
+                    $response = $bill->makePyament($method,$amount_paid);
                     header('Content-Type: application/json');
                     echo json_encode($response);
 

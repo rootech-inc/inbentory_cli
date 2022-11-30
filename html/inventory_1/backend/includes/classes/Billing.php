@@ -93,7 +93,7 @@ class Billing
     public function billTotal($bill_number,$date): array
     {
         $response = [
-            'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00
+            'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00
         ];
         $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date'");
 
@@ -113,7 +113,7 @@ class Billing
 
     }
 
-    public function makePyament($method): array
+    public function makePyament($method,$amount_paid): array
     {
         $myName = $_SESSION['clerk_id'];
         $today = date('Y-m-d');
@@ -136,12 +136,15 @@ class Billing
                 $tax_amt = $bill_totals['tax_amt'];
                 $bill_amt = $bill_totals['bill_amt'];
                 $tran_qty = $bill_totals['tran_qty'];
+                $amt_balance = $amount_paid - $gross_amt;
+                $bill_totals['amt_paid'] = number_format($amount_paid,2);
+                $bill_totals['amt_bal'] = number_format($amt_balance,2);
 
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
-                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty);
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal)VALUES 
+                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance);
 ";
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {

@@ -223,14 +223,26 @@ class Bill {
 
                         if(status === 200){
                             // get payment details
-                            let bill_amt,tax_amt,taxable_amt,tran_qty
+                            let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal
                             bill_amt = message['bill_amt']
                             taxable_amt = message['taxable_amt']
                             tax_amt = message['tax_amt']
                             tran_qty = message['tran_qty']
+                            amt_paid = message['amt_paid']
+                            amt_bal = message['amt_bal']
 
-                            jqh.setText({'tax':tax_amt})
+                            jqh.setText({
+                                'tax':tax_amt,
+                                'amount_paid':amt_paid,
+                                'amount_balance':amt_paid - bill_amt,
+                                'bill_num':parseFloat($('#bill_num').text()) + 1
+                            })
+
+                            jqh.setVal({'general_input':''})
+
                             jqh.setHtml({'bill_loader':''})
+
+
 
 
                         } else
