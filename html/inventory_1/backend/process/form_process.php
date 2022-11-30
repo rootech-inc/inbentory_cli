@@ -453,12 +453,17 @@
 
                 $amount_paid = $anton->post('amount_paid');
 
-
                 // make payment
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
                     $method = $anton->post('method');
+                    $response = $bill->makePyament($method);
+                    header('Content-Type: application/json');
+                    echo json_encode($response);
+
+                    exit();
+                    die();
                     // todo print bill
 
                     // get bill quantity items
@@ -475,9 +480,9 @@
 
 
 
-                    $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
-                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
-";
+                        $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
+                                                                            ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
+    ";
                     // mark bill as canceled
                     try {
                         // todo print_bill

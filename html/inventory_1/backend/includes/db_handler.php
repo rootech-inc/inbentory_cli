@@ -8,6 +8,24 @@ use PDOException;
 class db_handler
 {
 
+    function __construct()
+    {
+        //set DSN
+        $dns = 'mysql:host='.db_host.';dbname='.db_name;
+
+        //create pdo instance
+        try {
+
+            $pdo = new PDO($dns, db_user, db_password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            return $pdo;
+        } catch (PDOException $err)
+        {
+            (new \anton)->error_handler('Database Error',$err->getMessage());
+            return false;
+        }
+    }
 
     public function db_connect() // connect to database
     {

@@ -181,6 +181,89 @@ class Bill {
             }
         })
     }
+
+    // make payment
+    payment(method){
+
+        // validate there is cash input
+        let amount_paid = document.getElementById('general_input').value; // gen input field
+
+
+        if(amount_paid.length > 0)
+        {
+            // get total balance
+            var balance = document.getElementById('sub_total').innerText;
+
+            var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
+
+            var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
+
+            // compare balance
+            if(actual_paid >= actual_balance)
+            {
+
+                // make form data
+                form_data = {
+                    'function':'payment',
+                    'method':method,
+                    'amount_paid':amount_paid
+                }
+
+                // send ajax request
+                $.ajax({
+                    url: form_process,
+                    type:'POST',
+                    data:form_data,
+                    success: function (response) {
+                        ct(response)
+                        let result = JSON.parse(JSON.stringify(response))
+                        let status,message
+                        status = result['status']
+                        message = result['message']
+
+                        if(status === 200){
+                            // get payment details
+                            let bill_amt,tax_amt,taxable_amt,tran_qty
+                            bill_amt = message['bill_amt']
+                            taxable_amt = message['taxable_amt']
+                            tax_amt = message['tax_amt']
+                            tran_qty = message['tran_qty']
+
+                            jqh.setText({'tax':tax_amt})
+                            jqh.setHtml({'bill_loader':''})
+
+
+                        } else
+                        {
+                            // bill not saved
+                            error_handler(`error%%Cound Not Make Bill ${status}`)
+                        }
+
+                        //location.reload()
+
+
+                    }
+                });
+
+            }
+            else
+            {
+                alert('Paid amount less','','warning')
+                $('#general_input').addClass('bg-danger');
+                setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+
+            }
+        }
+        else
+        {
+            alert('Enter Payment Amount','','warning')
+            $('#general_input').addClass('bg-danger');
+            $('#general_input').prop('autofocus',true)
+            setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+        }
+
+    }
+    //make payment
 }
 
 

@@ -1,11 +1,13 @@
 <?php
 namespace billing;
+use mechconfig\MechConfig;
 use PDO;
 use PDOException;
 use anton;
 use db_handeer\db_handler;
 class Billing
 {
+
 
     function billNumber (): int
     {
@@ -88,22 +90,69 @@ class Billing
 
     }
 
-    public function billTotal(){
+    public function billTotal($bill_number,$date): array
+    {
         $response = [
             'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00
         ];
+        $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+
+        if($tran_qty > 0)
+        {
+            $response['valid'] = 'Y';
+            $response['tran_qty'] = $tran_qty;
+
+            // get sums
+            $response['taxable_amt'] = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+            $response['tax_amt'] = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+            $response['bill_amt'] = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+        }
+
+        return $response;
+
+
     }
 
-    public function makePyament()
+    public function makePyament($method): array
     {
+        $myName = $_SESSION['clerk_id'];
+        $today = date('Y-m-d');
         $response = ['status'=>505,'message'=>'initialization'];
         // get current bill details
         $bill_number = bill_no;
-        $bill_trans_count = (new db_handler())->row_count('bill_trans',"`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'");
+        $machine_number = (new MechConfig())->mech_details()['mechine_number'];
+        $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
+        $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
+        $bill_trans_count = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'");
 
         if($bill_trans_count > 0)
         {
+
             // get transaction details
+            $bill_totals = $this->billTotal($bill_number,$today);
+            if($bill_totals['valid'] === 'Y')
+            {
+                $gross_amt = $bill_totals['taxable_amt'];
+                $tax_amt = $bill_totals['tax_amt'];
+                $bill_amt = $bill_totals['bill_amt'];
+                $tran_qty = $bill_totals['tran_qty'];
+
+                #1 make bill tran payment.
+                #2 make bill hd payment,
+                #3 return bill details
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
+                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty);
+";
+                if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
+                {
+                    // make bill
+                    $this->db_handler()->db_connect()->exec($bill_header_insert);
+                    $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                }
+            }
+
+            $response['status'] = 200;
+            $response['message'] = $bill_totals;
 
         } else
         {
@@ -111,7 +160,14 @@ class Billing
             $response['message'] = 'Cannot make payment for an empty transaction';
         }
 
+        return $response;
 
+
+    }
+
+    private function db_handler(): db_handler
+    {
+        return (new db_handler());
     }
 
 }

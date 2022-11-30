@@ -840,76 +840,79 @@ function add_item_to_bill(barcode) {
 // making payment
 function make_payment(method) {
 
-    // validate there is cash input
-    var amount_paid = document.getElementById('general_input').value; // gen input field
+    bill.payment(method)
 
-
-    if(amount_paid.length > 0)
-    {
-        // get total balance
-        var balance = document.getElementById('sub_total').innerText;
-
-        var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
-
-        var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
-
-        // compare balance
-        if(actual_paid >= actual_balance)
-        {
-
-            // make form data
-            form_data = {
-                'function':'payment',
-                'method':method,
-                'amount_paid':amount_paid
-            }
-
-            // send ajax request
-            $.ajax({
-                url: form_process,
-                type:'POST',
-                data:form_data,
-                success: function (response) {
-                    echo(response);
-                    get_bill();
-                    let r_split = response.split('%')
-                    ct(r_split)
-                    if(r_split[0] === 'done')
-                    {
-
-                        let b_n = parseInt(r_split[2]) + 1
-                        jqh.setText({'bill_num':b_n,'amount_balance':b_balance})
-                        jqh.setVal({'bill_number':b_n})
-
-
-
-                    } else
-                    {
-                        al('not done')
-                    }
-
-                    //location.reload()
-
-
-                }
-            });
-
-        }
-        else
-        {
-            alert('Paid amount less','','warning')
-            $('#general_input').addClass('bg-danger');
-            setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-
-        }
-    }
-    else
-    {
-        alert('Enter Payment Amount','','warning')
-        $('#general_input').addClass('bg-danger');
-        $('#general_input').prop('autofocus',true)
-        setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-    }
+    // // validate there is cash input
+    // var amount_paid = document.getElementById('general_input').value; // gen input field
+    //
+    //
+    // if(amount_paid.length > 0)
+    // {
+    //     // get total balance
+    //     var balance = document.getElementById('sub_total').innerText;
+    //
+    //     var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
+    //
+    //     var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
+    //
+    //     // compare balance
+    //     if(actual_paid >= actual_balance)
+    //     {
+    //
+    //         // make form data
+    //         form_data = {
+    //             'function':'payment',
+    //             'method':method,
+    //             'amount_paid':amount_paid
+    //         }
+    //
+    //         // send ajax request
+    //         $.ajax({
+    //             url: form_process,
+    //             type:'POST',
+    //             data:form_data,
+    //             success: function (response) {
+    //                 echo(response);
+    //                 ct(response)
+    //                 get_bill();
+    //                 let r_split = response.split('%')
+    //                 ct(r_split)
+    //                 if(r_split[0] === 'done')
+    //                 {
+    //
+    //                     let b_n = parseInt(r_split[2]) + 1
+    //                     jqh.setText({'bill_num':b_n,'amount_balance':b_balance})
+    //                     jqh.setVal({'bill_number':b_n})
+    //
+    //
+    //
+    //                 } else
+    //                 {
+    //                     al('not done')
+    //                 }
+    //
+    //                 //location.reload()
+    //
+    //
+    //             }
+    //         });
+    //
+    //     }
+    //     else
+    //     {
+    //         alert('Paid amount less','','warning')
+    //         $('#general_input').addClass('bg-danger');
+    //         setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+    //
+    //     }
+    // }
+    // else
+    // {
+    //     alert('Enter Payment Amount','','warning')
+    //     $('#general_input').addClass('bg-danger');
+    //     $('#general_input').prop('autofocus',true)
+    //     setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+    // }
     
 
 }
