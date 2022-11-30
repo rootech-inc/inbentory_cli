@@ -538,7 +538,7 @@ function arr_disable(elements) {
     for (let i = 0; i < spl.length; i++)
     {
         let id = "#"+spl[i];
-        cl(`${id} disabled`)
+        // cl(`${id} disabled`)
         $(id).prop('disabled',true)
         //echo(id)
     }
@@ -573,7 +573,7 @@ function arr_enable(elements) {
     {
 
         let id = "#"+spl[i];
-        cl(`${id} enabled`)
+        // cl(`${id} enabled`)
         $(id).prop('disabled',false)
         //echo(id)
     }

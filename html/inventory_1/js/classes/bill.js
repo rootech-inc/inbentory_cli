@@ -23,7 +23,7 @@ class Bill {
                     let count,total,tax,trans
                     count = message['count']
                     total = message['total']
-                    tax = total['tax']
+                    tax = message['tax']
                     trans = message['trans']
                     let sel_count = 0
 
@@ -32,8 +32,9 @@ class Bill {
 
 
                     // load header
-                    $('#sub_total').text(total)
-                    $('#tax').text(tax)
+                    // $('#sub_total').text(total)
+                    // $('#tax').text(tax)
+                    jqh.setText({'sub_total':total, 'tax':tax,'amount_paid':'0.00','amount_balance':'0.00'})
 
 
 
@@ -46,7 +47,7 @@ class Bill {
                     for (let rowsKey in trans) {
 
                         let this_tran = trans[rowsKey]
-                        ct(this_tran)
+                        // ct(this_tran)
 
                         let this_row,id,barcode,desc,qty,cost,tax,select,sel_note
                         id = this_tran['id']
@@ -93,7 +94,7 @@ class Bill {
                         rows += this_row
 
                     }
-                    ct(rows)
+                    // ct(rows)
                     if(sel_count > 0)
                     {
                         arr_enable('void_button')
