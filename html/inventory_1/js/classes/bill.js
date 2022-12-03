@@ -13,6 +13,8 @@ class Bill {
             "contentType": false,
             "data": form,
             success: function (response) {
+                // console.log(response)
+                // al(response)
                 let res = JSON.parse(response)
                 console.table(res)
 
@@ -49,7 +51,7 @@ class Bill {
                         let this_tran = trans[rowsKey]
                         // ct(this_tran)
 
-                        let this_row,id,barcode,desc,qty,cost,tax,select,sel_note
+                        let this_row,id,barcode,desc,qty,cost,tax,select,sel_note,tran,r_bg,sn
                         id = this_tran['id']
                         barcode = this_tran['barcode']
                         desc = this_tran['desc']
@@ -57,6 +59,16 @@ class Bill {
                         cost = this_tran['cost']
                         tax = this_tran['tax']
                         select = this_tran['select']
+                        tran = this_tran['tran']
+                        sn = parseInt(rowsKey)+ 1
+
+                        if(tran === 'D')
+                        {
+                            r_bg = 'bg-warning text-danger'
+                            sn = ''
+                        } else {
+                            r_bg = ''
+                        }
 
 
                         sel_note = 'cart_item'
@@ -68,15 +80,15 @@ class Bill {
 
                         this_row = `<div 
                                     onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
-                                    class="d-flex flex-wrap ${sel_note} align-content-center justify-content-between border-dotted pb-1 pt-1"
+                                    class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
                                     >
                                     
                                     <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${parseInt(rowsKey)+ 1}</p>
+                                        <p class="m-0 p-0">${sn}</p>
                                     </div>
             
                                     <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
-                                    <small>${barcode}</small>
+                                        <div class="w-100"><small>${barcode}</small></div>
                                         <p class="m-0 p-0">${desc}</p>
                                     </div>
             

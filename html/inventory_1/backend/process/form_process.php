@@ -245,10 +245,10 @@
                 if($bill_tran_count > 0){
 
                     // get all bill trans and loop
-                    $q = "SELECT * FROM `bill_trans` WHERE 
+                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND 
                                  `bill_number` = '$bill_number' AND 
                                  `mach` = '$machine_number' AND 
-                                 `trans_type` = 'i' AND `date_added` = '$today'";
+                                 `date_added` = '$today' order by trans_type desc";
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
 
@@ -264,7 +264,7 @@
                         $item_barcode_md5 = md5($item);
 
                         // get item details
-                        $i_d = $db->get_rows('prod_mast', "`barcode` = $item");
+//                        $i_d = $db->get_rows('prod_mast', "`barcode` = $item");
                         $item_name = $bill['item_desc'];
                         $qty = $bill['item_qty'];
                         $cost = $bill['bill_amt'];
@@ -272,6 +272,7 @@
                         $id = $bill['id'];
                         $select = $bill['selected'] ;
                         $tax = $bill['tax_amt'];
+                        $tran = $bill['trans_type'];
                         $total += $cost;
                         $tax_total += $tax;
 
@@ -282,7 +283,8 @@
                             'qty'=>number_format($qty,2),
                             'cost'=>number_format($cost,2),
                             'tax'=>number_format($tax,2),
-                            'select'=>$select
+                            'select'=>$select,
+                            'tran'=>$tran
                         ];
 
                         $trans[] = $this_tran;
