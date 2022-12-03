@@ -80,8 +80,7 @@ function checkVoud() {
 
 function void_bill_item()
 {
-    let clerk = $('#clerk').val();
-    let bill_number = $('#bill_number').val();
+
     var form = new FormData();
     form.append("function", "void");
     var setting = {

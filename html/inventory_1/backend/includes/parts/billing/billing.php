@@ -200,7 +200,7 @@
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
                                         CANCEL
                                     </button>
-                                    <button id="void_button" disabled onclick="void_bill_item()" class="bill_func_sub_btn btn btn-sm btn-warning rounded-0">
+                                    <button id="void_button" disabled onclick="bill.void()" class="bill_func_sub_btn btn btn-sm btn-warning rounded-0">
                                         VOID
                                     </button>
                                     <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">

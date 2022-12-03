@@ -318,7 +318,7 @@
 
             elseif ($function === 'void') // void
             {
-                (new \mechconfig\MechConfig)->mech_db()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1");
+                $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1 and mach = '$machine_number'");
                 echo 'done';
             }
 

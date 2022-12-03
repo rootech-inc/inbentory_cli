@@ -322,6 +322,43 @@ class Bill {
 
         }
     }
+
+    // void item from bill trans
+
+    void(){
+        var form = new FormData();
+        form.append("function", "void");
+        var setting = {
+
+            "url": "/backend/process/form_process.php",
+            "method": "POST",
+            "timeout": 0,
+            "processData": false,
+            "mimeType": "multipart/form-data",
+            "contentType": false,
+            "data": form,
+            success: function (response) {
+                get_bill()
+            }
+        }
+
+        Swal.fire({
+            text: 'Are you sure you want to void items from bill?',
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'YES',
+            denyButtonText: `CANCEL`,
+            icon:'warning'
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax(setting)
+
+            }
+        })
+    }
+
+    // void item from bill trans
 }
 
 
