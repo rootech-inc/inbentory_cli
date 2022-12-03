@@ -66,7 +66,9 @@ ini_set('display_errors',1);
 
         $bill_number = $MConfig->bill_number();
         $bill_number = $bill->billNumber();
+        define('bill_total',$bill->billTotal($bill_number,$today));
         define('bill_no',$bill_number);
+        $response = ['status' => 000,'message'=>'null'];
 
 
 

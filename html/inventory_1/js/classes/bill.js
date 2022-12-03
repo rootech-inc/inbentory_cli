@@ -108,6 +108,8 @@ class Bill {
                 {
                     arr_enable('recall')
                     arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
+                    let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
+                    jqh.setHtml({'bill_loader':no_bill})
                 }
             }
         };
@@ -161,6 +163,7 @@ class Bill {
             ct(response)
             let j_res = JSON.parse(response)
             al(j_res['message'])
+
 
         }
 
@@ -277,6 +280,48 @@ class Bill {
 
     }
     //make payment
+
+    recall(){
+        var val = document.getElementById('general_input'); // gen input field
+
+        if(val.value.length > 0) // if amout value is greater than zero
+        {
+            // prapre form for ajax
+            let data = {
+                'function':'recall_bill',
+                'bill_grp':val.value,
+                'token':''
+            };
+
+            // make ajax function
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                type: 'POST',
+                data: data,
+                success: function(response) {
+                    ct(response)
+                    let res = JSON.parse(JSON.stringify(response))
+                    if(res['status'] === 200)
+                    {
+                        bill.loadBillsInTrans()
+                    } else
+                    {
+                        s_response('error','','Cannot Recall Bill')
+                    }
+                    // get_bill()
+                }
+            });
+
+        }
+        else
+        {
+            console.log(val.value.length)
+            val.style.border = '2px solid red';
+            val.style.background = '#eb9783';
+            val.placeholder = 'Enter Bill Number';
+
+        }
+    }
 }
 
 

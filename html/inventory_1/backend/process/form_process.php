@@ -132,6 +132,7 @@
                                  `mach` = '$machine_number' AND 
                                  `trans_type` = 'i' AND `date_added` = '$today'";
 
+
                 // get all from bill
                 $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
                 if((new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'") < 1)
@@ -306,6 +307,9 @@
                     $response['status'] = 202;
                     $response['message'] = $bill_trans;
                 }
+                else{
+                    $response['message'] = 'NO BILL TRANS';
+                }
 
 
                 header('Content-Type: application/json');
@@ -335,25 +339,23 @@
 
             elseif ($function === 'hold_current_bill')
             {
-
+                $response = ['status'=>202,'message'=>"INI"];
                 $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
 
                 //$anton->print_bill('2','hold');
 
 
 
-                if($MConfig->lite_row_count('bill_trans','bill_number',"bill_number = '$bill_number'") > 0 )
+                if(bill_total['valid'] === 'Y')
                 {
-
                     // todo print bill
-                    // insert bill into holding
 
-                    $items = $MConfig->mech_db()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today'");
+                    $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today' and mach = $machine_number");
                     while($item = $items->fetch(PDO::FETCH_ASSOC))
                     {
                         $item_barcode = $item['item_barcode'];
                         $item_qty = $item['item_qty'];
-                        echo $item_barcode;
+//                        echo $item_barcode;
                         $db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')");
 
 
@@ -361,13 +363,17 @@
 
                     }
                     // todo print held bill
-                    $delete = "DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number'";
+                    $delete = "DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number";
                     // delete item
-                    echo $delete;
-                    $MConfig->mech_db()->exec($delete);
-                    $anton->done('bill_held');
-                    //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_held','H','$myName','not_item')");
+//                    echo $delete;
+                    $db->db_connect()->exec($delete);
+                    $response['message'] = "Bill Hold Number : $randomString";
+
+                } else {
+                    $response['message'] = bill_total;
                 }
+                header('Content-Type: application/json');
+                echo json_encode($response);
             }
 
             elseif ($function === 'hold_bill_v2'){ // hold a bill
@@ -505,11 +511,16 @@
             {
                 $bill_grp = $anton->post('bill_grp');
 
+
+
+
                 // check if bill number exist
                 if($db->row_count('bill_hold',"`bill_grp` = '$bill_grp' AND `bill_date` = '$today'") < 1 )
                 {
-                    $anton->err('bill_recall_does_not_exits');
-                    die();
+//                    $anton->err('bill_recall_does_not_exits');
+                    $response['status'] = 404;
+                    $response['message'] = "Bill Not Found";
+//                    die();
                 }
                 else
                 {
@@ -528,8 +539,13 @@
                     }
                     // delete all bill item
                     $db->delete("`bill_hold`","`bill_grp` = '$bill_grp'");
-                    $anton->done('bill_found');
+                    $response['status'] = 200;
+                    $response['message'] = "Bill Loaded";
+//                    $anton->done('bill_found');
                 }
+                header('Content-Type: application/json');
+//                header('Content-Type: application/json');
+                echo json_encode($response);
 
 
 

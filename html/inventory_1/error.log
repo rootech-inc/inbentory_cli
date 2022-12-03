@@ -1,1 +1,1 @@
-[Wed Nov 30 08:57:38.030456 2022] [php7:error] [pid 38] [client 172.28.0.1:57617] PHP Parse error:  syntax error, unexpected 'header' (T_STRING) in /mnt/c/Users/User/Documents/GitHub/inbentory_cli/html/inventory_1/backend/process/form_process.php on line 462, referer: http://172.28.8.61/
+[Sat Dec 03 06:24:22.605397 2022] [http:error] [pid 34] [client 172.28.0.1:43142] AH02429: Response header name 'Content-Type ' contains invalid characters, aborting request, referer: http://172.28.13.239/

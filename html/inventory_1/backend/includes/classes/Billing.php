@@ -92,10 +92,11 @@ class Billing
 
     public function billTotal($bill_number,$date): array
     {
+        $machine_number = mech_no;
         $response = [
             'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00
         ];
-        $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+        $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
 
         if($tran_qty > 0)
         {
@@ -103,9 +104,9 @@ class Billing
             $response['tran_qty'] = $tran_qty;
 
             // get sums
-            $response['taxable_amt'] = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date'");
-            $response['tax_amt'] = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date'");
-            $response['bill_amt'] = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date'");
+            $response['taxable_amt'] = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
+            $response['tax_amt'] = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
+            $response['bill_amt'] = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
         }
 
         return $response;

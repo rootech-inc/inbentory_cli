@@ -568,7 +568,7 @@ input
 
 /* FONTS */
 
-  .enc{font-size: large !important; color: #ccc !important; cursor: pointer;}
+  .enc{font-size: large !important; color: #333 !important; cursor: pointer;}
   .enc:hover{font-size: xxx-large !important; color: #17a2b8 !important;}
   .f-xxlg{font-size: xxx-large !important;}
   .f-lg{font-size: large;}

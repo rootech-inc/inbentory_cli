@@ -56,10 +56,12 @@ class db_handler
 
         if($condition === 'none')
         {
+            $query = "SELECT * FROM $table";
             $sql = $this->db_connect()->query("SELECT * FROM $table");
         }
         else
         {
+            $query = "SELECT * FROM $table WHERE $condition";
             $sql = $this->db_connect()->query("SELECT * FROM $table WHERE $condition");
         }
 

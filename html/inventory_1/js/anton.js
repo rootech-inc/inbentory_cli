@@ -6,6 +6,14 @@ function cl(params) { // console log
 
 ct = (param) => console.table(param);
 
+function s_response(icon = 'info',title = '',message = '') {
+    Swal.fire({
+        icon:icon,
+        title:title,
+        text:message
+    })
+}
+
 
 // date
 const today = new Date();
@@ -194,9 +202,9 @@ function responseMessage(response)
 
 
 // alert function
-function al(params)
+function al(message)
 {
-    alert(params + '\n')
+    s_response('info','',message)
 }
 
 function if_id(id)

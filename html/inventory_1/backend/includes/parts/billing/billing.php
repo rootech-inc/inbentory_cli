@@ -212,7 +212,7 @@
                                     <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         LKUP
                                     </button>
-                                    <button id="bill_recall" disabled onclick="recall_bill('token')" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
+                                    <button id="bill_recall" disabled onclick="bill.recall()" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>
                                     <button id="discount" disabled
