@@ -252,6 +252,8 @@
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
 
+
+
                     $bill_items = 'done%%';
                     $sn = 0;
                     $trans = [];
@@ -301,9 +303,10 @@
                     }
 
                     $bill_trans = [
+                        'bill_header'=>bill_total,
                         'count'=>$bill_tran_count,
-                        'total'=>number_format($total,2),
-                        'tax'=>number_format($tax_total,2),
+                        'total'=>number_format(bill_total['taxable_amt'],2),
+                        'tax'=>number_format(bill_total['tax_amt'],2),
                         'trans'=>$trans
                     ];
                     $response['status'] = 202;

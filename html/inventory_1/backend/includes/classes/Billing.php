@@ -94,19 +94,34 @@ class Billing
     {
         $machine_number = mech_no;
         $response = [
-            'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00
+            'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00,
+            'disc_valid'=>'N','disc_rate'=>0.00,'disc_value'=>0.00
         ];
         $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
+        $disc_cond = "`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'D'";
+//        die($disc_cond);
+        $disc_qty = $this->db_handler()->row_count('bill_trans',$disc_cond);
 
         if($tran_qty > 0)
         {
             $response['valid'] = 'Y';
             $response['tran_qty'] = $tran_qty;
 
+
             // get sums
             $response['taxable_amt'] = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
             $response['tax_amt'] = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
             $response['bill_amt'] = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
+        }
+
+        if($disc_qty === 1){
+            $response['disc_valid'] = 'Y';
+            $response['disc_rate'] = $this->db_handler()->fetch_rows("SELECT * FROM bill_trans where $disc_cond",'array')['bill_amt'];
+            $response['disc_value'] = $this->anton()->percentage($response['disc_rate'],$response['taxable_amt']);
+            $response['taxable_amt'] -= $response['disc_value'];
+            $response['bill_amt'] = $response['taxable_amt'] - $response['disc_value'];
+            $tax_amt = $response['tax_amt'];
+            $response['tax_amt'] = $this->anton()->percentage($response['disc_rate'],$tax_amt);
         }
 
         return $response;
@@ -172,6 +187,11 @@ class Billing
     private function db_handler(): db_handler
     {
         return (new db_handler());
+    }
+
+    private function anton(): anton
+    {
+        return (new anton());
     }
 
 }
