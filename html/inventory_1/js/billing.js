@@ -29,10 +29,17 @@ $(function() {
             processData: false,  // tell jQuery not to process the data
             contentType: false,  // tell jQuery not to set contentType
             success: function (response){
-                echo(response);
+                // echo(response);
                 i_hide('numericKeyboard')
                 $('#general_input').val('');
-                error_handler(response);
+                if(response.split('%%')[0] === 'error')
+                {
+                    let er_msg = response.split('%%')[1]
+                    alert(`Could not add to bill <p class="text-danger">${er_msg}</p>`,'error')
+                } else {
+                    get_bill()
+                }
+                // alert(response.split('%%')[1]);
 
                 // clear input
                 $('#general_input').val('')
@@ -46,6 +53,8 @@ $(function() {
     });
 
 });
+
+
 
 // check for void
 function checkVoud() {
@@ -71,18 +80,49 @@ function checkVoud() {
 
 function void_bill_item()
 {
-    let clerk = $('#clerk').val();
-    let bill_number = $('#bill_number').val();
 
-    let query = "delete from `bill_trans` where " +
-        "`clerk` = " + "'" + clerk +
-        "' AND `bill_number` = '" + bill_number +
-        "' AND `date_added` = '" + toDay +
-        "' AND `selected` = 1"  ;
+    var form = new FormData();
+    form.append("function", "void");
+    var setting = {
 
-    // execute query
-    exec(query);
-    get_bill()
+        "url": "/backend/process/form_process.php",
+        "method": "POST",
+        "timeout": 0,
+        "processData": false,
+        "mimeType": "multipart/form-data",
+        "contentType": false,
+        "data": form,
+        success: function (response) {
+            get_bill()
+        }
+    }
+
+    Swal.fire({
+        title: 'Are you sure you want to void items from bill?',
+        showDenyButton: false,
+        showCancelButton: true,
+        confirmButtonText: 'YES',
+        denyButtonText: `CANCEL`,
+    }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            $.ajax(setting)
+
+        }
+    })
+
+
+
+    //
+    // let query = "delete from `bill_trans` where " +
+    //     "`clerk` = " + "'" + clerk +
+    //     "' AND `bill_number` = '" + bill_number +
+    //     "' AND `date_added` = '" + toDay +
+    //     "' AND `selected` = 1"  ;
+    //
+    // // execute query
+    // exec(query);
+
 }
 // check for void
 
@@ -97,7 +137,7 @@ function discount() {
         // authenticate
         Swal.fire({
             title: 'AUTHENTICATE',
-            html: `<input type="text" id="login" class="swal2-input" placeholder="User ID">
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
                     <input type="password" id="password" class="swal2-input" placeholder="Password">`,
             confirmButtonText: 'Sign in',
             focusConfirm: false,
@@ -142,7 +182,7 @@ function discount() {
                         {
                             // apply discount
 
-                            Swal.fire(mesg)
+                            // Swal.fire(mesg)
                             $('#general_input').val('')
                             get_bill()
                         }
@@ -229,7 +269,8 @@ function itemLookup() {
     }
     else
     {
-        fail('Input is empty')
+        al('Input Cannot Be Empty')
+
     }
 }
 
@@ -269,6 +310,7 @@ function mark_bill_item(id) {
         success: function (response)
         {
             console.log(response);
+            get_bill();
         }
     });
 

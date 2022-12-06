@@ -106,6 +106,8 @@
                 'mech_no':mech_no
             }
 
+            console.table(form_data)
+
 
             var result = 0;
 
@@ -120,7 +122,8 @@
                     success: function (response)
                     {
                         result = response;
-                        console.log(response)
+                        // error_handler(response)
+                        location.reload()
 
                     }
                 }

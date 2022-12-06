@@ -8,6 +8,24 @@ use PDOException;
 class db_handler
 {
 
+    function __construct()
+    {
+        //set DSN
+        $dns = 'mysql:host='.db_host.';dbname='.db_name;
+
+        //create pdo instance
+        try {
+
+            $pdo = new PDO($dns, db_user, db_password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+            return $pdo;
+        } catch (PDOException $err)
+        {
+            (new \anton)->error_handler('Database Error',$err->getMessage());
+            return false;
+        }
+    }
 
     public function db_connect() // connect to database
     {
@@ -23,7 +41,7 @@ class db_handler
             return $pdo;
         } catch (PDOException $err)
         {
-            (new \anton)->err('Database Error',$err->getMessage());
+            (new \anton)->error_handler('Database Error',$err->getMessage());
             return false;
         }
     }
@@ -38,10 +56,12 @@ class db_handler
 
         if($condition === 'none')
         {
+            $query = "SELECT * FROM $table";
             $sql = $this->db_connect()->query("SELECT * FROM $table");
         }
         else
         {
+            $query = "SELECT * FROM $table WHERE $condition";
             $sql = $this->db_connect()->query("SELECT * FROM $table WHERE $condition");
         }
 
@@ -482,6 +502,38 @@ class db_handler
             (new \anton)->error_handler("No Screen",'Screen Not Found');
             die();
         }
+    }
+
+    // tax
+    function taxMaster($rp,$tg): array
+    {
+        $response = ['status'=>000,'message'=>000];
+
+        if($this->row_count('tax_master',"`id` = '$tg'") === 1)
+        {
+            // get tax details
+            $response['status'] = 200;
+            $tc = $this->get_rows('tax_master',"`id` = '$tg'");
+            $td = 0; // set default decimal
+            if($tc['type'] === 'flat')
+            {
+                // flat rate
+                $tr = $tc['rate']; //rate (percentage)
+                $td = number_format($tr/100,2); //percentage to float
+                
+            }
+
+            // $response['message'] = number_format($rp + $td,2);
+            $response['message'] = (new \anton())->percentage($tr,$rp);
+
+        } else 
+        {
+            // there is no tax group
+            $response['status'] = 404;
+            $response['message'] = 'Tax Group does not exist';
+        }
+
+        return $response;
     }
 
 }

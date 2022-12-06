@@ -6,6 +6,14 @@ function cl(params) { // console log
 
 ct = (param) => console.table(param);
 
+function s_response(icon = 'info',title = '',message = '') {
+    Swal.fire({
+        icon:icon,
+        title:title,
+        text:message
+    })
+}
+
 
 // date
 const today = new Date();
@@ -31,6 +39,20 @@ const User = new UserConfig()
 const screens = new screenMaster()
 
 const user_id = a_sess.get_session('clerk_id')
+
+var form_settings = {
+    "url": "",
+    "method": "POST",
+    'async': false,
+    'global': false,
+    'dataType': 'html',
+    "timeout": 0,
+    "processData": false,
+    "mimeType": "multipart/form-data",
+    "contentType": false,
+    "data": '',
+    'success': ''
+}
 
 
 
@@ -143,6 +165,14 @@ function fail(fail_message = "Operation Not Successful!!") {
     swal_error(fail_message)
 }
 
+function alert(text ='',title = '',icon='info') {
+    swal.fire({
+        icon: icon,
+        title: title,
+        html:text,
+    })
+}
+
 function responseType(response) {
     var resp_split = response.split('%%');
     if(resp_split.length > 0)
@@ -172,9 +202,9 @@ function responseMessage(response)
 
 
 // alert function
-function al(params)
+function al(message)
 {
-    alert(params + '\n')
+    s_response('info','',message)
 }
 
 function if_id(id)
@@ -516,6 +546,7 @@ function arr_disable(elements) {
     for (let i = 0; i < spl.length; i++)
     {
         let id = "#"+spl[i];
+        // cl(`${id} disabled`)
         $(id).prop('disabled',true)
         //echo(id)
     }
@@ -548,7 +579,9 @@ function arr_enable(elements) {
 
     for (let i = 0; i < spl.length; i++)
     {
+
         let id = "#"+spl[i];
+        // cl(`${id} enabled`)
         $(id).prop('disabled',false)
         //echo(id)
     }
@@ -654,7 +687,7 @@ function subTotal() {
 }
 
 // get bill items
-function get_bill()
+function get_bill_v1()
 {
 
 
@@ -662,13 +695,15 @@ function get_bill()
         'function':'get_bill_items'
     }
 
+
+
     // send ajax request
     $.ajax({
         url:'/backend/process/form_process.php',
         type: 'POST',
         data: form_data,
         success: function (response) {
-            //console.log(response);
+            console.log(response);
             if(response.split('%%').length === 2)
             {
                 var action = response.split('%%')[0];
@@ -697,7 +732,7 @@ function get_bill()
                     }
 
 
-
+                    console.log(message)
                     // populate
                     $('#bill_loader').html(message);
                     subTotal()
@@ -716,11 +751,18 @@ function get_bill()
                 }
 
             }
-            // put response in box
+
+            $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")}, 1000);
 
         }
     });
 
+}
+
+function get_bill() {
+
+    bill.loadBillsInTrans()
+    
 }
 
 
@@ -799,7 +841,8 @@ function add_item_to_bill(barcode) {
     $('#general_input').val(newValue)
 
     // submit form
-    $('#general_form').submit();
+    $('#add_to_bill_form').submit();
+    $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")}, 1000);
     $('#gen_modal').modal('hide');
 
 }
@@ -807,75 +850,79 @@ function add_item_to_bill(barcode) {
 // making payment
 function make_payment(method) {
 
-    // validate there is cash input
-    var amount_paid = document.getElementById('general_input').value; // gen input field
+    bill.payment(method)
 
-
-    if(amount_paid.length > 0)
-    {
-        // get total balance
-        var balance = document.getElementById('sub_total').innerText;
-
-        var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
-
-        var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
-
-        // compare balance
-        if(actual_paid >= actual_balance)
-        {
-
-            // make form data
-            form_data = {
-                'function':'payment',
-                'method':method,
-                'amount_paid':amount_paid
-            }
-
-            // send ajax request
-            $.ajax({
-                url: form_process,
-                type:'POST',
-                data:form_data,
-                success: function (response) {
-                    echo(response);
-                    get_bill();
-                    let r_split = response.split('%')
-                    ct(r_split)
-                    if(r_split[0] === 'done')
-                    {
-
-                        let b_n = parseInt(r_split[2]) + 1
-                        jqh.setText({'bill_num':b_n,'amount_balance':b_balance})
-                        jqh.setVal({'bill_number':b_n})
-
-
-
-                    } else
-                    {
-                        al('not done')
-                    }
-
-                    //location.reload()
-
-
-                }
-            });
-
-        }
-        else
-        {
-            echo('amaount less')
-            $('#general_input').addClass('bg-danger');
-            setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-
-        }
-    }
-    else
-    {
-        echo('no')
-        $('#general_input').addClass('bg-danger');
-        setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
-    }
+    // // validate there is cash input
+    // var amount_paid = document.getElementById('general_input').value; // gen input field
+    //
+    //
+    // if(amount_paid.length > 0)
+    // {
+    //     // get total balance
+    //     var balance = document.getElementById('sub_total').innerText;
+    //
+    //     var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
+    //
+    //     var b_balance = parseFloat(actual_paid) - parseFloat(actual_balance)
+    //
+    //     // compare balance
+    //     if(actual_paid >= actual_balance)
+    //     {
+    //
+    //         // make form data
+    //         form_data = {
+    //             'function':'payment',
+    //             'method':method,
+    //             'amount_paid':amount_paid
+    //         }
+    //
+    //         // send ajax request
+    //         $.ajax({
+    //             url: form_process,
+    //             type:'POST',
+    //             data:form_data,
+    //             success: function (response) {
+    //                 echo(response);
+    //                 ct(response)
+    //                 get_bill();
+    //                 let r_split = response.split('%')
+    //                 ct(r_split)
+    //                 if(r_split[0] === 'done')
+    //                 {
+    //
+    //                     let b_n = parseInt(r_split[2]) + 1
+    //                     jqh.setText({'bill_num':b_n,'amount_balance':b_balance})
+    //                     jqh.setVal({'bill_number':b_n})
+    //
+    //
+    //
+    //                 } else
+    //                 {
+    //                     al('not done')
+    //                 }
+    //
+    //                 //location.reload()
+    //
+    //
+    //             }
+    //         });
+    //
+    //     }
+    //     else
+    //     {
+    //         alert('Paid amount less','','warning')
+    //         $('#general_input').addClass('bg-danger');
+    //         setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+    //
+    //     }
+    // }
+    // else
+    // {
+    //     alert('Enter Payment Amount','','warning')
+    //     $('#general_input').addClass('bg-danger');
+    //     $('#general_input').prop('autofocus',true)
+    //     setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
+    // }
     
 
 }

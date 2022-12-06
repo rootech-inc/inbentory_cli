@@ -6,9 +6,11 @@ ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
-    define('host_ip',$_SERVER['SERVER_ADDR']);
+    define('host_ip',$_SERVER['HTTP_HOST']);
 
-    const db_host = '172.21.144.1';
+    $bill_number = 0;
+
+    const db_host = '172.17.192.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -21,8 +23,11 @@ ini_set('display_errors',1);
     require 'db_handler.php';
     require 'tax_calculator.php';
     require 'MechConfig.php';
+    require 'classes/Billing.php';
+    $bill = new \billing\Billing();
+
     $anton = new anton();
-    $db = (new \db_handeer\db_handler());
+    $db = new db_handler();
     $db->db_connect();
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
@@ -30,11 +35,14 @@ ini_set('display_errors',1);
 
 
     $today = date('Y-m-d');
+    define('today',$today);
     $current_time = date("Y-m-d H:m:s");
     define('mech_no',$MConfig->mech_details()['mechine_number']);
     define('doc_root',$_SERVER['DOCUMENT_ROOT']);
     $machine_number = mech_no;
     $root_host = $_SERVER['DOCUMENT_ROOT'];
+
+
 
 
 
@@ -56,7 +64,12 @@ ini_set('display_errors',1);
 //        print_r($module);
 
 
-        $bill_number = $db->row_count('bill_header',"`mach_no` = '$machine_number' and `bill_date` = '$today'") + 1;
+        $bill_number = $MConfig->bill_number();
+        $bill_number = $bill->billNumber();
+        define('bill_total',$bill->billTotal($bill_number,$today));
+        define('bill_no',$bill_number);
+        $response = ['status' => 000,'message'=>'null'];
+        $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 
 
 

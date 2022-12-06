@@ -46,6 +46,7 @@
             {
                 print_r($_POST);
                 $id = $anton->post('id');
+//                $selected = $db->get_rows('bill_trans',"`id` = '$id'")['selected'];
                 $selected = $db->get_rows('bill_trans',"`id` = '$id'")['selected'];
 
                 if($selected == '1')
