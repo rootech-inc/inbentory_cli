@@ -101,28 +101,33 @@ class Billing
         $disc_cond = "`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'D'";
 //        die($disc_cond);
         $disc_qty = $this->db_handler()->row_count('bill_trans',$disc_cond);
+        $taxable_amt = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
+        $tax_amt = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
+        $bill_amt = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
 
         if($tran_qty > 0)
         {
             $response['valid'] = 'Y';
             $response['tran_qty'] = $tran_qty;
-
-
             // get sums
-            $response['taxable_amt'] = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
-            $response['tax_amt'] = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
-            $response['bill_amt'] = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
+            $response['taxable_amt'] = $taxable_amt;
+            $response['tax_amt'] = $tax_amt;
+            $response['bill_amt'] = $bill_amt;
+
+            if($disc_qty === 1){
+                $discount = $this->db_handler()->fetch_rows("SELECT * FROM bill_trans where $disc_cond",'array');
+                $response['disc_valid'] = 'Y';
+                // $response['disc_rate'] = $discount['bill_amt'];
+                // $response['disc_value'] = $this->anton()->percentage($response['disc_rate'],$response['taxable_amt']);
+                // $response['taxable_amt'] -= $response['disc_value'];
+                // $response['bill_amt'] = $response['taxable_amt'];
+                // $tax_amt = $response['tax_amt'];
+                // $response['tax_amt'] = $this->anton()->percentage($response['disc_rate'],$tax_amt);
+            }
+
         }
 
-        if($disc_qty === 1){
-            $response['disc_valid'] = 'Y';
-            $response['disc_rate'] = $this->db_handler()->fetch_rows("SELECT * FROM bill_trans where $disc_cond",'array')['bill_amt'];
-            $response['disc_value'] = $this->anton()->percentage($response['disc_rate'],$response['taxable_amt']);
-            $response['taxable_amt'] -= $response['disc_value'];
-            $response['bill_amt'] = $response['taxable_amt'] - $response['disc_value'];
-            $tax_amt = $response['tax_amt'];
-            $response['tax_amt'] = $this->anton()->percentage($response['disc_rate'],$tax_amt);
-        }
+        
 
         return $response;
 

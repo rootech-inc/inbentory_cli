@@ -1,6 +1,7 @@
 class Bill {
     loadBillsInTrans(){
 
+        this.sub_total()
         var form = new FormData();
         form.append("function", "get_bill");
 
@@ -22,10 +23,11 @@ class Bill {
                 {
 
                     let message = res['message']
+                    let header = res['message']['bill_header']
                     let count,total,tax,trans
                     count = message['count']
-                    total = message['total']
-                    tax = message['tax']
+                    total = header['bill_amt']
+                    tax = header['tax_amt']
                     trans = message['trans']
                     let sel_count = 0
 
@@ -371,6 +373,22 @@ class Bill {
     }
 
     // void item from bill trans
+
+
+    //subtotal  
+    sub_total(){
+        form_settings['url'] = '/backend/process/form_process.php'
+        
+        var form = new FormData();
+        form.append("function", "subtotal")
+        form_settings['data'] = form
+        form_settings['success'] = function (response) {
+            // al(response)
+            // bill.loadBillsInTrans()
+        }
+        $.ajax(form_settings)
+    }
+    //subtotal
 }
 
 

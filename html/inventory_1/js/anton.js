@@ -760,7 +760,9 @@ function get_bill_v1()
 }
 
 function get_bill() {
+
     bill.loadBillsInTrans()
+    
 }
 
 

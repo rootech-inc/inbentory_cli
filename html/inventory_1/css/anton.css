@@ -234,8 +234,9 @@ main{
 
 .item_scroll{background-color: #4062b6; color: #FFFFFF; font-size: 12px;}
 .item_scroll:hover{background-color: #2a4077; color: #FFFFFF; font-size: 12px;}
-.cart_display{height: 60%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
-.border-dotted{border-bottom:1px dotted #dee2e6!important}
+.cart_display{height: 50%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
+.cart_message{height: 10%; width: 100% !important;background-color: #303136;}
+.border-dotted{border-bottom:1px dotted #dee2e6!important;}
 .bill_main_input{height: 40px; width: 75%;background-color: #B4B5B8; color: #303136; font-size: 25px; overflow: hidden !important}
 .card_functions{height: 40%; width: 100%; background-color: #303136;}
 .bill_func_main_btn{height: 55px; width: 32%; background-color: #020204; color: #FFFFFF; font-size: 25px;text-align: center;font-weight: bold;}

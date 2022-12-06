@@ -137,7 +137,7 @@ function discount() {
         // authenticate
         Swal.fire({
             title: 'AUTHENTICATE',
-            html: `<input type="text" id="login" class="swal2-input" placeholder="User ID">
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
                     <input type="password" id="password" class="swal2-input" placeholder="Password">`,
             confirmButtonText: 'Sign in',
             focusConfirm: false,
@@ -182,7 +182,7 @@ function discount() {
                         {
                             // apply discount
 
-                            Swal.fire(mesg)
+                            // Swal.fire(mesg)
                             $('#general_input').val('')
                             get_bill()
                         }

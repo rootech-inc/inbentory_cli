@@ -167,10 +167,18 @@
 
                         </div>
 
+                        <!--CART MESSAGE -->
+                        <div class="cart_message w-100 px-2">
+                            <div class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
+                                Loading
+                            </div>
+                        </div>
+
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
                             <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
+                                
                                 <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
@@ -203,7 +211,7 @@
                                     <button id="void_button" disabled onclick="bill.void()" class="bill_func_sub_btn btn btn-sm btn-warning rounded-0">
                                         VOID
                                     </button>
-                                    <button id="subTotal" disabled onclick="subTotal()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">
+                                    <button id="subTotal" disabled onclick="bill.sub_total()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">
                                         SUB TOTAL
                                     </button>
                                     <button id="hold" disabled onclick="bill.holdBill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">

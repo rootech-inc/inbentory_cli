@@ -10,7 +10,7 @@ ini_set('display_errors',1);
 
     $bill_number = 0;
 
-    const db_host = '172.28.0.1';
+    const db_host = '172.17.192.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -69,6 +69,7 @@ ini_set('display_errors',1);
         define('bill_total',$bill->billTotal($bill_number,$today));
         define('bill_no',$bill_number);
         $response = ['status' => 000,'message'=>'null'];
+        $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 
 
 

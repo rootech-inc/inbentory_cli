@@ -504,4 +504,36 @@ class db_handler
         }
     }
 
+    // tax
+    function taxMaster($rp,$tg): array
+    {
+        $response = ['status'=>000,'message'=>000];
+
+        if($this->row_count('tax_master',"`id` = '$tg'") === 1)
+        {
+            // get tax details
+            $response['status'] = 200;
+            $tc = $this->get_rows('tax_master',"`id` = '$tg'");
+            $td = 0; // set default decimal
+            if($tc['type'] === 'flat')
+            {
+                // flat rate
+                $tr = $tc['rate']; //rate (percentage)
+                $td = number_format($tr/100,2); //percentage to float
+                
+            }
+
+            // $response['message'] = number_format($rp + $td,2);
+            $response['message'] = (new \anton())->percentage($tr,$rp);
+
+        } else 
+        {
+            // there is no tax group
+            $response['status'] = 404;
+            $response['message'] = 'Tax Group does not exist';
+        }
+
+        return $response;
+    }
+
 }

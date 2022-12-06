@@ -605,6 +605,54 @@
 
                 print_r($_POST);
             }
+            //sub total
+            elseif ($function === 'subtotal') {
+                
+                $bill = $bill_number;
+
+                $trans = $db->db_connect()->query("SELECT * FROM bill_trans WHERE `bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'i'");
+                if(bill_total['tran_qty'] > 0 )
+                {
+                    // check if there is discount
+                    // get discount details
+                    $discount = $db->get_rows('bill_trans', "`bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'D'") ;
+                        
+                        
+                    if(bill_total['disc_valid'] === 'Y'){
+                        $dr = $discount['bill_amt'];
+                    } else{
+                        $dr = 0;
+                    }
+                    $dv = $dr / 100;
+                    
+                    while ($tran = $trans->fetch(PDO::FETCH_ASSOC)) {
+
+                        $id = $tran['id'];
+                        $tran_barcode = $tran['item_barcode'];
+                        $product = $db->get_rows('prod_mast',"`barcode` = '$tran_barcode'",'array');
+
+                        $tran_qty = $tran['item_qty'];
+
+
+                        $cur_rp = $product['retail'];
+                        $tg = $product['tax_grp'];
+                        
+                        $new_rp = number_format($cur_rp - $dv,2);
+                        $new_bill_amt = $new_rp * $tran_qty;
+                        // echo($new_rp);
+
+                        $new_tax = $db->taxMaster($new_bill_amt,$tg)['message'];
+                        
+
+                        // update
+                        $db->db_connect()->exec("UPDATE bill_trans SET `retail_price` = $new_rp,`bill_amt` = $new_bill_amt, tax_amt= $new_tax WHERE `id` = '$id'");
+
+
+                    }
+
+                }
+            }
+            //subtotal
 
 
         }
