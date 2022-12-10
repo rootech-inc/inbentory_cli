@@ -99,6 +99,11 @@ function loader(action)
 var form_data;
 var form_process = "/backend/process/form_process.php";
 
+// bill screen MESSAGE
+function b_msg(message){
+  jqh.setText({'process_mesage':message})
+}
+
 // swal confirm
 function swal_confirm(message = 'Continue?')
 {
@@ -499,7 +504,7 @@ function time() {
   var s = d.getSeconds();
   var m = d.getMinutes();
   var h = d.getHours();
-  document.getElementById('bill_time').textContent = 
+  document.getElementById('bill_time').textContent =
     ("0" + h).substr(-2) + ":" + ("0" + m).substr(-2) + ":" + ("0" + s).substr(-2);
 
   var current_date = d.getDate()+ '/' + d.getMonth() + '/' + d.getFullYear();
@@ -762,7 +767,7 @@ function get_bill_v1()
 function get_bill() {
 
     bill.loadBillsInTrans()
-    
+
 }
 
 
@@ -923,7 +928,7 @@ function make_payment(method) {
     //     $('#general_input').prop('autofocus',true)
     //     setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
     // }
-    
+
 
 }
 
@@ -1015,7 +1020,7 @@ function hold_bill(params) {
 function recall_bill(token) {
      // validate there is cash input
      var val = document.getElementById('general_input'); // gen input field
-    
+
      if(val.value.length > 0) // if amout value is greater than zero
      {
          // prapre form for ajax
@@ -1024,7 +1029,7 @@ function recall_bill(token) {
              'bill_grp':val.value,
              'token':token
          };
-         
+
          // make ajax function
          $.ajax({
              url: '/backend/process/form_process.php',
@@ -1036,7 +1041,7 @@ function recall_bill(token) {
                  get_bill()
              }
          });
- 
+
      }
      else
      {
@@ -1046,7 +1051,7 @@ function recall_bill(token) {
          val.placeholder = 'Enter Bill Number';
      }
 }
- 
+
 // print report
 function print_doc(params) {
     console.log(params)
@@ -1181,7 +1186,7 @@ function report(params) {
     \
             </div>`;
             break;
-        
+
         case 'z_report': // Z REPORT
             // get sales report, fill it in reports
             $('#modal_d').removeClass('modal-lg');
@@ -1250,15 +1255,15 @@ function report(params) {
             $('#modal_d').addClass('modal-lg');
             $('#report_res').removeClass('modal_card'); // remove backgroudd of modal body
             break;
-            
+
         default: // default switch
             break;
     }
-    
+
     $("#grn_modal_res").html(response); // send result into modal
 
     show_modal('gen_modal'); // show modal
-    
+
 }
 // cearch product
 function search_result(search_domain, match_case) {

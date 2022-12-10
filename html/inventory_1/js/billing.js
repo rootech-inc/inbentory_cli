@@ -158,7 +158,7 @@ function discount() {
                 'user_id':admin_id,
                 'password':admin_password,
                 'rate':val.value
-            }
+            } 
 
             echo(form_data)
 

@@ -127,9 +127,9 @@
             elseif ($function === 'get_bill_items') // get bill
             {
 
-                $q = "SELECT * FROM `bill_trans` WHERE 
-                                 `bill_number` = '$bill_number' AND 
-                                 `mach` = '$machine_number' AND 
+                $q = "SELECT * FROM `bill_trans` WHERE
+                                 `bill_number` = '$bill_number' AND
+                                 `mach` = '$machine_number' AND
                                  `trans_type` = 'i' AND `date_added` = '$today'";
 
 
@@ -174,25 +174,25 @@
 
 
                     // make bill item
-                    $bill_item = "<div 
+                    $bill_item = "<div
                                     onclick= \"mark_bill_item('$id')\" id='billItem$barcode'
                                     class=\"d-flex flex-wrap $cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
                                     >
-                                    
+
                                     <div class=\"w-10 h-100 d-flex flex-wrap align-content-center pl-1\">
                                         <p class=\"m-0 p-0\">$sn</p>
                                     </div>
-            
+
                                     <div class=\"w-50 h-100 d-flex flex-wrap align-content-center pl-1\">
                                     <small>$barcode</small>
                                         <p class=\"m-0 p-0\">$item_name</p>
                                         <small class='text-info'>$selected</small>
                                     </div>
-            
+
                                     <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
                                         <p class=\"m-0 p-0\">$qty</p>
                                     </div>
-            
+
                                     <!--Cost-->
                                     <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
                                         <p class=\"m-0 p-0\">".number_format($cost,2)."</p>
@@ -215,14 +215,14 @@
                     $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
                     $disc_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'D' and `date_added` = '$today'";
                     $disc_amount = $db->discount($bill_condition,$disc_condition);
-                    $discount_code .= "<div 
+                    $discount_code .= "<div
                                     class=\"d-flex flex-wrap cart_item bg-warning text-danger align-content-center justify-content-between border-dotted pb-1 pt-1\"
                                     >
-                                    
+
                                     <div class=\"75 h-100 d-flex flex-wrap align-content-center pl-1\">
                                         <p class=\"m-0 p-0\"><strong>Discount</strong></p>
                                     </div>
-            
+
                                     <!--Cost-->
                                     <div class=\"w-25 h-100 d-flex flex-wrap align-content-center pl-1\">
                                         <p class=\"m-0 p-0\">"."<strong>-$disc_rate%($disc_amount)</strong>"."</p>
@@ -245,9 +245,9 @@
                 if($bill_tran_count > 0){
 
                     // get all bill trans and loop
-                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND 
-                                 `bill_number` = '$bill_number' AND 
-                                 `mach` = '$machine_number' AND 
+                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND
+                                 `bill_number` = '$bill_number' AND
+                                 `mach` = '$machine_number' AND
                                  `date_added` = '$today' order by trans_type desc";
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
@@ -491,7 +491,7 @@
 
 
 
-                        $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES 
+                        $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES
                                                                             ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
     ";
                     // mark bill as canceled
@@ -607,7 +607,7 @@
             }
             //sub total
             elseif ($function === 'subtotal') {
-                
+
                 $bill = $bill_number;
 
                 $trans = $db->db_connect()->query("SELECT * FROM bill_trans WHERE `bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'i'");
@@ -616,15 +616,7 @@
                     // check if there is discount
                     // get discount details
                     $discount = $db->get_rows('bill_trans', "`bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'D'") ;
-                        
-                        
-                    if(bill_total['disc_valid'] === 'Y'){
-                        $dr = $discount['bill_amt'];
-                    } else{
-                        $dr = 0;
-                    }
-                    $dv = $dr / 100;
-                    
+
                     while ($tran = $trans->fetch(PDO::FETCH_ASSOC)) {
 
                         $id = $tran['id'];
@@ -636,13 +628,13 @@
 
                         $cur_rp = $product['retail'];
                         $tg = $product['tax_grp'];
-                        
-                        $new_rp = number_format($cur_rp - $dv,2);
+
+                        $new_rp =  $cur_rp ;
                         $new_bill_amt = $new_rp * $tran_qty;
                         // echo($new_rp);
 
                         $new_tax = $db->taxMaster($new_bill_amt,$tg)['message'];
-                        
+
 
                         // update
                         $db->db_connect()->exec("UPDATE bill_trans SET `retail_price` = $new_rp,`bill_amt` = $new_bill_amt, tax_amt= $new_tax WHERE `id` = '$id'");
