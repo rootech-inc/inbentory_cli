@@ -614,8 +614,10 @@
                 if(bill_total['tran_qty'] > 0 )
                 {
                     // check if there is discount
+                    $disc_count = $db->row_count('bill_trans', "`bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'D'");
                     // get discount details
                     $discount = $db->get_rows('bill_trans', "`bill_number` = '$bill_number' and `date_added` = '$today' and mach = $machine_number and `trans_type` = 'D'") ;
+
 
                     while ($tran = $trans->fetch(PDO::FETCH_ASSOC)) {
 
@@ -625,11 +627,17 @@
 
                         $tran_qty = $tran['item_qty'];
 
+                        if($disc_count === 1)
+                        {
+                            $dr = $discount['bill_amt'];
+                        } else {
+                            $dr = 0;
+                        }
 
                         $cur_rp = $product['retail'];
                         $tg = $product['tax_grp'];
 
-                        $new_rp =  $cur_rp ;
+                        $new_rp =  $cur_rp - $cur_rp * ($dr/100) ;
                         $new_bill_amt = $new_rp * $tran_qty;
                         // echo($new_rp);
 
