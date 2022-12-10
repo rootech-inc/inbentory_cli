@@ -68,6 +68,7 @@ class Bill {
                         {
                             r_bg = 'bg-warning text-danger'
                             sn = ''
+                            barcode = ''
                         } else {
                             r_bg = ''
                         }
@@ -86,21 +87,21 @@ class Bill {
                                     >
 
                                     <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${sn}</p>
+                                        <small class="m-0 p-0">${sn}</small>
                                     </div>
 
                                     <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
                                         <div class="w-100"><small>${barcode}</small></div>
-                                        <p class="m-0 p-0">${desc}</p>
+                                        <small class="m-0 p-0">${desc}</small>
                                     </div>
 
                                     <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${qty}</p>
+                                        <small class="m-0 p-0">${qty}</small>
                                     </div>
 
                                     <!--Cost-->
                                     <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${cost}</p>
+                                        <small class="m-0 p-0">${cost}</small>
                                     </div>
                                 </div>`
 
