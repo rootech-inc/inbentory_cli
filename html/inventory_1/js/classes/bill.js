@@ -1,7 +1,7 @@
 class Bill {
     loadBillsInTrans(){
-
-        this.sub_total()
+        b_msg('Loading Bill Transactions...')
+        bill.sub_total()
         var form = new FormData();
         form.append("function", "get_bill");
 
@@ -68,6 +68,7 @@ class Bill {
                         {
                             r_bg = 'bg-warning text-danger'
                             sn = ''
+                            barcode = ''
                         } else {
                             r_bg = ''
                         }
@@ -80,27 +81,27 @@ class Bill {
                             sel_count ++
                         }
 
-                        this_row = `<div 
+                        this_row = `<div
                                     onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
                                     class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
                                     >
-                                    
+
                                     <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${sn}</p>
+                                        <small class="m-0 p-0">${sn}</small>
                                     </div>
-            
+
                                     <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
                                         <div class="w-100"><small>${barcode}</small></div>
-                                        <p class="m-0 p-0">${desc}</p>
+                                        <small class="m-0 p-0">${desc}</small>
                                     </div>
-            
+
                                     <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${qty}</p>
+                                        <small class="m-0 p-0">${qty}</small>
                                     </div>
-            
+
                                     <!--Cost-->
                                     <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <p class="m-0 p-0">${cost}</p>
+                                        <small class="m-0 p-0">${cost}</small>
                                     </div>
                                 </div>`
 
@@ -117,13 +118,22 @@ class Bill {
                     }
                     $('#bill_loader').html(rows)
                     $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")});
+                    b_msg("")
 
-                } else
+                }
+                else if (res['status'] === 404)
                 {
                     arr_enable('recall')
                     arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
                     let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                     jqh.setHtml({'bill_loader':no_bill})
+                    b_msg("No bill transactions")
+                } else {
+                  arr_enable('recall')
+                  arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
+                  let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
+                  jqh.setHtml({'bill_loader':no_bill})
+                  b_msg("Could not load bill. Contact system administrator")
                 }
             }
         };
@@ -138,7 +148,7 @@ class Bill {
         }
 
     }
-    
+
     isHold()
     {
         let result = ''
@@ -167,7 +177,7 @@ class Bill {
     }
 
     holdBill(){ // HOLD A BILL
-
+        b_msg("Holing bill...")
         var form = new FormData();
         form.append("function", "hold_current_bill")
         form_settings['url'] = form_process
@@ -198,11 +208,12 @@ class Bill {
 
             }
         })
+        b_msg("")
     }
 
     // make payment
     payment(method){
-
+      b_msg("Making Payment....")
         // validate there is cash input
         let amount_paid = document.getElementById('general_input').value; // gen input field
 
@@ -292,10 +303,13 @@ class Bill {
             setTimeout(function (){$('#general_input').removeClass('bg-danger')},2000)
         }
 
+        b_msg("")
+
     }
     //make payment
 
     recall(){
+      b_msg("Recallling Bill...")
         var val = document.getElementById('general_input'); // gen input field
 
         if(val.value.length > 0) // if amout value is greater than zero
@@ -335,11 +349,13 @@ class Bill {
             val.placeholder = 'Enter Bill Number';
 
         }
+        b_msg("")
     }
 
     // void item from bill trans
 
     void(){
+        b_msg("Voiding Selected Items...")
         var form = new FormData();
         form.append("function", "void");
         var setting = {
@@ -370,15 +386,17 @@ class Bill {
 
             }
         })
+        b_msg("")
     }
 
     // void item from bill trans
 
 
-    //subtotal  
+    //subtotal
     sub_total(){
+      b_msg("Subtotaling...")
         form_settings['url'] = '/backend/process/form_process.php'
-        
+
         var form = new FormData();
         form.append("function", "subtotal")
         form_settings['data'] = form
@@ -387,6 +405,7 @@ class Bill {
             // bill.loadBillsInTrans()
         }
         $.ajax(form_settings)
+        b_msg("")
     }
     //subtotal
 }

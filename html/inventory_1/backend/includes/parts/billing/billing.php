@@ -36,7 +36,7 @@
         </header>
 
         <div class="bill-body border container-fluid p-0">
-            
+
             <div class="row no-gutters h-100">
                 <!-- Items -->
                 <div class="col-sm-7 pr-1 d-flex flex-wrap align-content-between h-100">
@@ -72,9 +72,9 @@
                                         class="img-fluid"
                                         src="../assets/icons/home/category_image.png"
                                     >
-    
+
                                     <p class="m-0 text-elipse p-0"><?php echo $group['description'] ?></p>
-    
+
                                 </button>
                                 <?php endwhile; ?>
 
@@ -91,7 +91,7 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <!--Items-->
                         <div id="items_container"  class="w-75 d-flex flex-wrap align-content-start justify-content-between h-100 border">
                                 <div id="items" class="h-90 w-100 overflow-hidden d-flex flex-wrap border align-content-start justify-content-start">
@@ -169,8 +169,8 @@
 
                         <!--CART MESSAGE -->
                         <div class="cart_message w-100 px-2">
-                            <div class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
-                                Loading
+                            <div id="process_mesage" class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
+                                
                             </div>
                         </div>
 
@@ -178,7 +178,7 @@
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
                             <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
-                                
+
                                 <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
@@ -247,20 +247,20 @@
             </div>
 
         </div>
-        
+
     </main>
 
      <!--DISCOUNT MODAL-->
      <div class="modal fade" id="discountModal">
         <div class="modal-dialog modal-dialog-centered mx-auto">
           <div class="modal-content mx-auto">
-      
+
             <!-- Modal Header -->
             <div class="modal-header">
               <strong class="modal-title">Modal Heading</strong>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-      
+
             <!-- Modal body -->
             <div class="modal-body">
                 <div class="p-0 d-flex flex-wrap align-content-center justify-content-between">
@@ -276,7 +276,7 @@
 
                 </div>
             </div>
-      
+
           </div>
         </div>
       </div>
