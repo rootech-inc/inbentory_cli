@@ -655,11 +655,19 @@
             }
             //subtotal
 
-            // refund
-            elseif ($function === 'refund'){
+
+            // admin auth
+            elseif ($function === 'admin_auth')
+            {
+                print_r($_POST);
+                $user_id = $anton->post('user_id');
+                $password = $anton->post('password');
+
+                $db->clerkAuth($user_id,$password) ? $anton->done() : $anton->err();
+
 
             }
-            //refund
+            // admin auth
 
 
         }

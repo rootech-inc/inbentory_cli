@@ -50,6 +50,59 @@ class System {
         $('#alphsKeyboard').hide();
     }
 
+    adminAuth(){
+        let auth = false;
+        let admin_id_l,admin_password_l
+        Swal.fire({
+            title: 'AUTHENTICATE',
+            html: `<input type="text" autocomplete='off' id="admin_login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="admin_password" class="swal2-input" placeholder="Password">`,
+            confirmButtonText: 'Sign in',
+            focusConfirm: false,
+            preConfirm: () => {
+                const admin_login = Swal.getPopup().querySelector('#admin_login').value
+                const admin_password = Swal.getPopup().querySelector('#admin_password').value
+                if (!admin_login || !admin_password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+                }
+                return { admin_login: admin_login, admin_password: admin_password }
+            }
+        }).then((result) => {
+            admin_id_l = result.value.admin_login;
+            admin_password_l = result.value.admin_password;
+
+            let form_data = {
+                'function':'admin_auth',
+                'user_id':admin_id_l,
+                'password':admin_password_l
+            }
+            form_settings['url'] = '/backend/process/form_process.php'
+            form_settings['type'] = 'POST';
+            form_settings['data'] = form_data
+            form_data['success'] = function(response) {
+                echo(response)
+                if(response.split('%%').length > 1)
+                {
+                    var type = response.split('%%')[0];
+                    var mesg = response.split('%%')[1];
+
+                    if(type === 'error')
+                    {
+                        auth = false
+                    }
+                    else if(type === 'done')
+                    {
+                        auth = true
+                    }
+                }
+
+                //Swal.fire(response)
+            }
+        })
+
+        return auth
+    }
+
 }
 
 class TaxMaster{
