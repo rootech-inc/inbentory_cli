@@ -1475,39 +1475,7 @@ $(document).ready(function() {
 // cancel bill
 function cancel_bill() {
 
-    // set form data
-    form_data = {
-        'function':'cancel_current_bill'
-    }
-
-    Swal.fire({
-        title: 'Are you sure you want to cancel bill?',
-        icon: 'warning',
-        showDenyButton: true,
-        showCancelButton: false,
-        confirmButtonText: 'Yes',
-        denyButtonText: `No`,
-    }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-            $.ajax({
-                url: '/backend/process/form_process.php',
-                type: 'POST',
-                data: form_data,
-                success: function (response)
-                {
-                    console.log(response)
-                    get_bill();
-                    // Swal.fire('Changes are not saved', '', 'info');
-                    location.reload()
-                }
-            });
-        } else if (result.isDenied) {
-            Swal.fire('Changes are not saved', '', 'info')
-        }
-    })
-
-    // make ajax call
+    bill.cancelBill()
 
 }
 

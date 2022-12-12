@@ -337,6 +337,7 @@
 
                     // mark bill as canceled
                     $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
+                    $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
                 }
 
 
@@ -653,6 +654,12 @@
                 }
             }
             //subtotal
+
+            // refund
+            elseif ($function === 'refund'){
+
+            }
+            //refund
 
 
         }

@@ -171,7 +171,15 @@ class Billing
                 {
                     // make bill
                     $this->db_handler()->db_connect()->exec($bill_header_insert);
-                    $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                    if($method === 'refund')
+                    {
+                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values 
+                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND')");
+                    } else
+                    {
+                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                    }
+
                 }
             }
 

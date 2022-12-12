@@ -49,8 +49,11 @@ error_reporting(E_ALL);
 
     <script src="/js/classes/buttons.js"></script>
     <script src="/js/classes/bill.js"></script>
+    <script src="/js/trigger.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
+
+
 
 
 
@@ -141,7 +144,10 @@ error_reporting(E_ALL);
     </div>
 
 
-    <div style="display: none" id="alphsKeyboard" class="ant-bg-black p-1">
+    <div id="alphsKeyboard" class="ant-bg-black p-1">
+        <script>
+            sys.OffKeyboard()
+        </script>
         <div class="w-100 h-100" id="keypadContainer">
 
             <!-- INPUT FIELD -->
@@ -325,7 +331,7 @@ error_reporting(E_ALL);
                     <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
                 </div>
                 <div class="alpha">
-                    <button onclick="hideKboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                    <button onclick="sys.OffKeyboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"></button>
                 </div>
             </div>
 
@@ -354,7 +360,7 @@ error_reporting(E_ALL);
 
 
     <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){  ?>
-        <main onclick="hideKboard()" class="p-0 mx-auto card ant-bg-black">
+        <main onclick="hideKboard()" class="p-0 mx-auto ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php
 

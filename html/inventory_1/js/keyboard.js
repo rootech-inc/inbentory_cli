@@ -28,12 +28,14 @@ function showNumKeyboard() {
 }
 
 function keypad(task) {
+
     document.getElementById('alphsKeyboard').style.display = '';
 }
 
 function hideKboard()
 {
-    document.getElementById('alphsKeyboard').style.display = 'none';
+    $('#alphsKeyboard').hide();
+    // document.getElementById('alphsKeyboard').style.display = 'none';
 }
 
 function keyboardInput(number) {

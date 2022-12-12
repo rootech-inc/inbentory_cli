@@ -199,10 +199,11 @@
                             <div class="w-100 h-75 pt-1 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
                                 <!-- BUTTONS -->
                                 <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
-                                    <button id="cash_payment" onclick="make_payment('cash')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+
+                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
                                         CASH
                                     </button>
-                                    <button id="momo_payment" onclick="make_payment('momo')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
                                         MOMO
                                     </button>
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
@@ -235,8 +236,9 @@
                                 </div>
                                 <!-- MORE FUNCTIONS -->
                                 <div class="w-15 h-100 d-flex flex-wrap justify-content-between align-content-between">
-                                    <button type="button" class="bill_func_sub_btn item_scroll h-45 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-2x fa-arrow-up"></i></button>
-                                    <button type="button" class="bill_func_sub_btn item_scroll h-45 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-2x fa-arrow-down"></i></button>
+                                    <button type="button" class="bill_func_sub_btn btn-outline-dark h-30 w-100 btn-sm" onclick="sys.OnKeyboard()" ><i class="fa fa-keyboard"></i></button>
+                                    <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-arrow-up"></i></button>
+                                    <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-arrow-down"></i></button>
                                 </div>
                             </div>
 

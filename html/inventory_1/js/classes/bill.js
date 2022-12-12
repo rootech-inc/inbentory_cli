@@ -119,6 +119,7 @@ class Bill {
                     $('#bill_loader').html(rows)
                     $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")});
                     b_msg("")
+                    $('#general_input').val('')
 
                 }
                 else if (res['status'] === 404)
@@ -213,7 +214,10 @@ class Bill {
 
     // make payment
     payment(method){
-      b_msg("Making Payment....")
+        console.log('making payment')
+        b_msg("Making Payment....")
+
+
         // validate there is cash input
         let amount_paid = document.getElementById('general_input').value; // gen input field
 
@@ -270,6 +274,8 @@ class Bill {
                             jqh.setVal({'general_input':''})
 
                             jqh.setHtml({'bill_loader':''})
+
+                            bill.loadBillsInTrans()
 
 
 
@@ -408,6 +414,41 @@ class Bill {
         b_msg("")
     }
     //subtotal
+
+    // cancel bill
+    cancelBill(){
+        form_data = {
+            'function':'cancel_current_bill'
+        }
+
+        Swal.fire({
+            title: 'Are you sure you want to cancel bill?',
+            icon: 'warning',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Yes',
+            denyButtonText: `No`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/backend/process/form_process.php',
+                    type: 'POST',
+                    data: form_data,
+                    success: function (response)
+                    {
+                        console.log(response)
+                        get_bill();
+                        // Swal.fire('Changes are not saved', '', 'info');
+                        // location.reload()
+                    }
+                });
+            } else if (result.isDenied) {
+                Swal.fire('Changes are not saved', '', 'info')
+            }
+        })
+    }
+    // cancel bill
 }
 
 
