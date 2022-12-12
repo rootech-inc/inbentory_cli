@@ -50,6 +50,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/buttons.js"></script>
     <script src="/js/classes/bill.js"></script>
     <script src="/js/trigger.js"></script>
+    <script src="/js/classes/reports.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 
