@@ -41,7 +41,7 @@ const screens = new screenMaster()
 const user_id = a_sess.get_session('clerk_id')
 
 var form_settings = {
-    "url": "",
+    "url": "/backend/process/form_process.php",
     "method": "POST",
     'async': false,
     'global': false,

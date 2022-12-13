@@ -145,6 +145,7 @@ error_reporting(E_ALL);
     </div>
 
 
+
     <div id="alphsKeyboard" class="ant-bg-black p-1">
         <script>
             sys.OffKeyboard()
@@ -355,6 +356,26 @@ error_reporting(E_ALL);
 
                 </div>
 
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN AUTH MODAL -->
+    <div class="modal fade" id="adminAuth">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-danger">
+                <div class="modal-header">
+                    <strong class="modal-title">Administrator Authentication</strong>
+                </div>
+                <div class="modal-body">
+                    <input type="text" placeholder="User ID" autocomplete="off" id="admin_auth_username" class="form-control mb-2 rounded-0">
+                    <input type="password" placeholder="password" class="form-control mb-2 rounded-0" id="admin_auth_password">
+                    <small class="text-light" id="adminAuthErr"></small>
+                </div>
+                <div class="modal-footer">
+                    <button data-dismiss="modal" class="btn btn-info btn-sm rounded-0">CANCEL</button>
+                    <button type="button" id="admin_auth" class="btn btn-success btn-sm rounded-0">AUTH</button>
+                </div>
             </div>
         </div>
     </div>

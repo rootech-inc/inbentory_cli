@@ -599,12 +599,15 @@
 
             elseif ($function === 'admin_auth')
             {
-                $clerk_id = $anton->post('user_id');
+                print_r($_POST);
+                $user_id = $anton->post('user_id');
                 $password = $anton->post('password');
 
-                $db->clerkAuth($clerk_id,$password);
+                $resp = ['status'=>505,'message'=>'admin_auth'];
 
-                print_r($_POST);
+                $db->clerkAuth($user_id,$password) ? $resp['status'] = 200 : $resp['message'] = 'Authenticate Failed';
+                header("Content-Type: application/json");
+                echo json_encode($resp);
             }
             //sub total
             elseif ($function === 'subtotal') {
@@ -656,18 +659,7 @@
             //subtotal
 
 
-            // admin auth
-            elseif ($function === 'admin_auth')
-            {
-                print_r($_POST);
-                $user_id = $anton->post('user_id');
-                $password = $anton->post('password');
 
-                $db->clerkAuth($user_id,$password) ? $anton->done() : $anton->err();
-
-
-            }
-            // admin auth
 
 
         }

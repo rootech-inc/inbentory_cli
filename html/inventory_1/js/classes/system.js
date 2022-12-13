@@ -44,7 +44,7 @@ class System {
 
     OnKeyboard(){
         cl("Toggling Screen Keyboard")
-        $('#alphsKeyboard').show();
+        $('#alphsKeyboard').fadeIn();
     }
     OffKeyboard(){
         $('#alphsKeyboard').hide();
