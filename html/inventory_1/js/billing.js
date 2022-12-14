@@ -194,20 +194,6 @@ function discount() {
             //Swal.fire(form_data.function)
         })
 
-        // prapre form for ajax
-
-
-        // make ajax function
-        // $.ajax({
-        //     url: '/backend/process/form_process.php',
-        //     type: 'POST',
-        //     data: data,
-        //     success: function(response) {
-        //         echo(response)
-        //         error_handler(response)
-        //         get_bill()
-        //     }
-        // });
 
     }
     else

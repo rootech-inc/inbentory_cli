@@ -101,6 +101,63 @@ class System {
         return result
     }
 
+    adminAuthV2(){
+        let admin_id_v2,admin_password_v2,result = false;
+        Swal.fire({
+            title: 'AUTHENTICATE',
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+            confirmButtonText: 'Sign in',
+            focusConfirm: false,
+            preConfirm: () => {
+                const login = Swal.getPopup().querySelector('#login').value
+                const password = Swal.getPopup().querySelector('#password').value
+                if (!login || !password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+                } else {
+
+                }
+                return { login_v2: login, password_v2: password }
+            }
+        }).then((result) => {
+            admin_id_v2 = result.value.login_v2;
+            admin_password_v2 = result.value.password_v2;
+
+            var dataToSend = {
+                'function':'mj',
+                'user_id':admin_id_v2,
+                'password':admin_password_v2,
+            }
+
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: dataToSend,
+                success: function(response) {
+                    // echo(response)
+                    let resp = JSON.parse(response)
+                    if(resp['status'] === 200)
+                    {
+                        result = true
+
+                    } else {
+                        result = false
+                    }
+
+
+                }
+            });
+
+            ct(dataToSend)
+            ct(result)
+
+        })
+        return result
+    }
+
 }
 
 class TaxMaster{
