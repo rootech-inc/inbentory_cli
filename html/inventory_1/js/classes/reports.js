@@ -8,13 +8,17 @@ class Reports {
                     <input type="password" id="password" class="swal2-input" placeholder="Password">`,
             confirmButtonText: 'Sign in',
             focusConfirm: false,
+            backdrop: `
+                rgba(245, 39, 145, 0.36)
+                left top
+                no-repeat
+              `,
+
             preConfirm: () => {
                 const login = Swal.getPopup().querySelector('#login').value
                 const password = Swal.getPopup().querySelector('#password').value
                 if (!login || !password) {
                     Swal.showValidationMessage(`Please enter login and password`)
-                } else {
-
                 }
                 return { login_v2: login, password_v2: password }
             }
@@ -92,92 +96,7 @@ class Reports {
 
                         }
 
-                        var response = `<div class='w-100 p-2'> \
-                            <div class='w-100 text-center'> \
-                                <p class='font-weight-bolder text-center text-elipse'>${gross}</p>\
-                                <hr class='mb-3 mt-3'>\
-                            </div>\
-                            <div class='modal_card p-4 mb-4'>\
-                                <h4 class='font-weight-bolder mb-2'>MACHINE 1</h4>\
-                \
-                                <!--CASH-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>CASH</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--MOMO-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>MOMO</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--DISCOUNT-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>Discount</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--TOTAL-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>TOTAL</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--TAX-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>TAX</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                            </div>\
-                \
-                            <!--MACHINE 2-->\
-                            <div class='modal_card p-4'>\
-                                <h4 class='font-weight-bolder mb-2'>MACHINE 2</h4>\
-                \
-                                <!--CASH-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>CASH</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--MOMO-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>MOMO</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--DISCOUNT-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>Discount</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--TOTAL-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>TOTAL</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                                <!--TAX-->\
-                                <div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                    <div class='w-45 float-left'><p class='m-0 p-0'>TAX</p></div>\
-                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>$100.00</p></div>\
-                                </div>\
-                \
-                            </div>\
-                \
-                            <div class='w-100 p-4 text-center'>\
-                                <img \
-                                    class='img-fluid pointer print_25'\
-                                    src='assets/icons/home/print_25.png'\
-                                    title='print'\
-                                    onclick='print_doc(1)'\
-                                >\
-                            </div>\
-                \
-                        </div>`;
+
 
                         $("#grn_modal_res").html(all_sales); // send result into modal
 
