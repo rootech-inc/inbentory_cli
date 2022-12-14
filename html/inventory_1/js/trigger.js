@@ -43,37 +43,18 @@ $(document).ready(function() {
         {
             $('#adminAuthErr').text(err_m)
         } else {
-            let form_data = {
-                'function':'admin_auth',
+            let dataToSend = {
+                'function':'mj',
                 'user_id':admin_auth_username,
                 'password':admin_auth_password
             }
 
-            form_settings['data'] = form_data
-            form_settings['uri'] = 'hello.html'
+            form_settings['data'] = dataToSend
             form_settings['success'] = function (ajax_resp) {
 
                 ct(ajax_resp)
             }
-            $.ajax({
-                url: "/backend/process/form_process.php",
-                type: "POST",
-                'async': false,
-                'global': false,
-                'dataType': 'html',
-                "timeout": 0,
-                "processData": false,
-                "mimeType": "multipart/form-data",
-                "contentType": false,
-                data: {
-                    'function':'admin_auth',
-                    'user_id':admin_auth_username,
-                    'password':admin_auth_password
-                },
-                success: function (response) {
-                    console.log(response)
-                }
-            })
+            $.ajax(form_settings)
         }
 
 

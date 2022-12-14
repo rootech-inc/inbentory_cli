@@ -2,13 +2,11 @@
     require '../includes/core.php';
 
 
+//    print_r($_POST);
 
-    print_r($_POST);
 
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
-
-
 
         if(isset($_POST['function'])) // if we have a function from post call
         {
@@ -599,17 +597,17 @@
 
             }
 
-            elseif ($function === 'admin_auth')
+            elseif ($function === 'mj')
             {
-                print_r($_POST);
+
                 $user_id = $anton->post('user_id');
                 $password = $anton->post('password');
-
+//
                 $resp = ['status'=>505,'message'=>'admin_auth'];
 
+//
                 $db->clerkAuth($user_id,$password) ? $resp['status'] = 200 : $resp['message'] = 'Authenticate Failed';
-                header("Content-Type: application/json");
-                echo json_encode($resp);
+                print_r(json_encode($resp));
             }
             //sub total
             elseif ($function === 'subtotal') {
@@ -659,11 +657,13 @@
                 }
             }
             //subtotal
-
-
-
-
+            else{
+                print_r('UNKNOWN FUNCTION');
+            }
 
         }
 
+        else{
+            print_r($_POST);
+        }
     }
