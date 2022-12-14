@@ -49,15 +49,29 @@ $(document).ready(function() {
                 'password':admin_auth_password
             }
 
-            form_settings['data'] = dataToSend
-            form_settings['success'] = function (ajax_resp) {
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: dataToSend,
+                success: function(response) {
+                    // echo(response)
+                    let resp = JSON.parse(response)
+                    if(resp['status'] === 200)
+                    {
+                        result = true
 
-                ct(ajax_resp)
-            }
-            $.ajax(form_settings)
+                    } else {
+                        result = false
+                    }
+
+                }
+            });
         }
 
-
+        return result
 
 
     });

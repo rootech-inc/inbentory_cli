@@ -51,56 +51,54 @@ class System {
     }
 
     adminAuth(){
-        let auth = false;
-        let admin_id_l,admin_password_l
-        Swal.fire({
-            title: 'AUTHENTICATE',
-            html: `<input type="text" autocomplete='off' id="admin_login" class="swal2-input" placeholder="User ID">
-                    <input type="password" id="admin_password" class="swal2-input" placeholder="Password">`,
-            confirmButtonText: 'Sign in',
-            focusConfirm: false,
-            preConfirm: () => {
-                const admin_login = Swal.getPopup().querySelector('#admin_login').value
-                const admin_password = Swal.getPopup().querySelector('#admin_password').value
-                if (!admin_login || !admin_password) {
-                    Swal.showValidationMessage(`Please enter login and password`)
-                }
-                return { admin_login: admin_login, admin_password: admin_password }
-            }
-        }).then((result) => {
-            admin_id_l = result.value.admin_login;
-            admin_password_l = result.value.admin_password;
+        let admin_auth_username,admin_auth_password,err_c = 0,err_m = ' ',result = false;
+        admin_auth_username = $('#admin_auth_username').val()
+        admin_auth_password = $('#admin_auth_password').val()
 
-            let form_data = {
-                'function':'admin_auth',
-                'user_id':admin_id_l,
-                'password':admin_password_l
-            }
-            form_settings['url'] = '/backend/process/form_process.php'
-            form_settings['type'] = 'POST';
-            form_settings['data'] = form_data
-            form_data['success'] = function(response) {
-                echo(response)
-                if(response.split('%%').length > 1)
-                {
-                    var type = response.split('%%')[0];
-                    var mesg = response.split('%%')[1];
+        if(admin_auth_username.length < 1)
+        {
+            err_c ++
+            err_m += "Provide User ID | "
+        }
+        if(admin_auth_password.length < 1)
+        {
+            err_c ++
+            err_m += "Provide Password | "
+        }
 
-                    if(type === 'error')
+        if (err_c > 0)
+        {
+            $('#adminAuthErr').text(err_m)
+        } else {
+            let dataToSend = {
+                'function':'mj',
+                'user_id':admin_auth_username,
+                'password':admin_auth_password
+            }
+
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: dataToSend,
+                success: function(response) {
+                    // echo(response)
+                    let resp = JSON.parse(response)
+                    if(resp['status'] === 200)
                     {
-                        auth = false
+                        result = true
+
+                    } else {
+                        result = false
                     }
-                    else if(type === 'done')
-                    {
-                        auth = true
-                    }
+
                 }
+            });
+        }
 
-                //Swal.fire(response)
-            }
-        })
-
-        return auth
+        return result
     }
 
 }

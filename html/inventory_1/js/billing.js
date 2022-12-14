@@ -188,7 +188,6 @@ function discount() {
                         }
                     }
 
-                    //Swal.fire(response)
                 }
             });
 
