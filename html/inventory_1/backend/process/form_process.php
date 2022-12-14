@@ -1,7 +1,9 @@
 <?php
     require '../includes/core.php';
 
-    //echo $_SERVER['REQUEST_METHOD'];
+
+
+    print_r($_POST);
 
     if($_SERVER['REQUEST_METHOD'] == 'POST')
     {
