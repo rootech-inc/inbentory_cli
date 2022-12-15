@@ -24,6 +24,8 @@ ini_set('display_errors',1);
     require 'tax_calculator.php';
     require 'MechConfig.php';
     require 'classes/Billing.php';
+    require 'classes/reports.php';
+    require  'classes/auth.php';
     $bill = new \billing\Billing();
 
     $anton = new anton();
