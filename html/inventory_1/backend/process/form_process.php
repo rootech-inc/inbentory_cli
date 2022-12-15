@@ -657,6 +657,32 @@
                 }
             }
             //subtotal
+
+            // FINAL REPORTS
+            elseif ($function === 'final_report')
+            {
+                $user_id = $anton->post('user_id');
+                $password = $anton->post('password');
+//
+                $resp = ['status'=>505,'message'=>'admin_auth'];
+                $status = $resp['status'];
+                $message = $resp['message'];
+                if($db->clerkAuth($user_id,$password))
+                {
+                    $status = 201;
+                    $message = "User Logged In";
+                    $report_type = $anton->post('report_type');
+                    // print eod
+                    $db->print_report($report_type);
+
+                } else {
+                    $message = "COuld Not Login";
+                }
+
+                print_r(json_encode($resp));
+            }
+            //FINAL REPORTS
+
             else{
                 print_r('UNKNOWN FUNCTION');
             }

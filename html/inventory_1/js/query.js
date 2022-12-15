@@ -200,7 +200,7 @@ function return_rows(query) {
         'function':'return_rows',
         'query':query,
     }
-    ct(query)
+    // ct(query)
 
     var result = 0;
 
@@ -230,7 +230,7 @@ function fetch_rows(query) {
         'function':'fetch_rows',
         'query':query,
     }
-    ct(query)
+    // ct(query)
 
     var result = 0;
 
@@ -245,7 +245,7 @@ function fetch_rows(query) {
             success: function (response)
             {
                 result = response;
-                cl(response)
+                // cl(response)
 
             }
         }

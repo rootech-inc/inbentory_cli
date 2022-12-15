@@ -26,7 +26,7 @@ class Reports {
             admin_id_v2 = result.value.login_v2;
             admin_password_v2 = result.value.password_v2;
             $("#grn_modal_res").html("LOADING.....");
-            show_modal('gen_modal'); // show modal
+            //show_modal('gen_modal'); // show modal
             var dataToSend = {
                 'function':'mj',
                 'user_id':admin_id_v2,
@@ -100,10 +100,18 @@ class Reports {
 
                         $("#grn_modal_res").html(all_sales); // send result into modal
 
-
+                        Swal.fire({
+                            title: 'Sales Report',
+                            html: all_sales,
+                            footer: "<button class='btn btn-info fa fa-print'></button>",
+                            
+                        })
 
                     } else {
-                        $("#grn_modal_res").html("NO ACCESS");
+                        Swal.fire({
+                            title: 'Admin Authentication',
+                            text: "Authentication Failed",
+                        })
                     }
 
 
@@ -112,13 +120,78 @@ class Reports {
                 }
             });
 
-            ct(dataToSend)
-            ct(result)
+
 
         })
 
 
     }
+
+    Final(report_type){
+        let admin_id_v2,admin_password_v2,result = false;
+        Swal.fire({
+            title: 'AUTHENTICATE',
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+            confirmButtonText: 'Sign in',
+            focusConfirm: false,
+            backdrop: `
+                rgba(245, 39, 39, 0.8)
+                left top
+                no-repeat
+              `,
+
+            preConfirm: () => {
+                const login = Swal.getPopup().querySelector('#login').value
+                const password = Swal.getPopup().querySelector('#password').value
+                if (!login || !password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+                }
+                return { login_v2: login, password_v2: password }
+            }
+        }).then((result) => {
+            admin_id_v2 = result.value.login_v2;
+            admin_password_v2 = result.value.password_v2;
+            $("#grn_modal_res").html("LOADING.....");
+            show_modal('gen_modal'); // show modal
+            var dataToSend = {
+                'function':'final_report',
+                'report_type':report_type,
+                'user_id':admin_id_v2,
+                'password':admin_password_v2,
+            }
+
+            $.ajax({
+                url: '/backend/process/form_process.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: dataToSend,
+                success: function(response) {
+                    // echo(response)
+                    let resp = JSON.parse(response)
+                    // get sales report, fill it in reports
+                    $('#gen_modal').removeClass('modal-lg');
+                    $('#report_res').removeClass('modal_card'); // remove backgroudd of modal body
+                    $('.modal-title').text('Sales Report');
+
+
+
+
+
+                    $("#grn_modal_res").html(resp['message']); // send result into moda
+
+
+
+                }
+            });
+
+
+
+        })
+    }
+
 }
 
 const reports = new Reports()
