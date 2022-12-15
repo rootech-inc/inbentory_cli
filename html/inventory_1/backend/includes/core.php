@@ -10,7 +10,7 @@ ini_set('display_errors',1);
 
     $bill_number = 0;
 
-    const db_host = '172.28.80.1';
+    const db_host = '192.168.32.1';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
