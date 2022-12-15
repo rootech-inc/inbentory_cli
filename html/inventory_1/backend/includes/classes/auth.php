@@ -9,7 +9,7 @@ use PDOException;
 class auth extends db_handler
 {
     private $connect;
-    private array $response = ['code'=>000,'message'=>000];
+    private array $response = ['code'=>000,'message'=>'Initialization'];
 
     public function __construct()
     {
@@ -31,7 +31,8 @@ class auth extends db_handler
         }
     }
 
-    public function adminAuth($code,$clerk_key){
+    public function adminAuth($code,$clerk_key): array
+    {
 
         if($this->row_count('clerk',"`clerk_code` = '$code'") === 1) {
             // there is clerk
@@ -43,11 +44,16 @@ class auth extends db_handler
                 {
                     $this->response['code'] = 200;
                     $this->response['message'] = 'ACCESS GRANTED';
+
                 } else {
                     $this->response['code'] = 505;
                     $this->response['message'] = 'Wrong Password';
                 }
 
+
+            } else {
+                $this->response['code'] = 403;
+                $this->response['message'] = 'No Authorization For Account';
             }
         } else {
             // no clerk

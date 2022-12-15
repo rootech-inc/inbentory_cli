@@ -4,8 +4,17 @@ namespace billing;
 
 class reports extends \db_handeer\db_handler
 {
+    private array $response = ['code'=>000,'message'=>000];
+
+    public function json_enc($data){
+
+
+        return json_encode($data);
+    }
     public function eod(){
-        print_r('Hello World');
+        $this->response['code'] = 200;
+        $this->response['message'] = 'Eod Printed and Saved';
+        echo $this->json_enc($this->response);
     }
 
     public function print_report(string $report_type)

@@ -104,7 +104,7 @@ class Reports {
                             title: 'Sales Report',
                             html: all_sales,
                             footer: "<button class='btn btn-info fa fa-print'></button>",
-                            
+
                         })
 
                     } else {
@@ -127,7 +127,7 @@ class Reports {
 
     }
 
-    Final(report_type){
+    EndOfDay(){
         let admin_id_v2,admin_password_v2,result = false;
         Swal.fire({
             title: 'AUTHENTICATE',
@@ -155,32 +155,28 @@ class Reports {
             $("#grn_modal_res").html("LOADING.....");
             show_modal('gen_modal'); // show modal
             var dataToSend = {
-                'function':'final_report',
-                'report_type':report_type,
-                'user_id':admin_id_v2,
-                'password':admin_password_v2,
+
+                'function':'eod',
+                'clerk_code':admin_id_v2,
+                'clerk_key':admin_password_v2,
             }
 
             $.ajax({
-                url: '/backend/process/form_process.php',
+                url: 'backend/process/reports.php',
                 'async': false,
                 'type': "POST",
                 'global': false,
                 'dataType': 'html',
                 data: dataToSend,
                 success: function(response) {
-                    // echo(response)
+                    echo(response)
                     let resp = JSON.parse(response)
-                    // get sales report, fill it in reports
-                    $('#gen_modal').removeClass('modal-lg');
-                    $('#report_res').removeClass('modal_card'); // remove backgroudd of modal body
-                    $('.modal-title').text('Sales Report');
 
+                    Swal.fire({
+                        title: 'EOD REPORT',
+                        html: resp['message'],
 
-
-
-
-                    $("#grn_modal_res").html(resp['message']); // send result into moda
+                    })
 
 
 

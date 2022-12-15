@@ -20,6 +20,7 @@
                     $Reports->eod();
 
                 } else {
+                    echo $anton->json_enc($admin_auth);
                     // access denied
                 }
 

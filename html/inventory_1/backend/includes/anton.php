@@ -234,5 +234,9 @@ class anton extends FPDF
         return $tax_amount;
     }
 
+    public function json_enc($data){
+        return json_encode($data);
+    }
+
 
 }
