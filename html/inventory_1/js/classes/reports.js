@@ -133,7 +133,7 @@ class Reports {
             title: 'AUTHENTICATE',
             html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
                     <input type="password" id="password" class="swal2-input" placeholder="Password">`,
-            confirmButtonText: 'Sign in',
+            confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
             focusConfirm: false,
             backdrop: `
                 rgba(245, 39, 39, 0.8)
@@ -152,8 +152,7 @@ class Reports {
         }).then((result) => {
             admin_id_v2 = result.value.login_v2;
             admin_password_v2 = result.value.password_v2;
-            $("#grn_modal_res").html("LOADING.....");
-            show_modal('gen_modal'); // show modal
+
             var dataToSend = {
 
                 'function':'eod',

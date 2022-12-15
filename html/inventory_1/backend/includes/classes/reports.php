@@ -13,7 +13,7 @@ class reports extends \db_handeer\db_handler
     }
     public function eod(){
         $this->response['code'] = 200;
-        $this->response['message'] = 'Eod Printed and Saved';
+        $this->response['message'] = 'Eod Printed. please check printer for print our';
         echo $this->json_enc($this->response);
     }
 
