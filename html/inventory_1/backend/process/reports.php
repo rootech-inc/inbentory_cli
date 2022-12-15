@@ -17,6 +17,8 @@
                 if($admin_auth['code'] === 200)
                 {
                     // access granted
+                    $Reports->eod();
+
                 } else {
                     // access denied
                 }

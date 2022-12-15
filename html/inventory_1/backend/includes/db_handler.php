@@ -536,17 +536,7 @@ class db_handler
         return $response;
     }
 
-    public function eod(){
 
-    }
-
-    public function print_report(string $report_type)
-    {
-        if($report_type === 'eod')
-        {
-            $this->eod();
-        }
-    }
 
 
 
