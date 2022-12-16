@@ -77,3 +77,20 @@ $(document).ready(function() {
     });
 });
 //ADMIN AUTH
+
+
+// EOD
+
+$(document).ready(function() {
+    $("#eod").click(function(){
+        reports.EndOfDay()
+    });
+});
+
+$(document).ready(function() {
+    $("#sales_report").click(function(){
+        reports.SalesReport()
+    });
+});
+
+// EOD
