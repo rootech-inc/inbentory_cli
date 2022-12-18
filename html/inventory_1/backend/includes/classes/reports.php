@@ -52,6 +52,33 @@ class reports extends \db_handeer\db_handler
         echo $this->json_enc($this->response);
     }
 
+    public function z_report($mech_no = mech_no)
+    {
+        $day = today;
+        if($this->row_count('mech_setup',"`mech_no` = '$mech_no'") === 1)
+        {
+
+            if($this->row_count('shifts',"`shift_date` = '$day' AND `end_time` = NULL and `mech_no` = '$mech_no'") === 1){
+                //todo:: print z report
+                $this   ->db_connect()->exec("UPDATE shifts set end_time = CURTIME() where mech_no = '$mech_no' and shift_date = '$day' ");
+                $this->response['code'] = 202;
+                $this->response['message'] = "Z-Report Taken";
+            } else
+            {
+                $this->response['code'] = 404;
+                $this->response['message'] = "No active shift for machine" . $this->row_count('shifts',"`shift_date` = '$day' AND `end_time` = NULL and `mech_no` = '$mech_no'");
+            }
+
+
+
+        } else {
+            $this->response['code'] = 505;
+            $this->response['message'] = "invalid machine number ($mech_no)";
+        }
+
+        echo $this->json_enc($this->response);
+    }
+
     public function print_report(string $report_type)
     {
         if($report_type === 'eod')

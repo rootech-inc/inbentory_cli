@@ -10,6 +10,7 @@
 
             $function = $anton->post('function');
             if($function === 'eod'){
+                // TAKE EOD
                 $clerk_code = $anton->post('clerk_code');
                 $clerk_key = $anton->post('clerk_key');
                 // admin authenticate
@@ -24,6 +25,21 @@
                     // access denied
                 }
 
+            } elseif ($function === 'z_report'){
+                // Z REPORT
+                $clerk_code = $anton->post('clerk_code');
+                $clerk_key = $anton->post('clerk_key');
+                // admin authenticate
+                $admin_auth = $auth->adminAuth($clerk_code,$clerk_key);
+                if($admin_auth['code'] === 200)
+                {
+                    // access granted
+                    $Reports->z_report();
+
+                } else {
+                    echo $anton->json_enc($admin_auth);
+                    // access denied
+                }
             }
 
         }

@@ -187,6 +187,67 @@ class Reports {
         })
     }
 
+    zReport() {
+        let admin_id_v2,admin_password_v2,result = false;
+        Swal.fire({
+            title: 'AUTHENTICATE',
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+            confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
+            focusConfirm: false,
+            backdrop: `
+                rgba(245, 39, 39, 0.8)
+                left top
+                no-repeat
+              `,
+
+            preConfirm: () => {
+                const login = Swal.getPopup().querySelector('#login').value
+                const password = Swal.getPopup().querySelector('#password').value
+                if (!login || !password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+                }
+                return { login_v2: login, password_v2: password }
+            }
+        }).then((result) => {
+            admin_id_v2 = result.value.login_v2;
+            admin_password_v2 = result.value.password_v2;
+
+            var dataToSend = {
+
+                'function':'z_report',
+                'clerk_code':admin_id_v2,
+                'clerk_key':admin_password_v2,
+            }
+
+
+
+            $.ajax({
+                url: 'backend/process/reports.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: dataToSend,
+                success: function(response) {
+                    echo(response)
+                    let resp = JSON.parse(response)
+
+                    Swal.fire({
+                        title: 'EOD REPORT',
+                        html: resp['message'],
+
+                    })
+
+
+
+                }
+            });
+
+
+
+        })
+    }
 }
 
 const reports = new Reports()

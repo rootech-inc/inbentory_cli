@@ -93,4 +93,10 @@ $(document).ready(function() {
     });
 });
 
+$(document).ready(function (){
+    $('#z_report').click(function (){
+        reports.zReport()
+    });
+})
+
 // EOD
