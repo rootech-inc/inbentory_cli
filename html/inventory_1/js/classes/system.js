@@ -151,13 +151,31 @@ class System {
                 }
             });
 
-            ct(dataToSend)
-            ct(result)
+            //ct(dataToSend)
+            //ct(result)
 
         })
         return result
     }
 
+    StartShift() {
+        let data = {
+            'function':'start_shift',
+            'mech': $('#mech_no').val()
+        }
+
+        $.ajax({
+            url:'/backend/process/form-processing/sys.php',
+            type:'POST',
+            data:data,
+            success: function (response) {
+
+                let res = JSON.parse(response);
+                swal_reload(res['message'])
+            }
+        });
+
+    }
 }
 
 class TaxMaster{
@@ -242,7 +260,7 @@ class TaxMaster{
                     <td>${row['rate']} %</td>
                     <td><div class="w-100 d-flex flex-wrap"><span onclick="taxMaster.DeleteTax('${row['id']}')" class="badge badge-danger">Delete</span></div></td>
                 </tr>`
-                ct(res[i])
+                //ct(res[i])
             }
             $('#taxScreen').html(tr)
         }else
@@ -441,7 +459,7 @@ class UserConfig {
         {
             let group;
             let ug = this.GetGroup(querySet['user_grp'])
-            ct(ug)
+            //ct(ug)
             if(ug['count'] === 1)
             {
                 group = ug['result'][0]['descr']
@@ -453,7 +471,7 @@ class UserConfig {
             var data = {
                 'desc':querySet['clerk_name'],'code':querySet['clerk_code'],'group':group
             }
-            ct(data)
+            //ct(data)
             jqh.setText(data)
 
             set_session([`user_act=${id}`],0)
@@ -504,13 +522,13 @@ class UserConfig {
             for (let i = 0; i < res.length; i++) {
 
                 let row = res[i]
-                ct(row)
+                //ct(row)
                 let id = row['id']
                 let descr = row['descr']
                 options[id] = descr
             }
 
-            ct(options)
+            //ct(options)
 
             const { value: fruit } = await Swal.fire({
                 title: 'Create New User',
@@ -631,7 +649,57 @@ class UserConfig {
         return this.GetClerk(this.clerk)
     }
 
+    SaveNewClerk()
+    {
+        let clerk_full_name = $('#clerk_full_name').val();
+        let grp = $('#user_grp').val()
 
+        if(clerk_full_name.length >= 5)
+        {
+
+            // save
+            let data = {
+                'function':'new_user',
+                'full_name':clerk_full_name,
+                'grp':grp
+            }
+
+            $.ajax({
+                url: '/backend/process/form-processing/sys.php',
+                type: 'POST',
+                data:data,
+                success: function (response) {
+                    let resp = JSON.parse(response)
+                    if(resp['code'] === 202)
+                    {
+                        let ms = resp['message'];
+                        let clerk_code = ms['clerk_code']
+                        let clerk_key = ms['clerk_key']
+
+                        set_session(['action=view'],0)
+
+                        swal_reload(`clerk added successfully. Code : ${clerk_code} , Key : ${clerk_key}`)
+
+                    } else
+                    {
+                        swal_error(resp['message'])
+                    }
+                    cl(resp)
+                    //ct(resp)
+                }
+            })
+
+            //ct(data)
+
+        } else
+        {
+            Swal.fire({
+                icon:'error',
+                text:"Full name should be at least 5 characters"
+
+            });
+        }
+    }
 
 
 }

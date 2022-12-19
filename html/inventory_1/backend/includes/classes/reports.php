@@ -58,7 +58,7 @@ class reports extends \db_handeer\db_handler
         if($this->row_count('mech_setup',"`mech_no` = '$mech_no'") === 1)
         {
 
-            if($this->row_count('shifts',"`shift_date` = '$day' AND `end_time` = NULL and `mech_no` = '$mech_no'") === 1){
+            if($this->row_count('shifts',"`shift_date` = '$day' AND `end_time` is null and `mech_no` = '$mech_no'") === 1){
                 //todo:: print z report
                 $this   ->db_connect()->exec("UPDATE shifts set end_time = CURTIME() where mech_no = '$mech_no' and shift_date = '$day' ");
                 $this->response['code'] = 202;
@@ -66,7 +66,7 @@ class reports extends \db_handeer\db_handler
             } else
             {
                 $this->response['code'] = 404;
-                $this->response['message'] = "No active shift for machine" . $this->row_count('shifts',"`shift_date` = '$day' AND `end_time` = NULL and `mech_no` = '$mech_no'");
+                $this->response['message'] = "No active shift for machine" . $this->row_count('shifts',"`shift_date` = '$day' AND `end_time` is null and `mech_no` = '$mech_no'");
             }
 
 

@@ -14,16 +14,13 @@
                         <header class="inside_card_header pl-3 p-1 pr-1 d-flex flex-wrap align-content-center">
 
                             <!-- EXIT -->
-                            <button onclick="set_session(['sub_module=home'])" title="Exit" type="button" class="btn p-0">
-                                <img
-                                    src="assets/icons/home/exit.png"
-                                    class="img-fluid"
-                                >
+                            <button onclick="set_session(['sub_module=system'])" title="Exit" type="button" class="btn p-0 text-primary">
+                                <i class="fa fa-home"></i>
                             </button>
 
                             <?php if($action === 'view'): ?>
 
-                                <button onclick="set_session(['sub_module=new_user'])" id="new_property" title="New" type="button" class="btn p-0">
+                                <button onclick="set_session(['action=new_user'])" id="new_property" title="New" type="button" class="btn p-0">
                                     <img
                                         src="../../assets/icons/home/new_property.png"
                                         class="img-fluid"
@@ -78,6 +75,12 @@
                                 </button>
 
 
+                            <?php endif; ?>
+
+                            <?php if($action === 'new_user'): ?>
+                                <button  id="save_user" title="Save" type="button" class="btn text-success p-0">
+                                    <i class="fa fa-save"></i>
+                                </button>
                             <?php endif; ?>
 
 
@@ -165,6 +168,53 @@
                                         </div>
                                         <div class="w-50 pl-2">
                                             <button onclick="windowPopUp('/backend/includes/parts/add-ons/user-permissions.php','User Permissions',1024,678)" class="btn btn-danger rounded-0">PERMISSIONS</button>
+                                        </div>
+
+                                    </div>
+                                <?php endif; ?>
+
+                                <?php if($action === 'new_user'): ?>
+                                    <div class="h-50 w-100 p-2 mt-2 d-flex flex-wrap">
+                                        <div class="w-50 pr-2">
+
+
+                                            <!-- DESC -->
+                                            <div class="prod_inp_container d-flex flex-wrap">
+                                                <div class="inp_text d-flex flex-wrap align-content-center">
+                                                    <p class="m-0 p-0 text-elipse">Full Name</p>
+                                                </div>
+                                                <input type="text" autocomplete="off"  required name="clerk_full_name" id="clerk_full_name" class="prod_inp">
+                                            </div>
+
+                                            <div class="prod_inp_container d-flex flex-wrap">
+                                                <div class="inp_text d-flex flex-wrap align-content-center">
+                                                    <p class="m-0 p-0 text-elipse">Code</p>
+                                                </div>
+                                                <input type="text" autocomplete="off" readonly value="Auto Generated"  required name="clerk_code" id="clerk_code" class="prod_inp">
+                                            </div>
+
+                                            <div class="prod_inp_container d-flex flex-wrap">
+                                                <div class="inp_text d-flex flex-wrap align-content-center">
+                                                    <p class="m-0 p-0 text-elipse">Key</p>
+                                                </div>
+                                                <input type="text" autocomplete="off" readonly value="Auto Generated"  required name="clerk_key" id="clerk_key" class="prod_inp">
+                                            </div>
+
+                                            <div class="prod_inp_container d-flex flex-wrap">
+                                                <div class="inp_text d-flex flex-wrap align-content-center">
+                                                    <p class="m-0 p-0 text-elipse">Group</p>
+                                                </div>
+                                                <select name="user_grp" id="user_grp" class="prod_inp">
+                                                    <?php
+                                                    $groups = $db->db_connect()->query("SELECT * FROM user_group");
+                                                    while ($grp = $groups->fetch(PDO::FETCH_ASSOC)):
+                                                        ?>
+                                                        <option value="<?php echo $grp['id'] ?>"><?php echo $grp['descr'] ?></option>
+
+                                                    <?php endwhile; ?>
+                                                </select>
+                                            </div>
+
                                         </div>
 
                                     </div>

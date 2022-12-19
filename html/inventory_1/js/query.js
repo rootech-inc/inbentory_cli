@@ -5,7 +5,7 @@ function row_count(table,condition = 'none') {
         'condition':condition
     }
 
-    echo("SELECT * FROM "+table+" WHERE "+condition)
+    //echo("SELECT * FROM "+table+" WHERE "+condition)
 
     var result = 0;
 
@@ -42,7 +42,7 @@ function exec(query = 'none')
             {
                 url: '/backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
                     cl(`###QUERY EXECUTE : ${query}`)
-                    echo(respose)
+                    //echo(respose)
                 }
             }
         );
@@ -69,7 +69,7 @@ function get_row(table,condition) {
             success: function (response)
             {
                 result = response;
-                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
+                //echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
 
             }
         }
@@ -117,7 +117,7 @@ function insert(table,data) {
         }
 
         let query = "INSERT INTO "+ table + " (" + columns + ") values ("+values+")";
-        echo(query)
+        //echo(query)
 
         // prepare ajax submission
         var form_data = {
@@ -137,7 +137,7 @@ function insert(table,data) {
                 success: function (response)
                 {
                     result = response;
-                    echo(result)
+                    //echo(result)
 
 
                 }
@@ -147,14 +147,14 @@ function insert(table,data) {
         return result;
 
 
-        //echo(values)
+        ////echo(values)
     }
 
 
 
 
 
-    //echo("INSERT INTO " + table + " (" + col +") values ("+data+")")
+    ////echo("INSERT INTO " + table + " (" + col +") values ("+data+")")
 }
 
 // get user details

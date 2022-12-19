@@ -537,6 +537,22 @@ class db_handler
     }
 
 
+    function shift(): bool
+    {
+        $mech = mech_no;
+        $day = today;
+        if($this->row_count('shifts',"`mech_no` = '$mech' AND `shift_date` = '$day' AND `end_time` = NULL ") === 1)
+        {
+            // there is shift
+            return true;
+        } else {
+            // no shift
+            return false;
+        }
+
+    }
+
+    
 
 
 

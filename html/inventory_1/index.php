@@ -381,7 +381,11 @@ error_reporting(E_ALL);
     </div>
 
 
-    <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){  ?>
+    <?php if(isset($_SESSION['cli_login']) && $_SESSION['cli_login'] === 'true'){
+        echo "
+            <input type='hidden' id='mech_no' value='$machine_number'>
+        ";
+        ?>
         <main onclick="hideKboard()" class="p-0 mx-auto ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php

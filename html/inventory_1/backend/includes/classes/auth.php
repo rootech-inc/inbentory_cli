@@ -63,6 +63,28 @@ class auth extends db_handler
         return $this->response;
     }
 
+    public function newUser(string $full_name,$grp): array
+    {
+        $clerk_code = $this->uniqieStr('clerk','clerk_code','4');
+        $clerk_key_str = rand(1111,9999);
+        $clerk_key_md5 = md5($clerk_key_str);
+
+        try {
+            $sql = "INSERT INTO clerk (clerk_code, clerk_key, clerk_name, user_grp) values 
+                    ('$clerk_code','$clerk_key_md5','$full_name','$grp')" ;
+            $stmt = $this->db_connect()->prepare($sql);
+            $stmt->execute();
+            $this->response['code'] = 202;
+            $this->response['message'] = ['clerk_code'=>$clerk_code,'clerk_key'=>$clerk_key_str];
+
+        } catch (PDOException $e){
+            $this->response['code'] = '505'; $this->response['message'] = $e->getMessage();
+        }
+
+        return $this->response;
+
+    }
+
 }
 
 $auth = new auth();

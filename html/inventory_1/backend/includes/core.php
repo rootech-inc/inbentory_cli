@@ -26,6 +26,7 @@ ini_set('display_errors',1);
     require 'classes/Billing.php';
     require 'classes/reports.php';
     require  'classes/auth.php';
+    require 'classes/shift.php';
     $bill = new \billing\Billing();
 
     $anton = new anton();
@@ -43,6 +44,8 @@ ini_set('display_errors',1);
     define('doc_root',$_SERVER['DOCUMENT_ROOT']);
     $machine_number = mech_no;
     $root_host = $_SERVER['DOCUMENT_ROOT'];
+    $shift = $db->shift(mech_no);
+    define('shift',$shift);
 
 
 
@@ -54,6 +57,9 @@ ini_set('display_errors',1);
         $clerk_id = $anton->get_session('clerk_id');
         $my = $db->get_rows('clerk',"`id` = '$clerk_id'");
         $myName = $my['clerk_name'];
+
+        define('clerk_code',$my['clerk_code']);
+        define('clerk_name',$my['clerk_name']);
 
         if(!isset($_SESSION['action']))
         {
@@ -72,6 +78,9 @@ ini_set('display_errors',1);
         define('bill_no',$bill_number);
         $response = ['status' => 000,'message'=>'null'];
         $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
+
+        // html header
+
 
 
 

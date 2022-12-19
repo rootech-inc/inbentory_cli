@@ -94,9 +94,58 @@ $(document).ready(function() {
 });
 
 $(document).ready(function (){
+
     $('#z_report').click(function (){
+        // take z report
         reports.zReport()
     });
+
+    $('#billing').click(function (){
+        // open billing screen
+        let mech_no = $('#mech_no').val()
+        let shift_cond = `mech_no = '${mech_no}' AND shift_date = '${toDay}' AND end_time is null `;
+        if(row_count('shifts',shift_cond) === 1)
+        {
+            // there is shift
+            set_session(['module=billing'])
+            location.reload();
+        } else
+        {
+            // no shift
+            al("Please Start Shift")
+            cl(row_count('shifts',shift_cond))
+        }
+    });
+
+    $('#start_shift').click(function (){
+        // start shift
+        Swal.fire({
+
+            icon: 'info',
+            title: 'START SHIFT',
+            text:`Are you sure you want to start shift for machine number ${$('#mech_no').val()}`,
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'YES',
+            denyButtonText:'NO',
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                sys.StartShift()
+            } else if (result.isDenied) {
+                Swal.fire({
+                    text:"Shift Not Started"
+                })
+            }
+        })
+    });
+
+    // save new user
+    $('#save_user').click(function (){
+        User.SaveNewClerk()
+    });
+
 })
 
 // EOD
+
