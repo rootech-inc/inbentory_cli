@@ -14,47 +14,29 @@
                         <header class="inside_card_header pl-3 p-1 pr-1 d-flex flex-wrap align-content-center">
 
                             <!-- EXIT -->
-                            <button onclick="set_session(['sub_module=home'])" title="Exit" type="button" class="btn p-0">
-                                <img
-                                    src="assets/icons/home/exit.png"
-                                    class="img-fluid"
-                                >
+                            <button onclick="set_session(['sub_module=system'])" title="Exit" type="button" class="btn p-0 text-primary">
+                                <i class="fa fa-home"></i>
                             </button>
 
                             <button onclick="User.CreateGroup()" id="new_property" title="New" type="button" class="btn p-0">
-                                <img
-                                    src="../../assets/icons/home/new_property.png"
-                                    class="img-fluid"
-                                >
+                                <i class="fa fa-plus-circle text-info"></i>
                             </button>
 
-                            <button id="delete_property" onclick="delete_item('product_category',12)" title="Delete" type="button" class="btn p-0">
-                                <img
-                                    src="../../assets/icons/home/delete_document.png"
-                                    class="img-fluid"
-                                >
+                            <button id="delete_property"  title="Delete" type="button" class="btn p-0">
+                                <i class="fa fa-recycle text-danger"></i>
                             </button>
 
-                            <button id="edit_property" onclick="edit_item('product_group',$('#code').text())" title="Edit" type="button" class="btn p-0">
-                                <img
-                                    src="../../assets/icons/home/edit_property.png"
-                                    class="img-fluid"
-                                >
+                            <button id="edit_property"   title="Edit" type="button" class="btn p-0">
+                                <i class="fa fa-edit text-warning"></i>
                             </button>
 
 
-                            <button id="sort_left" value="<?php echo $last ?>" onclick="item_sort('product_category','left',$('#code').text())" title="Sort Left" type="button" class="btn p-0">
-                                <img
-                                    src="../../assets/icons/home/sort_left.png"
-                                    class="img-fluid"
-                                >
+                            <button id="sort_left"  title="Sort Left" type="button" class="btn p-0">
+                                <i class="fa fa-arrow-left text-info"></i>
                             </button>
 
-                            <button id="sort_right" value="<?php echo $last ?>" onclick="item_sort('product_category','right',this.value)" title="Sort Right" type="button" class="btn p-0">
-                                <img
-                                    src="../../assets/icons/home/sort_right.png"
-                                    class="img-fluid"
-                                >
+                            <button id="sort_right"  title="Sort Right" type="button" class="btn p-0">
+                                <i class="fa fa-arrow-right text-info"></i>
                             </button>
 
 

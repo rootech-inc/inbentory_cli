@@ -178,23 +178,52 @@ class anton extends FPDF
 
     }
 
-    public function percentage($rate,$vale)
+    public function percentage($rate,$vale): float|int
     {
         return ($rate/100) * $vale;
     }
 
     // calculate for tax
-    public function tax($rate, $amount)
+    public function tax($rate, $amount): array
     {
-        return $rate / 100 * $amount;
+        $tax_component = [
+            'code'=>'none',
+            'details'=>''
+        ];
 
-        // calculate levy
+        if($rate === 99){
+            $tax_component['code'] = 'gra';
 
-        // ad levy to retail
+            // calculate levy
+            $nhis = 2.5 / 100 * $amount;
+            $getfund = 2.5 / 100 * $amount;
+            $covid = 1 / 100 * $amount;
 
-        //cal vat
+            // ad levy to retail
+            $new_amount = $amount + $nhis + $getfund + $covid;
 
-        //return new result
+            //cal vat
+            $vat = 12.5 / 100 * $new_amount;
+
+            //return new result
+            $tax_amt = $amount + $vat;
+            $tax_component['details'] = [
+                'nhis'=>$nhis,'getfund'=>$getfund,'covid'=>$covid,'vat'=>$vat,'taxAmt'=>$tax_amt
+            ];
+
+        } else {
+            $tax_component['code'] = 'flat';
+
+            $tax_amt = $rate / 100 * $amount;
+            $tax_component['details'] = [
+                'rate'=>$rate,'taxableAmt'=>$amount
+            ];
+        }
+        return $tax_component;
+
+
+
+
     }
 
 

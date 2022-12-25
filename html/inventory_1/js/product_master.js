@@ -488,18 +488,37 @@ function retailWithoutTax()
     if(tax_rate !== 'null')
     {
         // calculate oercentage
-
-        let tax_value = percentage(tax_rate,val)
-        let retail_with_no_tax = parseFloat(val) - parseFloat(tax_value)
-        // echo(retail_with_no_tax)
-        echo(`rate ${tax_rate}`)
-        if(isNaN(retail_with_no_tax))
-        {
-            $('#retail_without_tax').val(0.00)
-        } else
-        {
-            $('#retail_without_tax').val(retail_with_no_tax)
+        let form_data = {
+            'function':'get_tax_val',
+            'rate':tax_rate,
+            'amount':val
         }
+
+        $.ajax({
+            url:'/backend/process/form-processing/sys.php',
+            data:form_data,
+            type:'POST',
+            success: function (response) {
+                cl("NEW TAX VAL")
+                ct(response)
+                cl('NEW TAX VALUE')
+
+                $('#retail_without_tax').val(response)
+
+            }
+        });
+
+        // let tax_value = percentage(tax_rate,val)
+        // let retail_with_no_tax = parseFloat(val) - parseFloat(tax_value)
+        // // echo(retail_with_no_tax)
+        // echo(`rate ${tax_rate}`)
+        // if(isNaN(retail_with_no_tax))
+        // {
+        //     $('#retail_without_tax').val(0.00)
+        // } else
+        // {
+        //     $('#retail_without_tax').val(retail_with_no_tax)
+        // }
 
     }
 }

@@ -376,7 +376,7 @@ class UserConfig {
 
     }
 
-    LoadGroupsScreen(){
+    LoadGroupsScreen(target = 0){
         if(row_count('user_group','none') > 0)
         {
             // fetch last group
