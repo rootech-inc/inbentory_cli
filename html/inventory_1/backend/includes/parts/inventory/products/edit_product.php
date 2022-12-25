@@ -196,6 +196,7 @@
 
                                 <option value='$tax_id'>$rate%  $description</option>
                             </select>
+                            <div id="tax_descr" class="ml-2 text-dark">Hello World</div>
                         </div>
 
                         <!--COST PRICE-->

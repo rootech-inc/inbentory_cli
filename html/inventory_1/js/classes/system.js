@@ -288,6 +288,55 @@ class TaxMaster{
         })
 
     }
+
+    getTax(attr,val=0){
+        let tax, tax_rate
+        tax = JSON.parse(get_row('tax_master',`attr = '${attr}'`))[0]
+        tax_rate = tax.rate
+        let tax_desc = tax.description
+        $('#tax_descr').text(tax_desc)
+
+        ct(tax_rate)
+        var result = 0;
+
+        if(tax_rate !== 'null')
+        {
+            // calculate oercentage
+            let form_data = {
+                'function':'get_tax_val',
+                'rate':tax_rate,
+                'amount':val
+            }
+
+            $.ajax({
+                url:'/backend/process/form-processing/sys.php',
+                data:form_data,
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                success: function (response) {
+                    let r = JSON.parse(response)
+                    let details = r['details']
+                    let code = r['code']
+                    let withoutTax = details['withoutTax']
+
+                    result = r;
+
+                    $('#retail_without_tax').val(withoutTax)
+
+                }
+            });
+
+
+        }
+        return result;
+    }
+
+    alTax()
+    {
+        alert('TAX CLASS LOADED')
+    }
 }
 
 class UserConfig {
@@ -700,6 +749,8 @@ class UserConfig {
             });
         }
     }
+
+
 
 
 }

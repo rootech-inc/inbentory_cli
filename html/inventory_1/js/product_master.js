@@ -170,12 +170,15 @@ function loadProduct(prod_id,action='view')
             let rate = all_tax[i].rate + '% ';
             let id = all_tax[i].id;
             let desc = all_tax[i].description;
+            let tax_code = all_tax[i].attr
+
 
             // append option
             if (id == prod_result.tax) {
-                tax_row += "<option selected value='" + id + "'>" + rate + desc + "</option>";
+                tax_row += `<option selected value="${id}">${tax_code}</option>`
+                $('#tax_descr').text(desc)
             } else {
-                tax_row += "<option value='" + id + "'>"+ rate + desc + "</option>";
+                tax_row += `<option value="${id}">${tax_code}</option>`
             }
         }
         $('#tax').html(tax_row)
@@ -319,7 +322,12 @@ function loadProduct(prod_id,action='view')
 
         // get tax details
         var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
-        $('#tax_rate').text(tax.rate.toString() + "%")
+        let taxx = taxMaster.getTax(tax.attr,prod_result.retail);
+        let tax_code, tax_detail
+        tax_code = taxx['code']
+        tax_detail = taxx['details']
+
+        $('#tax_rate').text(tax_code)
         $('#tax_desc').html(tax.description)
         $('#cost_price').text(prod_result.cost)
         let retail_price = prod_result.retail;
@@ -328,7 +336,7 @@ function loadProduct(prod_id,action='view')
 
         let tax_value = percentage(tax.rate, retail_price)
 
-        $('#retail_price_without_tax').text(parseFloat(retail_price) - parseFloat(tax_value))
+        $('#retail_price_without_tax').text(tax_detail['withoutTax'])
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -476,12 +484,15 @@ function newProductTaxCalculate(val)
 function retailWithoutTax()
 {
 
-    let tax_rate,tax_id,val;
+    let tax_rate,tax_id,val,tax;
     val = $('#retail_with_tax').val()
 
     tax_id = $('#tax').val();
 
-    tax_rate = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0].rate
+    tax = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0]
+    tax_rate = tax.rate
+    let tax_desc = tax.description
+    $('#tax_descr').text(tax_desc)
 
     ct(tax_rate)
 
@@ -499,26 +510,20 @@ function retailWithoutTax()
             data:form_data,
             type:'POST',
             success: function (response) {
+                let r = JSON.parse(response)
+                let details = r['details']
+                let code = r['code']
+                let withoutTax = details['withoutTax']
+
                 cl("NEW TAX VAL")
-                ct(response)
+                ct(details)
                 cl('NEW TAX VALUE')
 
-                $('#retail_without_tax').val(response)
+                $('#retail_without_tax').val(withoutTax)
 
             }
         });
 
-        // let tax_value = percentage(tax_rate,val)
-        // let retail_with_no_tax = parseFloat(val) - parseFloat(tax_value)
-        // // echo(retail_with_no_tax)
-        // echo(`rate ${tax_rate}`)
-        // if(isNaN(retail_with_no_tax))
-        // {
-        //     $('#retail_without_tax').val(0.00)
-        // } else
-        // {
-        //     $('#retail_without_tax').val(retail_with_no_tax)
-        // }
 
     }
 }

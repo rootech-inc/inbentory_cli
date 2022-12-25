@@ -33,6 +33,9 @@ const jqh = new J_query_supplies();
 const db = new Db_trans();
 const sys = new System()
 const taxMaster = new TaxMaster()
+alert("HELLO WORLD")
+taxMaster.alTax()
+
 const pCategory = new ProductCategory()
 const prod_master = new ProductCategory()
 const User = new UserConfig()

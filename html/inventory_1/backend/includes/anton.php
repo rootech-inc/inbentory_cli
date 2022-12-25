@@ -178,7 +178,7 @@ class anton extends FPDF
 
     }
 
-    public function percentage($rate,$vale): float|int
+    public function percentage($rate,$vale): float
     {
         return ($rate/100) * $vale;
     }
@@ -191,24 +191,32 @@ class anton extends FPDF
             'details'=>''
         ];
 
-        if($rate === 99){
+        if($rate == 99){
             $tax_component['code'] = 'gra';
 
             // calculate levy
-            $nhis = 2.5 / 100 * $amount;
-            $getfund = 2.5 / 100 * $amount;
-            $covid = 1 / 100 * $amount;
+            $nhis = number_format(2.5 / 100 * $amount,2);
+            $getfund = number_format(2.5 / 100 * $amount,2);
+            $covid = number_format(1 / 100 * $amount,2);
 
             // ad levy to retail
-            $new_amount = $amount + $nhis + $getfund + $covid;
+            $new_amount = number_format($amount + $nhis + $getfund + $covid,2);
 
             //cal vat
-            $vat = 12.5 / 100 * $new_amount;
+            $vat = number_format(12.5 / 100 * $new_amount,2);
 
             //return new result
-            $tax_amt = $amount + $vat;
+            $tax_amt = number_format($vat,2);
+
             $tax_component['details'] = [
-                'nhis'=>$nhis,'getfund'=>$getfund,'covid'=>$covid,'vat'=>$vat,'taxAmt'=>$tax_amt
+                'nhis'=>$nhis,
+                'getfund'=>$getfund,
+                'covid'=>$covid,
+                'taxableAmt'=>$amount,
+                'taxableAmoutWithLevies'=>$new_amount,
+                'vat'=>$vat,
+                'taxAmt'=>$tax_amt,
+                'withoutTax'=>number_format($amount - $tax_amt,2)
             ];
 
         } else {
@@ -216,7 +224,10 @@ class anton extends FPDF
 
             $tax_amt = $rate / 100 * $amount;
             $tax_component['details'] = [
-                'rate'=>$rate,'taxableAmt'=>$amount
+                'rate'=>$rate,
+                'taxableAmt'=>$amount,
+                'taxAmt'=>$tax_amt,
+                'withoutTax'=>number_format($amount - $tax_amt,2)
             ];
         }
         return $tax_component;

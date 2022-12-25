@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             $rate = $anton->post('rate');
             $amount = $anton->post('amount');
             $tax = $anton->tax($rate,$amount);
-            echo $tax;
+            echo json_encode($tax);
         }
 
     }
