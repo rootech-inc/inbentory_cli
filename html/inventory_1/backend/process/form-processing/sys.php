@@ -21,9 +21,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         }
         elseif ($function === 'get_tax_val'){
             // tax calc
-            $rate = $anton->post('rate');
+            $tax_code = $anton->post('tax_code');
             $amount = $anton->post('amount');
-            $tax = $anton->tax($rate,$amount);
+            $tax = $anton->tax($tax_code,$amount);
             echo json_encode($tax);
         }
 

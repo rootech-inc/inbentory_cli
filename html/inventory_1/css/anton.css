@@ -107,9 +107,10 @@ body{
 
 main{
     /*position: relative;*/
-    height: 768px !important;
+    height: 657px !important;
     width: 1024px !important;
     overflow: hidden !important;
+    /*background: #2a4077;*/
     /*z-index: 9998 !important;*/
 }
 
@@ -177,8 +178,8 @@ main{
     border: 4px solid #092f09 !important;
 }
 
-.billing-header{width: 100%;height: 100px;}
-.bill-body{width: 100%;height: 668px;background-color: #18191D;}
+.billing-header{width: 100%;height: 70px;}
+.bill-body{width: 100%;height: 587px;background-color: #18191D;}
 .time{color: #537DEB;font-size: 35px;}
 .date{color: #05813F;font-size: 15px;font-weight: bold;}
 .company_name{font-size: 25px;}
@@ -235,10 +236,10 @@ main{
 .item_scroll{background-color: #4062b6; color: #FFFFFF; font-size: 12px;}
 .item_scroll:hover{background-color: #2a4077; color: #FFFFFF; font-size: 12px;}
 .cart_display{height: 50%; width: 100%; background-color: #232428; color: #FFFFFF; overflow: auto;}
-.cart_message{height: 10%; width: 100% !important;background-color: #303136;}
+.cart_message{height: 5%; width: 100% !important;background-color: #303136;}
 .border-dotted{border-bottom:1px dotted #dee2e6!important;}
-.bill_main_input{height: 40px; width: 75%;background-color: #B4B5B8; color: #303136; font-size: 25px; overflow: hidden !important}
-.card_functions{height: 40%; width: 100%; background-color: #303136;}
+.bill_main_input{height: 54px; width: 75%;background-color: #B4B5B8; color: #303136; font-size: 25px; overflow: hidden !important}
+.card_functions{height: 45%; width: 100%; background-color: #303136;}
 .bill_func_main_btn{height: 55px; width: 32%; background-color: #020204; color: #FFFFFF; font-size: 25px;text-align: center;font-weight: bold;}
 .bill_func_sub_btn{height: 50px; width: 32%; font-size: 15px;text-align: center;font-weight: bold;}
 
@@ -535,9 +536,9 @@ input
   /* H */
 
   .vh-100{height: 100vh !important;}
-  .h-80{height: 80%!important;}
-  .h-10{height: 10%;}
-  .h-90{height: 90% !important;}
+  .h-80{height: 80%!important;}.h-85{height: 85% !important}
+  .h-10{height: 10%;}.h-15{height: 15% !important}
+  .h-90{height: 90% !important;}.h-95{height: 95% !important}
   .h-20{height: 20%;}
   .h-45{height: 45% !important}
   .h-30{height: 30% !important}

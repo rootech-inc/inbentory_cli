@@ -290,13 +290,13 @@ class TaxMaster{
     }
 
     getTax(attr,val=0){
-        let tax, tax_rate
-        tax = JSON.parse(get_row('tax_master',`attr = '${attr}'`))[0]
-        tax_rate = tax.rate
-        let tax_desc = tax.description
-        $('#tax_descr').text(tax_desc)
+        let tax; let tax_rate;
+        tax = JSON.parse(get_row('tax_master',`attr = '${attr}'`))[0];
+        tax_rate = tax.rate;
+        let tax_desc = tax.description;
+        $('#tax_descr').text(tax_desc);
 
-        ct(tax_rate)
+        ct(attr);
         var result = 0;
 
         if(tax_rate !== 'null')
@@ -304,14 +304,14 @@ class TaxMaster{
             // calculate oercentage
             let form_data = {
                 'function':'get_tax_val',
-                'rate':tax_rate,
+                'tax_code':attr,
                 'amount':val
             }
 
             $.ajax({
                 url:'/backend/process/form-processing/sys.php',
                 data:form_data,
-                'async': false,
+                "async": false,
                 'type': "POST",
                 'global': false,
                 'dataType': 'html',
@@ -320,6 +320,8 @@ class TaxMaster{
                     let details = r['details']
                     let code = r['code']
                     let withoutTax = details['withoutTax']
+
+                    ct(r)
 
                     result = r;
 

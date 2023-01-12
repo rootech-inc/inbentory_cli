@@ -184,53 +184,66 @@ class anton extends FPDF
     }
 
     // calculate for tax
-    public function tax($rate, $amount): array
+    public function tax($tax_code, $amount): array
     {
-        $tax_component = [
-            'code'=>'none',
-            'details'=>''
-        ];
+        $tax_compo = array(
+            "status"=>404,
+            "header"=>array(
+                "id"=>'',
+                "code"=>'',
+                "type"=>''
+            ),
+            "details"=>array(
+                "taxableAmount"=>0.00,
+                "taxAmount"=>0.00,
+                "withoutTax"=>0.00
+            ),
+        );
 
-        if($rate == 99){
-            $tax_component['code'] = 'gra';
+        if((new \db_handeer\db_handler())->row_count('tax_master',"`attr` = '$tax_code'") === 1)
+        {
+            // component found
+            $tax_detail = (new \db_handeer\db_handler())->get_rows('tax_master',"`attr` = '$tax_code'");
+            $tax_compo['status'] = 200;
+            $tax_compo['header']['id'] = $tax_detail['id'];
+            $tax_compo['header']['code'] = $tax_detail['attr'];
+            $tax_compo['header']['type'] = $tax_detail['type'];
+            $rate = $tax_detail['rate'];
 
-            // calculate levy
-            $nhis = number_format(2.5 / 100 * $amount,2);
-            $getfund = number_format(2.5 / 100 * $amount,2);
-            $covid = number_format(1 / 100 * $amount,2);
+            if($tax_detail === 'VM')
+            {
 
-            // ad levy to retail
-            $new_amount = number_format($amount + $nhis + $getfund + $covid,2);
+                // calculate levy
+                $nhis = number_format(2.5 / 100 * $amount,2);
+                $getfund = number_format(2.5 / 100 * $amount,2);
+                $covid = number_format(1 / 100 * $amount,2);
 
-            //cal vat
-            $vat = number_format(12.5 / 100 * $new_amount,2);
+                // ad levy to retail
+                $new_amount = number_format($amount + $nhis + $getfund + $covid,2);
 
-            //return new result
-            $tax_amt = number_format($vat,2);
+                //cal vat
+                $taxAmt = number_format(12.5 / 100 * $new_amount,2);
+                $taxableAmount = $amount - $taxAmt;
 
-            $tax_component['details'] = [
-                'nhis'=>$nhis,
-                'getfund'=>$getfund,
-                'covid'=>$covid,
-                'taxableAmt'=>$amount,
-                'taxableAmoutWithLevies'=>$new_amount,
-                'vat'=>$vat,
-                'taxAmt'=>$tax_amt,
-                'withoutTax'=>number_format($amount - $tax_amt,2)
-            ];
+            }
+            else
+            {
+                // flat rate
+
+                $taxAmt = $rate / 100 * $amount;
+                $taxableAmount = $amount - $taxAmt;
+
+            }
+            $tax_compo['details']['taxableAmount'] = number_format($taxableAmount,2);
+            $tax_compo['details']['taxAmount'] = number_format($taxAmt,2);
+            $tax_compo['details']['AmountWithTax'] = number_format($amount ,2);
 
         } else {
-            $tax_component['code'] = 'flat';
 
-            $tax_amt = $rate / 100 * $amount;
-            $tax_component['details'] = [
-                'rate'=>$rate,
-                'taxableAmt'=>$amount,
-                'taxAmt'=>$tax_amt,
-                'withoutTax'=>number_format($amount - $tax_amt,2)
-            ];
+            // no certain component
         }
-        return $tax_component;
+
+        return $tax_compo;
 
 
 

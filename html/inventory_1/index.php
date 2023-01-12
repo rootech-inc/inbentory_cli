@@ -450,7 +450,7 @@ error_reporting(E_ALL);
                                             <input id="clerk_code" name="clerk_code" autofocus autocomplete="off" type="text" placeholder="User ID" class="form-control form-control-sm rounded-0">
                                         </div>
                                         <div class="input-group mb-2">
-                                            <input type="text" autocomplete="off" id="clerk_password" name="clerk_key" placeholder="Password" class="form-control form-control-sm rounded-0">
+                                            <input type="password" autocomplete="off" id="clerk_password" name="clerk_key" placeholder="Password" class="form-control form-control-sm rounded-0">
                                         </div>
 
                                         <div class="input-group">

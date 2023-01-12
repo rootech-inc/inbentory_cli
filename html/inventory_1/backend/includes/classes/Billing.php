@@ -53,14 +53,18 @@ class Billing
         $taxDetails = (new \db_handeer\db_handler())->get_rows('tax_master',"`id` = '$tax_group'");
         $rate = $taxDetails['rate'];
         $tax_description =$taxDetails['description'];
-        if($taxDetails['rate'] < 1)
+        $tax_code = $taxDetails['attr'];
+        if($taxDetails['attr'] === 'V0')
         {
             $taxAmount = 0.00;
         }
-        else
+        elseif ($taxDetails['attr'] === 'VM')
         {
             // calculate for tax
-            $taxAmount = (new \anton)->tax($rate,$bill_amt);
+            $tax = (new \anton())->tax($rate,$bill_amt,$tax_code);
+            $taxAmount = $tax['details']['taxAmt'];
+
+//            $taxAmount = (new \anton)->tax($rate,$bill_amt);
         }
 
 

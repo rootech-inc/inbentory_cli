@@ -35,20 +35,20 @@
 
         </header>
 
-        <div class="bill-body border container-fluid p-0">
+        <div class="bill-body border p-0">
 
             <div class="row no-gutters h-100">
                 <!-- Items -->
-                <div class="col-sm-7 pr-1 d-flex flex-wrap align-content-between h-100">
+                <div class="col-sm-7 pr-1 h-100">
                     <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-start pl-3">
                         <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">
                             EXIT
                         </button>
                     </div>
 
-                    <div class="bill-item-body border d-flex flex-wrap align-content-start justify-content-between">
+                    <div class="bill-item-body p-1 border d-flex flex-wrap align-content-start justify-content-between">
                         <!-- category-->
-                        <div class="w-25 h-100 border">
+                        <div class="w-25 p-1 h-100 border">
                             <!--Scroll Up-->
                             <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
                                 <button onclick="custom_scroll('category','up')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
@@ -125,7 +125,10 @@
 
 
                     <div class="bill-item-header">
-                        <div class="d-flex h-100 flex-wrap align-content-center justify-content-between">
+                        <div class="container-fluid h-100">
+                            <div class="row w-100 h-100 no-gutters">
+                                <div class="col-sm-10 h-100">
+                                    <div class="d-flex h-100 flex-wrap align-content-center justify-content-between">
                             <!--Sn-->
                             <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1 border">
                                 <strong>SN</strong>
@@ -146,10 +149,14 @@
                                 <strong>Cost</strong>
                             </div>
                         </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
                     <div class="bill-item-body border">
+
                         <!--CART-->
                         <div class="cart_display">
 
@@ -170,13 +177,13 @@
                         <!--CART MESSAGE -->
                         <div class="cart_message w-100 px-2">
                             <div id="process_mesage" class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
-                                
+
                             </div>
                         </div>
 
                         <!--Functions-->
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
-                            <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group h-25 overflow-hidden">
+                            <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group bg-danger h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
 
                                 <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
@@ -185,18 +192,12 @@
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>
                                     </span>
                                 </div>
-                                <div style="display: " class="input-group-append w-15 dropdown bill_main_input p-0">
-                                    <span class="input-group-text w-100 rounded-0 text-dark p-0">
-                                        <button id="kboard" onclick="backSpace()" type="button" class="btn h-100 rounded-0 w-100 fa fa-backspace"></button>
-                                    </span>
-                                </div>
+
                             </form>
                             <!-- TODO make barcode scanning with code -->
 
 
-
-
-                            <div class="w-100 h-75 pt-1 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
+                            <div class="w-100 pt-1 h-80 d-flex flex-wrap justify-content-between align-content-start overflow-hidden">
                                 <!-- BUTTONS -->
                                 <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
 
@@ -235,14 +236,15 @@
                                     </button>
                                 </div>
                                 <!-- MORE FUNCTIONS -->
-                                <div class="w-15 h-100 d-flex flex-wrap justify-content-between align-content-between">
-                                    <button type="button" class="bill_func_sub_btn btn-outline-dark h-30 w-100 btn-sm" onclick="sys.OnKeyboard()" ><i class="fa fa-keyboard"></i></button>
+                                <div class="w-15 h-100 py-1 d-flex flex-wrap justify-content-between align-content-between">
+<!--                                    <button type="button" class="bill_func_sub_btn btn-outline-dark h-30 w-100 btn-sm" onclick="sys.OnKeyboard()" ><i class="fa fa-keyboard"></i></button>-->
                                     <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-arrow-up"></i></button>
                                     <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-arrow-down"></i></button>
                                 </div>
                             </div>
 
                         </div>
+
 
                     </div>
                 </div>

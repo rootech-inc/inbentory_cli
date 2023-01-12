@@ -193,16 +193,21 @@ function loadProduct(prod_id,action='view')
 
         // get tax details
         var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
+        // cl('#####TAX')
+        // ct(tax)
+        // cl('#####TAX')
         $('#tax_rate').text(tax.rate.toString() + "%")
-        $('#tax_desc').html(tax.description)
+        $('#tax_descr').html(tax.description)
         $('#cost_price').val(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_with_tax').val(retail_price)
 
 
-        let tax_value = percentage(tax.rate, retail_price)
+        let tax_details = taxMaster.getTax(tax['attr'],prod_result.retail)['details'];
+        let taxableAmt = tax_details['taxableAmt'];
 
-        $('#retail_without_tax').val(parseFloat(retail_price) - parseFloat(tax_value))
+
+        $('#retail_without_tax').val(taxableAmt)
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -328,13 +333,11 @@ function loadProduct(prod_id,action='view')
         tax_detail = taxx['details']
 
         $('#tax_rate').text(tax_code)
-        $('#tax_desc').html(tax.description)
+        $('#tax_descr').html(tax.description)
         $('#cost_price').text(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_price').text(retail_price)
 
-
-        let tax_value = percentage(tax.rate, retail_price)
 
         $('#retail_price_without_tax').text(tax_detail['withoutTax'])
 
