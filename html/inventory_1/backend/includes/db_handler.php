@@ -211,10 +211,16 @@ class db_handler
 
     public function sum($table,$column,$condition,$as = 'result')
     {
+        $q = "SELECT SUM($column) as $as FROM `$table` WHERE $condition";
+
         $sql = $this->db_connect()->query("SELECT SUM($column) as $as FROM `$table` WHERE $condition");
+
         $stmt = $sql->fetch(PDO::FETCH_ASSOC);
+
         return $stmt["$as"];
     }
+
+
 
 
     public function uniqieStr(string $table, string $column, int $length)

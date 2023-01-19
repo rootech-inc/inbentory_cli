@@ -237,7 +237,7 @@
             elseif ($function === 'get_bill') // get bill v2
             {
                 $response = ['status'=>404,'message'=>'null'];
-
+                $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number'";
                 // count bill tran count
                 $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'");
 
@@ -306,7 +306,7 @@
                         'bill_header'=>bill_total,
                         'count'=>$bill_tran_count,
                         'total'=>number_format(bill_total['taxable_amt'],2),
-                        'tax'=>number_format(bill_total['tax_amt'],2),
+                        'tax'=>number_format($db->sum('bill_tax_tran','tax_amt',$bill_cond),2),
                         'trans'=>$trans
                     ];
                     $response['status'] = 202;
@@ -640,13 +640,19 @@
 
                         $cur_rp = $product['retail'];
                         $tg = $product['tax_grp'];
+                        $taxDetails = (new \db_handeer\db_handler())->get_rows('tax_master',"`id` = '$tg'");
+                        $rate = $taxDetails['rate'];
+                        $tax_description =$taxDetails['description'];
+                        $tax_code = $taxDetails['attr'];
+
 
                         $new_rp =  $cur_rp - $cur_rp * ($dr/100) ;
                         $new_bill_amt = $new_rp * $tran_qty;
-                        // echo($new_rp);
 
-                        $new_tax = $db->taxMaster($new_bill_amt,$tg)['message'];
+                        $taxx = $anton->tax($tax_code,$new_bill_amt);
+                        $new_tax = $taxx['details']['taxableAmount'];
 
+                        print_r($taxx);
 
                         // update
                         $db->db_connect()->exec("UPDATE bill_trans SET `retail_price` = $new_rp,`bill_amt` = $new_bill_amt, tax_amt= $new_tax WHERE `id` = '$id'");

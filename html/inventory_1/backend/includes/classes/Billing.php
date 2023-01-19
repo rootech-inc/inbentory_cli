@@ -19,6 +19,9 @@ class Billing
 
     public function AddToBill($bill_number,$item,$qty,$myName)
     {
+        $today = today;
+        $clerk_code = clerk_code;
+
         //get item details
         $machine_number = mech_no;
         $clerk = $_SESSION['clerk_id'];
@@ -28,6 +31,7 @@ class Billing
         $item_desc = $item['desc'];
         $item_retail = $item['retail'];
         $barcode = $item['barcode'];
+        $item_code = $item['id'];
         $disc = $item['discount'];
 //        echo $disc;
 
@@ -54,6 +58,7 @@ class Billing
         $rate = $taxDetails['rate'];
         $tax_description =$taxDetails['description'];
         $tax_code = $taxDetails['attr'];
+
         if($taxDetails['attr'] === 'V0')
         {
             $taxAmount = 0.00;
@@ -61,11 +66,17 @@ class Billing
         elseif ($taxDetails['attr'] === 'VM')
         {
             // calculate for tax
-            $tax = (new \anton())->tax($rate,$bill_amt,$tax_code);
-            $taxAmount = $tax['details']['taxAmt'];
+            $tax = (new \anton())->tax($tax_code,$bill_amt);
+            $taxAmount = $tax['details']['taxableAmount'];
+
 
 //            $taxAmount = (new \anton)->tax($rate,$bill_amt);
+        } else
+        {
+            $taxAmount = 0.00;
         }
+
+
 
 
 
@@ -78,10 +89,17 @@ class Billing
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate')";
 
+        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt)
+                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount')";
+
+//        print_r($sql);
+        print_r($tax_tran);
 
         try {
             (new \db_handeer\db_handler())->db_connect()->prepare($sql);
             (new \db_handeer\db_handler())->db_connect()->exec($sql);
+            (new \db_handeer\db_handler())->db_connect()->prepare($tax_tran);
+            (new \db_handeer\db_handler())->db_connect()->exec($tax_tran);
 
             return true;
 
@@ -106,7 +124,7 @@ class Billing
 //        die($disc_cond);
         $disc_qty = $this->db_handler()->row_count('bill_trans',$disc_cond);
         $taxable_amt = $this->db_handler()->sum('bill_trans','retail_price',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
-        $tax_amt = $this->db_handler()->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
+        $tax_amt = $this->db_handler()->sum('bill_tax_tran','tax_amt',"`bill_no` = '$bill_number' and `bill_date` = '$date' and mech_no = $machine_number");
         $bill_amt = $this->db_handler()->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'i'");
 
         if($tran_qty > 0)

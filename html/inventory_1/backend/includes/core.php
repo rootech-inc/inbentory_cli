@@ -10,7 +10,7 @@ ini_set('display_errors',1);
 
     $bill_number = 0;
 
-    const db_host = '172.25.192.1';
+    const db_host = 'localhost';
     const db_user = 'anton';
     const db_password = '258963';
     const db_name = "SMHOS";
@@ -58,8 +58,10 @@ ini_set('display_errors',1);
         $my = $db->get_rows('clerk',"`id` = '$clerk_id'");
         $myName = $my['clerk_name'];
 
+
         define('clerk_code',$my['clerk_code']);
         define('clerk_name',$my['clerk_name']);
+        $clerk_code = clerk_code;
 
         if(!isset($_SESSION['action']))
         {

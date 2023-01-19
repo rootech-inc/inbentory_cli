@@ -31,6 +31,8 @@ class Bill {
                     trans = message['trans']
                     let sel_count = 0
 
+                    ct(header)
+
                     arr_disable('recall')
                     arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
 
@@ -407,7 +409,7 @@ class Bill {
         form.append("function", "subtotal")
         form_settings['data'] = form
         form_settings['success'] = function (response) {
-            // al(response)
+            cl(response)
             // bill.loadBillsInTrans()
         }
         $.ajax(form_settings)
