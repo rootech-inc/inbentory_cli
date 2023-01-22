@@ -194,54 +194,35 @@ class anton extends FPDF
                 "type"=>''
             ),
             "details"=>array(
-                "taxableAmount"=>0.00,
-                "taxAmount"=>0.00,
-                "withoutTax"=>0.00
+                "totalAmt"=>$amount,
+                "taxAmt"=>0.00,
+                "taxableAmt"=>0.00
             ),
         );
 
-        if((new \db_handeer\db_handler())->row_count('tax_master',"`attr` = '$tax_code'") === 1)
+        if($tax_code === 'VM'){
+            // multiple tax
+            $taxAmt = $amount * 21.90;
+            $taxAmt /= 121.9;
+            $taxableAmt = $amount - $taxAmt;
+
+
+        } else
         {
-            // component found
-            $tax_detail = (new \db_handeer\db_handler())->get_rows('tax_master',"`attr` = '$tax_code'");
-            $tax_compo['status'] = 200;
-            $tax_compo['header']['id'] = $tax_detail['id'];
-            $tax_compo['header']['code'] = $tax_detail['attr'];
-            $tax_compo['header']['type'] = $tax_detail['type'];
-            $rate = $tax_detail['rate'];
+            // get tax code
+            $tax_group = (new \db_handeer\db_handler())->get_rows('tax_master',"`attr` = '$tax_code'");
+            $tax_rate = $tax_group['rate'];
+            $rate_percentage = $tax_rate / 100;
 
-            if($tax_detail === 'VM')
-            {
+            $taxAmt = $amount * $rate_percentage;
+            $taxableAmt = $amount - $taxAmt;
 
-                // calculate levy
-                $nhis = number_format(2.5 / 100 * $amount,2);
-                $getfund = number_format(2.5 / 100 * $amount,2);
-                $covid = number_format(1 / 100 * $amount,2);
-
-                // ad levy to retail
-                $new_amount = number_format($amount + $nhis + $getfund + $covid,2);
-
-                //cal vat
-                $taxAmt = number_format(12.5 / 100 * $new_amount,2);
-                $taxableAmount = $amount - $taxAmt;
-
-            }
-            else
-            {
-                // flat rate
-
-                $taxAmt = $rate / 100 * $amount;
-                $taxableAmount = $amount - $taxAmt;
-
-            }
-            $tax_compo['details']['taxableAmount'] = number_format($taxableAmount,2);
-            $tax_compo['details']['taxAmount'] = number_format($taxAmt,2);
-            $tax_compo['details']['AmountWithTax'] = number_format($amount ,2);
-
-        } else {
-
-            // no certain component
         }
+
+        $tax_compo['details']['taxAmt'] = $taxAmt;
+        $tax_compo['details']['taxableAmt'] = $taxableAmt;
+
+
 
         return $tax_compo;
 

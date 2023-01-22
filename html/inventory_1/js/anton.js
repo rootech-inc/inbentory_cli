@@ -5,6 +5,7 @@ function cl(params) { // console log
 }
 
 ct = (param) => console.table(param);
+// ct = (param) => '';
 
 function s_response(icon = 'info',title = '',message = '') {
     Swal.fire({
@@ -594,6 +595,7 @@ function arr_enable(elements) {
 
 // set session
 function set_session(array_data,reload = 1) {
+    loader('show')
     var form_data = {
         'token':'none',
         'function':'set_session',
@@ -613,6 +615,7 @@ function set_session(array_data,reload = 1) {
             }
         }
     );
+    loader('show')
 }
 
 // get session

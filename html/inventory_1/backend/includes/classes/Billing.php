@@ -59,22 +59,8 @@ class Billing
         $tax_description =$taxDetails['description'];
         $tax_code = $taxDetails['attr'];
 
-        if($taxDetails['attr'] === 'V0')
-        {
-            $taxAmount = 0.00;
-        }
-        elseif ($taxDetails['attr'] === 'VM')
-        {
-            // calculate for tax
-            $tax = (new \anton())->tax($tax_code,$bill_amt);
-            $taxAmount = $tax['details']['taxableAmount'];
-
-
-//            $taxAmount = (new \anton)->tax($rate,$bill_amt);
-        } else
-        {
-            $taxAmount = 0.00;
-        }
+        $tax = (new \anton())->tax($tax_code,$bill_amt);
+        $taxAmount = $tax['details']['taxAmt'];
 
 
 
@@ -132,7 +118,7 @@ class Billing
             $response['valid'] = 'Y';
             $response['tran_qty'] = $tran_qty;
             // get sums
-            $response['taxable_amt'] = $taxable_amt;
+            $response['taxable_amt'] = $bill_amt - $tax_amt;
             $response['tax_amt'] = $tax_amt;
             $response['bill_amt'] = $bill_amt;
 
@@ -158,6 +144,8 @@ class Billing
 
     public function makePyament($method,$amount_paid): array
     {
+
+
         $myName = $_SESSION['clerk_id'];
         $today = date('Y-m-d');
         $response = ['status'=>505,'message'=>'initialization'];
@@ -171,13 +159,15 @@ class Billing
         if($bill_trans_count > 0)
         {
 
+
+
             // get transaction details
             $bill_totals = $this->billTotal($bill_number,$today);
             if($bill_totals['valid'] === 'Y')
             {
                 $gross_amt = $bill_totals['taxable_amt'];
                 $tax_amt = $bill_totals['tax_amt'];
-                $bill_amt = $bill_totals['bill_amt'];
+                $bill_amt = $gross_amt + $tax_amt;
                 $tran_qty = $bill_totals['tran_qty'];
                 $amt_balance = $amount_paid - $gross_amt;
                 $bill_totals['amt_paid'] = number_format($amount_paid,2);

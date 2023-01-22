@@ -295,7 +295,22 @@ button
 
 .product_container{background-color: #303136 !important;border-radius: 18px !important;}
 .product_header{background-color: #B4B5B8;height: 5%;}
-.header_icon{height: 20px; width: 20px;padding: 0px !important;margin-right: .5rem!important}
+.header_icon{
+    height: 20px; width: 20px;padding: .2rem!important; margin-right: .5rem!important;
+    color: #212529;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa
+}
+
+.header_icon:hover {
+    color: #212529;
+    background-color: #e2e6ea;
+    border-color: #dae0e5
+}
+
+.header_icon.focus, .header_icon:focus {
+    box-shadow: 0 0 0 .2rem rgba(216, 217, 219, .5)
+}
 
 .product_search_bar{height: 8vh; width: 100%;}
 .search_container{height: 45vh; overflow: auto; width: 100%;}

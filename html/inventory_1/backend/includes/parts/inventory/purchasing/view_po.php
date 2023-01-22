@@ -30,14 +30,11 @@
 
                 <!-- EXIT -->
                 <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="assets/icons/inventory/inventory_home.png"
-                            class="img-fluid"
-                    >
+                    <i class="fa fa-home"></i>
                 </button>
 
                 <!--ADD-->
-                <button onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="set_session(['action=new'])"  type="button" title="New PO" class="header_icon btn-light mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-1">
                     <img
                             src="../../assets/icons/home/new_property.png"
                             class="img-fluid"

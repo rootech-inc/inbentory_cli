@@ -302,6 +302,7 @@ function loadProduct(prod_id,action='view')
     }
     else
     {
+
         $('#edit_prod').val(prod_id)
         $("#group").text(
             JSON.parse(get_row('item_group', "`id` = '" + prod_result.group + "'"))[0].group_name
@@ -328,18 +329,22 @@ function loadProduct(prod_id,action='view')
         // get tax details
         var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
         let taxx = taxMaster.getTax(tax.attr,prod_result.retail);
-        let tax_code, tax_detail
-        tax_code = taxx['code']
+        let tax_code, tax_detail,tax_header
+        tax_header = taxx['header']
+        tax_code = tax_header['code']
         tax_detail = taxx['details']
+        cl('$$$$$$TAX')
+        ct(tax_detail)
+        cl('$$$$$$TAX')
 
         $('#tax_rate').text(tax_code)
-        $('#tax_descr').html(tax.description)
+        $('#tax_desc').html(tax_header['type'])
         $('#cost_price').text(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_price').text(retail_price)
 
 
-        $('#retail_price_without_tax').text(tax_detail['withoutTax'])
+        $('#retail_price_without_tax').text(tax_detail['taxAmount'])
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -426,6 +431,7 @@ function loadProduct(prod_id,action='view')
             supp_row = `<tr><td class="p-1">${supp_code}</td><td class="p-1">${supp_desc}</td><td class="p-1">${supp_lev}</td></tr>`
         }
         $('#more_supplier_row').html(supp_row)
+
     }
 
 
@@ -433,6 +439,7 @@ function loadProduct(prod_id,action='view')
     // show price
     
     arr_hide('stock,packing_tab');arr_show('price')
+
 
 }
 

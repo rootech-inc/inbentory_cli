@@ -17,7 +17,7 @@ class Bill {
                 // console.log(response)
                 // al(response)
                 let res = JSON.parse(response)
-                console.table(res)
+                // console.table(res)
 
                 if(res['status'] === 202)
                 {

@@ -4,6 +4,7 @@ use db_handeer\db_handler;
 
 ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
+    ini_set('memory_limit', '-1');
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
@@ -17,6 +18,8 @@ ini_set('display_errors',1);
 
     require 'session.php';
     $session_id = session_id();
+    $logo = root . "/assets/logo/comp_logo.png";
+    define('logo',$logo);
 
     // initialize classes
     require 'anton.php';
@@ -34,6 +37,7 @@ ini_set('display_errors',1);
     $db->db_connect();
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
+    $company = $db->get_rows('company',"`id` = 0");
     // validate machine
 
 
@@ -46,6 +50,11 @@ ini_set('display_errors',1);
     $root_host = $_SERVER['DOCUMENT_ROOT'];
     $shift = $db->shift(mech_no);
     define('shift',$shift);
+    define('company_name',$company['c_name']);
+    define('company_country',$company['country']);
+    define('company_city',$company['city']);
+    define('company_street',$company['street']);
+    define('company_mob',$company['phone']);
 
 
 

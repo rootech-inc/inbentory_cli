@@ -1,8 +1,13 @@
 <?php
-    require '../includes/core.php';
+
+use db_handeer\db_handler;
+use mechconfig\MechConfig;
+
+require '../includes/core.php';
+    require '../includes/print.php';
 
 
-//    print_r($_POST);
+/* A wrapper to do organise item names & prices into columns */
 
 
     if($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -336,8 +341,10 @@
                     // todo print bill
 
                     // mark bill as canceled
+                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
                     $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
                     $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
+
                 }
 
 
@@ -465,18 +472,33 @@
 
                 $amount_paid = $anton->post('amount_paid');
 
+                $myName = $_SESSION['clerk_id'];
+                $today = date('Y-m-d');
+                // get current bill details
+                $bill_number = bill_no;
+                $machine_number = (new MechConfig())->mech_details()['mechine_number'];
+
+                $bill_trans_count = "`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'";
+                $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+
                 // make payment
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
+                    if($response['status'] === 200)
+                   {
+
+                       printbill($machine_number,$bill_number);
+
+                   }
                     header('Content-Type: application/json');
                     echo json_encode($response);
 
                     exit();
                     die();
-                    // todo print bill
+
 
                     // get bill quantity items
 //                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
@@ -650,7 +672,7 @@
                         $new_bill_amt = $new_rp * $tran_qty;
 
                         $taxx = $anton->tax($tax_code,$new_bill_amt);
-                        $new_tax = $taxx['details']['taxableAmount'];
+                        $new_tax = $taxx['details']['taxableAmt'];
 
                         print_r($taxx);
 

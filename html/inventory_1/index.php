@@ -72,10 +72,11 @@ error_reporting(E_ALL);
                 <img src="assets/icons/home/loader.gif" alt="" class="img-fluid">
             </div>
             <div class="m-2 w-100 text-center">
-                <button class="btn btn-light rounded-0" onclick="loader('hide')">CLOSE</button>
+<!--                <button class="btn btn-light rounded-0" onclick="loader('hide')">CLOSE</button>-->
             </div>
         </div>
     </div>
+    <script>loader('show')</script>
 
     <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
         <i class="fa fa-keyboard"></i>
@@ -557,6 +558,7 @@ error_reporting(E_ALL);
     // make keypad draggable
     dragElement(document.getElementById("alphsKeyboard"))
     dragElement(document.getElementById("numericKeyboard"))
+    loader('hide')
 </script>
 
 
