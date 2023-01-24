@@ -61,18 +61,27 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
             );
 
-            $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number'";
+            $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
             $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
-
+            $billSn = 0;
             while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC))
             {
+                $billSn++;
                 $item_qty = $row['item_qty'];
                 $item_barcode = $row['item_barcode'];
+                if($billSn > 9)
+                {
+                    $bq = "   CODE : $item_barcode/QC : $item_qty*".$row['retail_price'];
+                } else
+                {
+                    $bq = "  CODE : $item_barcode/QC : $item_qty*".$row['retail_price'];
+                }
+
                 $item_name = $row['item_desc'];
-                $item_desc = "$item_qty X $item_name - $item_barcode";
-                $price = $row['retail_price'];
-                $item = new item($item_desc,$price);
-                array_push($items,$item);
+                $item_desc = "$billSn $item_name";
+                $price = $row['retail_price'] * $item_qty;
+                array_push($items,new item($item_desc,$price)); // push item desc and cost
+                array_push($items,new item($bq,'')); // push barcode Quantity
             }
 
             $subtotal = new item('Subtotal', '12.95');
