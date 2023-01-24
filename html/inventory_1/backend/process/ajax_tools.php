@@ -149,5 +149,12 @@
 
             }
 
+            elseif ($function === 'adminAuth'){
+                $code = $anton->post('code');
+                $clerk_key = $anton->post('clerk_key');
+                header('Content-Type: application/json');
+                echo json_encode($auth->adminAuth($code,$clerk_key));
+            }
+
         }
     }

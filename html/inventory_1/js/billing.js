@@ -31,7 +31,7 @@ $(function() {
             processData: false,  // tell jQuery not to process the data
             contentType: false,  // tell jQuery not to set contentType
             success: function (response){
-                echo(response);
+                // echo(response);
                 i_hide('numericKeyboard')
                 $('#general_input').val('');
                 if(response.split('%%')[0] === 'error')

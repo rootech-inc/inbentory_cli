@@ -192,6 +192,29 @@ class Billing
                         $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
                     }
 
+                    if($method === 'refund')
+                    {
+                        // update values all to negative
+                        $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
+                       tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
+                       tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2) 
+                       where mach_no = $machine_number and bill_no = $bill_number and bill_date = '$today'";
+
+                        // bill tran
+                        $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
+                      bill_amt = bill_amt - (bill_amt * 2) where mach = $machine_number and bill_number = $bill_number and date_added = '$today'";
+
+                        // tax trans
+                        $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
+                         taxableAmt = taxableAmt - (taxableAmt * 2), 
+                         tax_amt = tax_amt - (tax_amt * 2) 
+                         where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
+
+                        (new db_handler())->db_connect()->exec($header);
+                        (new db_handler())->db_connect()->exec($trans);
+                        (new db_handler())->db_connect()->exec($tax_tran);
+                    }
+
                 }
             }
 

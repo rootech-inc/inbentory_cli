@@ -752,7 +752,39 @@ class UserConfig {
         }
     }
 
+    adminAuth(code,clerk_key){
+        let form_data = {
+            'function':'adminAuth','code':code,'clerk_key':clerk_key
+        }
 
+        let result = false;
+
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data:form_data,
+                success: function (response)
+                {
+                    let res = JSON.parse(response)
+                    ct(res)
+                    if(res['code'] === 200)
+                    {
+                        result = true
+                    }
+                    // result = JSON.parse(response);
+
+
+                }
+            }
+        );
+
+        return result;
+
+    }
 
 
 }

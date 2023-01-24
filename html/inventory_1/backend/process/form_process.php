@@ -490,7 +490,7 @@ require '../includes/core.php';
                     if($response['status'] === 200)
                    {
 
-                       printbill($machine_number,$bill_number);
+                       printbill($machine_number,$bill_number,$method);
 
                    }
                     header('Content-Type: application/json');

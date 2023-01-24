@@ -11,7 +11,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
 
-/* A wrapper to do organise item names & prices into columns */
+
     class item
     {
         private $name;
@@ -40,7 +40,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         }
     }
 
-    function printbill($mech_no,$bill_number){
+    function printbill($mech_no,$bill_number,$payment = 'payment'){
         $connector = new WindowsPrintConnector("POS");$connector = new WindowsPrintConnector("POS");
         $printer = new Printer($connector);
 
@@ -79,7 +79,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
                 $item_name = $row['item_desc'];
                 $item_desc = "$billSn $item_name";
-                $price = $row['retail_price'] * $item_qty;
+                $price = $row['bill_amt'] * $item_qty;
                 array_push($items,new item($item_desc,$price)); // push item desc and cost
                 array_push($items,new item($bq,'')); // push barcode Quantity
             }
@@ -121,7 +121,12 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             /* Title of receipt */
             $printer -> feed(2);
             $printer -> setEmphasis(true);
-            $printer -> text("TAX INVOICE\n");
+            if($payment === 'refund')
+            {
+                $printer -> text("REFUND\n");
+            } else {
+                $printer -> text("TAX INVOICE\n");
+            }
             $printer -> feed(2);
             $printer -> setEmphasis(false);
 
@@ -180,6 +185,11 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             // no print
         }
 
+    }
+
+    function printzreport($mech_no,$sales_date)
+    {
+        // get all bills for
     }
 
 //    printbill('1','45');

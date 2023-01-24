@@ -31,7 +31,7 @@ class Bill {
                     trans = message['trans']
                     let sel_count = 0
 
-                    ct(header)
+                    // ct(header)
 
                     arr_disable('recall')
                     arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
@@ -45,10 +45,10 @@ class Bill {
 
 
                     let rows = ''
-                    ct(trans)
-                    for (const rowsKey in trans) {
-                        ct(rowsKey)
-                    }
+                    // ct(trans)
+                    // for (const rowsKey in trans) {
+                    //     ct(rowsKey)
+                    // }
                     // loop through trans
                     for (let rowsKey in trans) {
 
@@ -409,7 +409,7 @@ class Bill {
         form.append("function", "subtotal")
         form_settings['data'] = form
         form_settings['success'] = function (response) {
-            cl(response)
+            // cl(response)
             // bill.loadBillsInTrans()
         }
         $.ajax(form_settings)
@@ -451,6 +451,60 @@ class Bill {
         })
     }
     // cancel bill
+
+    refundBill(){
+
+        let admin_id_v2,admin_password_v2,result = false;
+        Swal.fire({
+            title: 'AUTHENTICATE',
+            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+            confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
+            focusConfirm: false,
+            backdrop: `
+                rgba(245, 39, 39, 0.8)
+                left top
+                no-repeat
+              `,
+
+            preConfirm: () => {
+                const login = Swal.getPopup().querySelector('#login').value
+                const password = Swal.getPopup().querySelector('#password').value
+                if (!login || !password) {
+                    Swal.showValidationMessage(`Please enter login and password`)
+                }
+                return { login_v2: login, password_v2: password }
+            }
+        }).then((result) => {
+            admin_id_v2 = result.value.login_v2;
+            admin_password_v2 = result.value.password_v2;
+
+            if(User.adminAuth(admin_id_v2,admin_password_v2))
+            {
+                // make refund
+                let bill_amt,amount_paid;
+                bill_amt = $('#sub_total').text();
+                if(bill_amt.length > 0 && bill_amt > 0){
+
+                    // there is bill
+                    $('#general_input').val(bill_amt);
+                    this.payment('refund')
+                    this.loadBillsInTrans();
+
+                } else {
+                    // no bill
+                    swal_error('NO BILL')
+                }
+
+
+            } else {
+                al("NO ACCESS")
+            }
+
+        })
+
+    }
+
 }
 
 

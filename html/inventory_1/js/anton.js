@@ -808,7 +808,7 @@ function change_category(group_uni) {
         type: "POST",
         data: form_data,
         success: function (response){
-            echo(response)
+            // echo(response)
 
             if(response.split('%%').length === 2)
             {
