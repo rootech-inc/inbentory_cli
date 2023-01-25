@@ -38,6 +38,7 @@ const pCategory = new ProductCategory()
 const prod_master = new ProductCategory()
 const User = new UserConfig()
 const screens = new screenMaster()
+const Mech = new MechConfig()
 
 const user_id = a_sess.get_session('clerk_id')
 
@@ -101,8 +102,9 @@ var form_data;
 var form_process = "/backend/process/form_process.php";
 
 // bill screen MESSAGE
-function b_msg(message){
-  jqh.setText({'process_mesage':message})
+function b_msg(message = 'none'){
+    $('#process_message').text(message)
+
 }
 
 // swal confirm

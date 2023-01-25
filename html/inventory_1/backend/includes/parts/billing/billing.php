@@ -176,7 +176,7 @@
 
                         <!--CART MESSAGE -->
                         <div class="cart_message w-100 px-2">
-                            <div id="process_mesage" class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
+                            <div id="process_message" class="w-100 h-100 d-flex text-info flex-wrap align-content-center justify-content-center">
 
                             </div>
                         </div>

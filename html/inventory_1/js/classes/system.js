@@ -789,3 +789,28 @@ class UserConfig {
 
 }
 
+class MechConfig {
+    // get this meching details
+    ThisMech(){
+
+
+
+        let form_data = {'function': 'this_mech'}
+
+
+        $.ajax({
+            url:'/backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response) {
+                ct(response)
+                console.log('hello')
+            }
+        })
+
+    }
+}
+

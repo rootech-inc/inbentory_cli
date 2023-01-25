@@ -244,6 +244,13 @@ class Bill {
                     'amount_paid':amount_paid
                 }
 
+                jqh.setText({
+
+                    'amount_paid':actual_paid.toFixed(2),
+                    'amount_balance':b_balance.toFixed(2),
+                    'bill_num':parseFloat($('#bill_num').text()) + 1
+                })
+
                 // send ajax request
                 $.ajax({
                     url: form_process,
@@ -255,6 +262,7 @@ class Bill {
                         let status,message
                         status = result['status']
                         message = result['message']
+                        ct(message)
 
                         if(status === 200){
                             // get payment details
@@ -266,10 +274,11 @@ class Bill {
                             amt_paid = message['amt_paid']
                             amt_bal = message['amt_bal']
 
+
                             jqh.setText({
                                 'tax':tax_amt,
                                 'amount_paid':amt_paid,
-                                'amount_balance':amt_paid - bill_amt,
+                                'amount_balance':amt_bal,
                                 'bill_num':parseFloat($('#bill_num').text()) + 1
                             })
 
@@ -277,6 +286,7 @@ class Bill {
 
                             jqh.setHtml({'bill_loader':''})
 
+                            b_msg('payment complete..')
                             bill.loadBillsInTrans()
 
 
@@ -285,6 +295,7 @@ class Bill {
                         } else
                         {
                             // bill not saved
+                            b_msg('Payment completed with an error')
                             error_handler(`error%%Cound Not Make Bill ${status}`)
                         }
 
@@ -502,6 +513,11 @@ class Bill {
             }
 
         })
+
+    }
+
+    printBill(billNo,mechNo,day = toDay)
+    {
 
     }
 

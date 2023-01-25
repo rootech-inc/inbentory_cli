@@ -493,10 +493,11 @@ require '../includes/core.php';
                        printbill($machine_number,$bill_number,$method);
 
                    }
+
                     header('Content-Type: application/json');
                     echo json_encode($response);
 
-                    exit();
+
                     die();
 
 

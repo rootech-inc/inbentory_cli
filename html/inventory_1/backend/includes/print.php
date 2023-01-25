@@ -71,15 +71,15 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $item_barcode = $row['item_barcode'];
                 if($billSn > 9)
                 {
-                    $bq = "   CODE : $item_barcode/QC : $item_qty*".$row['retail_price'];
+                    $bq = "   $item_barcode QTY : $item_qty";
                 } else
                 {
-                    $bq = "  CODE : $item_barcode/QC : $item_qty*".$row['retail_price'];
+                    $bq = "  $item_barcode QTY : $item_qty";
                 }
 
                 $item_name = $row['item_desc'];
                 $item_desc = "$billSn $item_name";
-                $price = $row['bill_amt'] * $item_qty;
+                $price = number_format($row['bill_amt'] * $item_qty,2);
                 array_push($items,new item($item_desc,$price)); // push item desc and cost
                 array_push($items,new item($bq,'')); // push barcode Quantity
             }
