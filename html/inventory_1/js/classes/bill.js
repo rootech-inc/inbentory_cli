@@ -518,7 +518,15 @@ class Bill {
 
     printBill(billNo,mechNo,day = toDay)
     {
+        let form_data = {'function':'print_bill','billNo':billNo,'mechNo':mechNo,'day':day};
 
+        ajaxform['url'] = '/backend/process/ajax_tools.php'
+        ajaxform['data'] = form_data
+        ajaxform['success'] = function (response) {
+            ct(response)
+        }
+
+        $.ajax(ajaxform)
     }
 
 }

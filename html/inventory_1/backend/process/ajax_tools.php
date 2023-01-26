@@ -154,7 +154,14 @@
                 $clerk_key = $anton->post('clerk_key');
                 header('Content-Type: application/json');
                 echo json_encode($auth->adminAuth($code,$clerk_key));
-            } elseif ($function === 'this_mech')
+            }
+            elseif ($function === 'this_mech')
+            {
+                header('Content-Type: application/json');
+                echo(json_encode($MConfig->mech_details()));
+
+            }
+            elseif ($function === 'print_bill')
             {
                 print_r($_POST);
             }

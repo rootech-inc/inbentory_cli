@@ -793,7 +793,7 @@ class MechConfig {
     // get this meching details
     ThisMech(){
 
-
+        var result = 0;
 
         let form_data = {'function': 'this_mech'}
 
@@ -806,10 +806,13 @@ class MechConfig {
             'dataType': 'html',
             data:form_data,
             success: function (response) {
-                ct(response)
-                console.log('hello')
+
+                result = JSON.parse(response)
             }
         })
+
+
+        return result
 
     }
 }

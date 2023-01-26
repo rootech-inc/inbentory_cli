@@ -56,6 +56,19 @@ var form_settings = {
     'success': ''
 }
 
+let ajaxform = {
+    url:'/backend/process/ajax_tools.php',
+    'async': false,
+    'type': "POST",
+    'global': false,
+    'dataType': 'html',
+    data:form_data,
+    success: function (response)
+    {
+        ct(response)
+    }
+}
+
 
 
 
