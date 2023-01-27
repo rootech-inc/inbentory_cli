@@ -163,7 +163,12 @@
             }
             elseif ($function === 'print_bill')
             {
-                print_r($_POST);
+                require '../includes/print.php';
+//                print_r($_POST);
+                $billNo = $anton->post('billNo');
+                $mechNo = $anton->post('mechNo');
+                $day = $anton->post('day');
+                printbill($mechNo,$billNo,'unknown');
             }
 
         }

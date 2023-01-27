@@ -102,7 +102,7 @@ class Billing
     {
         $machine_number = mech_no;
         $response = [
-            'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00,
+            'bill_number'=>$bill_number,'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00,
             'disc_valid'=>'N','disc_rate'=>0.00,'disc_value'=>0.00
         ];
         $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");

@@ -264,9 +264,18 @@ class Bill {
                         message = result['message']
                         ct(message)
 
+                        // let bill_num = $('#bill_num').text()
+                        let mech_no = Mech.ThisMech()['mechine_number'];
+
+
+
                         if(status === 200){
+
+
+
                             // get payment details
-                            let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal
+                            let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal,bill_number
+                            bill_number = message['bill_number']
                             bill_amt = message['bill_amt']
                             taxable_amt = message['taxable_amt']
                             tax_amt = message['tax_amt']
@@ -274,12 +283,13 @@ class Bill {
                             amt_paid = message['amt_paid']
                             amt_bal = message['amt_bal']
 
+                            bill.printBill(bill_number,mech_no,toDay)
 
                             jqh.setText({
                                 'tax':tax_amt,
                                 'amount_paid':amt_paid,
                                 'amount_balance':amt_bal,
-                                'bill_num':parseFloat($('#bill_num').text()) + 1
+                                'bill_num':parseFloat(bill_number) + 1
                             })
 
                             jqh.setVal({'general_input':''})

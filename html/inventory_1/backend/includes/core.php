@@ -32,6 +32,7 @@ ini_set('display_errors',1);
     require 'classes/shift.php';
     $bill = new \billing\Billing();
 
+
     $anton = new anton();
     $db = new db_handler();
     $db->db_connect();

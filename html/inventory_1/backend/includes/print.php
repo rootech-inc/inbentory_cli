@@ -41,14 +41,14 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
     }
 
     function printbill($mech_no,$bill_number,$payment = 'payment'){
-        $connector = new WindowsPrintConnector("POS");$connector = new WindowsPrintConnector("POS");
-        $printer = new Printer($connector);
+        $connector = new WindowsPrintConnector("POS");
 
         $today = date('Y-m-d');
         $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
         if((new db_handler())->row_count('bill_header',$bill_hd_count) > 0)
         {
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
+            $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
             $tran_qty = $bill_total['tran_qty'];
             $taxable_amt = number_format($bill_total['taxable_amt'],2);
@@ -102,6 +102,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             //$date = "Monday 6th of April 2015 02:56:25 PM";
 
             $printer = new Printer($connector);
+            $printer -> close();
             $logo = EscposImage::load(logo, false);
 
                 /* Print top logo */
@@ -182,8 +183,10 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
         } else {
-            // no print
+            //todo print no found bill
         }
+
+
 
     }
 
