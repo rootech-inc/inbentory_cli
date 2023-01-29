@@ -103,7 +103,17 @@ $(document).ready(function (){
         let open_shifts = Mech.open_shifts();
         if(open_shifts['count'] > 0)
         {
+            let options = '';
+            let all_shifts = open_shifts['shifts']
+            for (let os = 0; os < all_shifts.length; os++) {
+                let this_os = all_shifts[os]
+                let machine = this_os[0]
+                let date = this_os[1]
+                let recId = this_os[2]
+                options += `<option value="${recId}">MECH #${machine} - ${date}</option>`
+            }
 
+            $('#shifts').html(options)
         } else {
             $('#zBody').html(`<div class=" alert alert-info">NO OPEN SHIFT</div>`)
         }

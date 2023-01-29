@@ -19,15 +19,11 @@
                                 <div class="modal-body" id="zBody">
                                     <div class="container">
                                         <div class="row">
-                                            <div class="col-sm-8">
-                                                <div class="form-group">
-                                                    <label for="sel2">SELECT SHIFT:</label>
-                                                    <select multiple class="form-control" id="sel2" name="sellist2">
-                                                        <option>1</option>
-                                                        <option>2</option>
-                                                        <option>3</option>
-                                                        <option>4</option>
-                                                        <option>5</option>
+                                            <div class="col-sm-12">
+                                                <div class="form-group w-100">
+                                                    <label for="shifts">SELECT SHIFT:</label>
+                                                    <select multiple class="form-control" id="shifts" name="shifts">
+
                                                     </select>
                                                 </div>
                                             </div>

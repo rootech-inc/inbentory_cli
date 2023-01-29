@@ -838,7 +838,8 @@ class MechConfig {
                 let this_shift = all_open_shifts[s]
                 let shift_date = this_shift['shift_date']
                 let mech = this_shift['mech_no'];
-                oss.push([mech,shift_date])
+                let recId = this_shift['recId']
+                oss.push([mech,shift_date,recId])
             }
 
             response['shifts'] = oss
