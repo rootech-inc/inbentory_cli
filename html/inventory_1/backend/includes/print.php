@@ -192,9 +192,49 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printzreport($recId)
     {
-        // get all bills sum by payment
-        // get tax amount for bills
-        // print details
+        $connector = new WindowsPrintConnector("POS");
+        $printer = new Printer($connector);
+        $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
+        if($shift_count === 1)
+        {
+            $shift = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
+            $mech = $shift['mech_no'];
+            $date = $shift['shift_date'];
+
+            $bills_count = (new db_handler())->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
+            if($bills_count > 0)
+            {
+                // get all bills sum by payment
+                $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header group by pmt_type where mach_no = '$mech' and bill_date = '$date'";
+                $bill_hd_stmt = (new db_handler())->db_connect()->query($bill_hd_sql);
+                $subTotal = 0;
+                $hd_arr = array();
+                while($hd_row = $bill_hd_stmt->fetch(PDO::FETCH_ASSOC))
+                {
+                    $pmt_type = $hd_row['pmt_type'];
+                    $total = $hd_row['total'];
+                    $subTotal += $total;
+
+                    array_push($hd_arr,new item($pmt_type,$total));
+                }
+
+                // get tax amount for bills
+                // print details
+            } else {
+                $printer -> text("NO BILL HEADER FOR MACHINE #$mech on $date");
+            }
+
+
+
+        } else {
+            $printer ->text("NO OPEN SHIFT");
+        }
+
+
+        /* Cut the receipt and open the cash drawer */
+        $printer -> cut();
+        $printer -> pulse();
+        $printer -> close();
     }
 
 //    printbill('1','45');
