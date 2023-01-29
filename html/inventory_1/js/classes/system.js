@@ -815,5 +815,38 @@ class MechConfig {
         return result
 
     }
+
+    is_shift(mech_no = this.ThisMech()['mechine_number'],day=toDay){
+
+        // check if there is shift
+        return row_count('shifts', `mech_no = '${mech_no}' AND shift_date = '${day}' AND end_time is null`) === 1;
+
+    }
+
+    open_shifts(){
+        let  shifts_count = row_count('shifts','end_time is null');
+        let response = {
+            'count':shifts_count,'shifts':[]
+        }
+        // get all shifts
+        if(shifts_count > 0)
+        {
+            let oss = []
+            let all_open_shifts = JSON.parse(get_row('shifts','end_time is null'))
+
+            for (let s = 0; s < all_open_shifts.length; s++) {
+                let this_shift = all_open_shifts[s]
+                let shift_date = this_shift['shift_date']
+                let mech = this_shift['mech_no'];
+                oss.push([mech,shift_date])
+            }
+
+            response['shifts'] = oss
+
+        }
+
+        return response
+    }
+
 }
 

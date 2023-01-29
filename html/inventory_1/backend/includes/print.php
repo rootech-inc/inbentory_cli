@@ -79,7 +79,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
                 $item_name = $row['item_desc'];
                 $item_desc = "$billSn $item_name";
-                $price = number_format($row['bill_amt'] * $item_qty,2);
+                $price = number_format($row['bill_amt'] ,2);
                 array_push($items,new item($item_desc,$price)); // push item desc and cost
                 array_push($items,new item($bq,'')); // push barcode Quantity
             }

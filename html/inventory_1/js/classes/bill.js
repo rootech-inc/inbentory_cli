@@ -539,10 +539,37 @@ class Bill {
         $.ajax(ajaxform)
     }
 
+
+
 }
 
+class Shift {
+    CheckShift(mech = Mech.ThisMech()['mechine_number'],day = toDay){
+        // check if shift exist
+        let shift_detail = {
+            'status':false,
+            'details':false
+        }
 
+        if(row_count('shifts',`shift_date = '${day}' and mech_no = '${mech}'`) === 1)
+        {
+            // there is shift
+            shift_detail['status'] = true
+            shift_detail['details'] = JSON.parse(('shifts',`shift_date = '${day}' and mech_no = '${mech}'`))
+        } else
+        {
+            shift_detail['details'] = {
+                'mech':mech,
+                'date':day,
+                'shift_count':row_count('shifts',`shift_date = '${day}' and mech_no = '${mech}'`)
+            }
+        }
+
+        return shift_detail
+    }
+}
 
 
 // initialize object
 const bill = new Bill()
+const shift = new Shift()

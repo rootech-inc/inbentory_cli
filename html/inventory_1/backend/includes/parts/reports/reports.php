@@ -10,6 +10,38 @@
                 <article class="d-flex flex-wrap align-content-start justify-content-between overflow-auto">
                     <button id="sales_report" class="master_button btn m-2 p-1 pointer">SALES</button>
                     <button id="z_report" class="master_button btn btn-warning m-2 p-1 pointer">Z-REPORT</button>
+                    <div class="modal fade" id="zModal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <strong class="modal-title">TAKE Z-REPORT</strong>
+                                </div>
+                                <div class="modal-body" id="zBody">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm-8">
+                                                <div class="form-group">
+                                                    <label for="sel2">SELECT SHIFT:</label>
+                                                    <select multiple class="form-control" id="sel2" name="sellist2">
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button class="btn btn-sm btn-success">TAKE</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                     <button id="eod" class="master_button btn btn-danger m-2 p-1 pointer">EOD</button>
                 </article>
             </div>

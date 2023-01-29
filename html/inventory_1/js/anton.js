@@ -39,6 +39,7 @@ const prod_master = new ProductCategory()
 const User = new UserConfig()
 const screens = new screenMaster()
 const Mech = new MechConfig()
+const mech_no = Mech.ThisMech()['mechine_number']
 
 const user_id = a_sess.get_session('clerk_id')
 

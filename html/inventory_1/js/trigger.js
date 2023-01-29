@@ -98,7 +98,18 @@ $(document).ready(function (){
 
     $('#z_report').click(function (){
         // take z report
-        reports.zReport()
+
+        // get all shift
+        let open_shifts = Mech.open_shifts();
+        if(open_shifts['count'] > 0)
+        {
+
+        } else {
+            $('#zBody').html(`<div class=" alert alert-info">NO OPEN SHIFT</div>`)
+        }
+
+        $('#zModal').modal('show')
+        // reports.zReport()
     });
 
     $('#billing').click(function (){
