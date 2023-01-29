@@ -190,9 +190,11 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     }
 
-    function printzreport($mech_no,$sales_date)
+    function printzreport($recId)
     {
-        // get all bills for
+        // get all bills sum by payment
+        // get tax amount for bills
+        // print details
     }
 
 //    printbill('1','45');

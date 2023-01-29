@@ -2,6 +2,8 @@
 
 namespace billing;
 
+use db_handeer\db_handler;
+
 class reports extends \db_handeer\db_handler
 {
     private array $response = ['code'=>000,'message'=>000];
@@ -52,9 +54,11 @@ class reports extends \db_handeer\db_handler
         echo $this->json_enc($this->response);
     }
 
-    public function z_report($mech_no = mech_no)
+    public function z_report($recId): array
     {
-        $day = today;
+        $record = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
+        $day = $record['shift_date'];
+        $mech_no = $record['mech_no'];
         if($this->row_count('mech_setup',"`mech_no` = '$mech_no'") === 1)
         {
 
@@ -76,7 +80,7 @@ class reports extends \db_handeer\db_handler
             $this->response['message'] = "invalid machine number ($mech_no)";
         }
 
-        echo $this->json_enc($this->response);
+        return $this->response;
     }
 
     public function print_report(string $report_type)

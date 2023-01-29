@@ -199,8 +199,21 @@ class Reports {
 
     }
 
-    zReport() {
-        if(row_count('bill_trans',`date_added = '${toDay}'`) > 0){
+    zReport(recId) {
+        let mech = ''
+        let day = ''
+        let record = row_count('shifts',`recId = '${recId}'`)
+        if(record === 1)
+        {
+            let row = JSON.parse(get_row('shifts',`recId = '${recId}'`))
+            mech = row['mech_no']
+            day = row['shift_date']
+
+        }
+
+        let shift_count = 0
+        shift_count = Mech.is_shift(mech,day)
+        if(shift_count){
             // if there is sale
             let admin_id_v2,admin_password_v2,result = false;
             Swal.fire({
@@ -232,6 +245,7 @@ class Reports {
                     'function':'z_report',
                     'clerk_code':admin_id_v2,
                     'clerk_key':admin_password_v2,
+                    'recId':recId
                 }
 
                 $.ajax({
@@ -257,7 +271,7 @@ class Reports {
                 });
             })
         } else {
-            al("NO SALE")
+            al("CANNOT FIND SHIFT")
         }
 
     }

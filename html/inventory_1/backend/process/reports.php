@@ -29,12 +29,18 @@
                 // Z REPORT
                 $clerk_code = $anton->post('clerk_code');
                 $clerk_key = $anton->post('clerk_key');
+                $recId = $anton->post('recId');
                 // admin authenticate
                 $admin_auth = $auth->adminAuth($clerk_code,$clerk_key);
                 if($admin_auth['code'] === 200)
                 {
                     // access granted
-                    $Reports->z_report();
+                    $zreport = $Reports->z_report($recId);
+                    if($zreport['code'] === 202)
+                    {
+                        // print z details
+                        printzreport($recId);
+                    }
 
                 } else {
                     echo $anton->json_enc($admin_auth);
