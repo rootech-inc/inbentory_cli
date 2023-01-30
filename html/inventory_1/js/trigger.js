@@ -96,7 +96,30 @@ $(document).ready(function() {
 
 $(document).ready(function (){
 
-    $('#z_report').click(function (){
+
+    $('#z_report').click(function () {
+        // take z report
+        let recId = $('#shifts').val()
+        Swal.fire({
+
+            icon: 'warning',
+            text:`This will clear sales for shift with record ${recId}`,
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+            denyButtonText: `Don't save`,
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                reports.zReport(recId)
+            } else if (result.isDenied) {
+                $('#zModal').modal('hide');
+            }
+        })
+
+    });
+
+    $('#z_modal').click(function (){
         // take z report
 
         // get all shift
@@ -119,7 +142,7 @@ $(document).ready(function (){
         }
 
         $('#zModal').modal('show')
-        // reports.zReport()
+
     });
 
     $('#billing').click(function (){

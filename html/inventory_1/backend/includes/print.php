@@ -218,7 +218,42 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                     array_push($hd_arr,new item($pmt_type,$total));
                 }
 
-                // get tax amount for bills
+
+                $logo = EscposImage::load(logo, false);
+
+                /* Print top logo */
+                $printer -> setJustification(Printer::JUSTIFY_CENTER);
+                $printer -> graphics($logo);
+
+                /* Name of shop */
+                $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+                $printer -> text(company_name);
+                $printer -> selectPrintMode();
+                $printer -> setEmphasis(false);
+                $printer -> feed();
+                $printer -> text(company_country . ' , ' . company_city);
+                $printer -> feed();
+                $printer -> text("Mob : ".company_mob);
+
+                $printer -> feed();
+
+                /* Items */
+                $printer -> setJustification(Printer::JUSTIFY_LEFT);
+                $printer -> setEmphasis(true);
+                $printer -> text(new item('', '$'));
+                $printer -> setEmphasis(false);
+                foreach ($hd_arr as $item) {
+                    $printer -> text($item);
+                }
+
+                $printer ->setEmphasis(true);
+                $printer -> text(new item('Subtotal',$subTotal));
+                $tax = (new db_handler())->sum('bill_tax_tran','tax_amt',"`bill_date` = '$date' and `mech_no` = '$mech'");
+                $printer -> text(new item('Tax',number_format($tax,2)));
+                $printer -> text(new item('Total',number_format($subTotal-$tax,2)));
+
+
+
                 // print details
             } else {
                 $printer -> text("NO BILL HEADER FOR MACHINE #$mech on $date");

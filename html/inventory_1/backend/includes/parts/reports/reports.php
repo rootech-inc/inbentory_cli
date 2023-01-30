@@ -9,7 +9,7 @@
             <div class="ant-bg-dark w-75 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
                 <article class="d-flex flex-wrap align-content-start justify-content-between overflow-auto">
                     <button id="sales_report" class="master_button btn m-2 p-1 pointer">SALES</button>
-                    <button id="z_report" class="master_button btn btn-warning m-2 p-1 pointer">Z-REPORT</button>
+                    <button id="z_modal" class="master_button btn btn-warning m-2 p-1 pointer">Z-REPORT</button>
                     <div class="modal fade" id="zModal">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -22,7 +22,7 @@
                                             <div class="col-sm-12">
                                                 <div class="form-group w-100">
                                                     <label for="shifts">SELECT SHIFT:</label>
-                                                    <select multiple class="form-control" id="shifts" name="shifts">
+                                                    <select class="form-control" id="shifts" name="shifts">
 
                                                     </select>
                                                 </div>
