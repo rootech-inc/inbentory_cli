@@ -70,13 +70,13 @@ class Billing
         $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate')";
+                  '$bill_amt','i','$tax_description','$rate','$today')";
 
-        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt)
-                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount')";
+        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt,bill_date)
+                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount','$today')";
 
 //        print_r($sql);
         print_r($tax_tran);
@@ -176,8 +176,8 @@ class Billing
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal)VALUES 
-                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance);
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date)VALUES 
+                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance,'$today');
 ";
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
@@ -185,11 +185,11 @@ class Billing
                     $this->db_handler()->db_connect()->exec($bill_header_insert);
                     if($method === 'refund')
                     {
-                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values 
-                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND')");
+                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values 
+                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND','$today')");
                     } else
                     {
-                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
+                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT','$today')");
                     }
 
                     if($method === 'refund')

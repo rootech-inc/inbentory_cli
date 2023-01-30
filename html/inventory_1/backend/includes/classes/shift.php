@@ -6,8 +6,8 @@ class shift extends \db_handeer\db_handler
 {
     function is_shift($mech = mech_no): bool
     {
-        $day = today;
-        if($this->row_count('shifts',"`mech_no` = '$mech' AND `shift_date` = '$day' AND `end_time` is null ") > 0)
+//        $day = today;
+        if($this->row_count('shifts',"`mech_no` = '$mech'  AND `end_time` is null ") > 0)
         {
             // there is shift
             return true;

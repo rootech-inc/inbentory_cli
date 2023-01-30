@@ -816,11 +816,30 @@ class MechConfig {
 
     }
 
-    is_shift(mech_no = this.ThisMech()['mechine_number'],day=toDay){
+    is_shift(mech_no = this.ThisMech()['mechine_number'],day=''){
 
         // check if there is shift
-        return row_count('shifts', `mech_no = '${mech_no}' AND shift_date = '${day}' AND end_time is null`) === 1;
+        return row_count('shifts', `mech_no = '${mech_no}'  AND end_time is null`) === 1;
 
+    }
+
+    my_shift(){
+        let response = {'valid':0,'shift':''}
+        if(this.is_shift())
+        {
+            let my_sh = JSON.parse(get_row('shifts', `mech_no = '${this.ThisMech()['mechine_number']}'  AND end_time is null`))[0]
+            let my_sh_d = {
+                'recId':my_sh['recId'],
+                'clerk':my_sh['clerk'],
+                'shift_date':my_sh['shift_date'],
+                'start_time':my_sh['start_time']
+            }
+
+            response['valid'] = 1
+            response['shift'] = my_sh_d
+        }
+        ct(response)
+        return response
     }
 
     open_shifts(){

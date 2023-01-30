@@ -40,14 +40,24 @@ ini_set('display_errors',1);
     $MConfig = new \mechconfig\MechConfig();
     $company = $db->get_rows('company',"`id` = 0");
     // validate machine
+    define('mech_no',$MConfig->mech_details()['mechine_number']);
+    $machine_number = mech_no;
+    if($shiftCL->is_shift(mech_no))
+    {
+        $shit_detail = (new db_handler())->get_rows('shifts',"`mech_no` = '$machine_number'");
+        $today = $shit_detail['shift_date'];
+    } else {
+        $today = date('Y-m-d');
+    }
 
 
-    $today = date('Y-m-d');
     define('today',$today);
     $current_time = date("Y-m-d H:m:s");
-    define('mech_no',$MConfig->mech_details()['mechine_number']);
+
+
+
     define('doc_root',$_SERVER['DOCUMENT_ROOT']);
-    $machine_number = mech_no;
+
     $root_host = $_SERVER['DOCUMENT_ROOT'];
     $shift = $db->shift(mech_no);
     define('shift',$shift);

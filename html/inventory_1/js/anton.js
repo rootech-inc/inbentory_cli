@@ -24,7 +24,7 @@ const hh = String(today.getHours())
 const mmm = String(today.getMinutes())
 const sss = String(today.getSeconds())
 const yyyy = today.getFullYear();
-const  toDay = yyyy + '-' + mm + '-' + dd;
+
 const time_x = `${hh}:${mmm}:${sss}`
 const current_time_stamp = yyyy + "-" + mm +"-" + dd + " " + hh + ":" + mmm + ":" + sss
 
@@ -40,6 +40,28 @@ const User = new UserConfig()
 const screens = new screenMaster()
 const Mech = new MechConfig()
 const mech_no = Mech.ThisMech()['mechine_number']
+let toDay = ''
+
+if(Mech.is_shift())
+{
+    var my_shift = Mech.my_shift()
+    let x_valid,x_shift
+    x_valid = my_shift['valid']
+    x_shift = my_shift['shift']
+
+
+
+    if(x_valid === 1){
+        toDay  = x_shift['shift_date'];
+        cl('valid shift')
+    } else {
+        toDay = yyyy + '-' + mm + '-' + dd;
+        cl('invalid shift')
+    }
+} else {
+    toDay = yyyy + '-' + mm + '-' + dd;
+    cl('No SHift')
+}
 
 const user_id = a_sess.get_session('clerk_id')
 
