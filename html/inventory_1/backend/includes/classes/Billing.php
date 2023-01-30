@@ -75,8 +75,8 @@ class Billing
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate','$today')";
 
-        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt,bill_date)
-                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount','$today')";
+        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt)
+                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount')";
 
 //        print_r($sql);
         print_r($tax_tran);
@@ -147,7 +147,7 @@ class Billing
 
 
         $myName = $_SESSION['clerk_id'];
-        $today = date('Y-m-d');
+        $today = today;
         $response = ['status'=>505,'message'=>'initialization'];
         // get current bill details
         $bill_number = bill_no;
