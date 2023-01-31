@@ -487,12 +487,14 @@ require '../includes/core.php';
 
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
-//                    if($response['status'] === 200)
-//                   {
-//
-//                       printbill($machine_number,$bill_number,$method);
-//
-//                   }
+                    if($response['status'] === 200)
+                   {
+                       echo 'printing bill';
+                       printbill($machine_number,$bill_number,$method);
+
+                   } else {
+                        echo 'invalid bill';
+                    }
 
                     header('Content-Type: application/json');
                     echo json_encode($response);
