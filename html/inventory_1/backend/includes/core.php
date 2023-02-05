@@ -14,7 +14,8 @@ ini_set('display_errors',1);
     const db_host = 'localhost';
     const db_user = 'anton';
     const db_password = '258963';
-    const db_name = "SMHOS";
+    const db_name = "posdb";
+
 
     require 'session.php';
     $session_id = session_id();
@@ -30,6 +31,7 @@ ini_set('display_errors',1);
     require 'classes/reports.php';
     require  'classes/auth.php';
     require 'classes/shift.php';
+
     $bill = new \billing\Billing();
 
 

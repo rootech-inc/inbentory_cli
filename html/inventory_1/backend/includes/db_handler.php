@@ -41,6 +41,7 @@ class db_handler
             return $pdo;
         } catch (PDOException $err)
         {
+            die("CAANOT CONNECT DB");
             (new \anton)->error_handler('Database Error',$err->getMessage());
             return false;
         }
