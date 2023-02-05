@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/../../escpos-php/vendor/autoload.php';
+require __DIR__ . '/../../escpos/vendor/autoload.php';
 
 use db_handeer\db_handler;
 use mechconfig\MechConfig;

@@ -1,6 +1,7 @@
 class Bill {
     loadBillsInTrans(){
         b_msg('Loading Bill Transactions...')
+
         bill.sub_total()
         var form = new FormData();
         form.append("function", "get_bill");
@@ -14,7 +15,7 @@ class Bill {
             "contentType": false,
             "data": form,
             success: function (response) {
-                // console.log(response)
+                console.log(response)
                 // al(response)
                 let res = JSON.parse(response)
                 // console.table(res)
