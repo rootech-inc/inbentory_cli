@@ -3,6 +3,7 @@
 namespace billing;
 
 use db_handeer\db_handler;
+use Exception;
 
 class Evat extends db_handler
 {
@@ -92,18 +93,23 @@ class Evat extends db_handler
         $inv_header = $this->invoice_header($mech_no,$bill_number,$tran_date);
         $inv_items = $this->inv_items(mech_no,$bill_number,$tran_date);
 
-        $curl = curl_init();
+        try {
+            $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "$this->call_url/post_receipt_Json.jsp",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS =>"{
+            if ($curl === false) {
+                throw new Exception('failed to initialize');
+            }
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "$this->call_url/post_receipt_Json.jsp",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS =>"{
                 'company': {
                         'COMPANY_NAMES': 'TEST TAXPAYER 15 PERCENT VAT',
                         'COMPANY_SECURITY_KEY': 'UUAKE3NVOTLRMQWCVUDIPOUT395KTCTH',
@@ -115,16 +121,31 @@ class Evat extends db_handler
                    ]
                 
                 }",
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Cookie: JSESSIONID=000B34D06B8C3990FC40018C1A91929E'
-            ),
-        ));
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Cookie: JSESSIONID=000B34D06B8C3990FC40018C1A91929E'
+                ),
+            ));
 
-        // execute
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return $response;
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+            // execute
+            $response = curl_exec($curl);
+            curl_close($curl);
+            return $response;
+        } catch(Exception $e) {
+
+            trigger_error(sprintf(
+                'Curl failed with error #%d: %s',
+                $e->getCode(), $e->getMessage()),
+                E_USER_ERROR);
+
+        } finally {
+            // Close curl handle unless it failed to initialize
+            if (is_resource($curl)) {
+                curl_close($curl);
+            }
+        }
 
     }
     # send invoice
