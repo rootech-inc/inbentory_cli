@@ -27,7 +27,8 @@
     "ext-intl": "*",
     "ext-zlib": "*",
     "mike42/gfx-php" : "^0.6",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-curl": "*"
   },
   "suggest" : {
     "ext-imagick" : "Will be used for image printing if present. Required for PDF printing or use of custom fonts.",

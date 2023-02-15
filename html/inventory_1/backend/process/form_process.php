@@ -395,7 +395,8 @@ require '../includes/core.php';
 
                 $response = ['code'=>500,'message'=>'NOT INITIALIZED'];
                 // generate random 4 digit number
-                $entry_number = str_replace('-','',$today) . (new \mechconfig\MechConfig)->lite_row_count('hold_hd','entry_no','`id` > 0') + 1;
+                $entry_number = str_replace('-','',$today) . (new \mechconfig\MechConfig)->lite_row_count('hold_hd','entry_no','`id` > 0');
+                $entry_number ++;
                 $entry_no = str_rot13(str_shuffle($entry_number));
 
 
@@ -473,7 +474,7 @@ require '../includes/core.php';
                 $amount_paid = $anton->post('amount_paid');
 
                 $myName = $_SESSION['clerk_id'];
-                $today = date('Y-m-d');
+                $today = today;
                 // get current bill details
                 $bill_number = bill_no;
                 $machine_number = (new MechConfig())->mech_details()['mechine_number'];
@@ -487,14 +488,13 @@ require '../includes/core.php';
 
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
-                    if($response['status'] === 200)
-                   {
-                       echo 'printing bill';
-                       printbill($machine_number,$bill_number,$method);
-
-                   } else {
-                        echo 'invalid bill';
-                    }
+//                    printMessage("MUFASA");
+//                    if($response['status'] === 200)
+//                   {
+//
+//                       printbill($machine_number,$bill_number,$method);
+//
+//                   }
 
                     header('Content-Type: application/json');
                     echo json_encode($response);

@@ -31,6 +31,10 @@ ini_set('display_errors',1);
     require 'classes/reports.php';
     require  'classes/auth.php';
     require 'classes/shift.php';
+    require  'classes/Evat.php';
+
+    $evat = new \billing\Evat('');
+    $evat->set_url("https://apitest.e-vatgh.com/evat_apiqa");
 
     $bill = new \billing\Billing();
 

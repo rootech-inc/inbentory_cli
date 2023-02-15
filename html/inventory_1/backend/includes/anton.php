@@ -186,6 +186,7 @@ class anton extends FPDF
     // calculate for tax
     public function tax($tax_code, $amount): array
     {
+        $tax_trans = array();
         $tax_compo = array(
             "status"=>404,
             "header"=>array(
@@ -198,12 +199,18 @@ class anton extends FPDF
                 "taxAmt"=>0.00,
                 "taxableAmt"=>0.00
             ),
+            "tax_trans"=>$tax_trans
         );
 
         if($tax_code === 'VM'){
+
+            //get levies NIHIS & GFUND = 2.5, COVID = 1
+            $two_five = 100 / 2.5;
+
             // multiple tax
             $taxAmt = $amount * 21.90;
             $taxAmt /= 121.9;
+
             $taxableAmt = $amount - $taxAmt;
 
 

@@ -284,7 +284,7 @@ class Bill {
                             amt_paid = message['amt_paid']
                             amt_bal = message['amt_bal']
 
-                            bill.printBill(bill_number,mech_no,toDay)
+                            // bill.printBill(bill_number,mech_no,toDay)
 
                             jqh.setText({
                                 'tax':tax_amt,

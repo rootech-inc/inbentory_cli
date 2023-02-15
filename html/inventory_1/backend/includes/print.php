@@ -40,13 +40,32 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         }
     }
 
-    function printbill($mech_no,$bill_number,$payment = 'payment'){
-        $connector = new WindowsPrintConnector("POS");
+    function printMessage($message){
+        try {
+            // Enter the share name for your USB printer here
+            $connector = null;
+            $connector = new WindowsPrintConnector("POS");
 
-        $today = date('Y-m-d');
+            /* Print a "Hello world" receipt" */
+            $printer = new Printer($connector);
+            $printer -> text("$message\n");
+            $printer -> cut();
+
+            /* Close printer */
+            $printer -> close();
+        } catch (Exception $e) {
+            echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
+        }
+    }
+    function printbill($mech_no,$bill_number,$payment = 'payment'){
+
+
+
+        $today = today;
         $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
         if((new db_handler())->row_count('bill_header',$bill_hd_count) > 0)
         {
+
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
             $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
@@ -101,8 +120,9 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $date = date('l jS \of F Y h:i:s A');
             //$date = "Monday 6th of April 2015 02:56:25 PM";
 
+            $connector = null;
+            $connector = new WindowsPrintConnector("POS");
             $printer = new Printer($connector);
-            $printer -> close();
             $logo = EscposImage::load(logo, false);
 
                 /* Print top logo */
@@ -178,12 +198,12 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
             /* Cut the receipt and open the cash drawer */
             $printer -> cut();
-            $printer -> pulse();
             $printer -> close();
 
 
         } else {
             //todo print no found bill
+            printMessage("BILL_NOT_FOUND");
         }
 
 
