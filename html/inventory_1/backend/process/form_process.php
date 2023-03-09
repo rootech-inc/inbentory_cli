@@ -116,14 +116,9 @@ require '../includes/core.php';
                 }
                 $item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
 
-                if((new \billing\Billing())->AddToBill($bill_number,$item,$qty,$myName))
-                {
-                    $anton->done('bill_added');
-                }
-                else
-                {
-                    $anton->err('could_not_add_item');
-                }
+                $add_bill = (new \billing\Billing())->AddToBill($bill_number,$item,$qty,clerk_code);
+
+                echo json_encode($add_bill);
 
 
 
@@ -341,9 +336,10 @@ require '../includes/core.php';
                     // todo print bill
 
                     // mark bill as canceled
-                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
+//                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
                     $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
                     $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
+                    $db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
 
                 }
 
@@ -489,12 +485,12 @@ require '../includes/core.php';
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
 //                    printMessage("MUFASA");
-//                    if($response['status'] === 200)
-//                   {
-//
-//                       printbill($machine_number,$bill_number,$method);
-//
-//                   }
+                    if($response['status'] === 200)
+                   {
+
+                       printbill($machine_number,$bill_number,$method);
+
+                   }
 
                     header('Content-Type: application/json');
                     echo json_encode($response);

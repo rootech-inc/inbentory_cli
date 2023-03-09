@@ -34,7 +34,7 @@ ini_set('display_errors',1);
     require  'classes/Evat.php';
 
     $evat = new \billing\Evat('');
-    $evat->set_url("https://apitest.e-vatgh.com/evat_apiqa");
+    $evat->set_url("http://192.168.2.88:8080/evat_api");
 
     $bill = new \billing\Billing();
 

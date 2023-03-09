@@ -32,7 +32,17 @@ $(function() {
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
                 success: function (response){
-                    // echo(response);
+                    echo(response);
+                    if(isJson(response))
+                    {
+                        // bill is valid json
+                        let code,message
+                        b_msg(message)
+
+                    } else {
+                        al("Invalid Bill Response")
+                    }
+
                     i_hide('numericKeyboard')
                     $('#general_input').val('');
                     if(response.split('%%')[0] === 'error')

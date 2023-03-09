@@ -4,6 +4,14 @@ function cl(params) { // console log
     console.log(params + '\n')
 }
 
+const isJson = (str) => {
+  try {
+      JSON.parse(str)
+      return true
+  } catch (e) {
+      return false
+  }
+}
 ct = (param) => console.table(param);
 // ct = (param) => '';
 

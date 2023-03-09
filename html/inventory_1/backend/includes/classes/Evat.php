@@ -9,6 +9,8 @@ class Evat extends db_handler
 {
     public $call_url;
 
+    public $response = array("status"=>505,'response'=>'INI');
+
     public function __construct($call_url)
     {
         $this->call_url = $call_url;
@@ -23,12 +25,13 @@ class Evat extends db_handler
     // invoice header
     public function invoice_header($mech_no,$bill_number,$tran_date): string
     {
+        $invoice_no = md5(rand(1738,9999));
         return "{
               'COMPUTATION_TYPE': 'INCLUSIVE',
               'FLAG': 'INVOICE',
               'SALE_TYPE':'NORMAL',
               'USER_NAME': 'ARNAU',
-              'NUM': 'SAP12320tug',
+              'NUM': 'INV$invoice_no',
               'INVOICE_DATE': '2023-07-15',
               'CURRENCY': 'GHS',
               'EXCHANGE_RATE': '1',
@@ -111,9 +114,9 @@ class Evat extends db_handler
                 CURLOPT_CUSTOMREQUEST => 'POST',
                 CURLOPT_POSTFIELDS =>"{
                 'company': {
-                        'COMPANY_NAMES': 'TEST TAXPAYER 15 PERCENT VAT',
-                        'COMPANY_SECURITY_KEY': 'UUAKE3NVOTLRMQWCVUDIPOUT395KTCTH',
-                        'COMPANY_TIN': 'C00XXXXXXXX'
+                        'COMPANY_NAMES': 'SNEDA SHOPPING CENTRE',
+                        'COMPANY_SECURITY_KEY': 'APXNTSNXVFFZ6ZF7PPZVDOCIZFIVQ0RG',
+                        'COMPANY_TIN': 'C0003545865'
                     },
                 'header': $inv_header,
                 'item_list': [
@@ -130,9 +133,23 @@ class Evat extends db_handler
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
             // execute
-            $response = curl_exec($curl);
+            $call = curl_exec($curl);
+            $resp = json_decode($call)->RESPONSE;
             curl_close($curl);
-            return $response;
+            $MESSAGE = $resp->MESSAGE;
+            $STATUS = $resp->STATUS;
+            if($STATUS === 'SUCCESS')
+            {
+                $NUM = $MESSAGE->NUM;
+                $this->response = $this->get_signature($NUM);
+//                $this->response['status'] = 200;
+//                $this->response['message'] = "EVAT SUCCESS $NUM";
+
+            } else {
+                $this->response['message'] = "Could not get response";
+            }
+            return $this->response;
+
         } catch(Exception $e) {
 
             trigger_error(sprintf(
@@ -149,5 +166,84 @@ class Evat extends db_handler
 
     }
     # send invoice
+
+    # START GET SIGNATURE #
+
+    public function get_signature($num){
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'http://192.168.2.88:8080/evat_api/get_Response_JSON.jsp',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>"
+                {
+                'company': {
+                        'COMPANY_NAMES': 'SNEDA SHOPPING CENTRE',
+                        'COMPANY_SECURITY_KEY': 'APXNTSNXVFFZ6ZF7PPZVDOCIZFIVQ0RG',
+                        'COMPANY_TIN': 'C0003545865'
+                    },
+                'header': {
+                'NUM': '$num',
+                'FLAG': 'INVOICE'
+                }
+                }
+            ",
+                CURLOPT_HTTPHEADER => array(
+                    'Content-Type: application/json',
+                    'Cookie: JSESSIONID=D95E1548B21E07B6FF3E72AE2D62462A'
+                ),
+            ));
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+            $call = curl_exec($curl);
+            $response = json_decode($call)->RESPONSE;
+            curl_close($curl);
+
+            $STATUS = $response->STATUS;
+
+            $sig_resp = array('status'=>505,'message'=>'');
+
+            if($STATUS === 'SUCCESS') {
+
+                $MESSAGE = $response->MESSAGE;
+                $flag = $MESSAGE->flag;
+                $ysdcrecnum = $MESSAGE->ysdcrecnum;
+                $num = $MESSAGE->num;
+                $ysdcid = $MESSAGE->ysdcid;
+                $ysdcintdata = $MESSAGE->ysdcintdata;
+                $ysdcmrc = $MESSAGE->ysdcmrc;
+                $ysdcitems = $MESSAGE->ysdcitems;
+                $ysdcmrctim = $MESSAGE->ysdcmrctim;
+                $ysdcregsig = $MESSAGE->ysdcregsig;
+                $ysdctime = $MESSAGE->ysdctime;
+
+                $QR_CODE = $response->QR_CODE;
+
+                $sig_resp['status'] = 200;
+                $sig_resp['message'] = array(
+                    'flag'=>$flag,'num'=>$num,'ysdcrecnum'=>$ysdcrecnum,'ysdcid'=>$ysdcid,'ysdcintdata'=>$ysdcintdata,
+                    'ysdcmrc'=>$ysdcmrc,'ysdcitems'=>$ysdcitems,'ysdcmrctim'=>$ysdcmrctim,'ysdcregsig'=>$ysdcregsig,'ysdctime'=>$ysdctime,
+                    'qr_code'=>$QR_CODE,
+                );
+            } else {
+                $sig_resp['status'] = 500;
+                $error_code = $sig_resp['status'];
+                $error_msg = $response->MESSAGE;
+                $sig_resp['message'] = array('code'=>$error_code,'message'=>$error_msg);
+            }
+
+            return $sig_resp;
+
+    }
+
+    # END GET SIGNATURE #
 
 }

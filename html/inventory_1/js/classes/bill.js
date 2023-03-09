@@ -121,7 +121,7 @@ class Bill {
                     }
                     $('#bill_loader').html(rows)
                     $("#bill_loader").animate({ scrollTop: $('#bill_loader').prop("scrollHeight")});
-                    b_msg("")
+                    // b_msg("")
                     $('#general_input').val('')
 
                 }
@@ -212,7 +212,7 @@ class Bill {
 
             }
         })
-        b_msg("")
+        b_msg("Bill Held")
     }
 
     // make payment
@@ -284,7 +284,7 @@ class Bill {
                             amt_paid = message['amt_paid']
                             amt_bal = message['amt_bal']
 
-                            // bill.printBill(bill_number,mech_no,toDay)
+                            bill.printBill(bill_number,mech_no,toDay)
 
                             jqh.setText({
                                 'tax':tax_amt,

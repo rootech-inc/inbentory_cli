@@ -1,6 +1,7 @@
 <?php
 namespace billing;
 use mechconfig\MechConfig;
+use MongoDB\Driver\Exception\Exception;
 use PDO;
 use PDOException;
 use anton;
@@ -8,6 +9,7 @@ use db_handeer\db_handler;
 class Billing
 {
 
+    public $response = array('code'=>404,'status'=>null);
 
     function billNumber (): int
     {
@@ -60,14 +62,17 @@ class Billing
         $tax_code = $taxDetails['attr'];
 
         $tax = (new \anton())->tax($tax_code,$bill_amt);
-        $taxAmount = $tax['details']['taxAmt'];
 
+        try {
+            $tax_tran = $this->TaxTran("$bill_number","$machine_number","$barcode","$qty");
 
+            if($tax_tran['code'] === 200)
+            {
+                $tax_detail = $tax_tran['message'];
+                $taxAmount = $tax_detail['vat'];
 
-
-
-        // add to bill in trans
-        $sql = "insert into `bill_trans` 
+                // add to bill in trans
+                $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
                  `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added) values
@@ -75,26 +80,31 @@ class Billing
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate','$today')";
 
-        $tax_tran = "insert into bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, tax_code,taxableAmt,tax_amt)
-                    VALUES ('$today','$clerk_code','$machine_number','$bill_number','$item_code','$qty','$tax_code','$bill_amt','$taxAmount')";
 
-//        print_r($sql);
-        print_r($tax_tran);
 
-        try {
-            (new \db_handeer\db_handler())->db_connect()->prepare($sql);
-            (new \db_handeer\db_handler())->db_connect()->exec($sql);
-            (new \db_handeer\db_handler())->db_connect()->prepare($tax_tran);
-            (new \db_handeer\db_handler())->db_connect()->exec($tax_tran);
+                (new \db_handeer\db_handler())->db_connect()->prepare($sql);
+                (new \db_handeer\db_handler())->db_connect()->exec($sql);
 
-            return true;
+                $this->response['code'] = 200;
+                $this->response['message'] = 'bill saved';
 
-        } catch (PDOException  $e)
+            } else {
+                $this->response['code'] = $tax_tran['code'];
+                $this->response['message'] = $tax_tran['message'];
+
+            }
+
+
+
+        } catch (\Exception $e)
         {
-//            echo "error%%".$e->getMessage();
-            return false;
+            $this->response['code'] = 505;
+            $this->response['message'] = $e->getMessage();
         }
 
+
+
+        return $this->response;
 
     }
 
@@ -240,6 +250,125 @@ class Billing
     private function anton(): anton
     {
         return (new anton());
+    }
+
+    function TaxTran($bill_no,$mech_no,$item_code,$qty){
+        $date = today;
+        $clerk = clerk_code;
+        // validate machine, item_code
+        $itemCount = $this->db_handler()->row_count('prod_mast',"`barcode` = '$item_code'");
+        $mechValid = $this->db_handler()->row_count("mech_setup","`mech_no` = '$mech_no'");
+
+        if($itemCount < 1 || $itemCount > 1)
+        {
+            $this->response['message'] = " Item Not Found";
+        }
+//        elseif ($mechValid === '1')
+//        {
+//            $this->response['message'] = " Machine Number $mechValid";
+//        }
+        else {
+
+            try {
+
+                // there is item and also bill
+                $item = $this->db_handler()->get_rows('prod_mast',"`barcode` = '$item_code'");
+                $tax_code = $item['tax_grp'];
+                $i_code = $item['id'];
+
+                // get tax details
+                $taxCount = $this->db_handler()->row_count('tax_master',"`id` = '$tax_code'");
+
+                if($taxCount === 1)
+                {
+
+                    try {
+
+                        // there is tax code
+                        $taxDetail = $this->db_handler()->get_rows('tax_master',"`id` = '$tax_code'");
+                        $tax_code = $taxDetail['attr'];
+                        $retail = $item['retail'];
+
+                        if($tax_code === 'VM')
+                        {
+                            $nhil = (2.5 / 100) * $retail;
+                            $gfund = (2.5 / 100 ) * $retail;
+                            $covid  = (1 / 100 ) * $retail;
+
+                            $vat_calc = $retail * 21.90;
+                            $vat = $vat_calc / 121.9;
+
+                            // insert into tax transactions
+                            try {
+
+                                $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
+                                 tax_amt) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'nh', $nhil),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'gf', $gfund),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'cv', $covid),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'VM', $vat);";
+
+                                $this->db_handler()->db_connect()->exec($tax_ins_query);
+                                $this->response['code'] = 200;
+                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat);
+                                $this->response['message'] = $tax_detail;
+
+                            } catch (PDOException $e)
+                            {
+                                $this->response['code'] = 505;
+                                $this->response['message'] .= " ".$e->getMessage() . " " . $e->getLine();
+                            }
+
+                        }
+                        else {
+                            // this is flat rate
+                            $tax_rate = $taxDetail['rate'];
+                            $vat = ($tax_rate / 100 ) * $retail;
+
+                            try {
+
+                                $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
+                                 tax_amt) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, '$tax_code', $vat);";
+
+                                $this->db_handler()->db_connect()->exec($tax_ins_query);
+                                $this->response['code'] = 200;
+                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat);
+                                $this->response['message'] = $tax_detail;
+
+                            } catch (PDOException $e)
+                            {
+                                $this->response['code'] = 505;
+                                $this->response['message'] .= " ".$e->getMessage();
+                            }
+
+                        }
+
+                    } catch (Exception $e)
+                    {
+
+                        $this->response['code'] = 505;
+                        $this->response .= " " . $e->getMessage();
+
+                    }
+
+
+
+                } else {
+                    $this->response['message'] .= " invalid Tax Code";
+                }
+
+            } catch (\Exception $e)
+            {
+                $this->response['code'] = 505;
+                $this->response['message'] .= " ".$e->getMessage();
+            }
+
+
+
+        }
+
+        return $this->response;
+
+
     }
 
 

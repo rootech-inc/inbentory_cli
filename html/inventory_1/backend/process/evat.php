@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
         // make invoice
         $response = $evat->invoice(1,1,today);
         header('Content-Type: application/json');
-        echo json_encode($response);
+        print_r(json_encode($response)) ;
 
     } else {
 

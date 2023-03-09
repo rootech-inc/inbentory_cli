@@ -111,6 +111,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $paidAmt = new item('Paid Amount', $amt_paid);
             $balAmt = new item("Bal. Amount",$amt_bal);
 
+
+
             $nhil = new item('NHIL (2.5%)', '1.30');
             $getf = new item('GETL (2.5%)', '1.30');
             $covid = new item('COVID (1%)', '1.30');
@@ -182,9 +184,19 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text("TAX BREAKDOWN\n");
             $printer -> selectPrintMode();
 
-            $printer -> text($nhil);
-            $printer -> text($getf);
-            $printer -> text($covid);
+            $taxes = (new db_handler())->db_connect()->query("select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code != 'VM' and bill_no = $bill_number and mech_no = $mech_no group by tax_code;");
+            while ($tax = $taxes->fetch(PDO::FETCH_ASSOC))
+            {
+                $code = $tax['tax_code'];
+                $tv = number_format($tax['tv'],2);
+
+                $tax_line = new item($code,$tv);
+                $printer ->text($tax_line);
+            }
+
+//            $printer -> text($nhil);
+//            $printer -> text($getf);
+//            $printer -> text($covid);
             $printer -> feed();
             $printer->setUnderline(1);
 
