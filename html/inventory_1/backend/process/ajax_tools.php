@@ -170,6 +170,12 @@
                 $day = $anton->post('day');
                 printbill($mechNo,$billNo,'unknown');
             }
+            elseif ($function === 'print_sales')
+            {
+                require '../includes/print.php';
+
+                printSales();
+            }
 
         }
     }

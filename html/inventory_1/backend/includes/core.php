@@ -8,6 +8,7 @@ ini_set('display_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
+    const printer = 'POS';
 
     $bill_number = 0;
 
@@ -102,6 +103,8 @@ ini_set('display_errors',1);
 
         $bill_number = $MConfig->bill_number();
         $bill_number = $bill->billNumber();
+        $billRef = "001".date('ymd').$bill_number.mech_no;
+        define('billRef',$billRef);
         define('bill_total',$bill->billTotal($bill_number,$today));
         define('bill_no',$bill_number);
         $response = ['status' => 000,'message'=>'null'];

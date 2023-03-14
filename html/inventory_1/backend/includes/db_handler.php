@@ -213,6 +213,7 @@ class db_handler
     public function sum($table,$column,$condition,$as = 'result')
     {
         $q = "SELECT SUM($column) as $as FROM `$table` WHERE $condition";
+        (new \anton())->log2file($q);
 
         $sql = $this->db_connect()->query("SELECT SUM($column) as $as FROM `$table` WHERE $condition");
 

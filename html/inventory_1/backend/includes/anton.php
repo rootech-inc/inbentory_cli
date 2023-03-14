@@ -279,5 +279,11 @@ class anton extends FPDF
         return json_encode($data);
     }
 
+    public function log2file($content){
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
+        $text = "$content\n";
+        file_put_contents($file, $text, FILE_APPEND);
+    }
+
 
 }

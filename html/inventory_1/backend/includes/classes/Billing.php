@@ -23,7 +23,7 @@ class Billing
     {
         $today = today;
         $clerk_code = clerk_code;
-
+        $billRef = billRef;
         //get item details
         $machine_number = mech_no;
         $clerk = $_SESSION['clerk_id'];
@@ -75,10 +75,10 @@ class Billing
                 $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate','$today')";
+                  '$bill_amt','i','$tax_description','$rate','$today','$billRef')";
 
 
 
@@ -159,6 +159,7 @@ class Billing
         $myName = $_SESSION['clerk_id'];
         $today = today;
         $response = ['status'=>505,'message'=>'initialization'];
+        $billRef = billRef;
         // get current bill details
         $bill_number = bill_no;
         $machine_number = (new MechConfig())->mech_details()['mechine_number'];
@@ -186,9 +187,8 @@ class Billing
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date)VALUES 
-                                                                        ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance,'$today');
-";
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef');";
+                (new anton())->log2file($bill_header_insert);
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
                     // make bill
@@ -255,6 +255,7 @@ class Billing
     function TaxTran($bill_no,$mech_no,$item_code,$qty){
         $date = today;
         $clerk = clerk_code;
+        $billRef = billRef;
         // validate machine, item_code
         $itemCount = $this->db_handler()->row_count('prod_mast',"`barcode` = '$item_code'");
         $mechValid = $this->db_handler()->row_count("mech_setup","`mech_no` = '$mech_no'");
@@ -302,10 +303,12 @@ class Billing
                             try {
 
                                 $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'nh', $nhil),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'gf', $gfund),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'cv', $covid),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'VM', $vat);";
+                                 tax_amt,billRef) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'nh', $nhil,'$billRef'),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'gf', $gfund,'$billRef'),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'cv', $covid,'$billRef'),
+                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'VM', $vat,'$billRef');";
+
+                                (new anton())->log2file($tax_ins_query);
 
                                 $this->db_handler()->db_connect()->exec($tax_ins_query);
                                 $this->response['code'] = 200;
@@ -327,7 +330,8 @@ class Billing
                             try {
 
                                 $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, '$tax_code', $vat);";
+                                 tax_amt,billRef) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, '$tax_code', $vat,'$billRef');";
+                                (new anton())->log2file($tax_ins_query);
 
                                 $this->db_handler()->db_connect()->exec($tax_ins_query);
                                 $this->response['code'] = 200;

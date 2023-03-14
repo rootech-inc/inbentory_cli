@@ -27,8 +27,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
         public function __toString()
         {
-            $rightCols = 10;
-            $leftCols = 38;
+            $rightCols = 15;
+            $leftCols = 33;
             if ($this -> dollarSign) {
                 $leftCols = $leftCols / 2 - $rightCols / 2;
             }
@@ -44,7 +44,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         try {
             // Enter the share name for your USB printer here
             $connector = null;
-            $connector = new WindowsPrintConnector("POS");
+            $connector = new WindowsPrintConnector(printer);
 
             /* Print a "Hello world" receipt" */
             $printer = new Printer($connector);
@@ -57,6 +57,16 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
         }
     }
+
+    function printCut(){
+        $connector = null;
+        $connector = new WindowsPrintConnector(printer);
+        $printer = new Printer($connector);
+        /* Cut the receipt and open the cash drawer */
+        $printer -> cut();
+        $printer -> close();
+    }
+
     function printbill($mech_no,$bill_number,$payment = 'payment'){
 
 
@@ -67,6 +77,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         {
 
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
+            $curRef = $bill_header['billRef'];
+
             $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
             $tran_qty = $bill_total['tran_qty'];
@@ -123,7 +135,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             //$date = "Monday 6th of April 2015 02:56:25 PM";
 
             $connector = null;
-            $connector = new WindowsPrintConnector("POS");
+            $connector = new WindowsPrintConnector(printer);
             $printer = new Printer($connector);
             $logo = EscposImage::load(logo, false);
 
@@ -156,16 +168,19 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer -> text("Bill# $bill_number");
             $printer->feed();
-            $printer -> text("M# $mech_no");
-            $printer ->feed();
-            $printer -> text("Admin");
+            $printer -> text(new item('24-FEB-2023','TIME : 10:26'));
+            $printer -> setUnderline();
+            $printer -> text(new item('M# : 6','Clerk : Admin'));
+            $printer -> setUnderline(0);
             $printer -> feed();
-
             /* Items */
             $printer -> setJustification(Printer::JUSTIFY_LEFT);
             $printer -> setEmphasis(true);
-            $printer -> text(new item('', '$'));
+            $printer -> setUnderline(1);
+            $printer -> text(new item('No. Product', 'Amount'));
+            $printer -> setUnderline(0);
             $printer -> setEmphasis(false);
+            $printer -> feed();
             foreach ($items as $item) {
                 $printer -> text($item);
             }
@@ -173,6 +188,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> feed();
 
             /* Tax and total */
+
             $printer -> text($taxable);
             $printer -> text($tax);
             $printer -> text($billAmt);
@@ -180,17 +196,27 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text($balAmt);
             $printer -> feed();
 
-            $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer -> text("TAX BREAKDOWN\n");
-            $printer -> selectPrintMode();
 
-            $taxes = (new db_handler())->db_connect()->query("select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code != 'VM' and bill_no = $bill_number and mech_no = $mech_no group by tax_code;");
-            while ($tax = $taxes->fetch(PDO::FETCH_ASSOC))
+            $printer -> setUnderline(1);
+            $printer -> text(new item('TAX DESC', 'TAX AMOUNT'));
+            $printer -> setUnderline(0);
+
+            $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number group by tax_code;";
+            $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
+
+//            $file = __DIR__ . "../../../log_file.log";
+//            $text = "$tax_sql\n";
+//            file_put_contents($file, $text, FILE_APPEND);
+
+            (new  anton())->log2file($tax_sql);
+
+
+            while ($tax_resp = $taxes_query->fetch(PDO::FETCH_ASSOC))
             {
-                $code = $tax['tax_code'];
-                $tv = number_format($tax['tv'],2);
+                $tax_code = $tax_resp['tax_code'];
+                $tax_value = $tax_resp['tv'];
 
-                $tax_line = new item($code,$tv);
+                $tax_line = new item($tax_code,$tax_value);
                 $printer ->text($tax_line);
             }
 
@@ -206,7 +232,16 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text("Thank you for shopping at ExampleMart\n");
             $printer -> text("For trading hours, please visit example.com\n");
             $printer -> feed(2);
+
             $printer -> text($date . "\n");
+            $printer -> feed(1);
+
+            $printer->setBarcodeHeight(80);
+            $printer->setBarcodeWidth(5);
+            $printer->barcode("$curRef", Printer::BARCODE_JAN13);
+            $printer->setTextSize(2,1);
+            $printer -> text("$curRef \n");
+
 
             /* Cut the receipt and open the cash drawer */
             $printer -> cut();
@@ -224,7 +259,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printzreport($recId)
     {
-        $connector = new WindowsPrintConnector("POS");
+        $connector = new WindowsPrintConnector(printer);
         $printer = new Printer($connector);
         $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
         if($shift_count === 1)
@@ -304,4 +339,98 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         $printer -> close();
     }
 
-//    printbill('1','45');
+    // print sales report
+    function printSales(){
+
+
+        /* Fill in your own connector here */
+        $connector = new WindowsPrintConnector(printer);
+
+
+        /* Information for the receipt */
+        $items = array(
+            new item("Example item #1", "4.00"),
+            new item("Another thing", "3.50"),
+            new item("Something else", "1.00"),
+            new item("A final item", "4.45"),
+        );
+        $subtotal = new item('Subtotal', '12.95');
+
+
+
+
+        /* Date is kept the same for testing */
+        $date = date('l jS \of F Y h:i:s A');
+//$date = "Monday 6th of April 2015 02:56:25 PM";
+
+        /* Start the printer */
+        $logo = EscposImage::load(logo, false);
+        $printer = new Printer($connector);
+
+        /* Print top logo */
+        $printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $printer -> graphics($logo);
+
+
+        /* Title of receipt */
+        $printer -> setEmphasis(true);
+        $printer -> text("SALES REPORT\n");
+        $printer -> setEmphasis(false);
+
+        $printer -> feed();
+
+        # get machines
+        $machines = (new db_handler())->db_connect()->query("SELECT mech_no FROM mech_setup");
+
+        while ($machine = $machines->fetch(PDO::FETCH_ASSOC)){
+            $t = 0;
+            $m_no = $machine['mech_no'];
+
+            $printer -> setJustification(Printer::JUSTIFY_LEFT);
+            $printer -> setEmphasis(true);
+            $printer -> text("MECH #$m_no");
+            $printer->feed(2);
+            $printer -> setEmphasis(false);
+
+
+            # get sales for machine
+            $mach_sales_query = "select mech_setup.mech_no,mech_setup.descr, bill_header.pmt_type, sum(bill_header.gross_amt) as 'gross', sum(bill_header.tax_amt) as 'tax', sum(bill_header.net_amt) as 'net' from mech_setup join bill_header on bill_header.mach_no = mech_setup.mech_no where mech_no = '$m_no' group by bill_header.pmt_type, mech_setup.mech_no, mech_setup.descr;";
+            (new anton())->log2file($mach_sales_query);
+            $m_sales = (new db_handler())->db_connect()->query($mach_sales_query);
+            while ($m_sale = $m_sales->fetch(PDO::FETCH_ASSOC)){
+
+                $pmt_type = $m_sale['pmt_type'];
+                $total = $m_sale['net'];
+                $printer->setUnderline(1);
+                $printer -> text(new item($pmt_type,$total));
+                $printer->feed(1);
+
+
+            }
+            $t = (new db_handler())->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
+            $printer -> setEmphasis(true);
+            $printer -> text(new item("TOTAL",$t));
+            $printer->setEmphasis(false);
+            $printer->setUnderline(0);
+        }
+
+
+        $printer -> feed();
+
+
+
+
+        $printer -> text($date . "\n");
+
+        /* Cut the receipt and open the cash drawer */
+        $printer -> cut();
+        $printer -> pulse();
+
+        $printer -> close();
+
+
+        printCut();
+
+
+
+    }

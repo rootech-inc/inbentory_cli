@@ -64,7 +64,8 @@ class Reports {
 
                                 let machine_number = machines[im_n]['mach_no']
                                 let this_sales = ""
-                                let m_sales = JSON.parse(fetch_rows(`select pmt_type, sum(gross_amt) as 'gross',sum(tax_amt) as 'tax',sum(net_amt) as 'net' from bill_header where bill_date = '${toDay}' group by pmt_type`));
+                                let qquery = `select mech_setup.mech_no,mech_setup.descr, bill_header.pmt_type, sum(bill_header.gross_amt) as 'gross', sum(bill_header.tax_amt) as 'tax', sum(bill_header.net_amt) as 'net' from mech_setup join bill_header on bill_header.mach_no = mech_setup.mech_no where mech_no = ${machine_number} group by bill_header.pmt_type, mech_setup.mech_no, mech_setup.descr;`;
+                                let m_sales = JSON.parse(fetch_rows(qquery));
                                 let this_total = 0;
                                 for (let ms = 0; ms < m_sales.length; ms++)
                                 {
@@ -77,9 +78,9 @@ class Reports {
                                     this_total += parseFloat(net)
 
                                     this_sales += `<div class='w-100 clearfix border-dark p-1 border-bottom'>\
-                                <div class='w-45 float-left'><p class='m-0 p-0'>${pmt_type}</p></div>\
-                                <div class='w-45 float-right text-right'><p class='m-0 p-0'>$ ${net}</p></div>\
-                            </div>`
+                                                    <div class='w-45 float-left text-left'><p class='m-0 p-0'>${pmt_type}</p></div>\
+                                                    <div class='w-45 float-right text-right'><p class='m-0 p-0'>${net}</p></div>\
+                                                </div>`
 
 
 
@@ -87,7 +88,7 @@ class Reports {
                                 }
                                 this_sales += `<div class='w-100 font-weight-bold clearfix border-dark p-1 border-bottom'>\
                                 <div class='w-45 float-left'><p class='m-0 p-0'>Total</p></div>\
-                                <div class='w-45 float-right text-right'><p class='m-0 p-0'>$ ${this_total.toFixed(2)}</p></div>\
+                                <div class='w-45 float-right text-right'><p class='m-0 p-0'> ${this_total.toFixed(2)}</p></div>\
                             </div>`
 
                                 all_sales += `<div class='w-100 p-2'> \
@@ -106,7 +107,7 @@ class Reports {
                             Swal.fire({
                                 title: 'Sales Report',
                                 html: all_sales,
-                                footer: "<button class='btn btn-info fa fa-print'></button>",
+                                footer: "<button onclick='reports.printSales()' class='btn btn-info fa fa-print'></button>",
 
                             })
 
@@ -274,6 +275,18 @@ class Reports {
             al("CANNOT FIND SHIFT")
         }
 
+    }
+
+    printSales(){
+        let form_data = {'function':'print_sales'};
+
+        ajaxform['url'] = '/backend/process/ajax_tools.php'
+        ajaxform['data'] = form_data
+        ajaxform['success'] = function (response) {
+            ct(response)
+        }
+
+        $.ajax(ajaxform)
     }
 }
 
