@@ -34,8 +34,8 @@ class Bill {
 
                     // ct(header)
 
-                    arr_disable('recall')
-                    arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
+                    arr_disable('recall,REFUND')
+                    arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
 
 
                     // load header
@@ -127,14 +127,14 @@ class Bill {
                 }
                 else if (res['status'] === 404)
                 {
-                    arr_enable('recall')
-                    arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
+                    arr_enable('recall,REFUND')
+                    arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
                     let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                     jqh.setHtml({'bill_loader':no_bill})
                     b_msg("No bill transactions")
                 } else {
-                  arr_enable('recall')
-                  arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount,REFUND')
+                  arr_enable('recall,REFUND')
+                  arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
                   let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                   jqh.setHtml({'bill_loader':no_bill})
                   b_msg("Could not load bill. Contact system administrator")
@@ -475,55 +475,175 @@ class Bill {
     // cancel bill
 
     refundBill(){
+        let billRef = $('#general_input').val()
+        if (billRef.length > 0)
+        {
 
-        let admin_id_v2,admin_password_v2,result = false;
-        Swal.fire({
-            title: 'AUTHENTICATE',
-            html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
-                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
-            confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
-            focusConfirm: false,
-            backdrop: `
-                rgba(245, 39, 39, 0.8)
-                left top
-                no-repeat
-              `,
 
-            preConfirm: () => {
-                const login = Swal.getPopup().querySelector('#login').value
-                const password = Swal.getPopup().querySelector('#password').value
-                if (!login || !password) {
-                    Swal.showValidationMessage(`Please enter login and password`)
+            // check if bill reference exist
+            let b_hd,b_tr,b_count,ref_type;
+            let bill_details = {
+                'header':null,
+                'trans':{
+                    'count':0,
+                    'list':null
                 }
-                return { login_v2: login, password_v2: password }
             }
-        }).then((result) => {
-            admin_id_v2 = result.value.login_v2;
-            admin_password_v2 = result.value.password_v2;
 
-            if(User.adminAuth(admin_id_v2,admin_password_v2))
+            if(row_count('bill_header',`billRef = '${billRef}'`) === 1 )
             {
-                // make refund
-                let bill_amt,amount_paid;
-                bill_amt = $('#sub_total').text();
-                if(bill_amt.length > 0 && bill_amt > 0){
-
-                    // there is bill
-                    $('#general_input').val(bill_amt);
-                    this.payment('refund')
-                    this.loadBillsInTrans();
-
-                } else {
-                    // no bill
-                    swal_error('NO BILL')
-                }
+                ref_type = 'active_shift'
+                // bill is found in trans
+                // al("BILL REFERENCE EXIST IN CURRENT BILL")
+                bill_details['header'] = JSON.parse(get_row('bill_header',`billRef = '${billRef}'`))
+                bill_details['trans']['count'] = row_count('bill_trans',`billRef = '${billRef}'`)
+                bill_details['trans']['list'] = JSON.parse(get_row('bill_trans',`billRef = '${billRef}'`))
 
 
-            } else {
-                al("NO ACCESS")
+            }
+            else if(row_count('bill_history_header',`billRef = '${billRef}'`) === 1)
+            {
+                ref_type = 'history_shift'
+                // there is bill in history
+                // al("BILL REFERENCE EXIST IN HISTORY TRANSACTION")
+                bill_details['header'] = JSON.parse(get_row('bill_history_header',`billRef = '${billRef}'`))
+                bill_details['trans']['count'] = row_count('bill_history_trans',`billRef = '${billRef}'`)
+                bill_details['trans']['list'] = JSON.parse(get_row('bill_history_trans',`billRef = '${billRef}'`))
+            }
+            else
+            {
+                // bill not found
+                al(`Bill with reference ${billRef} does not exist`)
             }
 
-        })
+
+            b_hd = bill_details['header'][0]
+            b_tr = bill_details['trans']['list']
+            b_count = bill_details['trans']['count']
+
+
+
+            if(b_count > 0)
+            {
+                let tr = "";
+
+                for (let b = 0; b < b_tr.length; b++) {
+                    let line = b_tr[b]
+                    let b_code,qty,r_price,bill_amt,taxable,tax
+                    b_code = line['item_barcode']
+                    qty = line['item_qty']
+                    r_price = line['retail_price']
+                    bill_amt = line['bill_amt']
+                    taxable = line['tax_amt']
+                    tax = r_price - taxable
+                    let item_desc = line['item_desc']
+                    tr += `<tr>
+                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}"></td>
+                                <td>${b_code}</td>
+                                <td>${item_desc}</td>
+                                <td>${qty}</td>
+                            </tr>`
+                    ct(line)
+                }
+                ct(b_hd)
+                let m_form = `<form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+                        <input type="hidden" name="function" value="bill_refund">
+                        <input type="hidden" name="ref_type" value="${ref_type}">
+                        <input type="hidden" name="billRef" value="${billRef}">
+                        <div class="w-100 d-flex flex-wrap justify-content-between">
+                            <div class="w-50">
+                                <strong>Date : </strong>${b_hd['bill_date']} <br>
+                                <strong>Time : </strong>${b_hd['bill_time']} <br>
+                            </div>
+                            
+                            <div class="w-50 text-right">
+                                <strong>Mech # : </strong>${b_hd['mach_no']} <br>
+                                <strong>Clerk : </strong>${b_hd['clerk']} <br>
+                            </div>
+                        </div>
+                        <hr>
+                        <table class="table table-sm table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><i class="fa fa-check-square"></i></th>
+                                    <th>Barcode</th>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            ${tr}
+                        </table>
+                        <hr>
+                        <button type="button" onclick="$('#refundForm').submit()" class="btn btn-danger">REFUND</button>
+                    </form> `
+                $('#ref_type').val(ref_type)
+                $('#billRef').val(billRef)
+                $('#refDate').text(b_hd['bill_date'])
+                $('#refundTime').text(b_hd['bill_time'])
+                $('#refMech').text(b_hd['mach_no'])
+                $('#refClerk').text(b_hd['clerk'])
+
+                $('#refundBody').html(tr)
+                // $('#grn_modal_res').html(m_form)
+                // $('#gen_modal_title').text("REFUND")
+                $('#refundModal').modal('show')
+            }
+
+            // let admin_id_v2,admin_password_v2,result = false;
+            // Swal.fire({
+            //     title: 'AUTHENTICATE',
+            //     html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+            //         <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+            //     confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
+            //     focusConfirm: false,
+            //     backdrop: `
+            //     rgba(245, 39, 39, 0.8)
+            //     left top
+            //     no-repeat
+            //   `,
+            //
+            //     preConfirm: () => {
+            //         const login = Swal.getPopup().querySelector('#login').value
+            //         const password = Swal.getPopup().querySelector('#password').value
+            //         if (!login || !password) {
+            //             Swal.showValidationMessage(`Please enter login and password`)
+            //         }
+            //         return { login_v2: login, password_v2: password }
+            //     }
+            // }).then((result) => {
+            //     admin_id_v2 = result.value.login_v2;
+            //     admin_password_v2 = result.value.password_v2;
+            //
+            //     if(User.adminAuth(admin_id_v2,admin_password_v2))
+            //     {
+            //         // make refund
+            //         let bill_amt,amount_paid;
+            //         bill_amt = $('#sub_total').text();
+            //         if(bill_amt.length > 0 && bill_amt > 0){
+            //
+            //             // there is bill
+            //             $('#general_input').val(bill_amt);
+            //             this.payment('refund')
+            //             this.loadBillsInTrans();
+            //
+            //         } else {
+            //             // no bill
+            //             swal_error('NO BILL')
+            //         }
+            //
+            //
+            //     }
+            //     else {
+            //         al("NO ACCESS")
+            //     }
+            //
+            // })
+        } else {
+
+            al("PLEASE PROVIDE BILL REFERENCE")
+
+        }
+
 
     }
 

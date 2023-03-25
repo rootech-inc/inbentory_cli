@@ -63,5 +63,10 @@
                 $anton->done();
             }
 
+            elseif ($function === 'bill_refund') // refund bill
+            {
+                echo json_encode($_POST);
+            }
+
         }
     }

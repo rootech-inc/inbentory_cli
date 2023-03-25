@@ -1,9 +1,58 @@
 
 
 <script src="js/billing.js"></script>
+
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
+<!-- REFIND MODAL -->
+<div class="modal" id="refundModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong class="modal-title">REFUNDING</strong>
+                <button class="close" data-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+                    <input type="hidden" name="function" value="bill_refund">
+                    <input type="hidden" required id="ref_type" name="ref_type" value="">
+                    <input type="hidden" required id="billRef" name="billRef" value="">
+                    <div class="w-100 d-flex flex-wrap justify-content-between">
+                        <div class="w-50">
+                            <strong>Date : </strong><span id="refDate">${b_hd['bill_date']}</span> <br>
+                            <strong>Time : </strong><span id="refundTime"></span> <br>
+                        </div>
 
+                        <div class="w-50 text-right">
+                            <strong>Mech # : </strong><span id="refMech">${b_hd['mach_no']}</span> <br>
+                            <strong>Clerk : </strong><span id="refClerk">${b_hd['clerk']}</span> <br>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <table class="table table-sm table-striped table-bordered">
+                        <thead class="table-dark">
+                        <tr>
+                            <th><i class="fa fa-check-square"></i></th>
+                            <th>Barcode</th>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                        </tr>
+                        </thead>
+                        <tbody id="refundBody">
+
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <button type="submit" class="btn btn-warning">REFUND</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
     <main class="p-0 d-flex flex-wrap align-content-start justify-content-center">
         <header class="billing-header border-light m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">

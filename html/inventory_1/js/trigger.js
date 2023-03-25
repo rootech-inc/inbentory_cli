@@ -192,8 +192,41 @@ $(document).ready(function (){
 
     // refund
     $('#REFUND').click(function (){
-        bill.refundBill()
+        // bill.refundBill()
     });
+
+    // submit refund form refundForm
+    $(function () {
+
+        $("#refundForm").submit(function(event) {
+            event.preventDefault(); // Prevents the form from submitting normally
+            cl('REFUNDING');
+            // Get checked checkbox values
+            var checkboxValues = [];
+            $("input[name='refund_item[]']:checked").each(function() {
+                checkboxValues.push($(this).val());
+            });
+            $("#checkboxValues").val(checkboxValues);
+
+            // Submit form data via AJAX
+            $.ajax({
+                type: "POST",
+                url: $(this).attr("action"),
+                processData: false,  // tell jQuery not to process the data
+                contentType: false,  // tell jQuery not to set contentType
+                data: $(this).serialize(),
+                success: function(response) {
+                    // Handle success response
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle error response
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+    })
+
 
 })
 

@@ -32,7 +32,7 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button class="btn btn-sm btn-success">TAKE</button>
+                                    <button onclick="reports.zReport()" class="btn btn-sm btn-success">TAKE</button>
                                 </div>
 
                             </div>

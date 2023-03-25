@@ -131,7 +131,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $total = new item('TAXABLE AMT', '1.30');
             $vat = new item('VAT (21.9%)', '1.30');
             /* Date is kept the same for testing */
-            $date = date('l jS \of F Y h:i:s A');
+            $date = date('l jS \of F Y ').date('H:i');
             //$date = "Monday 6th of April 2015 02:56:25 PM";
 
             $connector = null;
@@ -168,7 +168,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer -> text("Bill# $bill_number");
             $printer->feed();
-            $printer -> text(new item('24-FEB-2023','TIME : 10:26'));
+            $printer -> text(new item(date('d-M-Y'),'TIME : '.date('H:i')));
             $printer -> setUnderline();
             $printer -> text(new item('M# : 6','Clerk : Admin'));
             $printer -> setUnderline(0);
@@ -201,7 +201,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text(new item('TAX DESC', 'TAX AMOUNT'));
             $printer -> setUnderline(0);
 
-            $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number group by tax_code;";
+            $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number and bill_date = '$today' group by tax_code;";
             $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
 
 //            $file = __DIR__ . "../../../log_file.log";
@@ -259,6 +259,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printzreport($recId)
     {
+        $date = today;
         $connector = new WindowsPrintConnector(printer);
         $printer = new Printer($connector);
         $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
@@ -266,13 +267,19 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         {
             $shift = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
             $mech = $shift['mech_no'];
-            $date = $shift['shift_date'];
+            $shift_no = $shift['shift_no'];
+            $start_date = $shift['shift_date'];
+            $start_time = $shift['start_time'];
+            $end_date = today;
+            $end_time = date('H:i:s');
+
 
             $bills_count = (new db_handler())->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
             if($bills_count > 0)
             {
                 // get all bills sum by payment
-                $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header group by pmt_type where mach_no = '$mech' and bill_date = '$date'";
+                $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' group by pmt_type";
+                (new anton())->log2file($bill_hd_sql);
                 $bill_hd_stmt = (new db_handler())->db_connect()->query($bill_hd_sql);
                 $subTotal = 0;
                 $hd_arr = array();
@@ -302,12 +309,26 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $printer -> feed();
                 $printer -> text("Mob : ".company_mob);
 
-                $printer -> feed();
+                $printer -> feed(2);
+                $printer -> setJustification(Printer::JUSTIFY_LEFT);
+                // header
+                $printer->text("Shift No.: $shift_no");$printer->feed();
+                $printer->text("Shift Start : $start_date $start_time");$printer->feed();
+                $printer->text("Shift End : $end_date $end_time");$printer->feed();
+
+                $printer->feed();
+
+                $printer -> setJustification(Printer::JUSTIFY_CENTER);
+                $printer->setUnderline(1);
+                $printer->text("CASH REPORT");
+                $printer->setUnderline(0);
+                $printer->feed();
 
                 /* Items */
-                $printer -> setJustification(Printer::JUSTIFY_LEFT);
+
                 $printer -> setEmphasis(true);
-                $printer -> text(new item('', '$'));
+
+                $printer -> text(new item('DESCRIPTION', 'AMOUNT'));
                 $printer -> setEmphasis(false);
                 foreach ($hd_arr as $item) {
                     $printer -> text($item);
@@ -409,7 +430,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             }
             $t = (new db_handler())->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
             $printer -> setEmphasis(true);
-            $printer -> text(new item("TOTAL",$t));
+            $printer -> text(new item("TOTAL",number_format($t,2)));
             $printer->setEmphasis(false);
             $printer->setUnderline(0);
         }

@@ -200,7 +200,9 @@ class Reports {
 
     }
 
-    zReport(recId) {
+    zReport() {
+        let recId = $('#shifts').val()
+        cl(recId)
         let mech = ''
         let day = ''
         let record = row_count('shifts',`recId = '${recId}'`)
@@ -249,6 +251,7 @@ class Reports {
                     'recId':recId
                 }
 
+
                 $.ajax({
                     url: 'backend/process/reports.php',
                     'async': false,
@@ -258,13 +261,20 @@ class Reports {
                     data: dataToSend,
                     success: function(response) {
                         echo(response)
-                        let resp = JSON.parse(response)
+                        if(isJson(response))
+                        {
+                            let resp = JSON.parse(response)
 
-                        Swal.fire({
-                            title: 'EOD REPORT',
-                            html: resp['message'],
+                            Swal.fire({
+                                title: 'REPORT',
+                                html: resp['message'],
 
-                        })
+                            })
+                        } else
+                        {
+                            al("INVALID RESPONSE: \n Contact System Admin")
+                        }
+
 
 
 

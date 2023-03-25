@@ -349,13 +349,30 @@ error_reporting(E_ALL);
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <strong class="modal-title">Sales</strong>
+                    <strong id="gen_modal_title" class="modal-title">Sales</strong>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div id="grn_modal_res" class="modal-body rounded-0">
-
+                    <form action="">
+                        <table class="table table-sm table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th><i class="fa fa-check-square"></i></th>
+                                    <th>Barcode</th>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <td><input type="checkbox"></td>
+                                <td>Barcode</td>
+                                <td>Description</td>
+                                <td>Quantity</td>
+                            </tr>
+                        </table>
+                    </form>
                 </div>
 
             </div>

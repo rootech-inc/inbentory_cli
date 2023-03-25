@@ -26,6 +26,7 @@
                 }
 
             } elseif ($function === 'z_report'){
+
                 // Z REPORT
                 $clerk_code = $anton->post('clerk_code');
                 $clerk_key = $anton->post('clerk_key');
@@ -38,9 +39,12 @@
                     $zreport = $Reports->z_report($recId);
                     if($zreport['code'] === 202)
                     {
+                        include '../includes/print.php';
                         // print z details
                         printzreport($recId);
                     }
+
+                    echo json_encode($zreport);
 
                 } else {
                     echo $anton->json_enc($admin_auth);
