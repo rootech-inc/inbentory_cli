@@ -228,6 +228,22 @@ $(document).ready(function (){
                 data: formData,
                 success: function (response) {
                     cl(response)
+                    let res = JSON.parse(response)
+                    let code,message
+                    code = res['code']
+                    message = res['message']
+                    let bill_n = message['bill_no']
+                    let msg = message['msg']
+                    if(code === 200){
+                        // print bill
+                        bill.payment('refund')
+                        // bill.printBill(bill_n,mech_no,toDay)
+                    } else {
+                        // clear bill
+
+                        exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
+                        al(msg)
+                    }
                 },
                 error: function (xhr,status,error) {
                     al(xhr.responseText)

@@ -66,11 +66,53 @@
 
             elseif ($function === 'bill_refund') // refund bill
             {
-                $ref_type = $anton->post('ref_type');
-                $billRef = $anton->post('billRef');
-                $refund_item = $_POST['refund_item'];
-                
-                print_r($_POST);
+                $response = array('code'=>404,'message'=>array('bill_no'=>0,'msg'=>'none'));
+                try {
+                    $ref_type = $anton->post('ref_type');
+                    $billRef = $anton->post('billRef');
+                    $refund_item = $_POST['refund_item'];
+
+                    // check reference type
+                    if($ref_type === 'active_shift'){
+                        $table = 'bill_trans';
+                    } elseif ($ref_type === ''){
+                        $table = 'bill_history_trans';
+                    } else {
+                        die();
+                    }
+
+                    // get trans
+                    for ($i = 0; $i < count($refund_item); $i++) {
+                        $item = $refund_item[$i];
+
+                        // separate
+                        $item_sep = explode('|',$item);
+                        $barcode = $item_sep[0];
+                        $id = $item_sep[1];
+                        $anton->log2file("BARCODE : $barcode");
+                        $anton->log2file("ID : $id");
+
+                        // get item
+                        $sold = (new \db_handeer\db_handler())->get_rows("$table","`id` = '$id' AND `item_barcode` = '$barcode'");
+                        $soldQuantity = $sold['item_qty'];
+                        $refundQty = $soldQuantity * -1;
+                        $refundItem = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
+                        $add_bill = (new \billing\Billing())->AddToBill("$bill_number",$refundItem,"$refundQty",clerk_code);
+
+                    }
+
+                    $response['code'] = 200;
+                    $response['message']['bill_no'] = $bill_number;
+                    $response['message']['msg'] = "REFUND DONE";
+
+                    print_r($_POST);
+                } catch (Exception $e){
+                    $response['code'] = 505;
+                    $response['message']['bill_no'] = $bill_number;
+                    $response['message']['msg'] = $e->getMessage();
+                }
+
+                echo json_encode($response);
 
             }
 

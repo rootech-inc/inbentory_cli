@@ -289,14 +289,15 @@ class Billing
                         $taxDetail = $this->db_handler()->get_rows('tax_master',"`id` = '$tax_code'");
                         $tax_code = $taxDetail['attr'];
                         $retail = $item['retail'];
+                        $cost = $retail * $qty;
 
                         if($tax_code === 'VM')
                         {
-                            $nhil = (2.5 / 100) * $retail;
-                            $gfund = (2.5 / 100 ) * $retail;
-                            $covid  = (1 / 100 ) * $retail;
+                            $nhil = (2.5 / 100) * $cost;
+                            $gfund = (2.5 / 100 ) * $cost;
+                            $covid  = (1 / 100 ) * $cost;
 
-                            $vat_calc = $retail * 21.90;
+                            $vat_calc = $cost * 21.90;
                             $vat = $vat_calc / 121.9;
 
                             // insert into tax transactions
