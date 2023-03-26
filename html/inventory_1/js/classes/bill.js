@@ -529,7 +529,8 @@ class Bill {
 
                 for (let b = 0; b < b_tr.length; b++) {
                     let line = b_tr[b]
-                    let b_code,qty,r_price,bill_amt,taxable,tax
+                    let b_code,qty,r_price,bill_amt,taxable,tax,id
+                    id = line['id']
                     b_code = line['item_barcode']
                     qty = line['item_qty']
                     r_price = line['retail_price']
@@ -538,7 +539,7 @@ class Bill {
                     tax = r_price - taxable
                     let item_desc = line['item_desc']
                     tr += `<tr>
-                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}"></td>
+                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
                                 <td>${b_code}</td>
                                 <td>${item_desc}</td>
                                 <td>${qty}</td>

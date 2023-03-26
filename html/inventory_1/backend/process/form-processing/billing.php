@@ -6,6 +6,7 @@
     {
         if(isset($_POST['function']))
         {
+//            print_r($_POST);
             $function = $anton->post('function');
 
             if($function === 'LKUP') // look for an item
@@ -65,7 +66,12 @@
 
             elseif ($function === 'bill_refund') // refund bill
             {
-                echo json_encode($_POST);
+                $ref_type = $anton->post('ref_type');
+                $billRef = $anton->post('billRef');
+                $refund_item = $_POST['refund_item'];
+                
+                print_r($_POST);
+
             }
 
         }

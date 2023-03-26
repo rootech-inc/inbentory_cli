@@ -4637,3 +4637,1092 @@ SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and 
 SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
 SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '75' and `bill_date` = '2023-01-29' and mech_no = 1
+SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '75' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'

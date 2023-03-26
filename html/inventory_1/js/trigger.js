@@ -197,36 +197,46 @@ $(document).ready(function (){
 
     // submit refund form refundForm
     $(function () {
+        $('#refundForm').submit(function (event) {
+            event.preventDefault()
 
-        $("#refundForm").submit(function(event) {
-            event.preventDefault(); // Prevents the form from submitting normally
-            cl('REFUNDING');
-            // Get checked checkbox values
-            var checkboxValues = [];
-            $("input[name='refund_item[]']:checked").each(function() {
-                checkboxValues.push($(this).val());
+
+            var actionurl = event.currentTarget.action;
+
+            //$("#loader").modal("show");
+            let formData = new FormData($(this).parents('form')[0]);
+
+            formData = new FormData($('#refundForm')[0]); // The form with the file inputs.
+            const that = $(this),
+                url = that.attr('action'),
+                type = that.attr('method'),
+                data = {};
+
+            //console.log(url)
+
+            that.find('[name]').each(function (index,value){
+                var that = $(this), name = that.attr('name');
+                data[name] = that.val();
             });
-            $("#checkboxValues").val(checkboxValues);
 
-            // Submit form data via AJAX
+            // submit to jquery
             $.ajax({
-                type: "POST",
-                url: $(this).attr("action"),
+                type: type,
+                url: url,
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
-                data: $(this).serialize(),
-                success: function(response) {
-                    // Handle success response
-                    console.log(response);
+                data: formData,
+                success: function (response) {
+                    cl(response)
                 },
-                error: function(xhr, status, error) {
-                    // Handle error response
-                    console.log(xhr.responseText);
+                error: function (xhr,status,error) {
+                    al(xhr.responseText)
                 }
             });
+
+
         });
     })
-
 
 })
 
