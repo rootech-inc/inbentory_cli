@@ -286,5 +286,10 @@ class anton extends FPDF
         file_put_contents($file, $text, FILE_APPEND);
     }
 
+    public function json($data){
+        header('Content-Type: application/json');
+        return json_encode($data);
+    }
+
 
 }

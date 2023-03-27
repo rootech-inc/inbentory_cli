@@ -199,6 +199,8 @@ $(document).ready(function (){
     $(function () {
         $('#refundForm').submit(function (event) {
             event.preventDefault()
+            cl("REFUNDING")
+
 
 
             var actionurl = event.currentTarget.action;
@@ -228,10 +230,12 @@ $(document).ready(function (){
                 data: formData,
                 success: function (response) {
                     cl(response)
-                    let res = JSON.parse(response)
+                    ct(response)
+                    let res = JSON.parse(JSON.stringify(response))
                     let code,message
                     code = res['code']
                     message = res['message']
+                    ct(message)
                     let bill_n = message['bill_no']
                     let msg = message['msg']
                     if(code === 200){
@@ -240,7 +244,6 @@ $(document).ready(function (){
                         // bill.printBill(bill_n,mech_no,toDay)
                     } else {
                         // clear bill
-
                         exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
                         al(msg)
                     }

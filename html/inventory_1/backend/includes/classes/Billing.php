@@ -184,6 +184,11 @@ class Billing
                 $bill_totals['amt_paid'] = number_format($amount_paid,2);
                 $bill_totals['amt_bal'] = number_format($amt_balance,2);
 
+                if($method === 'refund'){
+                    $amount_paid = $gross_amt;
+                    $amt_balance = 0.00;
+                }
+
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
@@ -192,6 +197,9 @@ class Billing
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
                     // make bill
+                    $this->anton()->log2file("###################");
+                    (new anton())->log2file($bill_header_insert);
+                    $this->anton()->log2file("###################");
                     $this->db_handler()->db_connect()->exec($bill_header_insert);
                     if($method === 'refund')
                     {

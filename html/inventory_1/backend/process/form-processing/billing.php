@@ -67,6 +67,7 @@
             elseif ($function === 'bill_refund') // refund bill
             {
                 $response = array('code'=>404,'message'=>array('bill_no'=>0,'msg'=>'none'));
+
                 try {
                     $ref_type = $anton->post('ref_type');
                     $billRef = $anton->post('billRef');
@@ -105,13 +106,14 @@
                     $response['message']['bill_no'] = $bill_number;
                     $response['message']['msg'] = "REFUND DONE";
 
-                    print_r($_POST);
+
                 } catch (Exception $e){
                     $response['code'] = 505;
                     $response['message']['bill_no'] = $bill_number;
                     $response['message']['msg'] = $e->getMessage();
                 }
 
+                header('Content-Type: application/json');
                 echo json_encode($response);
 
             }
