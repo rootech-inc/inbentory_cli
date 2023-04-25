@@ -19,7 +19,7 @@ class Billing
          = '$today'") + 1;
     }
 
-    public function AddToBill($bill_number,$item,$qty,$myName)
+    public function AddToBill($bill_number,$item,$qty,$myName,$tran_type = 'SS')
     {
         $today = today;
         $clerk_code = clerk_code;
@@ -75,12 +75,14 @@ class Billing
                 $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate','$today','$billRef')";
+                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type')";
 
-
+                $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
+                $text = "$sql\n";
+                file_put_contents($file, $text, FILE_APPEND);
 
                 (new \db_handeer\db_handler())->db_connect()->prepare($sql);
                 (new \db_handeer\db_handler())->db_connect()->exec($sql);
@@ -115,6 +117,7 @@ class Billing
             'bill_number'=>$bill_number,'valid'=>'N','tran_qty'=>0.00,'taxable_amt'=>0.00,'tax_amt'=>0.00,'bill_amt'=>0.00,'amt_paid'=>0.00,'amt_bal'=>0.00,
             'disc_valid'=>'N','disc_rate'=>0.00,'disc_value'=>0.00
         ];
+
         $tran_qty = $this->db_handler()->row_count('bill_trans',"`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number");
         $disc_cond = "`bill_number` = '$bill_number' and `date_added` = '$date' and mach = $machine_number and `trans_type` = 'D'";
 //        die($disc_cond);
@@ -180,20 +183,26 @@ class Billing
                 $tax_amt = $bill_totals['tax_amt'];
                 $bill_amt = $gross_amt + $tax_amt;
                 $tran_qty = $bill_totals['tran_qty'];
-                $amt_balance = $amount_paid - $gross_amt;
-                $bill_totals['amt_paid'] = number_format($amount_paid,2);
-                $bill_totals['amt_bal'] = number_format($amt_balance,2);
 
                 if($method === 'refund'){
                     $amount_paid = $gross_amt;
                     $amt_balance = 0.00;
+                } else {
+                    $amt_balance = $amount_paid - $gross_amt;
                 }
+
+                $bill_totals['amt_paid'] = number_format($amount_paid,2);
+                $bill_totals['amt_bal'] = number_format($amt_balance,2);
+
+
 
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
                 $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef');";
+                (new anton())->log2file("COPPER");
                 (new anton())->log2file($bill_header_insert);
+                (new anton())->log2file("COPPER");
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
                     // make bill
@@ -201,16 +210,16 @@ class Billing
                     (new anton())->log2file($bill_header_insert);
                     $this->anton()->log2file("###################");
                     $this->db_handler()->db_connect()->exec($bill_header_insert);
-                    if($method === 'refund')
-                    {
-                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values 
-                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND','$today')");
-                    } else
-                    {
-                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT','$today')");
-                    }
+//                    if($method === 'refund')
+//                    {
+//                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values
+//                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND','$today')");
+//                    } else
+//                    {
+//                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT','$today')");
+//                    }
 
-                    if($method === 'refund')
+                    if($method === 'refund') // update on refunds
                     {
                         // update values all to negative
                         $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
@@ -228,9 +237,15 @@ class Billing
                          tax_amt = tax_amt - (tax_amt * 2) 
                          where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
 
-                        (new db_handler())->db_connect()->exec($header);
-                        (new db_handler())->db_connect()->exec($trans);
-                        (new db_handler())->db_connect()->exec($tax_tran);
+//                        (new anton())->log2file("LORD");
+//                        (new anton())->log2file($header);
+//                        (new anton())->log2file($trans);
+//                        (new anton())->log2file($tax_tran);
+//                        (new anton())->log2file("LORD");
+
+//                        (new db_handler())->db_connect()->exec($header);
+//                        (new db_handler())->db_connect()->exec($trans);
+//                        (new db_handler())->db_connect()->exec($tax_tran);
                     }
 
                 }
@@ -317,7 +332,8 @@ class Billing
                                                  ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'cv', $covid,'$billRef'),
                                                  ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'VM', $vat,'$billRef');";
 
-                                (new anton())->log2file($tax_ins_query);
+
+                                (new anton())->log2file($tax_ins_query,"TAX INSERTIONS");
 
                                 $this->db_handler()->db_connect()->exec($tax_ins_query);
                                 $this->response['code'] = 200;

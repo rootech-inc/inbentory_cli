@@ -97,8 +97,11 @@
                         $sold = (new \db_handeer\db_handler())->get_rows("$table","`id` = '$id' AND `item_barcode` = '$barcode'");
                         $soldQuantity = $sold['item_qty'];
                         $refundQty = $soldQuantity * -1;
+                        $anton->log2file('#####');
+                        $anton->log2file($refundQty);
                         $refundItem = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
-                        $add_bill = (new \billing\Billing())->AddToBill("$bill_number",$refundItem,"$refundQty",clerk_code);
+                        $add_bill = (new \billing\Billing())->AddToBill("$bill_number",$refundItem,"$refundQty",clerk_code,"RF");
+                        $anton->log2file('#####');
 
                     }
 

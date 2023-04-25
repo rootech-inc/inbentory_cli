@@ -283,6 +283,7 @@
                                     <button disabled id="REFUND" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         REFUND
                                     </button>
+
                                 </div>
                                 <!-- MORE FUNCTIONS -->
                                 <div class="w-15 h-100 py-1 d-flex flex-wrap justify-content-between align-content-between">

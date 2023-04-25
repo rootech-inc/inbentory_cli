@@ -222,13 +222,22 @@ class Bill {
 
 
         // validate there is cash input
-        let amount_paid = document.getElementById('general_input').value; // gen input field
+        if(method === 'refund'){
+            // amount_paid = $('#sub_total').text()
+            $('#general_input').val($('#sub_total').text())
+        }
+
+
+
+        let amount_paid = $('#general_input').val() ? $('#general_input').val() : $('#sub_total').text();
+
+
 
 
         if(amount_paid.length > 0)
         {
             // get total balance
-            var balance = document.getElementById('sub_total').innerText;
+            var balance = $('#sub_total').text();
 
             var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
 
@@ -250,6 +259,7 @@ class Bill {
                     'amount_paid':actual_paid.toFixed(2),
                     'amount_balance':b_balance.toFixed(2),
                     'bill_num':parseFloat($('#bill_num').text()) + 1
+
                 })
 
                 // send ajax request
@@ -289,7 +299,6 @@ class Bill {
                             jqh.setText({
                                 'tax':tax_amt,
                                 'amount_paid':amt_paid,
-                                'amount_balance':amt_bal,
                                 'bill_num':parseFloat(bill_number) + 1
                             })
 
@@ -494,7 +503,7 @@ class Bill {
             {
                 ref_type = 'active_shift'
                 // bill is found in trans
-                // al("BILL REFERENCE EXIST IN CURRENT BILL")
+                // al("BILL REFERENCE TO EXIST IN CURRENT BILL")
                 bill_details['header'] = JSON.parse(get_row('bill_header',`billRef = '${billRef}'`))
                 bill_details['trans']['count'] = row_count('bill_trans',`billRef = '${billRef}'`)
                 bill_details['trans']['list'] = JSON.parse(get_row('bill_trans',`billRef = '${billRef}'`))
@@ -538,11 +547,15 @@ class Bill {
                     taxable = line['tax_amt']
                     tax = r_price - taxable
                     let item_desc = line['item_desc']
+                    let req = ''
+                    if(b === 0){
+                        req = 'required'
+                    }
                     tr += `<tr>
-                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
+                                <td><input ${req} name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
                                 <td>${b_code}</td>
                                 <td>${item_desc}</td>
-                                <td>${qty}</td>
+                                <td>-${qty}</td>
                             </tr>`
                     ct(line)
                 }
@@ -575,7 +588,7 @@ class Bill {
                             ${tr}
                         </table>
                         <hr>
-                        <button type="button" onclick="$('#refundForm').submit()" class="btn btn-danger">REFUND</button>
+                        <button type="button" onclick="$('#refundForm').submit()" class="btn btn-danger">LOAD TRANSACTION</button>
                     </form> `
                 $('#ref_type').val(ref_type)
                 $('#billRef').val(billRef)

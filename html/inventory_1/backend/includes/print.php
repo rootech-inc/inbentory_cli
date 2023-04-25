@@ -77,7 +77,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         {
 
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
-            $curRef = $bill_header['billRef'];
+            $curRef = "0".$bill_header['billRef'];
 
             $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
@@ -85,8 +85,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $taxable_amt = number_format($bill_total['taxable_amt'],2);
             $tax_amt = number_format($bill_total['tax_amt'],2);
             $bill_amt = number_format($bill_total['bill_amt'],2);
-            $amt_paid = number_format($bill_total['amt_paid'],2);
-            $amt_bal = number_format($bill_total['amt_bal'],2);
+            $amt_paid = number_format($bill_header['amt_paid'],2);
+            $amt_bal = number_format($bill_header['amt_bal'],2);
 
             $items = array(
 
@@ -202,6 +202,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> setUnderline(0);
 
             $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number and bill_date = '$today' group by tax_code;";
+            (new anton())->log2file($tax_sql,"TAX QUERY");
             $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
 
 //            $file = __DIR__ . "../../../log_file.log";
@@ -250,7 +251,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
         } else {
             //todo print no found bill
-            printMessage("BILL_NOT_FOUND");
+            printMessage("CANNOT FINE BILL");
         }
 
 

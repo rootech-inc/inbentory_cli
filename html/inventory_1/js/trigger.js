@@ -1,6 +1,12 @@
 // REFUND
 $(document).ready(function() {
     $("#REFUND").click(function(){
+        // $('#sub_total').val('')
+        // $('#tax').val('')
+        // $('#amount_paid').val('')
+        // $('#amount_balance').val('')
+
+
         bill.refundBill()
        // let bill_amt,amount_paid;
        // bill_amt = $('#sub_total').text();
@@ -199,7 +205,6 @@ $(document).ready(function (){
     $(function () {
         $('#refundForm').submit(function (event) {
             event.preventDefault()
-            cl("REFUNDING")
 
 
 
@@ -229,20 +234,28 @@ $(document).ready(function (){
                 contentType: false,  // tell jQuery not to set contentType
                 data: formData,
                 success: function (response) {
-                    cl(response)
-                    ct(response)
+                    // cl(response)
+                    // ct(response)
                     let res = JSON.parse(JSON.stringify(response))
                     let code,message
                     code = res['code']
                     message = res['message']
                     ct(message)
-                    let bill_n = message['bill_no']
-                    let msg = message['msg']
+
+
+
+
                     if(code === 200){
                         // print bill
-                        bill.payment('refund')
+                        bill.loadBillsInTrans()
+                        $('#refundModal').modal('hide')
+                        cl('BEFORE PAYMENT')
+                        b_msg("Select Payment Method")
+                        // bill.payment('refund')
                         // bill.printBill(bill_n,mech_no,toDay)
                     } else {
+                        let bill_n = message['bill_no']
+                        let msg = message['msg']
                         // clear bill
                         exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
                         al(msg)
