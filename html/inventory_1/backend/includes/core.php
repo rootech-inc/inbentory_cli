@@ -8,7 +8,7 @@ ini_set('display_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
-    const printer = 'POS_HOME';
+    const printer = 'EPSON_OFFICE';
 
     $bill_number = 0;
 

@@ -96,7 +96,7 @@
                 $stmt = $db->db_connect()->query($query);
                 header('Content-Type: application/json');
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                print_r($res);
+                echo json_encode($res);
             }
 
             elseif ($function === 'insert') // insert into table

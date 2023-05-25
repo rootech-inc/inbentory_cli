@@ -2,6 +2,8 @@
 
 namespace billing;
 
+use db_handeer\db_handler;
+
 class shift extends \db_handeer\db_handler
 {
     function is_shift($mech = mech_no): bool
@@ -42,6 +44,23 @@ class shift extends \db_handeer\db_handler
         }
 
         echo json_encode($resp);
+    }
+
+    function end_shit($recId): array
+    {
+        if((new db_handler())->row_count('shifts',"`recId` = '$recId'") === 1){
+            // shift exist
+            // close shift
+            $start_sql = "UPDATE shifts SET endate = CURRENT_DATE,end_time = CURRENT_TIME WHERE recId = '$recId'";
+            $start_stmt = $this->db_connect()->prepare($start_sql);
+            $start_stmt->execute();
+            $resp['code'] = 202; $resp['message'] = "Shift Ended";
+        } else {
+            $resp['code'] = 404; $resp['message'] = "NO SHIFT FOUND";
+        }
+
+        return $resp;
+
     }
 }
 

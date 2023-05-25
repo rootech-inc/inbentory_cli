@@ -48,7 +48,11 @@ class db_handler
     }
 
 
-
+    function exe($query){
+        (new \anton())->log2file($query);
+        $stmt = $this->db_connect()->prepare($query);
+        $stmt->execute();
+    }
 
     function row_count($table,$condition='none'): int // row count of a table
     {
@@ -58,15 +62,18 @@ class db_handler
         if($condition === 'none')
         {
             $query = "SELECT * FROM $table";
-            $sql = $this->db_connect()->query("SELECT * FROM $table");
+            $sql = $this->db_connect()->query($query);
         }
         else
         {
             $query = "SELECT * FROM $table WHERE $condition";
-            $sql = $this->db_connect()->query("SELECT * FROM $table WHERE $condition");
+            $sql = $this->db_connect()->query($query);
         }
 
-        return $sql->rowCount();
+        (new \anton())->log2file($query);
+        (new \anton())->log2file($sql->rowCount());
+
+        return intval($sql->rowCount());
     }
 
     function col_sum($table,$column,$condition='none') // get sum of column
@@ -94,6 +101,7 @@ class db_handler
         {
             $sql = "SELECT * FROM $table WHERE $condition";
         }
+        (new \anton())->log2file($sql);
         $stmt = $this->db_connect()->query($sql);
 
 
@@ -218,6 +226,8 @@ class db_handler
         $sql = $this->db_connect()->query("SELECT SUM($column) as $as FROM `$table` WHERE $condition");
 
         $stmt = $sql->fetch(PDO::FETCH_ASSOC);
+
+
 
         return $stmt["$as"];
     }
@@ -558,6 +568,19 @@ class db_handler
             return false;
         }
 
+    }
+
+
+    function startTran(){
+        $this->db_connect()->exec("START TRANSACTION");
+    }
+
+    function rollback(){
+        $this->db_connect()-exec('ROLLBACK');
+    }
+
+    function commit(){
+        $this->db_connect()->exec("COMMIT");
     }
 
     

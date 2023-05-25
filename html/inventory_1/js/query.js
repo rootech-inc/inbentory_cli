@@ -215,7 +215,7 @@ function return_rows(query) {
             success: function (response)
             {
                 result = response;
-                cl(response)
+                // cl(response)
 
             }
         }

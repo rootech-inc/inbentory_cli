@@ -23,6 +23,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             // tax calc
             $tax_code = $anton->post('tax_code');
             $amount = $anton->post('amount');
+//            print_r($_POST);
             $tax = $anton->tax($tax_code,$amount);
             echo json_encode($tax);
         }

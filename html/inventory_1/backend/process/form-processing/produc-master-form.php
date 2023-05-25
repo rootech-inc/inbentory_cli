@@ -26,6 +26,17 @@
             $expiry = $anton->post('expiry');
             $uni = md5($description.$barcode.$today.$myName);
 
+            //tax details
+            $tax_details = $db->get_rows('tax_master',"`attr` = '$tax'");
+            $tax_cunt = $db->row_count('tax_master',"`attr` = '$tax'");
+            if($tax_cunt != 1)
+            {
+                $anton->err("UNKNOWN TAX COMPONENT $tax_cunt");
+                exit();
+            }
+            $actTax = $tax_details['id'];
+            // tax details
+
             // check if barcode
             if($db->row_count('prod_master',"`barcode` = '$barcode'") > 0)
             {
@@ -78,7 +89,7 @@
                              ) values 
                              (
                               '$category','$sub_category','$supplier','$barcode','$description','$short_description','$cost_price',
-                              '$retail_with_tax','$tax','$packaging','$stock_type','$expiry_date','$retail_with_tax','$uni','$myName'
+                              '$retail_with_tax','$actTax','$packaging','$stock_type','$expiry_date','$retail_with_tax','$uni','$myName'
                              )";
 
 

@@ -257,7 +257,7 @@
                                 <?php
                                     while ($tax = $tax_master->fetch(PDO::FETCH_ASSOC))
                                     {
-                                        $tax_id = $tax['id']; $description = $tax['description']; $rate = $tax['rate'];
+                                        $tax_id = $tax['attr']; $description = $tax['description']; $rate = $tax['rate'];
                                         echo "<option value='$tax_id'>$rate%  $description</option>";
                                     }
                                 ?>
@@ -291,6 +291,7 @@
                                     id="retail_with_tax"
                                     autocomplete="off"
                                     type="text"
+                                    value="0.00"
                                     class="form-control form-control-sm prod_inp"
                                     onkeyup="retailWithoutTax()"
                             >

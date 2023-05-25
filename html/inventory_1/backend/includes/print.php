@@ -264,6 +264,9 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         $connector = new WindowsPrintConnector(printer);
         $printer = new Printer($connector);
         $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
+
+
+
         if($shift_count === 1)
         {
             $shift = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
@@ -282,6 +285,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' group by pmt_type";
                 (new anton())->log2file($bill_hd_sql);
                 $bill_hd_stmt = (new db_handler())->db_connect()->query($bill_hd_sql);
+                $bill_sum = (new  db_handler())->fetch_rows("select sum(net_amt) as gross,sum(tax_amt) as tax ,sum(gross_amt) as net from bill_header;");
                 $subTotal = 0;
                 $hd_arr = array();
                 while($hd_row = $bill_hd_stmt->fetch(PDO::FETCH_ASSOC))
@@ -321,7 +325,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
                 $printer -> setJustification(Printer::JUSTIFY_CENTER);
                 $printer->setUnderline(1);
-                $printer->text("CASH REPORT");
+                $printer->text("CASH REPORT Mach# ".mech_no);
                 $printer->setUnderline(0);
                 $printer->feed();
 
@@ -336,10 +340,31 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 }
 
                 $printer ->setEmphasis(true);
-                $printer -> text(new item('Subtotal',$subTotal));
-                $tax = (new db_handler())->sum('bill_tax_tran','tax_amt',"`bill_date` = '$date' and `mech_no` = '$mech'");
-                $printer -> text(new item('Tax',number_format($tax,2)));
-                $printer -> text(new item('Total',number_format($subTotal-$tax,2)));
+                $printer -> text(new item('Total',$bill_sum['gross']));
+                $printer -> feed();
+
+                // GROUP WISE with percentage report
+                $printer -> setJustification(Printer::JUSTIFY_CENTER);
+                $printer->setUnderline(1);
+                $printer->text("Department Sales Report Mach# ".mech_no);
+                $printer->setUnderline(0);
+                $printer->feed();
+
+                $db_handler = new db_handler();
+                $stmt = $db_handler->db_connect()->prepare("SELECT ig.shrt_name, SUM(bill_amt) AS total, ROUND((SUM(bill_amt) / (SELECT SUM(bill_amt) FROM bill_trans)) * 100, 2) AS percentage FROM bill_trans RIGHT JOIN prod_mast pm ON bill_trans.item_barcode = pm.barcode RIGHT JOIN item_group ig ON pm.item_grp = ig.id WHERE bill_trans.mach = ? AND DATE(bill_trans.date_added) = ? GROUP BY ig.shrt_name HAVING SUM(bill_amt) IS NOT NULL OR SUM(bill_amt) > 0");
+                $stmt->execute([$mech, $end_date]);
+                $printer->text(new item('Department','Sales (%)'));
+                $printer ->setEmphasis(false);
+                while ($d_sales = $stmt->fetch(PDO::FETCH_ASSOC)){
+                    $shrt_name = $d_sales['shrt_name'];
+                    $total = $d_sales['total'];
+                    $percentage = $d_sales['percentage'];
+
+                    $printer ->text(new item($shrt_name,"$total ($percentage)"));
+                }
+                // END GROUP WISE with percentage report
+
+                
 
 
 
@@ -350,7 +375,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
 
-        } else {
+        }
+        else {
             $printer ->text("NO OPEN SHIFT");
         }
 

@@ -400,6 +400,24 @@ class Billing
 
     }
 
+    function MechSalesSammry($mech_no = 0): array
+    {
+        $gross = (new db_handler())->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('SS')");
 
+        $deduct = 0;
+        if((new db_handler())->row_count('bill_trans',"`mach`= '$mech_no' and `tran_type` in ('RF')") > 0){
+            $deduct = (new db_handler())->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('RF')");
+        }
+
+
+        $net = $gross - abs($deduct);
+
+        $tax = (new db_handler())->sum('bill_tax_tran','tax_amt',"`mech_no`= '$mech_no'");
+
+        return array(
+            'gross'=>$gross,'deduct'=>$deduct,'net'=>$net,'tax'=>$tax
+        );
+
+    }
 
 }

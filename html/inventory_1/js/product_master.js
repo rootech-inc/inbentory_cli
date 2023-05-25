@@ -337,14 +337,14 @@ function loadProduct(prod_id,action='view')
         ct(tax_detail)
         cl('$$$$$$TAX')
 
-        $('#tax_rate').text(tax_code)
-        $('#tax_desc').html(tax_header['type'])
+        $('#tax_rate').text(tax['attr'])
+        $('#tax_desc').html(tax['description'])
         $('#cost_price').text(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_price').text(retail_price)
 
 
-        $('#retail_price_without_tax').text(tax_detail['taxAmount'])
+        $('#retail_price_without_tax').text(tax_detail['taxableAmt'].toFixed(2))
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -491,15 +491,20 @@ function newProductTaxCalculate(val)
 
 }
 
+
+
+
+
 function retailWithoutTax()
 {
 
     let tax_rate,tax_id,val,tax;
+
     val = $('#retail_with_tax').val()
 
     tax_id = $('#tax').val();
 
-    tax = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0]
+    tax = JSON.parse(get_row('tax_master',`attr = '${tax_id}'`))[0]
     tax_rate = tax.rate
     let tax_desc = tax.description
     $('#tax_descr').text(tax_desc)
@@ -511,15 +516,18 @@ function retailWithoutTax()
         // calculate oercentage
         let form_data = {
             'function':'get_tax_val',
-            'rate':tax_rate,
+            'tax_code':tax_id,
             'amount':val
         }
+
+        ct(form_data)
 
         $.ajax({
             url:'/backend/process/form-processing/sys.php',
             data:form_data,
             type:'POST',
             success: function (response) {
+                cl(response)
                 let r = JSON.parse(response)
                 let details = r['details']
                 let code = r['code']
@@ -529,7 +537,7 @@ function retailWithoutTax()
                 ct(details)
                 cl('NEW TAX VALUE')
 
-                $('#retail_without_tax').val(withoutTax)
+                $('#retail_without_tax').val(details['taxableAmt'].toFixed(2))
 
             }
         });

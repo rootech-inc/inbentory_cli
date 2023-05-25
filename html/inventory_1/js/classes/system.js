@@ -296,7 +296,7 @@ class TaxMaster{
         let tax_desc = tax.description;
         $('#tax_descr').text(tax_desc);
 
-        ct(attr);
+        // ct(attr);
         var result = 0;
 
         if(tax_rate !== 'null')
@@ -316,6 +316,7 @@ class TaxMaster{
                 'global': false,
                 'dataType': 'html',
                 success: function (response) {
+                    cl(response)
                     let r = JSON.parse(response)
                     let details = r['details']
                     let code = r['code']
