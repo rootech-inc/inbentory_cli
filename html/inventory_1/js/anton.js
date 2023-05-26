@@ -68,7 +68,7 @@ if(Mech.is_shift())
     }
 } else {
     toDay = yyyy + '-' + mm + '-' + dd;
-    cl('No SHift')
+    //cl('No SHift')
 }
 
 const user_id = a_sess.get_session('clerk_id')
@@ -671,7 +671,7 @@ function get_session(sess_var) {
         'function':'get_session',
         'sess_var':sess_var
     }
-    cl("session var : " + sess_var)
+    //cl("session var : " + sess_var)
     var result = null;
     $.ajax(
         {
@@ -1867,6 +1867,11 @@ function approve_doc(doc) // approve document
                         let item_code = tran.item_code;
                         let cost = tran.prod_cost;
                         let retail = tran.ret_amt
+                        let pack_desc,packing,pack_um
+
+                        packing = tran.packing
+                        pack_desc = tran.pack_desc
+                        pack_um = tran.pack_um
 
                         // 4
                         let item_det = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"' LIMIT 1"))[0];
@@ -1885,19 +1890,27 @@ function approve_doc(doc) // approve document
 
                         let actual_tran_qty = tran_qty * tran_um;
                         let stock_query = "";
+                        let sd = `delete from stk_tran where entry_no = '${entry_no}' and doc = 'GR' and item_code = '${item_code}'`;
+
+                        let sq = `insert into stk_tran(entry_no, doc, item_code, loc_fro, loc_to, pack_desc, pack_un, tran_qty) 
+                                                    VALUES ('${entry_no}','GR','${item_code}','','${grn_loc}','${pack_desc}','${pack_um}','${tran_qty}')`;
+
                         if(row_count('stock',"`item_code` = '' AND 'loc_id' = '' ") > 0)
                         {
+
                             // update stock
+
                             stock_query = "UPDATE stock SET qty = qty + " + actual_tran_qty + " WHERE `item_code` = '"+item_code+"' AND `loc_id` = '"+grn_loc+"'";
                         } else
                         {
                             //insert new stock
                             stock_query = `INSERT INTO stock (item_code, loc_id, qty) VALUES ('${item_code}','${grn_loc}','${actual_tran_qty}')`;
                         }
-                        cl("#################")
-                        cl(stock_query)
-                        cl('#################')
+
+                        // cl(stock_query)
                         exec(stock_query)
+                        exec(sd)
+                        exec(sq)
 
                     }
 

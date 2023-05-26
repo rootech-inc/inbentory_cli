@@ -39,6 +39,7 @@
                         </div>
                     </div>
                     <button id="eod" class="master_button btn btn-danger m-2 p-1 pointer">EOD</button>
+                    <button id="item_availability" class="master_button btn btn-danger m-2 p-1 pointer">AVAILABILITY</button>
                 </article>
             </div>
         </div>

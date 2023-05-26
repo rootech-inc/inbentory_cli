@@ -2,7 +2,7 @@
 $(document).keyup(function (event) {
     var key_pressed = event.which
 
-    echo(key_pressed + " Pressed ")
+    //echo(key_pressed + " Pressed ")
     if(key_pressed === 121 ) // f10 for search
     {
         searchTrigger()
@@ -54,7 +54,7 @@ function loadProduct(prod_id,action='view')
     prod_result = prod_object[0]
     var item_code = product_row.item_code
 
-    echo(product_row)
+    //echo(product_row)
     // load values
 
     if (action === 'edit') {
@@ -156,7 +156,7 @@ function loadProduct(prod_id,action='view')
             }
         }
         $('#supplier').html(supp_sub)
-        echo(supp_sub)
+        //echo(supp_sub)
 
 
         // get tax
@@ -224,7 +224,7 @@ function loadProduct(prod_id,action='view')
                 location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0].loc_desc
 
 
-                echo(stock[i].qty)
+                //echo(stock[i].qty)
 
                 row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
                     "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
@@ -254,7 +254,7 @@ function loadProduct(prod_id,action='view')
             purpose = pack.purpose
             pack_desc = pack.pack_desc
             index_id += 'pack_id'+pack.id+',';
-            echo(index_id)
+            //echo(index_id)
 
 
             if (purpose === 1) {
@@ -272,7 +272,7 @@ function loadProduct(prod_id,action='view')
 
 
         }
-        echo(package_row)
+        //echo(package_row)
         $('#packaging_row').html(package_row)
         $('#pack_id').html(pack_opt)
 
@@ -333,9 +333,7 @@ function loadProduct(prod_id,action='view')
         tax_header = taxx['header']
         tax_code = tax_header['code']
         tax_detail = taxx['details']
-        cl('$$$$$$TAX')
-        ct(tax_detail)
-        cl('$$$$$$TAX')
+
 
         $('#tax_rate').text(tax['attr'])
         $('#tax_desc').html(tax['description'])
@@ -348,30 +346,38 @@ function loadProduct(prod_id,action='view')
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
-            var row = '';
-            let loc_id, location, qty;
+            var stock_row = '';
+            let loc_id, location, qty,loc_desc;
             // get stock in json
-            var stock = JSON.parse(
-                get_row('stock', "`item_code` = '" + prod_id + "'")
-            );
-            for (let i = 0; i < stock.length; i++) {
+            // var stock = JSON.parse(
+            //     get_row('stock', "`item_code` = '" + prod_id + "'")
+            // );
+            let stock_query = return_rows(`select loc_to as 'loc_id',(select loc_desc from loc where loc_id = stk_tran.loc_to) as 'loc_desc',item_code,SUM(tran_qty) as 'qty' from stk_tran where item_code = '${prod_id}' group by loc_to, item_code;`);
+            let stock = JSON.parse(stock_query);
 
-                qty = stock[i].qty;
-                loc_id = stock[i].loc_id
-                location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0].loc_desc
+            if(stock.length > 0){
+                for (let i = 0; i < stock.length; i++) {
+
+                    qty = stock[i].qty;
+                    loc_id = stock[i].loc_id
+                    loc_desc = stock[i].loc_desc
 
 
-                echo(stock[i].qty)
 
-                row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
-                    "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
-                    "                                <p class=\"m-0 p-0 text-elipse\">" + loc_id + " - " + location + "</p>\n" +
-                    "                            </div>\n" +
-                    "                            <div class=\"prod_inp_view\">" + qty + "</div>\n" +
-                    "                        </div>";
+                    stock_row += "<div class=\"w-100 d-flex flex-wrap prod_inp_container\">\n" +
+                        "                            <div class=\"prod_inp_descriptio d-flex flex-wrap align-content-center\">\n" +
+                        "                                <p class=\"m-0 p-0 text-elipse\">" + loc_id + " - " + loc_desc + "</p>\n" +
+                        "                            </div>\n" +
+                        "                            <div class=\"prod_inp_view\">" + qty + "</div>\n" +
+                        "                        </div>";
 
+                }
+            } else {
+                stock_row = `<p class="text-dark display-4 font-weight-bolder">NO STOCK</p>`
             }
-            $('#stock').html(row)
+
+
+            $('#stock').html(stock_row)
         } else {
             $('#stock').html("No Stock")
         }
@@ -467,7 +473,7 @@ function newProductSubGroup(group) // load sub groups for selected group
 
 
     }
-    echo(option)
+    //echo(option)
     $('#sub_category').html(option)
 
 
@@ -485,7 +491,7 @@ function newProductTaxCalculate(val)
 
         let retail_with_tax = percentage(tax_rate,val)
 
-        echo(parseFloat(retail_with_tax) + parseFloat(val))
+        //echo(parseFloat(retail_with_tax) + parseFloat(val))
     }
 
 
@@ -509,7 +515,7 @@ function retailWithoutTax()
     let tax_desc = tax.description
     $('#tax_descr').text(tax_desc)
 
-    ct(tax_rate)
+    //cttax_rate)
 
     if(tax_rate !== 'null')
     {
@@ -520,22 +526,22 @@ function retailWithoutTax()
             'amount':val
         }
 
-        ct(form_data)
+        //ctform_data)
 
         $.ajax({
             url:'/backend/process/form-processing/sys.php',
             data:form_data,
             type:'POST',
             success: function (response) {
-                cl(response)
+                //cl(response)
                 let r = JSON.parse(response)
                 let details = r['details']
                 let code = r['code']
                 let withoutTax = details['withoutTax']
 
-                cl("NEW TAX VAL")
-                ct(details)
-                cl('NEW TAX VALUE')
+                //cl("NEW TAX VAL")
+                //ctdetails)
+                //cl('NEW TAX VALUE')
 
                 $('#retail_without_tax').val(details['taxableAmt'].toFixed(2))
 
@@ -558,7 +564,7 @@ $('#barcode_search').on('keyup',function (e) {
     {
         // search
         barcode = $('#barcode_search').val();
-        echo(barcode)
+        //echo(barcode)
         if(row_count('prod_master',"`barcode` = '" + barcode + "'") === '1')
         {
             // get item code
@@ -571,7 +577,7 @@ $('#barcode_search').on('keyup',function (e) {
             loadProduct(item_code)
 
 
-            echo(item_code)
+            //echo(item_code)
         }
         else {
             $('#barcode_search').val('')

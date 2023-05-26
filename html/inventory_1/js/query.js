@@ -41,7 +41,7 @@ function exec(query = 'none')
         $.ajax(
             {
                 url: '/backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
-                    cl(`###QUERY EXECUTE : ${query}`)
+                    // cl(`###QUERY EXECUTE : ${query}`)
                     //echo(respose)
                 }
             }
@@ -200,7 +200,7 @@ function return_rows(query) {
         'function':'return_rows',
         'query':query,
     }
-    // ct(query)
+
 
     var result = 0;
 
@@ -215,7 +215,7 @@ function return_rows(query) {
             success: function (response)
             {
                 result = response;
-                // cl(response)
+
 
             }
         }

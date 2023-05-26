@@ -92,6 +92,60 @@ $(document).ready(function() {
     $("#eod").click(function(){
         reports.EndOfDay()
     });
+    $('#item_availability').click(function () {
+        // get current stock
+        let stock_query = `select loc_to as 'loc_id',pm.item_code as 'item_code',pm.barcode as 'barcode',pm.item_desc,SUM(stk_tran.tran_qty) as 'stock'
+        from stk_tran  right join prod_master pm on stk_tran.item_code = pm.item_code
+        group by pm.item_code, loc_to, pm.barcode,stk_tran.loc_to`;
+
+        let stock_response = fetch_rows(stock_query);
+
+        // validate
+        if(isJson(JSON.stringify(stock_response))){
+            // valid response
+            let valid_response = JSON.parse(stock_response);
+
+            let tr = ''
+
+            if(valid_response.length > 0){
+
+                //loop
+                for (let sr = 0; sr < valid_response.length ; sr++) {
+                    let stock = valid_response[sr]
+                    let qty;
+                    if(stock.stock === null){
+                        qty = 0.00
+                    } else {
+                        qty = stock.stock
+                    }
+                    //ct(stock)
+                    tr += `<tr><td>${stock.barcode}</td><td>${stock.item_desc}</td><td>${qty}</td></tr>`
+
+                }
+            } else {
+                tr = "NO STOCK DATA"
+            }
+
+
+
+            let table = `
+            <table class="table table-sm table-bordered table-striped table-hover">
+                <thead class="thead-dark"><tr><th>BARCODE</th><th>DESCRIPTION</th><th>Available Quantity</th></tr></thead>
+                <tbody>${tr}</tbody>
+            </table>
+            `
+
+            $('#gen_modal_title').html("ITEM AVAILABILITY REPORT")
+            $('#modal_d').addClass('modal-xl')
+            $('#grn_modal_res').html(table)
+            $('#gen_modal_footer').html(`<button title="Print" onclick="al('MODULE NOT INTEGRATED')" class="btn btn-info"><i class="fa fa-print"></i></button>`)
+            $('#gen_modal').modal('show')
+
+        } else {
+            al('INVALID RESPONSE')
+        }
+
+    });
 });
 
 $(document).ready(function() {

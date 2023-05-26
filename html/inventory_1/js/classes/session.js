@@ -6,7 +6,7 @@ class a_session {
             'function':'get_session',
             'sess_var':sess_var
         }
-        cl("session var : " + sess_var)
+        //cl("session var : " + sess_var)
         var result = null;
         $.ajax(
             {
@@ -31,7 +31,7 @@ class a_session {
             'function':'set_session',
             'session_data':data
         }
-        echo(data)
+        //echo(data)
         $.ajax(
             {
                 url:'/backend/process/ajax_tools.php',
@@ -55,7 +55,7 @@ class a_session {
             'function':'unset_session',
             'sess_var':data
         }
-        cl("unset session var : " + session_variable)
+        //cl("unset session var : " + session_variable)
         var result = null;
         $.ajax(
             {

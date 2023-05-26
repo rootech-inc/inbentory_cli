@@ -376,6 +376,9 @@ error_reporting(E_ALL);
                     </form>
                 </div>
 
+                <!-- FOOTER -->
+                <div class="modal-footer" id="gen_modal_footer"></div>
+
             </div>
         </div>
     </div>
