@@ -8,6 +8,8 @@
     } elseif ($sub_module === 'users')
     {
         require 'backend/includes/parts/settings/users.php';
+    } elseif ($sub_module === 'loyalty'){
+        require 'backend/includes/parts/settings/loyalty.php';
     }
     else
     {

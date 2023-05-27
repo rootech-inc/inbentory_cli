@@ -282,8 +282,6 @@ class Bill {
 
                         if(status === 200){
 
-
-
                             // get payment details
                             let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal,bill_number
                             bill_number = message['bill_number']
@@ -294,7 +292,7 @@ class Bill {
                             amt_paid = message['amt_paid']
                             amt_bal = message['amt_bal']
 
-                            bill.printBill(bill_number,mech_no,toDay)
+                            //bill.printBill(bill_number,mech_no,toDay)
 
                             jqh.setText({
                                 'tax':tax_amt,

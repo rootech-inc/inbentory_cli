@@ -1,5 +1,6 @@
 <?php
 namespace billing;
+use loyalty\Loyalty;
 use mechconfig\MechConfig;
 use MongoDB\Driver\Exception\Exception;
 use PDO;
@@ -168,7 +169,10 @@ class Billing
         $machine_number = (new MechConfig())->mech_details()['mechine_number'];
         $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
         $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
-        $bill_trans_count = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'");
+        $bill_trans_count = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'i'");
+        $loyCount = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'L'");
+
+
 
         if($bill_trans_count > 0)
         {
@@ -249,6 +253,15 @@ class Billing
                     }
 
                 }
+            }
+
+            if($loyCount === 1){
+
+                // loyalty points insert $gross_amt
+                $customer_details = (new db_handler())->get_rows('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'L'");
+                $cust_code = $customer_details['item_barcode'];
+                (new Loyalty())->givePoints($cust_code,billRef,$gross_amt);
+
             }
 
             $response['status'] = 200;

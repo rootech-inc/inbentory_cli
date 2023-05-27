@@ -6,12 +6,13 @@
         <option value="$PROJECT_DIR$/backend/tests" />
         <option value="$PROJECT_DIR$/backend/tests" />
         <option value="$PROJECT_DIR$/backend/tests" />
-        <option value="$PROJECT_DIR$/escpos/test/unit" />
-        <option value="$PROJECT_DIR$/escpos/test/integration" />
         <option value="$PROJECT_DIR$/backend/tests" />
         <option value="$PROJECT_DIR$/backend/print_config/test/unit" />
         <option value="$PROJECT_DIR$/backend/print_config/test/integration" />
         <option value="$PROJECT_DIR$/backend/tests" />
+        <option value="$PROJECT_DIR$/backend/tests" />
+        <option value="$PROJECT_DIR$/escpos/test/unit" />
+        <option value="$PROJECT_DIR$/escpos/test/integration" />
       </list>
     </option>
   </component>

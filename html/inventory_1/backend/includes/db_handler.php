@@ -101,6 +101,7 @@ class db_handler
         {
             $sql = "SELECT * FROM $table WHERE $condition";
         }
+
         (new \anton())->log2file($sql);
         $stmt = $this->db_connect()->query($sql);
 

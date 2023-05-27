@@ -33,6 +33,7 @@ ini_set('display_errors',1);
     require  'classes/auth.php';
     require 'classes/shift.php';
     require  'classes/Evat.php';
+    require  'classes/Loyalty.php';
 
     $evat = new \billing\Evat('');
     $evat->set_url("http://192.168.2.88:8080/evat_api");
