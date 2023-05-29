@@ -124,6 +124,8 @@ class Bill {
                     // b_msg("")
                     $('#general_input').val('')
 
+
+
                 }
                 else if (res['status'] === 404)
                 {
@@ -138,6 +140,20 @@ class Bill {
                   let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                   jqh.setHtml({'bill_loader':no_bill})
                   b_msg("Could not load bill. Contact system administrator")
+                }
+
+                // load loyalty details
+                let bill_ref = $('#bill_ref').val()
+                let is_loyalty =  row_count('loyalty_tran',`billRef = '${bill_ref}'`);
+                if(is_loyalty === 1){
+                    let cust_code_q = JSON.parse(get_row('loyalty_tran',`billRef = '${bill_ref}'`))[0];
+                    let cust_code = cust_code_q['cust_code']
+
+                    let loyalty = JSON.parse(fetch_rows(`select lc.name as 'customer' from loyalty_tran join loy_customer lc on loyalty_tran.cust_code = lc.cust_code where loyalty_tran.cust_code = '${cust_code}';`))[0];
+                    $('#msglegend').html(`LOYALTY CUSTOMER : ${loyalty['customer']}`)
+                }
+                else {
+                    cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
                 }
             }
         };

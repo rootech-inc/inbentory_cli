@@ -4,6 +4,7 @@
 
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
+<input type="hidden" id="bill_ref" value="<?php echo billRef ?>">
 <!-- REFIND MODAL -->
 <div class="modal" id="refundModal">
     <div class="modal-dialog">
@@ -89,10 +90,11 @@
             <div class="row no-gutters h-100">
                 <!-- Items -->
                 <div class="col-sm-7 pr-1 h-100">
-                    <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-start pl-3">
+                    <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-between pl-3 pr-3">
                         <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">
                             EXIT
                         </button>
+                        <span id="msglegend"></span>
                     </div>
 
                     <div class="bill-item-body p-1 border d-flex flex-wrap align-content-start justify-content-between">

@@ -49,9 +49,12 @@ class Loyalty extends \db_handeer\db_handler
         return $this->sum('loyalty_point_stmt','value',"`cust_code` = '$cust_code'");
     }
 
-    public function givePoints($cust_code,$billRef,$point=0.00){
+    public function givePoints($cust_code,$billRef,$point=0.00): array
+    {
         try {
+            (new \anton())->log2file('LOYALTY POINT GIVE');
             $this->exe("insert into loyalty_point_stmt(cust_code, billRef,value) values ('$cust_code','$billRef','$point')");
+            (new \anton())->log2file('LOYALTY POINT GIVE');
             return array('code'=>202,'message'=>"Points Added");
         } catch (\Exception $e){
             return array('code'=>505,'message'=>"Error : ".$e->getMessage()." LINE : ".$e->getLine());

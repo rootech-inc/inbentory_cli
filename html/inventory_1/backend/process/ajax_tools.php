@@ -69,9 +69,21 @@
 
             elseif ($function === 'query')
             {
+                $response = array('code'=>1,'message'=>'ini');
                 $query = $_POST['query'];
                 echo($query);
-                $db->db_connect()->exec($query);
+                try {
+                    $db->exe($query);
+                    $response['code'] = 202;
+                    $response['message'] = "Query Executed Successfully";
+                } catch (Exception $e){
+                    $response['code'] = 505;
+                    $response['message'] = $e->getMessage();
+                }
+
+                header("Content-Type:Application/Json");
+                echo json_encode($response);
+
             }
 
             elseif ($function === 'get_row')

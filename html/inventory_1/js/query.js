@@ -42,7 +42,7 @@ function exec(query = 'none')
             {
                 url: '/backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
                     // cl(`###QUERY EXECUTE : ${query}`)
-                    //echo(respose)
+                    echo(respose)
                 }
             }
         );

@@ -42,6 +42,37 @@ class Loyalty {
         return lty.result
     }
 
+    loadCustomer(){
+        let cust_code = $('#general_input').val()
+        if(cust_code.length > 0){
+            // validate customer exist
+            let cust_rows = row_count('loy_customer',`cust_code = '${cust_code}'`)
+
+            if(cust_rows === 1){
+                // there is customer
+                let bill_ref = $('#bill_ref').val()
+                exec(`DELETE FROM loyalty_tran WHERE cust_code = '${cust_code}' AND billRef = '${bill_ref}'`)
+                exec(`INSERT INTO loyalty_tran (cust_code, billRef) VALUES ('${cust_code}','${bill_ref}')`)
+                bill.loadBillsInTrans()
+                al('Customer Added')
+                $('#general_input').removeClass('border-danger')
+
+
+            } else {
+                // no customer
+                $('#legmsg').html(`<span class="text-dark">Customer Does Not Exist</span>`)
+                al('CUSTOMER DOES NOT EXIST')
+            }
+
+
+        } else {
+            $('#general_input').addClass('border-danger')
+            al("Provide Customer Code")
+        }
+        $('#general_input').val('')
+
+    }
+
 }
 
 const lty = new Loyalty()

@@ -27,6 +27,7 @@ class db_handler
         }
     }
 
+
     public function db_connect() // connect to database
     {
         //set DSN
@@ -52,6 +53,7 @@ class db_handler
         (new \anton())->log2file($query);
         $stmt = $this->db_connect()->prepare($query);
         $stmt->execute();
+        $this->db_connect()->commit();
     }
 
     function row_count($table,$condition='none'): int // row count of a table
@@ -585,6 +587,7 @@ class db_handler
     }
 
     
+
 
 
 

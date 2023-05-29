@@ -170,7 +170,6 @@ class Billing
         $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
         $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
         $bill_trans_count = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'i'");
-        $loyCount = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'L'");
 
 
 
@@ -183,9 +182,9 @@ class Billing
             $bill_totals = $this->billTotal($bill_number,$today);
             if($bill_totals['valid'] === 'Y')
             {
-                $gross_amt = $bill_totals['taxable_amt'];
+                $net = $bill_totals['taxable_amt'];
                 $tax_amt = $bill_totals['tax_amt'];
-                $bill_amt = $gross_amt + $tax_amt;
+                $gross_amt = $net + $tax_amt;
                 $tran_qty = $bill_totals['tran_qty'];
 
                 if($method === 'refund'){
@@ -198,12 +197,11 @@ class Billing
                 $bill_totals['amt_paid'] = number_format($amount_paid,2);
                 $bill_totals['amt_bal'] = number_format($amt_balance,2);
 
-
-
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $bill_amt, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef');";
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
+                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef');";
                 (new anton())->log2file("COPPER");
                 (new anton())->log2file($bill_header_insert);
                 (new anton())->log2file("COPPER");
@@ -253,16 +251,21 @@ class Billing
                     }
 
                 }
+
+                $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
+                if($loyCount === 1){
+
+                    // loyalty points insert $gross_amt
+                    $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+                    $cust_code = $customer_details['cust_code'];
+
+                    (new Loyalty())->givePoints($cust_code,billRef,$gross_amt);
+
+                }
+
             }
 
-            if($loyCount === 1){
 
-                // loyalty points insert $gross_amt
-                $customer_details = (new db_handler())->get_rows('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'L'");
-                $cust_code = $customer_details['item_barcode'];
-                (new Loyalty())->givePoints($cust_code,billRef,$gross_amt);
-
-            }
 
             $response['status'] = 200;
             $response['message'] = $bill_totals;
