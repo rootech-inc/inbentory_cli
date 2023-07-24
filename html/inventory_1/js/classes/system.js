@@ -839,7 +839,7 @@ class MechConfig {
             response['valid'] = 1
             response['shift'] = my_sh_d
         }
-        ct(response)
+
         return response
     }
 

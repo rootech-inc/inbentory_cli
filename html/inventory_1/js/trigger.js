@@ -146,6 +146,35 @@ $(document).ready(function() {
         }
 
     });
+
+    // save loyalty
+    $('#saveNewLoyalty').click(function () {
+
+        // get values
+        let full_name,mobile,email
+        full_name = $('#full_name').val()
+        mobile = $('#mobile').val()
+        email = $('#email').val()
+
+        // todo validate loyalty form
+        if(full_name.length < 1 || mobile.length < 1 || email.length < 1){
+            al("PLEASE FILL ALL FIELD")
+        } else{
+            //cl('LETS GO BABE')
+
+            let commit = lty.customerReg(full_name,email,mobile)
+            if(commit['code'] === 202){
+                al(`customer added with code : ${commit['message']['code']}`)
+            } else {
+                al(commit['message'])
+            }
+            // ct(commit['message'])
+
+        }
+
+
+
+    });
 });
 
 $(document).ready(function() {

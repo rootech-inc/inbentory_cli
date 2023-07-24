@@ -6,11 +6,11 @@ class Loyalty extends \db_handeer\db_handler
 {
 
 
-    public function cusReg($name,$email): array
+    public function cusReg($name,$email,$mob): array
     {
         // register customer
         try {
-            $this->exe("insert into loy_customer(name, email) VALUES ('$name','$email')");
+            $this->exe("insert into loy_customer(name, email,mobile) VALUES ('$name','$email','$mob')");
             $response = array('code'=>202,'message'=>$this->getCus($email));
         } catch (\Exception $e){
             $response = array('code'=>505,'message'=>"Error : ".$e->getMessage()." LINE : ".$e->getLine());
@@ -22,15 +22,16 @@ class Loyalty extends \db_handeer\db_handler
     public function getCus($str): array
     {
         try {
-            $count = $this->row_count('loy_customer',"`email` = '$str' OR `name` = '$str' OR `cust_code` = '$str'");
+            $count = $this->row_count('loy_customer',"`email` = '$str' OR `name` = '$str' OR `cust_code` = '$str' OR `mobile`='$str'");
             if($count === 1){
                 // there is customer
-                $customer = $this->get_rows('loy_customer',"`email` = '$str' OR `name` = '$str' OR `cust_code` = '$str'");
+                $customer = $this->get_rows('loy_customer',"`email` = '$str' OR `name` = '$str' OR `cust_code` = '$str' OR `mobile`='$str' ");
 
                 $cd = array(
                     'code'=>$customer['cust_code'],
                     'name'=>$customer['name'],
                     'email'=>$customer['email'],
+                    'mobile'=>$customer['mobile'],
                     'points'=>$this->getPoint($customer['cust_code'])
                 );
 

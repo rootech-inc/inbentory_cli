@@ -111,7 +111,7 @@ require '../includes/core.php';
                 // check if item exist
                 if($db->row_count('prod_mast',"`barcode` = '$barcode'") < 1)
                 {
-                    $anton->err('item_does_not_exist');
+                    $anton->err("$barcode DOES NOT EXIST");
                     exit();
                 }
                 $item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
@@ -130,7 +130,10 @@ require '../includes/core.php';
                 $q = "SELECT * FROM `bill_trans` WHERE
                                  `bill_number` = '$bill_number' AND
                                  `mach` = '$machine_number' AND
-                                 `trans_type` = 'i' AND `date_added` = '$today'";
+                                 `trans_type` in ('i','D') AND `date_added` = '$today'";
+
+
+
 
 
                 // get all from bill
@@ -236,6 +239,7 @@ require '../includes/core.php';
 
             elseif ($function === 'get_bill') // get bill v2
             {
+                $billRef = billRef;
                 $response = ['status'=>404,'message'=>'null'];
                 $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number'";
                 // count bill tran count
@@ -245,10 +249,8 @@ require '../includes/core.php';
                 if($bill_tran_count > 0){
 
                     // get all bill trans and loop
-                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND
-                                 `bill_number` = '$bill_number' AND
-                                 `mach` = '$machine_number' AND
-                                 `date_added` = '$today' order by trans_type desc";
+                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND billRef = '$billRef' order by trans_type desc";
+                    (new anton())->log2file("BILL TRANS \n $q \n BILL TRANS");
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
 
@@ -590,18 +592,19 @@ require '../includes/core.php';
 
                 if($db->clerkAuth($user_id,$password))
                 {
+                    $billRef = billRef;
                     //$anton->done('pass');
                     // apply discount
-                    // check if discount already already applied
-                    if($db->row_count('bill_trans',"`bill_number` = $bill_number AND `clerk` = '$myName' AND `date_added` = '$today' AND `trans_type` = 'D'") < 1)
+                    // check if discount already, already applied
+                    if($db->row_count('bill_trans',"`bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'") < 1)
                     {
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`) values ('$machine_number','$bill_number','DISCOUNT','D','$myName','DICOUNT','$rate')");
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`,`date_added`,`billRef`) values ('$machine_number','$bill_number','DISCOUNT','D','$clerk_code','DICOUNT','$rate','$today','$billRef')");
                         $anton->done('discount_applied');
                     }
                     else
                     {
                         // update discount
-                        $db->db_connect()->exec("UPDATE `bill_trans` SET `bill_amt` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$myName' AND `date_added` = '$today' AND `trans_type` = 'D'");
+                        $db->db_connect()->exec("UPDATE `bill_trans` SET `bill_amt` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'");
                         $anton->done('discount_updated');
                     }
 
@@ -615,6 +618,58 @@ require '../includes/core.php';
 
                 // check if discount is less than or equal to allowed
 
+
+            }
+
+            elseif ($function === 'loy_redem'){
+                $response = array(
+                    'code'=>505,'message'=>''
+                );
+                $amount = $anton->post('amount');
+                $billRef = billRef;
+                if($db->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1){
+                    // there is a valid customer
+                    $cust_code = $db->get_rows('loyalty_tran',"`billRef` = '$billRef'")['cust_code'];
+
+                    // calculate points
+                    $points = $amount / (5/100);
+
+                    $n_amount = $amount - ($amount * 2);
+                    $n_points = $points - ($points * 2);
+
+                    // VALIDATE POINTS
+                    if($db->sum('loyalty_point_stmt','value',"`cust_code` = '$cust_code'") >= $points)
+                    {
+                        // there is meat
+                        try {
+                            $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`,`date_added`,`billRef`) values ('$machine_number','$bill_number','LOYALTY','L','$clerk_code','LOYALTY',$n_amount,'$today','$billRef')");
+//                            (new \loyalty\Loyalty())->givePoints($cust_code,$billRef,$n_points);
+                            $response['code'] = 202;
+                            $response['message'] = "AMOUNT REDEEMED";
+                        } catch (Exception $e){
+                            $response['code'] = 505;
+                            $response['message'] = $e->getMessage();
+                        }
+                    } else {
+                        // invalid points
+                        $response['code'] = 505;
+                        $response['code'] = "POINTS MISMATCH";
+                    }
+
+                } else {
+                    // no valid customer
+                    $response['code'] = 404;
+                    $response['message'] = "CUSTOMER NOT FOUND";
+                }
+
+
+
+
+
+
+
+                header("Content-Type:Application/Json");
+                echo json_encode($response);
 
             }
 
@@ -652,12 +707,14 @@ require '../includes/core.php';
 
                         $tran_qty = $tran['item_qty'];
 
-                        if($disc_count === 1)
-                        {
-                            $dr = $discount['bill_amt'];
-                        } else {
-                            $dr = 0;
-                        }
+//                        if($disc_count === 1)
+//                        {
+//                            $dr = $discount['bill_amt'];
+//                        } else {
+//                            $dr = 0;
+//                        }
+
+                        $dr = 0;
 
                         $cur_rp = $product['retail'];
                         $tg = $product['tax_grp'];
@@ -709,6 +766,10 @@ require '../includes/core.php';
                 print_r(json_encode($resp));
             }
             //FINAL REPORTS
+
+            elseif ($function === 'redeem'){
+                echo "REDEEM LOYALTY";
+            }
 
             else{
                 print_r('UNKNOWN FUNCTION');

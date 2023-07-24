@@ -67,19 +67,50 @@
                 </div>
             </div>
 
-            <div class="w-45 d-flex flex-wrap h-100">
-                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
-                    <span>Taxable Amt</span> <span id="sub_total">0.00</span>
-                </div>
-                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
-                    <span>Tax Amt</span> <span id="tax">0.00</span>
-                </div>
-                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
-                    <span>Amount Paid</span> <span id="amount_paid">0.00</span>
-                </div>
-                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">
-                    <span>Amount Bal.</span> <span id="amount_balance">0.00</span>
-                </div>
+            <div class="w-50 d-flex flex-wrap h-100">
+                <table class="table h-100 m-0 p-0 table-bordered">
+                    <thead class="h-50">
+                        <tr>
+                            <th>Tot Amt.</th>
+                            <th>Disc Amt.</th>
+                            <th>Bill Amt.</th>
+                            <th>Tax Amt.</th>
+                            <th>Paid Amt.</th>
+                            <th>Bal Amt.</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-light h-50 p-0 m-0">
+                        <tr>
+                            <td id="sub_total" class="text-light">0.00</td>
+                            <td id="disc_amt" class="text-light">0.00</td>
+                            <td id="bill_amt" class="text-light">0.00</td>
+                            <td id="tax" class="text-light">0.00</td>
+                            <td id="amount_paid" class="text-light">0.00</td>
+                            <td id="amount_balance" class="text-light">0.00</td>
+                        </tr>
+                    </tbody>
+                </table>
+<!--                <div class="w-16 text-center h-50 x_border">TOTAL</div>-->
+<!--                <div class="w-16 text-center h-50 x_border">DISC AMT.</div>-->
+<!--                <div class="w-16 text-center h-50 x_border">BILL AMT.</div>-->
+<!--                <div class="w-16 text-center h-50 x_border">TAX AMT</div>-->
+<!--                <div class="w-16 text-center h-50 x_border">PAID</div>-->
+<!--                <div class="w-16 text-center h-50 x_border">BAL. AMT</div>-->
+
+
+
+<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
+<!--                    <span>Taxable Amt</span> <span id="sub_total">0.00</span>-->
+<!--                </div>-->
+<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
+<!--                    <span>Tax Amt</span> <span id="tax">0.00</span>-->
+<!--                </div>-->
+<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
+<!--                    <span>Amount Paid</span> <span id="amount_paid">0.00</span>-->
+<!--                </div>-->
+<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
+<!--                    <span>Amount Bal.</span> <span id="amount_balance">0.00</span>-->
+<!--                </div>-->
             </div>
 
 
@@ -270,8 +301,14 @@
                                     <button id="hold" disabled onclick="bill.holdBill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">
                                         HOLD
                                     </button>
-                                    <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
+                                    <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn btn_traditional btn-sm rounded-0">
                                         LKUP
+                                    </button>
+                                    <button disabled onclick="lty.loadCustomer()" id="LOYALTY_LOOKUP" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
+                                        LOYLOAD
+                                    </button>
+                                    <button disabled onclick="lty.redeem()" id="LOYALTY_REDEEM" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
+                                        LOYRED
                                     </button>
                                     <button id="bill_recall" disabled onclick="bill.recall()" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
@@ -338,5 +375,7 @@
       </div>
 
 <script>
+    get_bill();
     checkVoud();
+
 </script>

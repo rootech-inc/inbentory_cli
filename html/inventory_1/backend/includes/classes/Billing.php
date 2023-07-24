@@ -111,7 +111,7 @@ class Billing
 
     }
 
-    public function billTotal($bill_number,$date): array
+    public function billTotal($bill_number,$date,$billRef = ''): array
     {
         $machine_number = mech_no;
         $response = [
@@ -156,6 +156,103 @@ class Billing
 
     }
 
+    public function billSummary($billRef): array
+    {
+        $bill_hd = array(
+            'ref'=>$billRef,
+            'valid'=>'Y',
+            'total'=>0.00,
+            'discount_type'=>0.00,
+            'discount'=>0.00,
+            'disc_rate'=>0.00,
+            'bill_amt'=>0.00,
+            'tax_amt'=>0.00,
+            'paid_amt'=>0.00,
+            'amt_bal'=>0.00,
+            'tran_qty'=>0
+        );
+        $dbHandler = new db_handler();
+
+        $live_count = $dbHandler->row_count('bill_trans', "`billRef` = '$billRef'");
+        $hist_count = $dbHandler->row_count('bill_history_trans', "`billRef` = '$billRef'");
+
+
+        if ($live_count > 0) {
+            $bill_hd['tran_qty'] = $live_count;
+            $bill_trans_table = 'bill_trans';
+            $bill_header_table = 'bill_header';
+            $bill_tax_table = 'bill_tax_tran';
+        } elseif ($hist_count > 0) {
+            $bill_trans_table = 'bill_history_trans';
+            $bill_header_table = 'bill_history_header';
+            $bill_tax_table = 'history_tax_tran';
+            $bill_hd['tran_qty'] = $hist_count;
+        } else {
+            $bill_hd['valid'] = 'N';
+            return $bill_hd;
+        }
+
+        // check if bill is paid for
+        $paid_for = (new db_handler())->row_count("$bill_header_table","`billRef` = '$billRef'");
+        if($paid_for === 1){
+            // bill has been paid for so update header with this values
+            $bill_header = (new db_handler())->get_rows("$bill_header_table","`billRef` = '$billRef'");
+            $bill_hd['total'] = $bill_header['gross'];
+            $bill_hd['discount'] = $bill_header['disc_amt'];
+            $bill_hd['bill_amt'] = $bill_header['net_amt'];
+            $bill_hd['tax_amt'] = $bill_header['tax_amt'];
+            $bill_hd['paid_amt'] = $bill_header['amt_paid'];
+            $bill_hd['total'] = $bill_header['amt_bal'];
+        } else {
+            // values should be updated with transactions
+            $total = (new db_handler())->sum($bill_trans_table,'bill_amt',"`trans_type` = 'i' and `billRef` = '$billRef'");
+            $bill_hd['total'] = number_format($total,2);
+            $tax = (new db_handler())->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
+            if((new db_handler())->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'") === 1)
+            {
+                // there is discount
+                $dic_rate = (new db_handler())->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'")['bill_amt'];
+                $dis_value = $dic_rate / 100;
+                $disc = $total * $dis_value;
+                $disc_type = "D";
+                // disc on tax
+                $tax_disc = $tax * $dis_value;
+
+
+            }
+           elseif ((new db_handler())->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'") === 1) {
+               $disc = (new db_handler())->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'")['bill_amt'];
+               $tax_disc = 0;
+               $dic_rate = 0.00;
+               $disc_type = 'L';
+           }
+            else {
+                $disc = 0;
+                $tax_disc = 0;
+                $dic_rate = 0.00;
+                $disc_type = '';
+            }
+            $bill_hd['disc_rate'] = $dic_rate;
+            $bill_hd['discount'] = number_format($disc,2);
+            if($disc_type === 'L'){
+                $bill_hd['bill_amt'] = $total + $disc;
+            }
+            else {
+                $bill_hd['bill_amt'] = $total - $disc;
+            }
+
+            $bill_hd['discount_type'] = $disc_type;
+
+
+            $tax = (new db_handler())->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
+            $bill_hd['tax_amt'] = number_format($tax - $tax_disc,2);
+
+        }
+
+        return $bill_hd;
+
+    }
+
     public function makePyament($method,$amount_paid): array
     {
 
@@ -180,12 +277,15 @@ class Billing
 
             // get transaction details
             $bill_totals = $this->billTotal($bill_number,$today);
+            $bill_totals = $this->billSummary($billRef);
             if($bill_totals['valid'] === 'Y')
             {
-                $net = $bill_totals['taxable_amt'];
+                $net = $bill_totals['bill_amt'];
                 $tax_amt = $bill_totals['tax_amt'];
-                $gross_amt = $net + $tax_amt;
+                $gross_amt = $bill_totals['total'];
                 $tran_qty = $bill_totals['tran_qty'];
+                $discount = $bill_totals['discount'];
+                $disc_rate = $bill_totals['disc_rate'];
 
                 if($method === 'refund'){
                     $amount_paid = $gross_amt;
@@ -194,14 +294,14 @@ class Billing
                     $amt_balance = $amount_paid - $gross_amt;
                 }
 
-                $bill_totals['amt_paid'] = number_format($amount_paid,2);
-                $bill_totals['amt_bal'] = number_format($amt_balance,2);
+                $bill_totals['paid_amt'] = number_format($amount_paid,2);
+                $bill_totals['tran_qty'] = number_format($amt_balance,2);
 
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
-                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef');";
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
+                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount');";
                 (new anton())->log2file("COPPER");
                 (new anton())->log2file($bill_header_insert);
                 (new anton())->log2file("COPPER");
@@ -259,7 +359,7 @@ class Billing
                     $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
                     $cust_code = $customer_details['cust_code'];
 
-                    (new Loyalty())->givePoints($cust_code,billRef,$gross_amt);
+                    (new Loyalty())->givePoints($cust_code,billRef,$net);
 
                 }
 
@@ -433,6 +533,65 @@ class Billing
         return array(
             'gross'=>$gross,'deduct'=>$deduct,'net'=>$net,'tax'=>$tax
         );
+
+    }
+
+    function billSummaryV2($bill_ref = billRef,$mach_no = mech_no): array
+    {
+
+        // Initialize variables
+        $tax_rate_levies = 0.06; // 6%
+        $tax_rate_vat = 0.159; // 15.9%
+        $discount_rate = 0.03; // 3%
+        $taxable_total = 0;
+        $none_taxable_total = 0;
+
+        // Calculate taxable total and none-taxable total
+        $bills = $this->db_handler()->db_connect()->query("SELECT * FROM bill_trans where billRef = '$bill_ref'");
+        while ($item = $bills->fetch(PDO::FETCH_ASSOC)) {
+            $barcode = $item['item_barcode'];
+            $retail_price = $item['retail_price'];
+            $item_qty = $item['item_qty'];
+            $bill_amt = $item['bill_amt'];
+            $tax_grp = $item['tax_grp'];
+
+
+            // get item details
+            $product = new ProductMaster($barcode);
+
+            if ($product->isTaxable()) {
+                $taxable_total += $product->getPrice()['taxableAmt'];
+            } else {
+                $none_taxable_total += $product->getPrice()['taxableAmt'];
+            }
+        }
+
+        // Apply discount to the total bill
+        $total_bill = ($taxable_total + $none_taxable_total) * (1 - $discount_rate);
+
+        // Calculate levies amount
+        $levies_amount = $taxable_total * $tax_rate_levies;
+
+        // Calculate VAT amount
+        $vat_amount = ($taxable_total + $levies_amount) * $tax_rate_vat;
+
+        // Calculate final bill amount
+        $final_bill = $total_bill + $levies_amount + $vat_amount;
+
+        // Prepare the response array
+        $response = array(
+            'bill_number' => $bill_ref,
+            'mach_no' => $mach_no,
+            'taxable_total' => $taxable_total,
+            'none_taxable_total' => $none_taxable_total,
+            'total_bill' => $total_bill,
+            'levies_amount' => $levies_amount,
+            'vat_amount' => $vat_amount,
+            'final_bill' => $final_bill
+        );
+
+        // Return the response
+        return $response;
 
     }
 

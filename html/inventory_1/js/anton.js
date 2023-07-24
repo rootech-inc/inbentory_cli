@@ -61,10 +61,8 @@ if(Mech.is_shift())
 
     if(x_valid === 1){
         toDay  = x_shift['shift_date'];
-        cl('valid shift')
     } else {
         toDay = yyyy + '-' + mm + '-' + dd;
-        cl('invalid shift')
     }
 } else {
     toDay = yyyy + '-' + mm + '-' + dd;
@@ -259,6 +257,19 @@ function al(message)
     s_response('info','',message)
 }
 
+function info(str) {
+    Swal.fire({
+        'icon':'info',
+        'text':str
+    })
+}
+function warning(str) {
+    Swal.fire({
+        'icon':'warning',
+        'text':str
+    })
+}
+
 function if_id(id)
 {
     return !!document.getElementById(id);
@@ -348,7 +359,7 @@ function i_show(params) {
 
 // hide
 function i_hide(params) {
-    echo("Hiding " + params)
+
     var splited = params.split(',')
     for (let index = 0; index < splited.length; index++) {
         const element = splited[index];
@@ -1529,7 +1540,7 @@ function cancel_bill() {
 }
 
 $("#bill_loader").ready(function(){
-    get_bill();
+    //get_bill();
     //block will be loaded with element with id myid is ready in dom
     // setInterval(function(){
     //     //this code runs every second

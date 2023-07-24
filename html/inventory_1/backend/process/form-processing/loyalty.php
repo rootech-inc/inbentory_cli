@@ -12,8 +12,9 @@
             // add new customer
             $email = $anton->post('email');
             $name = $anton->post('name');
+            $mob = $anton->post('mobile');
 
-            $response = $loyalty->cusReg($name,$email);
+            $response = $loyalty->cusReg($name,$email,$mob);
 
         }
         elseif ($task === 'get_customer'){

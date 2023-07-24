@@ -50,10 +50,11 @@ class db_handler
 
 
     function exe($query){
+
         (new \anton())->log2file($query);
         $stmt = $this->db_connect()->prepare($query);
         $stmt->execute();
-        $this->db_connect()->commit();
+        //$this->db_connect()->commit();
     }
 
     function row_count($table,$condition='none'): int // row count of a table

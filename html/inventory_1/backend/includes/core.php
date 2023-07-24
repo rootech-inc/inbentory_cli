@@ -34,6 +34,7 @@ ini_set('display_errors',1);
     require 'classes/shift.php';
     require  'classes/Evat.php';
     require  'classes/Loyalty.php';
+    require 'classes/ProductMaster.php';
 
     $evat = new \billing\Evat('');
     $evat->set_url("http://192.168.2.88:8080/evat_api");
@@ -104,7 +105,8 @@ ini_set('display_errors',1);
 
         $bill_number = $MConfig->bill_number();
         $bill_number = $bill->billNumber();
-        $billRef = "001".date('ymd').$bill_number.mech_no;
+        $billRef = "001".date('ymd',strtotime(today)).$bill_number.mech_no;
+        //$billRef = "001".date('ymd').$bill_number.mech_no;
         define('billRef',$billRef);
         define('bill_total',$bill->billTotal($bill_number,$today));
         define('bill_no',$bill_number);

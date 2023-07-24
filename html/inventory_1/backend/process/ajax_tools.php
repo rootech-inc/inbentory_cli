@@ -189,5 +189,13 @@
                 printSales();
             }
 
+            elseif ($function === 'bill_summary'){
+                $billRef = billRef;
+                $sum = (new \billing\Billing())->billSummary($billRef);
+                header("Content-Type:Application/Json");
+                echo json_encode($sum);
+
+            }
+
         }
     }

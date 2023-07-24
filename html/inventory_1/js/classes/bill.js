@@ -15,21 +15,25 @@ class Bill {
             "contentType": false,
             "data": form,
             success: function (response) {
-                console.log(response)
+
                 // al(response)
                 let res = JSON.parse(response)
-                // console.table(res)
+
 
                 if(res['status'] === 202)
                 {
 
                     let message = res['message']
-                    let header = res['message']['bill_header']
-                    let count,total,tax,trans
+                    // let header = res['message']['bill_header']
+                    let header = bill.billSummary()
+                    let count,total,tax,trans,discount,bill_amt,disc_type
                     count = message['count']
-                    total = header['bill_amt']
+                    total = header['total']
+                    discount = header['discount']
+                    bill_amt = header['bill_amt']
                     tax = header['tax_amt']
                     trans = message['trans']
+                    disc_type = header['discount_type'];
                     let sel_count = 0
 
                     // ct(header)
@@ -41,7 +45,13 @@ class Bill {
                     // load header
                     // $('#sub_total').text(total)
                     // $('#tax').text(tax)
-                    jqh.setText({'sub_total':total, 'tax':tax,'amount_paid':'0.00','amount_balance':'0.00'})
+                    jqh.setText(
+                        {
+                            'sub_total':total, 'disc_amt':discount,'bill_amt':bill_amt,
+                            'tax':tax,'amount_paid':'0.00','amount_balance':'0.00'
+                        })
+
+
 
 
 
@@ -145,15 +155,21 @@ class Bill {
                 // load loyalty details
                 let bill_ref = $('#bill_ref').val()
                 let is_loyalty =  row_count('loyalty_tran',`billRef = '${bill_ref}'`);
+
                 if(is_loyalty === 1){
                     let cust_code_q = JSON.parse(get_row('loyalty_tran',`billRef = '${bill_ref}'`))[0];
                     let cust_code = cust_code_q['cust_code']
-
+                    // disable loyalty button
+                    arr_disable('LOYALTY_LOOKUP')
+                    arr_enable('LOYALTY_REDEEM')
                     let loyalty = JSON.parse(fetch_rows(`select lc.name as 'customer' from loyalty_tran join loy_customer lc on loyalty_tran.cust_code = lc.cust_code where loyalty_tran.cust_code = '${cust_code}';`))[0];
                     $('#msglegend').html(`LOYALTY CUSTOMER : ${loyalty['customer']}`)
                 }
                 else {
-                    cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
+                    arr_enable('LOYALTY_LOOKUP')
+                    arr_disable('LOYALTY_REDEEM')
+                    $('#msglegend').html('')
+                    //cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
                 }
             }
         };
@@ -185,7 +201,6 @@ class Bill {
         if(result > 0)
         {
             // enable hold
-            cl(`resp : ${result} - There is hold`)
             return true
         } else
         {
@@ -240,12 +255,12 @@ class Bill {
         // validate there is cash input
         if(method === 'refund'){
             // amount_paid = $('#sub_total').text()
-            $('#general_input').val($('#sub_total').text())
+            $('#general_input').val($('#bill_amt').text())
         }
 
 
 
-        let amount_paid = $('#general_input').val() ? $('#general_input').val() : $('#sub_total').text();
+        let amount_paid = $('#general_input').val() ? $('#general_input').val() : $('#bill_amt').text();
 
 
 
@@ -253,7 +268,7 @@ class Bill {
         if(amount_paid.length > 0)
         {
             // get total balance
-            var balance = $('#sub_total').text();
+            var balance = $('#bill_amt').text();
 
             var actual_balance = parseFloat(balance), actual_paid = parseFloat(amount_paid)
 
@@ -688,8 +703,33 @@ class Bill {
         $.ajax(ajaxform)
     }
 
+    billSummary(){
+        // set form
+        let res = {}
+        ajaxform['url'] = '/backend/process/ajax_tools.php'
+        ajaxform['data'] = {'function':'bill_summary'}
+        ajaxform['type'] = 'POST'
+        ajaxform['success'] = function (response) {
+            // console.table(response)
+            if(isJson(JSON.stringify(response))){
+                let resp = JSON.parse(response)
+
+                res = resp
+            } else {
+                al('INVALID RESPONSE')
+            }
+        }
+
+        $.ajax(ajaxform)
+
+        return res;
 
 
+    }
+
+    billSummaryV2(){
+
+    }
 }
 
 class Shift {

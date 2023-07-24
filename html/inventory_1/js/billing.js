@@ -48,7 +48,7 @@ $(function() {
                     if(response.split('%%')[0] === 'error')
                     {
                         let er_msg = response.split('%%')[1]
-                        alert(`Could not add to bill <p class="text-danger">${er_msg}</p>`,'error')
+                        kasa.error(er_msg)
                     } else {
                         get_bill()
                     }

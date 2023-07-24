@@ -166,11 +166,13 @@ function loadProduct(prod_id,action='view')
         )
         // loop through groups
         let tax_row = '';
+        console.table(all_tax)
         for (let i = 0; i < all_tax.length; i++) {
             let rate = all_tax[i].rate + '% ';
             let id = all_tax[i].id;
             let desc = all_tax[i].description;
             let tax_code = all_tax[i].attr
+
 
 
             // append option
@@ -181,7 +183,8 @@ function loadProduct(prod_id,action='view')
                 tax_row += `<option value="${id}">${tax_code}</option>`
             }
         }
-        $('#tax').html(tax_row)
+        console.log(tax_row)
+        $('#prod_tax').html(tax_row)
 
 
 
@@ -508,47 +511,52 @@ function retailWithoutTax()
 
     val = $('#retail_with_tax').val()
 
-    tax_id = $('#tax').val();
+    tax_id = $('#prod_tax').val();
 
-    tax = JSON.parse(get_row('tax_master',`attr = '${tax_id}'`))[0]
-    tax_rate = tax.rate
-    let tax_desc = tax.description
-    $('#tax_descr').text(tax_desc)
-
-    //cttax_rate)
-
-    if(tax_rate !== 'null')
+    tax = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0]
+    if(row_count('tax_master',`id = '${tax_id}'`) === 1)
     {
-        // calculate oercentage
-        let form_data = {
-            'function':'get_tax_val',
-            'tax_code':tax_id,
-            'amount':val
-        }
 
-        //ctform_data)
+        tax_rate = tax.rate
+        let tax_desc = tax.description
+        $('#tax_descr').text(tax_desc)
 
-        $.ajax({
-            url:'/backend/process/form-processing/sys.php',
-            data:form_data,
-            type:'POST',
-            success: function (response) {
-                //cl(response)
-                let r = JSON.parse(response)
-                let details = r['details']
-                let code = r['code']
-                let withoutTax = details['withoutTax']
 
-                //cl("NEW TAX VAL")
-                //ctdetails)
-                //cl('NEW TAX VALUE')
-
-                $('#retail_without_tax').val(details['taxableAmt'].toFixed(2))
-
+        if(tax_rate !== 'null')
+        {
+            // calculate oercentage
+            let form_data = {
+                'function':'get_tax_val',
+                'tax_code':tax.attr,
+                'amount':val
             }
-        });
+
+            //ctform_data)
+
+            $.ajax({
+                url:'/backend/process/form-processing/sys.php',
+                data:form_data,
+                type:'POST',
+                success: function (response) {
+                    ct(response)
+                    let r = JSON.parse(response)
+                    let details = r['details']
+                    let code = r['code']
+                    let withoutTax = details['withoutTax']
+
+                    //cl("NEW TAX VAL")
+                    //ctdetails)
+                    //cl('NEW TAX VALUE')
+
+                    $('#retail_without_tax').val(details['taxableAmt'].toFixed(2))
+
+                }
+            });
 
 
+        }
+    } else {
+        al("CANNOT FIND TAX")
     }
 }
 

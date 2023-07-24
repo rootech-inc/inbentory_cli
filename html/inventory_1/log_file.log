@@ -4,648 +4,33 @@ SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loy_customer WHERE cust_code = '100002'
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-INSERT INTO loyalty_tran (cust_code, billRef) VALUES ('100002','001230529141')
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-DELETE FROM loyalty_tran WHERE cust_code = '100002' AND billRef = '001230529141'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '14' AND `date_added` = '2023-01-29'
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM clerk WHERE id = '2'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `clerk` = 'Demo User' AND `date_added` = '2023-05-27' AND `bill_number` = '14' AND `selected` = 1
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '14' AND `date_added` = '2023-01-29'
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loy_customer WHERE cust_code = '100002'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-DELETE FROM loyalty_tran WHERE cust_code = '100002' AND billRef = '001230529141'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-INSERT INTO loyalty_tran (cust_code, billRef) VALUES ('100002','001230529141')
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '14' AND `date_added` = '2023-01-29'
-0
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM item_buttons WHERE `button_index` = '14'
-1
-SELECT * FROM item_buttons WHERE `button_index` = '14'
-SELECT * FROM prod_mast WHERE `item_grp` = '14'
-3
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
@@ -653,838 +38,212 @@ SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
-1
-SELECT * FROM mech_setup WHERE `mech_no` = '1'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-TAX INSERTIONS
-INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt,billRef) VALUES ('2023-01-29', '411', 1, 14, 1000000002, 1, 8.00, 'nh', 0.2,'001230529141'),
-                                                 ('2023-01-29', '411', 1, 14, 1000000002, 1, 8.00, 'gf', 0.2,'001230529141'),
-                                                 ('2023-01-29', '411', 1, 14, 1000000002, 1, 8.00, 'cv', 0.08,'001230529141'),
-                                                 ('2023-01-29', '411', 1, 14, 1000000002, 1, 8.00, 'VM', 1.4372436423298,'001230529141');
-TAX INSERTIONS
-insert into `bill_trans` 
-                (`mach`,`clerk`,`bill_number`,`item_barcode`,
-                 `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type) values
-                 ('1','411','14','6033000340085',
-                  'STORM ENERGY LG','8.00','1','1.4372436423298',
-                  '8','i','MULTI-TAX','99','2023-01-29','001230529141','SS')
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
-SELECT * FROM tax_master WHERE `id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '14' AND `date_added` = '2023-01-29'
-1
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' AND `bill_date` = '2023-01-29' and mech_no = '1'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-13
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE bill_number
-15
-SELECT * FROM bill_trans WHERE `date_added` = '2023-01-29' and `mach` = '1' and `bill_number` = '14' and `trans_type` = 'i'
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '14' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '14' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-COPPER
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
-                    VALUES (1, '2', 14, 'cash', 8, 1.92, 6.08, 1,10,2,'2023-01-29','001230529141');
-COPPER
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '14'
-0
-###################
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
-                    VALUES (1, '2', 14, 'cash', 8, 1.92, 6.08, 1,10,2,'2023-01-29','001230529141');
-###################
-SELECT * FROM loyalty_tran WHERE `billRef` = '001230529141'
-1
-SELECT * FROM loyalty_tran WHERE `billRef` = '001230529141'
-LOYALTY POINT GIVE
-insert into loyalty_point_stmt(cust_code, billRef,value) values ('100002','001230529141','8')
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '15' AND `date_added` = '2023-01-29'
-0
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loy_customer WHERE cust_code = '100002'
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-DELETE FROM loyalty_tran WHERE cust_code = '100002' AND billRef = '001230529141'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-INSERT INTO loyalty_tran (cust_code, billRef) VALUES ('100002','001230529141')
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '9'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '15' AND `date_added` = '2023-01-29'
-0
+SELECT * FROM customers WHERE `customer_id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+SELECT * FROM customers WHERE `customer_id` > 0
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
+SELECT * FROM customers WHERE `customer_id` = '10'
 0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
+SELECT * FROM customers WHERE `customer_id` = '9'
 0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
 0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null
+SELECT * FROM customers WHERE `customer_id` = '13'
 1
+SELECT * FROM customers WHERE `customer_id` = '13'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM mech_setup WHERE `mech_no` = '1'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-TAX INSERTIONS
-INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt,billRef) VALUES ('2023-01-29', '411', 1, 15, 1000000003, 1, 500.00, 'nh', 12.5,'001230529151'),
-                                                 ('2023-01-29', '411', 1, 15, 1000000003, 1, 500.00, 'gf', 12.5,'001230529151'),
-                                                 ('2023-01-29', '411', 1, 15, 1000000003, 1, 500.00, 'cv', 5,'001230529151'),
-                                                 ('2023-01-29', '411', 1, 15, 1000000003, 1, 500.00, 'VM', 89.827727645611,'001230529151');
-TAX INSERTIONS
-insert into `bill_trans` 
-                (`mach`,`clerk`,`bill_number`,`item_barcode`,
-                 `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type) values
-                 ('1','411','15','6034000181036',
-                  'BEL-AQUA SMALL','500.00','1','89.827727645611',
-                  '500','i','MULTI-TAX','99','2023-01-29','001230529151','SS')
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+SELECT * FROM customers WHERE `customer_id` > 0
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+SELECT * FROM customers WHERE `customer_id` > 0
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '15' AND `date_added` = '2023-01-29'
-1
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' AND `bill_date` = '2023-01-29' and mech_no = '1'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+SELECT * FROM customers WHERE `customer_id` > 0
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '14'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
+SELECT * FROM customers WHERE `customer_id` = '14'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` = '14'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-14
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE bill_number
-16
-SELECT * FROM bill_trans WHERE `date_added` = '2023-01-29' and `mach` = '1' and `bill_number` = '15' and `trans_type` = 'i'
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1
-1
-SELECT * FROM bill_trans WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '15' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '15' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-COPPER
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
-                    VALUES (1, '2', 15, 'cash', 500, 119.83, 380.17, 1,500,0,'2023-01-29','001230529151');
-COPPER
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '15'
-0
-###################
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef)
-                    VALUES (1, '2', 15, 'cash', 500, 119.83, 380.17, 1,500,0,'2023-01-29','001230529151');
-###################
-SELECT * FROM loyalty_tran WHERE `billRef` = '001230529151'
-0
+SELECT * FROM customers WHERE `customer_id` = '14'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `customer_id` > 0
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
 0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `cust_no` = '9990000001'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `bill_number` = '16' AND `date_added` = '2023-01-29'
-0
+SELECT * FROM customers WHERE `cust_no` = '9990000001'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
 0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
-1
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+SELECT * FROM customers WHERE `cust_no` = '9990000001'
 1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM loyalty_tran WHERE billRef = '001230529141'
+SELECT * FROM customers WHERE `cust_no` = '9990000001'
 SELECT * FROM company WHERE `id` = 0
 SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
 1
 SELECT * FROM shifts WHERE `mech_no` = '1'
 SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-15
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1
-0
-SELECT * FROM bill_trans WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
 0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '16' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '16' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+UPDATE customers SET status = 0 where cust_no = '14'
