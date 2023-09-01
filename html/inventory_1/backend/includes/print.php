@@ -79,6 +79,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
             $curRef = "0".$bill_header['billRef'];
 
+            $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+
             $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
             $tran_qty = $bill_total['tran_qty'];
@@ -169,16 +171,16 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text("Bill# $bill_number");
             $printer->feed();
             $printer -> text(new item(date('d-M-Y'),'TIME : '.date('H:i')));
-            $printer -> setUnderline();
+
             $printer -> text(new item('M# : 6','Clerk : Admin'));
-            $printer -> setUnderline(0);
+
             $printer -> feed();
             /* Items */
             $printer -> setJustification(Printer::JUSTIFY_LEFT);
             $printer -> setEmphasis(true);
-            $printer -> setUnderline(1);
+            $printer -> text(str_repeat('-', 48) . "\n");
             $printer -> text(new item('No. Product', 'Amount'));
-            $printer -> setUnderline(0);
+            $printer -> text(str_repeat('-', 48) . "\n");
             $printer -> setEmphasis(false);
             $printer -> feed();
             foreach ($items as $item) {
@@ -186,7 +188,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             }
 
             $printer -> feed();
-
+            $printer -> text(str_repeat('-', 48) . "\n");
             /* Tax and total */
 
             $printer -> text($taxable);
@@ -197,17 +199,15 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> feed();
 
 
-            $printer -> setUnderline(1);
+            $printer -> text(str_repeat('-', 48) . "\n");
             $printer -> text(new item('TAX DESC', 'TAX AMOUNT'));
-            $printer -> setUnderline(0);
+            $printer -> text(str_repeat('-', 48) . "\n");
 
             $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number and bill_date = '$today' group by tax_code;";
             (new anton())->log2file($tax_sql,"TAX QUERY");
             $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
 
-//            $file = __DIR__ . "../../../log_file.log";
-//            $text = "$tax_sql\n";
-//            file_put_contents($file, $text, FILE_APPEND);
+
 
             (new  anton())->log2file($tax_sql);
 
@@ -221,14 +221,34 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $printer ->text($tax_line);
             }
 
-//            $printer -> text($nhil);
-//            $printer -> text($getf);
-//            $printer -> text($covid);
+            $printer -> text(str_repeat('-', 48) . "\n");
+            $printer->feed();
+            $printer -> setUnderline(1);
+            $printer -> text("SDC INFORMATION \n");
+            $printer -> setUnderline(0);
+            $ysdcmrctim = $evat_signatures['ysdcmrctim'];
+            $printer -> text("TIME SDC : $ysdcmrctim \n");
+
+            $ysdcid = $evat_signatures['ysdcid'];
+            $printer -> text("SDC ID : $ysdcid \n");
+
+            $ysdcrecnum = $evat_signatures['ysdcrecnum'];
+            $printer -> text("REC. NUMBER : $ysdcrecnum \n");
+
+            $ysdcintdata = $evat_signatures['ysdcintdata'];
+            $printer -> text("INT. DATA: $ysdcintdata \n");
+
+            $ysdcregsig = $evat_signatures['ysdcregsig'];
+            $printer -> text("REC. SIGN: $ysdcregsig \n");
+
+            $printer -> setJustification(Printer::JUSTIFY_CENTER);
+            $printer -> qrCode($evat_signatures['qr_code']);
+
             $printer -> feed();
             $printer->setUnderline(1);
 
             /* Footer */
-            $printer -> feed(2);
+            $printer -> feed();
             $printer -> setJustification(Printer::JUSTIFY_CENTER);
             $printer -> text("Thank you for shopping at ExampleMart\n");
             $printer -> text("For trading hours, please visit example.com\n");

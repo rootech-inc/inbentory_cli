@@ -135,4 +135,26 @@ class Evat extends db_handler
 
     }
 
+    public function get_signature($billRef): array
+    {
+        $dbHandler = new db_handler();
+
+        $sign = $dbHandler->get_rows('evat_transactions',"`billRef` = '$billRef'");
+
+        $signature = array(
+            'ysdcid'=> $sign['ysdcid'] ?? 'none',
+            'ysdcitems'=> $sign['ysdcitems'] ?? 'none',
+            'ysdcmrc'=> $sign['ysdcmrc'] ?? 'none',
+            'ysdcmrctim'=> $sign['ysdcmrctim'] ?? 'none',
+            'ysdcrecnum'=> $sign['ysdcrecnum'] ?? 'none',
+            'ysdctime'=> $sign['ysdctime'] ?? 'none',
+            'ysdcintdata'=> $sign['ysdcintdata'] ?? 'none',
+            'ysdcregsig'=> $sign['ysdcregsig'] ?? 'none',
+            'qr_code'=> $sign['qr_code'] ?? 'none',
+        );
+
+        return $signature;
+
+    }
+
 }

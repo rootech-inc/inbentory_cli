@@ -282,7 +282,7 @@ class Billing
             {
                 $net = $bill_totals['bill_amt'];
                 $tax_amt = $bill_totals['tax_amt'];
-                $gross_amt = $bill_totals['total'];
+                $gross_amt = floatval(str_replace(',','',$bill_totals['total']));
                 $tran_qty = $bill_totals['tran_qty'];
                 $discount = $bill_totals['discount'];
                 $disc_rate = $bill_totals['disc_rate'];
@@ -342,7 +342,8 @@ class Billing
                                                                         ('$billRef','$ysdcid','$ysdcitems','$ysdcmrc','$ysdcmrctim','$ysdcrecnum','$ysdctime','$ysdcintdata','$ysdcregsig','$qr_code')";
 
                             (new db_handler())->exe($evat_tran);
-
+                            (new anton())->log2file("BILLY HEADDY");
+                            (new anton())->log2file($bill_header_insert);
                             // continue
                             $this->db_handler()->db_connect()->exec($bill_header_insert);
 
