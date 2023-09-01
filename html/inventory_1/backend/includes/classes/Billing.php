@@ -311,70 +311,114 @@ class Billing
                     $this->anton()->log2file("###################");
                     (new anton())->log2file($bill_header_insert);
                     $this->anton()->log2file("###################");
-                    $this->db_handler()->db_connect()->exec($bill_header_insert);
-//                    if($method === 'refund')
-//                    {
-//                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values
-//                                                                                                    ('$machine_number','$bill_number','$method','R','$myName','REFUND','$today')");
-//                    } else
-//                    {
-//                        $this->db_handler()->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`date_added`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT','$today')");
-//                    }
 
-                    if($method === 'refund') // update on refunds
-                    {
-                        // update values all to negative
-                        $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
+                    # make EvatData
+                    $send_inv = json_decode((new Evat())->send_invoice(billRef));
+                    (new anton())->log2file("SEND INVOICE RESPONSE \n".var_export($send_inv,true));
+
+                    if($send_inv->code === 200 || $send_inv->message === 'INVOICE ALREADY SUBMITTED'){
+                        // get signature
+                        $signature = json_decode((new Evat())->sign_invoice(billRef));
+
+                        (new anton())->log2file("SIGNATURE RESPONSE \n".var_export($signature,true));
+                        $sign = $signature->MESSAGE;
+                        (new anton())->log2file("SIGN \n$signature->STATUS");
+
+                        if($signature->STATUS === 'SUCCESS'){
+
+                            // save signatures\
+                            $ysdcrecnum = $sign->ysdcrecnum;
+                            $ysdcid = $sign->ysdcid;
+                            $ysdcintdata = $sign->ysdcintdata;
+                            $ysdcmrc = $sign->ysdcmrc;
+                            $ysdcitems = $sign->ysdcitems;
+                            $ysdcmrctim = $sign->ysdcmrctim;
+                            $ysdcregsig = $sign->ysdcregsig;
+                            $ysdctime = $sign->ysdctime;
+                            $qr_code = $signature->QR_CODE;
+
+                            // save keys in database
+                            $evat_tran = "INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
+                                                                        ('$billRef','$ysdcid','$ysdcitems','$ysdcmrc','$ysdcmrctim','$ysdcrecnum','$ysdctime','$ysdcintdata','$ysdcregsig','$qr_code')";
+
+                            (new db_handler())->exe($evat_tran);
+
+                            // continue
+                            $this->db_handler()->db_connect()->exec($bill_header_insert);
+
+                            if($method === 'refund') // update on refunds
+                            {
+                                // update values all to negative
+                                $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
                        tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
                        tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2) 
                        where mach_no = $machine_number and bill_no = $bill_number and bill_date = '$today'";
 
-                        // bill tran
-                        $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
+                                // bill tran
+                                $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
                       bill_amt = bill_amt - (bill_amt * 2) where mach = $machine_number and bill_number = $bill_number and date_added = '$today'";
 
-                        // tax trans
-                        $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
+                                // tax trans
+                                $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
                          taxableAmt = taxableAmt - (taxableAmt * 2), 
                          tax_amt = tax_amt - (tax_amt * 2) 
                          where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
 
-//                        (new anton())->log2file("LORD");
-//                        (new anton())->log2file($header);
-//                        (new anton())->log2file($trans);
-//                        (new anton())->log2file($tax_tran);
-//                        (new anton())->log2file("LORD");
 
-//                        (new db_handler())->db_connect()->exec($header);
-//                        (new db_handler())->db_connect()->exec($trans);
-//                        (new db_handler())->db_connect()->exec($tax_tran);
+                            }
+
+                            // print bill
+                            printbill(mech_no,$bill_number,$method);
+
+                            $response['status'] = 200;
+                            $response['message'] = $bill_totals;
+
+
+
+                        }
+                        else {
+
+                            $response['status'] = 505;
+                            $response['message'] = $signature;
+                        }
+
+                    } else {
+                        $response['status'] = 505;
+                        $response['message'] = $send_inv;
+                    }
+
+
+
+
+
+                    $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
+                    if($loyCount === 1){
+
+                        // loyalty points insert $gross_amt
+                        $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+                        $cust_code = $customer_details['cust_code'];
+
+                        (new Loyalty())->givePoints($cust_code,billRef,$net);
+
                     }
 
                 }
-
-                $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
-                if($loyCount === 1){
-
-                    // loyalty points insert $gross_amt
-                    $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
-                    $cust_code = $customer_details['cust_code'];
-
-                    (new Loyalty())->givePoints($cust_code,billRef,$net);
-
+                else {
+                    $response['status'] = 404;
+                    $response['message'] = "THERE IS BILL WITH HEADER";
                 }
+
 
             }
 
 
-
-            $response['status'] = 200;
-            $response['message'] = $bill_totals;
 
         } else
         {
             $response['status'] = 404;
             $response['message'] = 'Cannot make payment for an empty transaction';
         }
+        (new anton())->log2file(var_export($response,2));
 
         return $response;
 
@@ -545,15 +589,21 @@ class Billing
         $discount_rate = 0.03; // 3%
         $taxable_total = 0;
         $none_taxable_total = 0;
-
+        $bill_trans = array();
         // Calculate taxable total and none-taxable total
-        $bills = $this->db_handler()->db_connect()->query("SELECT * FROM bill_trans where billRef = '$bill_ref'");
+        $bills = $this->db_handler()->db_connect()->query("SELECT * FROM bill_trans where billRef = '$bill_ref' and trans_type = 'i'");
         while ($item = $bills->fetch(PDO::FETCH_ASSOC)) {
             $barcode = $item['item_barcode'];
             $retail_price = $item['retail_price'];
             $item_qty = $item['item_qty'];
             $bill_amt = $item['bill_amt'];
             $tax_grp = $item['tax_grp'];
+
+            $this_item = array(
+                "name"=>"NAME","ref"=>$barcode,'qty'=>$item_qty,"retail_price"=>$retail_price,"total"=>$bill_amt,'tax_type'=>$tax_grp
+            );
+            $bill_trans[] = $this_item;
+//            array_push($bill_trans,array($this_item));
 
 
             // get item details
@@ -578,8 +628,19 @@ class Billing
         // Calculate final bill amount
         $final_bill = $total_bill + $levies_amount + $vat_amount;
 
+        $bill_header = array();
+        if((new db_handler()) -> row_count('bill_header',"`billRef` = '$bill_ref'")){
+            $hd = (new db_handler()) -> get_rows('bill_header',"`billRef` = '$bill_ref'");
+            $bill_header['INVOICE_DATE'] = $hd['bill_date'];
+            $bill_header['TOTAL_AMOUNT'] = $final_bill;
+            $bill_header['TOTAL_LEVY'] = $levies_amount;
+            $bill_header['TOTAL_VAT'] = $vat_amount;
+            $bill_header['ITEMS_COUNTS'] = (new db_handler()) -> row_count('bill_trans',"billRef = '$bill_ref' and trans_type = 'i'");
+        }
+
         // Prepare the response array
         $response = array(
+            'bill_header'=>$bill_header,
             'bill_number' => $bill_ref,
             'mach_no' => $mach_no,
             'taxable_total' => $taxable_total,
@@ -587,7 +648,8 @@ class Billing
             'total_bill' => $total_bill,
             'levies_amount' => $levies_amount,
             'vat_amount' => $vat_amount,
-            'final_bill' => $final_bill
+            'final_bill' => $final_bill,
+            'bill_trans'=>$bill_trans
         );
 
         // Return the response

@@ -40,6 +40,9 @@ class Bill {
 
                     arr_disable('recall,REFUND')
                     arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
+                    enableFields(['load_cust'])
+
+
 
 
                     // load header
@@ -171,6 +174,10 @@ class Bill {
                     $('#msglegend').html('')
                     //cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
                 }
+
+                // validate if there is credit customer loaded
+                
+
             }
         };
 
@@ -260,6 +267,7 @@ class Bill {
 
 
 
+
         let amount_paid = $('#general_input').val() ? $('#general_input').val() : $('#bill_amt').text();
 
 
@@ -277,6 +285,7 @@ class Bill {
             // compare balance
             if(actual_paid >= actual_balance)
             {
+                kasa.info("ON")
 
                 // make form data
                 form_data = {
@@ -294,6 +303,7 @@ class Bill {
                 })
 
                 // send ajax request
+                console.log("SENDING BILL0000")
                 $.ajax({
                     url: form_process,
                     type:'POST',
@@ -312,7 +322,7 @@ class Bill {
 
 
                         if(status === 200){
-
+                            cl("PAYMENT ONE WITHOUT ERROR")
                             // get payment details
                             let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal,bill_number
                             bill_number = message['bill_number']
@@ -341,9 +351,11 @@ class Bill {
 
 
 
-                        } else
+                        }
+                        else
                         {
                             // bill not saved
+                            console.log("BILL COMPLETED WITH ERROR")
                             b_msg('Payment completed with an error')
                             error_handler(`error%%Cound Not Make Bill ${status}`)
                         }
@@ -353,6 +365,7 @@ class Bill {
 
                     }
                 });
+                console.log('BILL TRANSACTION DONE')
 
             }
             else

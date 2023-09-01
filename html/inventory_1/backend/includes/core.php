@@ -8,7 +8,7 @@ ini_set('display_errors',1);
     error_reporting(E_ALL);
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
-    const printer = 'EPSON_OFFICE';
+    const printer = 'EPSON';
 
     $bill_number = 0;
 
@@ -37,7 +37,6 @@ ini_set('display_errors',1);
     require 'classes/ProductMaster.php';
 
     $evat = new \billing\Evat('');
-    $evat->set_url("http://192.168.2.88:8080/evat_api");
 
     $bill = new \billing\Billing();
 

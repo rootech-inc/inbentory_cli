@@ -486,6 +486,8 @@ require '../includes/core.php';
 
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
+                    (new anton())->log2file("FINAL RESPONSE");
+                    (new anton())->log2file(var_export($response));
 //                    printMessage("MUFASA");
 //                    if($response['status'] === 200)
 //                   {
@@ -496,6 +498,7 @@ require '../includes/core.php';
 
                     header('Content-Type: application/json');
                     echo json_encode($response);
+
 
 
                     die();

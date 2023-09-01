@@ -55,6 +55,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/tax.js"></script>
     <script src="/js/classes/loyalty.js"></script>
     <script src="/js/classes/kasa.js"></script>
+    <script src="/js/classes/api.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 

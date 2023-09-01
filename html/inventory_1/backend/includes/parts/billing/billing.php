@@ -283,10 +283,13 @@
                                 <!-- BUTTONS -->
                                 <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
 
-                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         CASH
                                     </button>
-                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
+                                        MOMO
+                                    </button>
+                                    <button id="credit_payment" onclick="bill.payment('credit_payment')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         MOMO
                                     </button>
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
@@ -305,11 +308,17 @@
                                         LKUP
                                     </button>
                                     <button disabled onclick="lty.loadCustomer()" id="LOYALTY_LOOKUP" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
-                                        LOYLOAD
+                                        LOY LOAD
                                     </button>
+
                                     <button disabled onclick="lty.redeem()" id="LOYALTY_REDEEM" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
                                         LOYRED
                                     </button>
+
+                                    <button onclick="kasa.info('NOT INPLEMENTED')" disabled id="load_cust" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                        LOAD CUST
+                                    </button>
+
                                     <button id="bill_recall" disabled onclick="bill.recall()" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>

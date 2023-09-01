@@ -1986,6 +1986,49 @@ function delete_doc(doc,entry_no) // delete document
     }
 }
 
-function db_access(){
+// validate array of inputs
+function validateInputs(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        const value = $(`#${ids[i]}`).val().trim();
+        if (value === '') {
+            // alert('False');
+            $(`#${ids[i]}`).addClass('border-danger')
+            $(`#${ids[i]}`).removeClass('border-success')
+            return false;
 
+        } else {
+            $(`#${ids[i]}`).addClass('border-success')
+            $(`#${ids[i]}`).removeClass('border-danger')
+        }
+    }
+    return true;
+}
+
+function disableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        $(`#${ids[i]}`).prop('disabled',true)
+    }
+}
+
+function enableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+
+        $(`#${ids[i]}`).prop('disabled',false)
+    }
+}
+
+function autoFill(ids,data) {
+    if(ids.length === data.length){
+
+        for (let i = 0; i < ids.length; i++) {
+            let id = ids[i];
+            let da = data[i]
+
+            $(`#${id}`).val(da)
+
+        }
+
+    } else {
+        kasa.error("ID DATA MISMATCH")
+    }
 }

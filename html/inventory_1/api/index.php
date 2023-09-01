@@ -13,8 +13,10 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 
 // Extract the module and data from the API body
 $api_body = json_decode(file_get_contents('php://input'), true);
+
 $module = $api_body['module'];
 $data = $api_body['data'];
+$crud = $api_body['crud'];
 
 // Perform input validation
 $valid_data = validateData($data);
@@ -29,7 +31,7 @@ switch ($request_method) {
         handleViewRequest($module,$valid_data);
         break;
     case "POST":
-        handlePostRequest($module,$valid_data);
+        handlePostRequest($module,$valid_data,$crud);
         break;
     default:
         // Invalid request method
@@ -80,55 +82,65 @@ function handleViewRequest($module,$data)
 }
 
 
-function handlePostRequest($module, $data)
+function handlePostRequest($module, $data,$crud)
 {
     if($module === 'customer'){
         // create customer
-        try {
-            // Retrieve data from the request
-            $first_name = $data['first_name'];
-            $last_name = $data['last_name'];
-            $email = $data['email'];
-            $phone = $data['phone'];
-            $city = $data['city'];
-            $postal_code = $data['postal_code'];
-            $country = $data['country'];
-            $address = $data['address'];
+        if($crud === 'write'){
+            try {
+                // Retrieve data from the request
+                $first_name = $data['first_name'];
+                $last_name = $data['last_name'];
+                $email = $data['email'];
+                $phone = $data['phone'];
+                $city = $data['city'];
+                $postal_code = $data['postal_code'];
+                $country = $data['country'];
+                $address = $data['address'];
 
-            $cust_no = (new db_handeer\db_handler())->row_count('customers',"`customer_id` > 0") + 1;
-            $cust_no += 9990000000;
+                $cust_no = (new db_handeer\db_handler())->row_count('customers',"`customer_id` > 0") + 1;
+                $cust_no += 9990000000;
 
-            // Prepare the database query
-            $db = (new db_handeer\db_handler())->db_connect();
-            $query = "INSERT INTO customers (first_name, last_name, email, phone_number, address, city, postal_code, country,cust_no) 
+                // Prepare the database query
+                $db = (new db_handeer\db_handler())->db_connect();
+                $query = "INSERT INTO customers (first_name, last_name, email, phone_number, address, city, postal_code, country,cust_no) 
               VALUES (:first_name, :last_name, :email, :phone, :address, :city, :postal_code, :country,:cust_no)";
-            $statement = $db->prepare($query);
+                $statement = $db->prepare($query);
 
-            // Bind parameters and execute the query
-            $statement->bindParam(':first_name', $first_name);
-            $statement->bindParam(':last_name', $last_name);
-            $statement->bindParam(':email', $email);
-            $statement->bindParam(':phone', $phone);
-            $statement->bindParam(':address', $address);
-            $statement->bindParam(':city', $city);
-            $statement->bindParam(':postal_code', $postal_code);
-            $statement->bindParam(':country', $country);
-            $statement->bindParam(':cust_no', $cust_no);
+                // Bind parameters and execute the query
+                $statement->bindParam(':first_name', $first_name);
+                $statement->bindParam(':last_name', $last_name);
+                $statement->bindParam(':email', $email);
+                $statement->bindParam(':phone', $phone);
+                $statement->bindParam(':address', $address);
+                $statement->bindParam(':city', $city);
+                $statement->bindParam(':postal_code', $postal_code);
+                $statement->bindParam(':country', $country);
+                $statement->bindParam(':cust_no', $cust_no);
 
-            // Execute the query
-            $result = $statement->execute();
+                // Execute the query
+                $result = $statement->execute();
 
-            if ($result) {
-                (new \API\ApiResponse())->success("Customer Created");
-            } else {
-                (new \API\ApiResponse())->success("Could Not Save Customer");
+                if ($result) {
+                    (new \API\ApiResponse())->success("Customer Created");
+                } else {
+                    (new \API\ApiResponse())->success("Could Not Save Customer");
+                }
+            } catch (PDOException $e) {
+                (new \API\ApiResponse())->success($e->getMessage());
             }
-        } catch (PDOException $e) {
-            (new \API\ApiResponse())->success($e->getMessage());
+        } elseif ($crud === 'read'){
+            $cust_no = $data['cust_no'];
+
+            if((new db_handeer\db_handler())->row_count('customers',"`cust_no` = '$cust_no'") === 1){
+                $customer = (new db_handeer\db_handler())->get_rows('customers',"`cust_no` = '$cust_no'",'json');
+
+                (new \API\ApiResponse())->success(json_decode($customer));
+            } else {
+                (new \API\ApiResponse())->error("CANNOT FIND CUSTOMER");
+            }
+
         }
-
-
-
     }
 
     elseif ($module === 'dis_en_customer'){
@@ -144,4 +156,13 @@ function handlePostRequest($module, $data)
         (new \API\ApiResponse())->success("Customer Modified");
 
     }
+
+    elseif ($module === 'customer_in_transit'){
+        $billRef = billRef;
+
+        // check if there is a bill in transit for bill ref
+
+
+    }
+
 }

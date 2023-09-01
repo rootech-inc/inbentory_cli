@@ -175,6 +175,37 @@ $(document).ready(function() {
 
 
     });
+
+    // save new customer
+    $('#saveCustomer').click(function () {
+        // validate inputs
+        let inps = ['first_name','last_name','email','phone','country','address','postal_code','city']
+        if(validateInputs(inps)){
+            let data = {
+                "first_name": $('#first_name').val(),
+                "last_name": $('#last_name').val(),
+                "email": $('#email').val(),
+                "phone": $('#phone').val(),
+                "city": $('#city').val(),
+                "postal_code": $('#postal_code').val(),
+                "country": $('#country').val(),
+                "address": $('#address').val()
+            }
+            let payload = {
+                module:'customer',
+                data:data,
+                crud:"write",
+            }
+            let request = api.call('POST',payload)
+            // ct(request)
+            kasa.success(request['message'])
+
+        } else {
+            kasa.error('PLEASE FILL ALL REQUIRED FILDS')
+        }
+
+    });
+
 });
 
 $(document).ready(function() {
