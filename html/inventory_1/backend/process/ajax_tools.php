@@ -191,7 +191,7 @@
 
             elseif ($function === 'bill_summary'){
                 $billRef = billRef;
-                $sum = (new \billing\Billing())->billSummary($billRef);
+                $sum = (new \billing\Billing())->billSummaryV2($billRef);
                 header("Content-Type:Application/Json");
                 echo json_encode($sum);
 

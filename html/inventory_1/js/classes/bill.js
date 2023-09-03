@@ -25,13 +25,14 @@ class Bill {
 
                     let message = res['message']
                     // let header = res['message']['bill_header']
-                    let header = bill.billSummary()
+                    let header = bill.billSummary()['bill_header']
+                    console.table(header);
                     let count,total,tax,trans,discount,bill_amt,disc_type
                     count = message['count']
-                    total = header['total']
-                    discount = header['discount']
-                    bill_amt = header['bill_amt']
-                    tax = header['tax_amt']
+                    total = header['TOTAL_AMOUNT']
+                    discount = 0;
+                    bill_amt = header['TOTAL_AMOUNT']
+                    tax = header['TOTAL_VAT']
                     trans = message['trans']
                     disc_type = header['discount_type'];
                     let sel_count = 0

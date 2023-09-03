@@ -305,7 +305,7 @@ require '../includes/core.php';
                     }
 
                     $bill_trans = [
-                        'bill_header'=>bill_total,
+                        'bill_header'=>(new billing\Billing())->billSummaryV2(),
                         'count'=>$bill_tran_count,
                         'total'=>number_format(bill_total['taxable_amt'],2),
                         'tax'=>number_format($db->sum('bill_tax_tran','tax_amt',$bill_cond),2),
