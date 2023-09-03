@@ -9,38 +9,49 @@ class Evat extends db_handler
 {
    public function send_invoice($billRef){
        # get bill summary
-       $bill = (new \billing\Billing())->billSummaryV2('001230129291',1);
+       $bill = (new \billing\Billing())->billSummaryV2($billRef,1);
 
        $hd = $bill['bill_header'];
+       (new \anton())->log2file("BULL SUMMARY",'',1);
+       (new \anton())->log2file(var_export($bill,true),'',0);
+       (new \anton())->log2file("BILL HEADER");
+       (new \anton())->log2file(var_export($hd,true));
 
        # do trans
        $output = "";
        $t_q = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
 
        $trans = $bill['bill_trans'];
+       $item_count = 0;
+       while($tran = $t_q->fetch(\PDO::FETCH_ASSOC))
+       {
+           $item_count ++;
+           $barcode = $tran['item_barcode'];
+           $item = (new db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
+           $item_code = $item['id'];
+            $tran_code = $tran['item_barcode'];
+           // get taxes
+           $LEVY_A = $tran['nhis']; //NHIS 2.5
+           $LEVY_B = $tran['gfund']; //GETFL 2.5 %
+           $LEVY_C = $tran['covid']; //COVID 1
 
-       foreach ($trans as $item) {
-
-           foreach ($item as $key => $value) {
-               $data ='{
-                    "ITMREF": "1000P1322",
-                    "ITMDES": "INYAGE MILK 2% 500ML",
+           $data ='{
+                    "ITMREF": "'.$tran['item_barcode'].'",
+                    "ITMDES": "'.$tran['item_desc'].'",
                     "TAXRATE": "15",
                     "TAXCODE": "B",
-                    "LEVY_AMOUNT_A": "25",
-                    "LEVY_AMOUNT_B": "25",
-                    "LEVY_AMOUNT_C": "10",
+                    "LEVY_AMOUNT_A": "'.$LEVY_A.'",
+                    "LEVY_AMOUNT_B": "'.$LEVY_B.'",
+                    "LEVY_AMOUNT_C": "'.$LEVY_C.'",
                     "LEVY_AMOUNT_D": "0",
-                    "QUANTITY": "1",
-                    "UNITYPRICE": "1219",
+                    "QUANTITY": "'.$tran['item_qty'].'",
+                    "UNITYPRICE": "'.$tran['retail_price'].'",
                     "ITMDISCOUNT": "0",
                     "BATCH": "",
                     "EXPIRE": "",
                     "ITEM_CATEGORY": "MILK"
                 },';
-               $output .= $data;
-           }
-
+           $output .= $data;
        }
 
        $curl = curl_init();
@@ -59,7 +70,7 @@ class Evat extends db_handler
               "FLAG": "INVOICE",
               "SALE_TYPE":"NORMAL",
               "USER_NAME": "ARNAU",
-              "NUM": "HELLO_ANTON1",
+              "NUM": "'.$billRef.'",
               "INVOICE_DATE": "2020-07-15",
               "CURRENCY": "GHS",
               "EXCHANGE_RATE": "1",
@@ -69,7 +80,7 @@ class Evat extends db_handler
               "TOTAL_VAT": "'.$hd['TOTAL_VAT'].'",
               "TOTAL_LEVY":  "'.$hd['TOTAL_LEVY'].'",
               "TOTAL_AMOUNT":  "'.$hd['TOTAL_AMOUNT'].'",
-              "ITEMS_COUNTS":  "'.$hd['ITEMS_COUNTS'].'",
+              "ITEMS_COUNTS":  "'.$item_count.'",
               "VOUCHER_AMOUNT": "0",
               "DISCOUNT_TYPE":"GENERAL",
               "DISCOUNT_AMOUNT":"0",
@@ -99,7 +110,7 @@ class Evat extends db_handler
 
     public function sign_invoice($num,$flag='INVOICE',$ref_id = '')
     {
-        $num = "HELLO_ANTON";
+//        $num = "HELLO_ANTON";
 
         $curl = curl_init();
 

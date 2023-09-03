@@ -257,6 +257,18 @@ class Bill {
     payment(method){
         console.log('making payment')
         b_msg("Making Payment....")
+        Swal.fire({
+            html: `<div class='text-center'><strong>Loading...</strong></div>
+                               <div class="text-center">
+                                   <div class="spinner-border text-primary" role="status">
+                                       <span class="sr-only">Loading...</span>
+                                   </div>
+                               </div>`,
+            showConfirmButton: false, // Hide confirm button
+            allowOutsideClick: false, // Prevent click outside to close
+            allowEscapeKey: false, // Prevent ESC key to close
+        });
+
 
 
         // validate there is cash input
@@ -285,7 +297,7 @@ class Bill {
             // compare balance
             if(actual_paid >= actual_balance)
             {
-                kasa.info("ON")
+
 
                 // make form data
                 form_data = {
@@ -309,12 +321,14 @@ class Bill {
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-                        ct(response)
+
+
+                        cl(response)
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
                         status = result['status']
                         message = result['message']
-                        ct(message)
+                        console.table(response)
 
                         // let bill_num = $('#bill_num').text()
                         let mech_no = Mech.ThisMech()['mechine_number'];
@@ -348,6 +362,9 @@ class Bill {
                             b_msg('payment complete..')
                             bill.loadBillsInTrans()
 
+                            console.log('BILL TRANSACTION DONE')
+                            Swal.close()
+
 
 
 
@@ -356,16 +373,17 @@ class Bill {
                         {
                             // bill not saved
                             console.log("BILL COMPLETED WITH ERROR")
-                            b_msg('Payment completed with an error')
-                            error_handler(`error%%Cound Not Make Bill ${status}`)
+                            b_msg(message)
+                            // error_handler(`error%%Cound Not Make Bill ${status}`)
+                            kasa.error(message)
                         }
 
-                        //location.reload()
+
 
 
                     }
                 });
-                console.log('BILL TRANSACTION DONE')
+
 
             }
             else

@@ -326,6 +326,8 @@ require '../includes/core.php';
             elseif ($function === 'void') // void
             {
                 $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1 and mach = '$machine_number'");
+
+                // todo delete tax transactions
                 echo 'done';
             }
 
@@ -487,16 +489,9 @@ require '../includes/core.php';
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
                     (new anton())->log2file("FINAL RESPONSE");
-                    (new anton())->log2file(var_export($response));
-//                    printMessage("MUFASA");
-//                    if($response['status'] === 200)
-//                   {
-//
-//                       printbill($machine_number,$bill_number,$method);
-//
-//                   }
-
-                    header('Content-Type: application/json');
+                    (new anton())->log2file($response['status'],'',0);
+                    (new anton())->log2file("DONE");
+                    header("Content-Type: Application\json");
                     echo json_encode($response);
 
 

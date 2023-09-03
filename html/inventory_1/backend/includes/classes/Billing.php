@@ -71,15 +71,19 @@ class Billing
             {
                 $tax_detail = $tax_tran['message'];
                 $taxAmount = $tax_detail['vat'];
+                $gf = $tax_detail['gf'];
+                $nh = $tax_detail['nh'];
+                $cv = $tax_detail['cv'];
+                $vat = $tax_detail['vat'];
 
                 // add to bill in trans
                 $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type,covid,gfund,nhis,vat) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type')";
+                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat')";
 
                 $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
                 $text = "$sql\n";
@@ -302,21 +306,16 @@ class Billing
                 #3 return bill details
                 $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
                     VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount');";
-                (new anton())->log2file("COPPER");
-                (new anton())->log2file($bill_header_insert);
-                (new anton())->log2file("COPPER");
+
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
-                    // make bill
-                    $this->anton()->log2file("###################");
-                    (new anton())->log2file($bill_header_insert);
-                    $this->anton()->log2file("###################");
+
 
                     # make EvatData
                     $send_inv = json_decode((new Evat())->send_invoice(billRef));
                     (new anton())->log2file("SEND INVOICE RESPONSE \n".var_export($send_inv,true));
 
-                    if($send_inv->code === 200 || $send_inv->message === 'INVOICE ALREADY SUBMITTED'){
+                    if($send_inv->code === 202 || $send_inv->message === 'INVOICE ALREADY SUBMITTED'){
                         // get signature
                         $signature = json_decode((new Evat())->sign_invoice(billRef));
 
@@ -341,11 +340,11 @@ class Billing
                             $evat_tran = "INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
                                                                         ('$billRef','$ysdcid','$ysdcitems','$ysdcmrc','$ysdcmrctim','$ysdcrecnum','$ysdctime','$ysdcintdata','$ysdcregsig','$qr_code')";
 
-                            (new db_handler())->exe($evat_tran);
-                            (new anton())->log2file("BILLY HEADDY");
-                            (new anton())->log2file($bill_header_insert);
+
+
                             // continue
                             $this->db_handler()->db_connect()->exec($bill_header_insert);
+                            $this->db_handler()->exe($evat_tran);
 
                             if($method === 'refund') // update on refunds
                             {
@@ -379,29 +378,40 @@ class Billing
                         }
                         else {
 
+                            $message = $signature->MESSAGE;
                             $response['status'] = 505;
-                            $response['message'] = $signature;
+                            $response['message'] = $message->ysdcregsig;
+                            printMessage("EVAT ERROR: \n$message->ysdcregsig");
+
+
+
                         }
 
-                    } else {
+                    }
+                    else {
                         $response['status'] = 505;
-                        $response['message'] = $send_inv;
-                    }
+                        $response['message'] = "HELLO WORLD HERE WE GO";
 
-
-
-
-
-                    $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
-                    if($loyCount === 1){
-
-                        // loyalty points insert $gross_amt
-                        $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
-                        $cust_code = $customer_details['cust_code'];
-
-                        (new Loyalty())->givePoints($cust_code,billRef,$net);
+                        (new anton())->log2file("COULD NOT SEND INVOICE FOR SIGNATURE",'',1);
+                        (new anton())->log2file("API RESPONSE");
+                        (new anton())->log2file(var_export($send_inv,true));
 
                     }
+
+
+
+
+
+//                    $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
+//                    if($loyCount === 1){
+//
+//                        // loyalty points insert $gross_amt
+//                        $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+//                        $cust_code = $customer_details['cust_code'];
+//
+//                        (new Loyalty())->givePoints($cust_code,billRef,$net);
+//
+//                    }
 
                 }
                 else {
@@ -419,9 +429,10 @@ class Billing
             $response['status'] = 404;
             $response['message'] = 'Cannot make payment for an empty transaction';
         }
-        (new anton())->log2file(var_export($response,2));
+
 
         return $response;
+
 
 
     }
@@ -448,10 +459,6 @@ class Billing
         {
             $this->response['message'] = " Item Not Found";
         }
-//        elseif ($mechValid === '1')
-//        {
-//            $this->response['message'] = " Machine Number $mechValid";
-//        }
         else {
 
             try {
@@ -477,28 +484,43 @@ class Billing
 
                         if($tax_code === 'VM')
                         {
-                            $nhil = (2.5 / 100) * $cost;
-                            $gfund = (2.5 / 100 ) * $cost;
-                            $covid  = (1 / 100 ) * $cost;
 
-                            $vat_calc = $cost * 21.90;
-                            $vat = $vat_calc / 121.9;
+                            $covidRate = 1;
+                            $nhisRate = 2.5;
+                            $getFundRate = 2.5;
+
+                            $totalCost = $cost; // retail price + quantity
+
+                            $taxableAmount = $totalCost * 100 / 121.9;
+
+                            // get levies values
+                            $covid = ($covidRate / 100) * $taxableAmount;
+                            $nhis = ($nhisRate / 100) * $taxableAmount;
+                            $gFund = ($getFundRate / 100) * $taxableAmount;
+                            $vat = (15.9 / 100) * $taxableAmount;
+
+
+
+
+
+
 
                             // insert into tax transactions
                             try {
 
-                                $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt,billRef) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'nh', $nhil,'$billRef'),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'gf', $gfund,'$billRef'),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'cv', $covid,'$billRef'),
-                                                 ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, 'VM', $vat,'$billRef');";
+//
 
+                                $logMessage = "Original Tax-Inclusive Amount for $qty items: $cost\n";
+                                $logMessage .= "RETAIL AMOUNT $taxableAmount \n";
+                                $logMessage .= "NHIS AMOUNT $nhis \n";
+                                $logMessage .= "GFUND AMOUNT $gFund \n";
+                                $logMessage .= "COVID AMOUNT $covid \n";
 
-                                (new anton())->log2file($tax_ins_query,"TAX INSERTIONS");
+                                (new Anton())->log2file($logMessage,'',1);
 
-                                $this->db_handler()->db_connect()->exec($tax_ins_query);
+//                                $this->db_handler()->db_connect()->exec($tax_ins_query);
                                 $this->response['code'] = 200;
-                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat);
+                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat,'cv'=>$covid,'gf'=>$gFund,'nh'=>$nhis);
                                 $this->response['message'] = $tax_detail;
 
                             } catch (PDOException $e)
@@ -593,7 +615,9 @@ class Billing
         $bill_trans = array();
         // Calculate taxable total and none-taxable total
         $bills = $this->db_handler()->db_connect()->query("SELECT * FROM bill_trans where billRef = '$bill_ref' and trans_type = 'i'");
+        $totalTrans = 0;
         while ($item = $bills->fetch(PDO::FETCH_ASSOC)) {
+            $totalTrans ++;
             $barcode = $item['item_barcode'];
             $retail_price = $item['retail_price'];
             $item_qty = $item['item_qty'];
@@ -620,6 +644,8 @@ class Billing
         // Apply discount to the total bill
         $total_bill = ($taxable_total + $none_taxable_total) * (1 - $discount_rate);
 
+        #$total_bill = (new db_handler())->sum('bill_trans','tax_amt',"`billRef` = '$bill_ref' and `trans_type` = 'i'");
+
         // Calculate levies amount
         $levies_amount = $taxable_total * $tax_rate_levies;
 
@@ -629,18 +655,34 @@ class Billing
         // Calculate final bill amount
         $final_bill = $total_bill + $levies_amount + $vat_amount;
 
+        $final_bill = (new db_handler())->sum('bill_trans',"bill_amt","`billRef` = '$bill_ref'") ;
+
+        $vat = (new db_handler())->sum('bill_trans',"`vat`","`billRef` = '$bill_ref'");
+
+        $cv = (new db_handler())->sum('bill_trans',"`covid`","`billRef` = '$bill_ref'");
+        $nh = (new db_handler())->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref'");
+        $gf = (new db_handler())->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref'");
+
+        $levies = $cv + $nh + $gf;
+
+
         $bill_header = array();
+        $bill_header['TOTAL_AMOUNT'] = $final_bill;
+        $bill_header['TOTAL_LEVY'] = $levies;
+        $bill_header['TOTAL_VAT'] = $vat;
+        $bill_header['ITEMS_COUNTS'] = $totalTrans;
+
+
         if((new db_handler()) -> row_count('bill_header',"`billRef` = '$bill_ref'")){
             $hd = (new db_handler()) -> get_rows('bill_header',"`billRef` = '$bill_ref'");
             $bill_header['INVOICE_DATE'] = $hd['bill_date'];
-            $bill_header['TOTAL_AMOUNT'] = $final_bill;
-            $bill_header['TOTAL_LEVY'] = $levies_amount;
-            $bill_header['TOTAL_VAT'] = $vat_amount;
-            $bill_header['ITEMS_COUNTS'] = (new db_handler()) -> row_count('bill_trans',"billRef = '$bill_ref' and trans_type = 'i'");
+
+        } else {
+            $bill_header['INVOICE_DATE'] = today;
         }
 
         // Prepare the response array
-        $response = array(
+        $response = [
             'bill_header'=>$bill_header,
             'bill_number' => $bill_ref,
             'mach_no' => $mach_no,
@@ -651,7 +693,7 @@ class Billing
             'vat_amount' => $vat_amount,
             'final_bill' => $final_bill,
             'bill_trans'=>$bill_trans
-        );
+        ];
 
         // Return the response
         return $response;

@@ -1,287 +1,185 @@
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-44
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE bill_number
-84
-SELECT * FROM bill_trans WHERE `date_added` = '2023-01-29' and `mach` = '1' and `bill_number` = '45' and `trans_type` = 'i'
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451'
-8
-SELECT * FROM bill_history_trans WHERE `billRef` = '001230129451'
-0
-SELECT * FROM bill_header WHERE `billRef` = '001230129451'
-0
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `trans_type` = 'i' and `billRef` = '001230129451'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `billRef` = '001230129451'
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451' and `trans_type` = 'D'
-0
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451' and `trans_type` = 'L'
-0
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `billRef` = '001230129451'
-COPPER
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2,032.00, 487.00, 2032, 8,2032,2030,'2023-01-29','001230129451','0','0.00');
-COPPER
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '45'
-0
-###################
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2,032.00, 487.00, 2032, 8,2032,2030,'2023-01-29','001230129451','0','0.00');
-###################
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM tax_master WHERE `id` = '1'
-1
-SELECT * FROM tax_master WHERE `id` = '1'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM tax_master WHERE `id` = '1'
-1
-SELECT * FROM tax_master WHERE `id` = '1'
-SELECT * FROM bill_header WHERE `billRef` = '001230129291'
-1
-SELECT * FROM bill_header WHERE `billRef` = '001230129291'
-SELECT * FROM bill_trans WHERE billRef = '001230129291' and trans_type = 'i'
-2
-SEND INVOICE RESPONSE 
-(object) array(
-   'code' => 505,
-   'message' => 'INVOICE ALREADY SUBMITTED',
-)
-SIGNATURE RESPONSE 
-(object) array(
-   'DISTRIBUTOR_TIN' => 'C00XXXXXXXX',
-   'MESSAGE' => 
-  (object) array(
-     'flag' => 'INVOICE',
-     'ysdcrecnum' => '1287/1287 NS ISH:1196',
-     'num' => 'HELLO_ANTON',
-     'ysdcid' => 'VATES0000002',
-     'ysdcintdata' => '5BV3-7NYS-PUEG-KXHZ-F6NR-46FJ-VI',
-     'ysdcmrc' => 'VALG01SHO02',
-     'ysdcitems' => 2,
-     'ysdcmrctim' => '2023-08-31 05:45:08.519',
-     'ysdcregsig' => 'NN4J-CTQE-VMLY-4A4N',
-     'ysdctime' => '2023-08-31 05:45:08.0',
-  ),
-   'STATUS' => 'SUCCESS',
-   'QR_CODE' => 'https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=hrmSKCFS1CjrR7aKysNyvtjYK/YPwrIba+o+7QYDYN+ZvV0VJ27pDWqg14+XIWe5fXEArSHCEg3TTl7JWv/rwemlQrHeViDqYzqnbBQ3Jb8uAZedD/CtofllQwbGjHoFMSuYdv4MPYjdYku+HPrMBkOc4Mtc4xhmYpxYhG0lFAJdy3JQ9zdgzMJsXczSXpOpuBSnVyVeOp73JLDHCnlw1n0GDK1LivabHkETbDvZyM+V1dfzOwex84PB2MOlM8Ou',
-)
-SIGN 
-SUCCESS
-INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
-                                                                        ('001230129451','VATES0000002','2','VALG01SHO02','2023-08-31 05:45:08.519','1287/1287 NS ISH:1196','2023-08-31 05:45:08.0','5BV3-7NYS-PUEG-KXHZ-F6NR-46FJ-VI','NN4J-CTQE-VMLY-4A4N','https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=hrmSKCFS1CjrR7aKysNyvtjYK/YPwrIba+o+7QYDYN+ZvV0VJ27pDWqg14+XIWe5fXEArSHCEg3TTl7JWv/rwemlQrHeViDqYzqnbBQ3Jb8uAZedD/CtofllQwbGjHoFMSuYdv4MPYjdYku+HPrMBkOc4Mtc4xhmYpxYhG0lFAJdy3JQ9zdgzMJsXczSXpOpuBSnVyVeOp73JLDHCnlw1n0GDK1LivabHkETbDvZyM+V1dfzOwex84PB2MOlM8Ou')
-BILLY HEADDY
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2,032.00, 487.00, 2032, 8,2032,2030,'2023-01-29','001230129451','0','0.00');
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-44
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM company WHERE `id` = 0
-SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-1
-SELECT * FROM shifts WHERE `mech_no` = '1'
-SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
-0
-SELECT * FROM clerk WHERE `id` = '2'
-SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
-         = '2023-01-29'
-44
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE bill_number
-84
-SELECT * FROM bill_trans WHERE `date_added` = '2023-01-29' and `mach` = '1' and `bill_number` = '45' and `trans_type` = 'i'
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451'
-8
-SELECT * FROM bill_history_trans WHERE `billRef` = '001230129451'
-0
-SELECT * FROM bill_header WHERE `billRef` = '001230129451'
-0
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `trans_type` = 'i' and `billRef` = '001230129451'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `billRef` = '001230129451'
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451' and `trans_type` = 'D'
-0
-SELECT * FROM bill_trans WHERE `billRef` = '001230129451' and `trans_type` = 'L'
-0
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `billRef` = '001230129451'
-COPPER
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2032, 487.00, 2032, 8,2032,0,'2023-01-29','001230129451','0','0.00');
-COPPER
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '45'
-0
-###################
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2032, 487.00, 2032, 8,2032,0,'2023-01-29','001230129451','0','0.00');
-###################
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
-SELECT * FROM tax_master WHERE `id` = '9'
-1
-SELECT * FROM tax_master WHERE `id` = '9'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM tax_master WHERE `id` = '1'
-1
-SELECT * FROM tax_master WHERE `id` = '1'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-1
-SELECT * FROM prod_mast WHERE `barcode` = '0987654321'
-SELECT * FROM tax_master WHERE `id` = '1'
-1
-SELECT * FROM tax_master WHERE `id` = '1'
-SELECT * FROM bill_header WHERE `billRef` = '001230129291'
-1
-SELECT * FROM bill_header WHERE `billRef` = '001230129291'
-SELECT * FROM bill_trans WHERE billRef = '001230129291' and trans_type = 'i'
-2
-SEND INVOICE RESPONSE 
-(object) array(
-   'code' => 505,
-   'message' => 'INVOICE ALREADY SUBMITTED',
-)
-SIGNATURE RESPONSE 
-(object) array(
-   'DISTRIBUTOR_TIN' => 'C00XXXXXXXX',
-   'MESSAGE' => 
-  (object) array(
-     'flag' => 'INVOICE',
-     'ysdcrecnum' => '1287/1287 NS ISH:1196',
-     'num' => 'HELLO_ANTON',
-     'ysdcid' => 'VATES0000002',
-     'ysdcintdata' => '5BV3-7NYS-PUEG-KXHZ-F6NR-46FJ-VI',
-     'ysdcmrc' => 'VALG01SHO02',
-     'ysdcitems' => 2,
-     'ysdcmrctim' => '2023-08-31 05:45:08.519',
-     'ysdcregsig' => 'NN4J-CTQE-VMLY-4A4N',
-     'ysdctime' => '2023-08-31 05:45:08.0',
-  ),
-   'STATUS' => 'SUCCESS',
-   'QR_CODE' => 'https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=hrmSKCFS1CjrR7aKysNyvtjYK/YPwrIba+o+7QYDYN+ZvV0VJ27pDWqg14+XIWe5fXEArSHCEg3TTl7JWv/rwemlQrHeViDqYzqnbBQ3Jb8uAZedD/CtofllQwbGjHoFMSuYdv4MPYjdYku+HPrMBkOc4Mtc4xhmYpxYhG0lFAJdy3JQ9zdgzMJsXczSXpOpuBSnVyVeOp73JLDHCnlw1n0GDK1LivabHkETbDvZyM+V1dfzOwex84PB2MOlM8Ou',
-)
-SIGN 
-SUCCESS
-INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
-                                                                        ('001230129451','VATES0000002','2','VALG01SHO02','2023-08-31 05:45:08.519','1287/1287 NS ISH:1196','2023-08-31 05:45:08.0','5BV3-7NYS-PUEG-KXHZ-F6NR-46FJ-VI','NN4J-CTQE-VMLY-4A4N','https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=hrmSKCFS1CjrR7aKysNyvtjYK/YPwrIba+o+7QYDYN+ZvV0VJ27pDWqg14+XIWe5fXEArSHCEg3TTl7JWv/rwemlQrHeViDqYzqnbBQ3Jb8uAZedD/CtofllQwbGjHoFMSuYdv4MPYjdYku+HPrMBkOc4Mtc4xhmYpxYhG0lFAJdy3JQ9zdgzMJsXczSXpOpuBSnVyVeOp73JLDHCnlw1n0GDK1LivabHkETbDvZyM+V1dfzOwex84PB2MOlM8Ou')
-BILLY HEADDY
-INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES (1, '2', 45, 'cash', 2032, 487.00, 2032, 8,2032,0,'2023-01-29','001230129451','0','0.00');
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '45'
-1
-SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '45'
-SELECT * FROM evat_transactions WHERE `billRef` = '001230129451'
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1
-8
-SELECT * FROM bill_trans WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
-0
-SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '45' and `bill_date` = '2023-01-29' and mech_no = 1
-SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '45' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
-TAX QUERY
-select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = 45 and bill_date = '2023-01-29' group by tax_code;
-TAX QUERY
-select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = 45 and bill_date = '2023-01-29' group by tax_code;
-SELECT * FROM loyalty_tran WHERE `billRef` = '001230129451'
-0
-array (
-  'status' => 200,
-  'message' => 
+2023-09-03 13:10:33 - BULL SUMMARY
+2023-09-03 13:10:33 - array (
+  'bill_header' => 
   array (
-    'ref' => '001230129451',
-    'valid' => 'Y',
-    'total' => '2,032.00',
-    'discount_type' => '',
-    'discount' => '0.00',
-    'disc_rate' => 0.0,
-    'bill_amt' => 2032.0,
-    'tax_amt' => '487.00',
-    'paid_amt' => '2,032.00',
-    'amt_bal' => 0.0,
-    'tran_qty' => '0.00',
+    'TOTAL_AMOUNT' => '600.00',
+    'TOTAL_LEVY' => 29.52,
+    'TOTAL_VAT' => '78.26',
+    'ITEMS_COUNTS' => 2,
+    'INVOICE_DATE' => '2023-01-29',
+  ),
+  'bill_number' => '001230129181',
+  'mach_no' => 1,
+  'taxable_total' => 492.2067268252666,
+  'none_taxable_total' => 0,
+  'total_bill' => 477.44052502050863,
+  'levies_amount' => 29.532403609515995,
+  'vat_amount' => 82.95652173913044,
+  'final_bill' => '600.00',
+  'bill_trans' => 
+  array (
+    0 => 
+    array (
+      'name' => 'NAME',
+      'ref' => '6033000340085',
+      'qty' => '1.00',
+      'retail_price' => '100.00',
+      'total' => '100.00',
+      'tax_type' => 'MULTI-TAX',
+    ),
+    1 => 
+    array (
+      'name' => 'NAME',
+      'ref' => '6034000181036',
+      'qty' => '1.00',
+      'retail_price' => '500.00',
+      'total' => '500.00',
+      'tax_type' => 'MULTI-TAX',
+    ),
   ),
 )
-FINAL RESPONSE
-
+2023-09-03 13:10:33 - BILL HEADER
+2023-09-03 13:10:33 - array (
+  'TOTAL_AMOUNT' => '600.00',
+  'TOTAL_LEVY' => 29.52,
+  'TOTAL_VAT' => '78.26',
+  'ITEMS_COUNTS' => 2,
+  'INVOICE_DATE' => '2023-01-29',
+)
+2023-09-03 13:10:33 - SELECT * FROM prod_mast WHERE `barcode` = '6033000340085'
+2023-09-03 13:10:33 - SELECT * FROM prod_mast WHERE `barcode` = '6034000181036'
+2023-09-03 13:10:40 - SEND INVOICE RESPONSE 
+(object) array(
+   'code' => 202,
+   'message' => '001230129181',
+)
+2023-09-03 13:10:41 - SIGNATURE RESPONSE 
+(object) array(
+   'DISTRIBUTOR_TIN' => 'C00XXXXXXXX',
+   'MESSAGE' => 
+  (object) array(
+     'flag' => 'INVOICE',
+     'ysdcrecnum' => '1308/1308 NS ISH:1217',
+     'num' => '001230129181',
+     'ysdcid' => 'VATES0000002',
+     'ysdcintdata' => 'J43I-TVMV-6QCG-TFQV-PCXG-GJFX-WQ',
+     'ysdcmrc' => 'VALG01SHO02',
+     'ysdcitems' => 2,
+     'ysdcmrctim' => '2023-09-03 12:10:35.85',
+     'ysdcregsig' => 'PFTD-DAXV-5VLB-T5OB',
+     'ysdctime' => '2023-09-03 12:10:36.0',
+  ),
+   'STATUS' => 'SUCCESS',
+   'QR_CODE' => 'https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=N+ED5sG+DHgb0mlVp7mxIQGhUI249qjPmP/y4orUR6ope2z4Nr4LPgDoL7+iqU1IRX+c1qF4dj1iEhijem9Na7qUZF7fVjb3FR2tcRB8/rf5aXSMaV16MhxQJEph/3kEouEPDJfLEiwU/FyyW5XDPaUEuMqgu0/crTFANYdhp4lyETs0i+HPgf3FJZQ4SakK4I7ohu4LBS0ZNQPDLbFqVV5eCOzbwdwQnsG2gYyZkFQBn+DYmI2FOHn8rKDCydrd0ZFOn/MOml+FyQw0PU2XMbXaj/StoxSx4FIxS8f4/1c=',
+)
+2023-09-03 13:10:41 - SIGN 
+SUCCESS
+2023-09-03 13:10:41 - INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
+                                                                        ('001230129181','VATES0000002','2','VALG01SHO02','2023-09-03 12:10:35.85','1308/1308 NS ISH:1217','2023-09-03 12:10:36.0','J43I-TVMV-6QCG-TFQV-PCXG-GJFX-WQ','PFTD-DAXV-5VLB-T5OB','https://myghanatest.ebmgh.com/verification/searchBySignature.jsp?DATA=N+ED5sG+DHgb0mlVp7mxIQGhUI249qjPmP/y4orUR6ope2z4Nr4LPgDoL7+iqU1IRX+c1qF4dj1iEhijem9Na7qUZF7fVjb3FR2tcRB8/rf5aXSMaV16MhxQJEph/3kEouEPDJfLEiwU/FyyW5XDPaUEuMqgu0/crTFANYdhp4lyETs0i+HPgf3FJZQ4SakK4I7ohu4LBS0ZNQPDLbFqVV5eCOzbwdwQnsG2gYyZkFQBn+DYmI2FOHn8rKDCydrd0ZFOn/MOml+FyQw0PU2XMbXaj/StoxSx4FIxS8f4/1c=')
+2023-09-03 13:10:41 - SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '18'
+2023-09-03 13:10:41 - 1
+2023-09-03 13:10:41 - SELECT * FROM bill_header WHERE `bill_date` = '2023-01-29' and `mach_no` = '1' and `bill_no` = '18'
+2023-09-03 13:10:41 - SELECT * FROM evat_transactions WHERE `billRef` = '001230129181'
+2023-09-03 13:10:41 - SELECT * FROM bill_trans WHERE `bill_number` = '18' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:41 - 2
+2023-09-03 13:10:41 - SELECT * FROM bill_trans WHERE `bill_number` = '18' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:41 - 0
+2023-09-03 13:10:41 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '18' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:41 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '18' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:41 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '18' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:41 - TAX QUERY
+select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = 18 and bill_date = '2023-01-29' group by tax_code;
+TAX QUERY
+2023-09-03 13:10:41 - select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = 18 and bill_date = '2023-01-29' group by tax_code;
+2023-09-03 13:10:41 - FINAL RESPONSE
+2023-09-03 13:10:41 - 200
+2023-09-03 13:10:41 - DONE
+2023-09-03 13:10:41 - SELECT * FROM company WHERE `id` = 0
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-09-03 13:10:41 - 1
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1'
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+2023-09-03 13:10:41 - 0
+2023-09-03 13:10:41 - SELECT * FROM clerk WHERE `id` = '2'
+2023-09-03 13:10:41 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+         = '2023-01-29'
+2023-09-03 13:10:41 - 18
+2023-09-03 13:10:41 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:41 - 0
+2023-09-03 13:10:41 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:41 - 0
+2023-09-03 13:10:41 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:41 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '19' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:41 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:41 - SELECT * FROM company WHERE `id` = 0
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-09-03 13:10:41 - 1
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1'
+2023-09-03 13:10:41 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+2023-09-03 13:10:41 - 0
+2023-09-03 13:10:41 - SELECT * FROM clerk WHERE `id` = '2'
+2023-09-03 13:10:41 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+         = '2023-01-29'
+2023-09-03 13:10:41 - 18
+2023-09-03 13:10:41 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '19' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:42 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT * FROM company WHERE `id` = 0
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-09-03 13:10:42 - 1
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM clerk WHERE `id` = '2'
+2023-09-03 13:10:42 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+         = '2023-01-29'
+2023-09-03 13:10:42 - 18
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '19' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:42 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT * FROM company WHERE `id` = 0
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-09-03 13:10:42 - 1
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM clerk WHERE `id` = '2'
+2023-09-03 13:10:42 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+         = '2023-01-29'
+2023-09-03 13:10:42 - 18
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '19' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:42 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' AND `date_added` = '2023-01-29'
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM company WHERE `id` = 0
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-09-03 13:10:42 - 1
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1'
+2023-09-03 13:10:42 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-01-29' AND `end_time` = NULL 
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM clerk WHERE `id` = '2'
+2023-09-03 13:10:42 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+         = '2023-01-29'
+2023-09-03 13:10:42 - 18
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT * FROM bill_trans WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'D'
+2023-09-03 13:10:42 - 0
+2023-09-03 13:10:42 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '19' and `bill_date` = '2023-01-29' and mech_no = 1
+2023-09-03 13:10:42 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '19' and `date_added` = '2023-01-29' and mach = 1 and `trans_type` = 'i'
+2023-09-03 13:10:42 - SELECT * FROM loyalty_tran WHERE billRef = '001230129171'
+2023-09-03 13:10:42 - 0

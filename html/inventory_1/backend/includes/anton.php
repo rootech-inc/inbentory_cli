@@ -280,16 +280,21 @@ class anton extends FPDF
         return json_encode($data);
     }
 
-    public function log2file($content,$mark=''){
+    public function log2file($content,$mark='',$ov = 0){
         $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
+        $currentTimestamp = date('Y-m-d H:i:s'); // get the current timestamp in 'Y-m-d H:i:s' format
+
         if(strlen($mark) > 0){
-            $text = "$mark\n$content\n$mark\n";
-        } else
-        {
-            $text = "$content\n";
+            $text = "$currentTimestamp - $mark\n$content\n$mark\n";
+        } else {
+            $text = "$currentTimestamp - $content\n";
+        }
+        if($ov === 1){
+            file_put_contents($file, $text);
+        } else {
+            file_put_contents($file, $text, FILE_APPEND);
         }
 
-        file_put_contents($file, $text, FILE_APPEND);
     }
 
     public function json($data){
