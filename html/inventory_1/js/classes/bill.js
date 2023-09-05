@@ -26,7 +26,7 @@ class Bill {
                     let message = res['message']
                     // let header = res['message']['bill_header']
                     let header = bill.billSummary()['bill_header']
-                    console.table(header);
+
                     let count,total,tax,trans,discount,bill_amt,disc_type
                     count = message['count']
                     total = header['TOTAL_AMOUNT']
@@ -258,17 +258,18 @@ class Bill {
     payment(method){
         console.log('making payment')
         b_msg("Making Payment....")
-        Swal.fire({
-            html: `<div class='text-center'><strong>Loading...</strong></div>
-                               <div class="text-center">
-                                   <div class="spinner-border text-primary" role="status">
-                                       <span class="sr-only">Loading...</span>
-                                   </div>
-                               </div>`,
-            showConfirmButton: false, // Hide confirm button
-            allowOutsideClick: false, // Prevent click outside to close
-            allowEscapeKey: false, // Prevent ESC key to close
-        });
+        console.log("CASH RESPONSE")
+        // Swal.fire({
+        //     html: `<div class='text-center'><strong>Loading...</strong></div>
+        //                        <div class="text-center">
+        //                            <div class="spinner-border text-primary" role="status">
+        //                                <span class="sr-only">Loading...</span>
+        //                            </div>
+        //                        </div>`,
+        //     showConfirmButton: false, // Hide confirm button
+        //     allowOutsideClick: false, // Prevent click outside to close
+        //     allowEscapeKey: false, // Prevent ESC key to close
+        // });
 
 
 
@@ -315,6 +316,8 @@ class Bill {
 
                 })
 
+                console.table(form_data)
+
                 // send ajax request
                 console.log("SENDING BILL0000")
                 $.ajax({
@@ -322,9 +325,10 @@ class Bill {
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-
-
-                        cl(response)
+                        console.log("BILL SENT")
+                        console.log("CASH RESPONSE")
+                        console.table(response)
+                        console.log("CASH RESPONSE")
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
                         status = result['status']

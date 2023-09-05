@@ -69,7 +69,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printbill($mech_no,$bill_number,$payment = 'payment'){
 
-
+        $db_hander = (new db_handler());
 
         $today = today;
         $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
@@ -78,6 +78,10 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
             $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
             $curRef = "0".$bill_header['billRef'];
+            $billRef = $bill_header['billRef'];
+            $billSummary = (new billing\Billing())->billSummaryV2($billRef);
+
+
 
             $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
 
@@ -119,19 +123,14 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
             $subtotal = new item('Subtotal', '12.95');
 
-            $taxable = new item('Taxable Amount', $taxable_amt);
-            $tax = new item('Tax Amount', $tax_amt);
-            $billAmt = new item('Bill Amount', $bill_amt);
-            $paidAmt = new item('Paid Amount', $amt_paid);
-            $balAmt = new item("Bal. Amount",$amt_bal);
+            $non_taxable = new item('Non-Taxable Amount', $bill_header['non_taxable_amt']);
+            $taxable = new item('Taxable Amount', $bill_header['taxable_amt']);
+            $tax = new item('Tax Amount', $bill_header['tax_amt']);
+            $billAmt = new item('Bill Amount', $bill_header['gross_amt']);
+            $paidAmt = new item('Paid Amount', $bill_header['amt_paid']);
+            $balAmt = new item("Bal. Amount",$bill_header['amt_bal']);
 
 
-
-            $nhil = new item('NHIL (2.5%)', '1.30');
-            $getf = new item('GETL (2.5%)', '1.30');
-            $covid = new item('COVID (1%)', '1.30');
-            $total = new item('TAXABLE AMT', '1.30');
-            $vat = new item('VAT (21.9%)', '1.30');
             /* Date is kept the same for testing */
             $date = date('l jS \of F Y ').date('H:i');
             //$date = "Monday 6th of April 2015 02:56:25 PM";
@@ -190,7 +189,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> feed();
             $printer -> text(str_repeat('-', 48) . "\n");
             /* Tax and total */
-
+            $printer->text($non_taxable);
             $printer -> text($taxable);
             $printer -> text($tax);
             $printer -> text($billAmt);
@@ -203,23 +202,21 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text(new item('TAX DESC', 'TAX AMOUNT'));
             $printer -> text(str_repeat('-', 48) . "\n");
 
-            $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number and bill_date = '$today' group by tax_code;";
-            (new anton())->log2file($tax_sql,"TAX QUERY");
-            $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
 
+            $nh = (new db_handler())->sum('bill_trans','nhis',"`billRef` = '$billRef'");
+            $gf = (new db_handler())->sum('bill_trans','gfund',"`billRef` = '$billRef'");
+            $cv = (new db_handler())->sum('bill_trans','covid',"`billRef` = '$billRef'");
+            $vat = (new db_handler())->sum('bill_trans','vat',"`billRef` = '$billRef'");
 
-
-            (new  anton())->log2file($tax_sql);
-
-
-            while ($tax_resp = $taxes_query->fetch(PDO::FETCH_ASSOC))
-            {
-                $tax_code = $tax_resp['tax_code'];
-                $tax_value = $tax_resp['tv'];
-
-                $tax_line = new item($tax_code,$tax_value);
-                $printer ->text($tax_line);
-            }
+            $nhil = new item('NHIL (2.5%)', $nh);
+            $printer->text($nhil);
+            $getf = new item('GETL (2.5%)', $gf);
+            $printer->text($getf);
+            $covid = new item('COVID (1%)', $cv);
+            $printer->text($covid);
+            $printer -> text(str_repeat('-', 48) . "\n");
+            $vat = new item('VAT (15%)', $vat);
+            $printer->text($vat);
 
             $printer -> text(str_repeat('-', 48) . "\n");
             $printer->feed();

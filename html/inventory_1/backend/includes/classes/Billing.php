@@ -80,10 +80,10 @@ class Billing
                 $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type,covid,gfund,nhis,vat) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type,covid,gfund,nhis,vat,tax_code) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat')";
+                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat','$tax_code')";
 
                 $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
                 $text = "$sql\n";
@@ -260,10 +260,11 @@ class Billing
     public function makePyament($method,$amount_paid): array
     {
 
+        $dbHandler = (new db_handler());
 
         $myName = $_SESSION['clerk_id'];
         $today = today;
-        $response = ['status'=>505,'message'=>'initialization'];
+        $response = [];
         $billRef = billRef;
         // get current bill details
         $bill_number = bill_no;
@@ -282,6 +283,11 @@ class Billing
             // get transaction details
             $bill_totals = $this->billTotal($bill_number,$today);
             $bill_totals = $this->billSummary($billRef);
+            $totals2 = $this->billSummaryV2($billRef);
+            $header2 = $totals2['bill_header'];
+
+
+
             if($bill_totals['valid'] === 'Y')
             {
                 $net = $bill_totals['bill_amt'];
@@ -298,14 +304,18 @@ class Billing
                     $amt_balance = $amount_paid - $gross_amt;
                 }
 
-                $bill_totals['paid_amt'] = number_format($amount_paid,2);
-                $bill_totals['tran_qty'] = number_format($amt_balance,2);
+                $levies = $header2['TOTAL_LEVY'];
+                $vat = $header2['TOTAL_VAT'];
 
+                $tax_amt = $levies + $vat;
+
+                $taxable_amount = $dbHandler->sum('bill_trans','bill_amt',"`billRef` = '$billRef' and `tax_code` = 'VM'");
+                $non_taxable_amount = $dbHandler->sum('bill_trans','bill_amt',"`billRef` = '$billRef' and `tax_code` != 'VM'");
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt)
-                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount');";
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt)
+                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount');";
 
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
@@ -324,7 +334,8 @@ class Billing
                         (new anton())->log2file("SIGN \n$signature->STATUS");
 
                         if($signature->STATUS === 'SUCCESS'){
-
+                            $response['status'] = 200;
+                            $response['message'] = $sign;
                             // save signatures\
                             $ysdcrecnum = $sign->ysdcrecnum;
                             $ysdcid = $sign->ysdcid;
@@ -370,8 +381,9 @@ class Billing
                             // print bill
                             printbill(mech_no,$bill_number,$method);
 
+
                             $response['status'] = 200;
-                            $response['message'] = $bill_totals;
+                            $response['message'] = "BILL DONE";
 
 
 

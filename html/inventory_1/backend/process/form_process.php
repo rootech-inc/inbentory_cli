@@ -489,10 +489,10 @@ require '../includes/core.php';
                     $method = $anton->post('method');
                     $response = $bill->makePyament($method,$amount_paid);
                     (new anton())->log2file("FINAL RESPONSE");
-                    (new anton())->log2file($response['status'],'',0);
+                    (new anton())->log2file(var_export($response,true),'',1);
                     (new anton())->log2file("DONE");
-                    header("Content-Type: Application\json");
                     echo json_encode($response);
+                    print_r($response);
 
 
 

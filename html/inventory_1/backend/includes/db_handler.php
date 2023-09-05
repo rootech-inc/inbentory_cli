@@ -231,9 +231,15 @@ class db_handler
 
         $stmt = $sql->fetch(PDO::FETCH_ASSOC);
 
+        if($this->row_count("$table","$condition") > 0 ){
+            return $stmt["$as"];
+        } else {
+            return 0.00;
+        }
 
 
-        return $stmt["$as"];
+
+
     }
 
 
