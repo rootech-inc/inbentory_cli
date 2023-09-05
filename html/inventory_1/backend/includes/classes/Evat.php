@@ -20,6 +20,13 @@ class Evat extends db_handler
        # do trans
        $output = "";
        $t_q = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
+       $t_q = (new db_handler())->db_connect()->query("
+            select item_barcode, pm.`desc` as 'name', pm.retail as 'retail_price', tm.attr as 'tax_group',tm.rate as 'tax_rate',
+case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(tax_amt) as 'tax_amt',
+sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
+right join posdb.prod_mast pm on bill_trans.item_barcode = pm.barcode right join tax_master tm on pm.tax_grp = tm.id
+where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by bill_trans.item_barcode;
+       ");
 
        $trans = $bill['bill_trans'];
        $item_count = 0;
@@ -31,25 +38,25 @@ class Evat extends db_handler
            $item_code = $item['id'];
             $tran_code = $tran['item_barcode'];
            // get taxes
-           $LEVY_A = $tran['nhis']; //NHIS 2.5
-           $LEVY_B = $tran['gfund']; //GETFL 2.5 %
-           $LEVY_C = $tran['covid']; //COVID 1
+           $LEVY_A = $tran['LEVY_A']; //NHIS 2.5
+           $LEVY_B = $tran['LEVY_B']; //GETFL 2.5 %
+           $LEVY_C = $tran['LEVY_C']; //COVID 1
 
            $data ='{
                     "ITMREF": "'.$tran['item_barcode'].'",
-                    "ITMDES": "'.$tran['item_desc'].'",
-                    "TAXRATE": "15",
-                    "TAXCODE": "B",
+                    "ITMDES": "'.$tran['name'].'",
+                    "TAXRATE": "'.$tran['tax_rate'].'",
+                    "TAXCODE": "'.$tran['tax_com'].'",
                     "LEVY_AMOUNT_A": "'.$LEVY_A.'",
                     "LEVY_AMOUNT_B": "'.$LEVY_B.'",
                     "LEVY_AMOUNT_C": "'.$LEVY_C.'",
                     "LEVY_AMOUNT_D": "0",
-                    "QUANTITY": "'.$tran['item_qty'].'",
+                    "QUANTITY": "'.$tran['qty'].'",
                     "UNITYPRICE": "'.$tran['retail_price'].'",
                     "ITMDISCOUNT": "0",
                     "BATCH": "",
                     "EXPIRE": "",
-                    "ITEM_CATEGORY": "MILK"
+                    "ITEM_CATEGORY": "NOT SET"
                 },';
            $output .= $data;
        }
