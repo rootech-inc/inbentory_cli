@@ -83,7 +83,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
 
-            $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+
 
             $payment = $bill_header['pmt_type'];
             $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
@@ -218,31 +218,36 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $vat = new item('VAT (15%)', $vat);
             $printer->text($vat);
 
-            $printer -> text(str_repeat('-', 48) . "\n");
-            $printer->feed();
-            $printer -> setUnderline(1);
-            $printer -> text("SDC INFORMATION \n");
-            $printer -> setUnderline(0);
-            $ysdcmrctim = $evat_signatures['ysdcmrctim'];
-            $printer -> text("TIME SDC : $ysdcmrctim \n");
+            if(evat === true){
 
-            $ysdcid = $evat_signatures['ysdcid'];
-            $printer -> text("SDC ID : $ysdcid \n");
+                $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+                $printer -> text(str_repeat('-', 48) . "\n");
+                $printer->feed();
+                $printer -> setUnderline(1);
+                $printer -> text("SDC INFORMATION \n");
+                $printer -> setUnderline(0);
+                $ysdcmrctim = $evat_signatures['ysdcmrctim'];
+                $printer -> text("TIME SDC : $ysdcmrctim \n");
 
-            $ysdcrecnum = $evat_signatures['ysdcrecnum'];
-            $printer -> text("REC. NUMBER : $ysdcrecnum \n");
+                $ysdcid = $evat_signatures['ysdcid'];
+                $printer -> text("SDC ID : $ysdcid \n");
 
-            $ysdcintdata = $evat_signatures['ysdcintdata'];
-            $printer -> text("INT. DATA: $ysdcintdata \n");
+                $ysdcrecnum = $evat_signatures['ysdcrecnum'];
+                $printer -> text("REC. NUMBER : $ysdcrecnum \n");
 
-            $ysdcregsig = $evat_signatures['ysdcregsig'];
-            $printer -> text("REC. SIGN: $ysdcregsig \n");
+                $ysdcintdata = $evat_signatures['ysdcintdata'];
+                $printer -> text("INT. DATA: $ysdcintdata \n");
 
-            $printer -> setJustification(Printer::JUSTIFY_CENTER);
-            $printer -> qrCode($evat_signatures['qr_code']);
+                $ysdcregsig = $evat_signatures['ysdcregsig'];
+                $printer -> text("REC. SIGN: $ysdcregsig \n");
 
-            $printer -> feed();
-            $printer->setUnderline(1);
+                $printer -> setJustification(Printer::JUSTIFY_CENTER);
+                $printer -> qrCode($evat_signatures['qr_code']);
+
+                $printer -> feed();
+                $printer->setUnderline(1);
+
+            }
 
             /* Footer */
             $printer -> feed();

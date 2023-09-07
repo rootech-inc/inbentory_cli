@@ -19,6 +19,7 @@
                         <button onclick="set_session(['sub_module=users','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">USER FILE</p></button>
                         <button onclick="set_session(['sub_module=loyalty','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">LOYALTY</p></button>
                         <button onclick="set_session(['sub_module=customers','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">CUSTOMERS</p></button>
+                        <button onclick="set_session(['sub_module=company_setup','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">COMPANY</p></button>
 
                         <button class="master_button btn m-2 p-1 pointer" disabled></button>
 

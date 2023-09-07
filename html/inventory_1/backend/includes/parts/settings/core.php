@@ -13,6 +13,8 @@
     }
     elseif ($sub_module === 'customers'){
         require 'backend/includes/parts/settings/customers.php';
+    } elseif ($sub_module === 'company_setup'){
+        require 'backend/includes/parts/settings/company_setup.php';
     }
     else
     {

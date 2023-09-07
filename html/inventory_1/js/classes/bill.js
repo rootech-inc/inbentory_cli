@@ -259,17 +259,17 @@ class Bill {
         console.log('making payment')
         b_msg("Making Payment....")
         console.log("CASH RESPONSE")
-        // Swal.fire({
-        //     html: `<div class='text-center'><strong>Loading...</strong></div>
-        //                        <div class="text-center">
-        //                            <div class="spinner-border text-primary" role="status">
-        //                                <span class="sr-only">Loading...</span>
-        //                            </div>
-        //                        </div>`,
-        //     showConfirmButton: false, // Hide confirm button
-        //     allowOutsideClick: false, // Prevent click outside to close
-        //     allowEscapeKey: false, // Prevent ESC key to close
-        // });
+        Swal.fire({
+            html: `<div class='text-center'><strong>Making ${method.toUpperCase()} Payment...</strong></div>
+                               <div class="text-center">
+                                   <div class="spinner-border text-primary" role="status">
+                                       <span class="sr-only">Making ${method.toUpperCase()} Payment...</span>
+                                   </div>
+                               </div>`,
+            showConfirmButton: false, // Hide confirm button
+            allowOutsideClick: false, // Prevent click outside to close
+            allowEscapeKey: false, // Prevent ESC key to close
+        });
 
 
 
@@ -331,7 +331,7 @@ class Bill {
                         console.log("CASH RESPONSE")
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
-                        status = result['status']
+                        status = result['code']
                         message = result['message']
                         console.table(response)
 
@@ -365,9 +365,9 @@ class Bill {
                             jqh.setHtml({'bill_loader':''})
 
                             b_msg('payment complete..')
-                            bill.loadBillsInTrans()
+                            // bill.loadBillsInTrans()
 
-                            console.log('BILL TRANSACTION DONE')
+                            // console.log('BILL TRANSACTION DONE')
                             Swal.close()
 
 

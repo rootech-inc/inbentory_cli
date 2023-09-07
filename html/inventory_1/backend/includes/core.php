@@ -58,7 +58,14 @@ ini_set('display_errors',1);
         $today = date('Y-m-d');
     }
 
-
+    $evat = false;
+    if(
+        $db->row_count("sys_settings","`set_key` = 'evat'") === 1 &&
+        $db->get_rows("sys_settings","`set_key` = 'evat'")['set_status'] === 1
+    ){
+        $evat = true;
+    }
+    define('evat',$evat);
     define('today',$today);
     $current_time = date("Y-m-d H:m:s");
 

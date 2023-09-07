@@ -287,7 +287,8 @@ class Billing
             $header2 = $totals2['bill_header'];
 
 
-
+            $msg = "";
+            $code = "";
             if($bill_totals['valid'] === 'Y')
             {
                 $net = $bill_totals['bill_amt'];
@@ -321,114 +322,107 @@ class Billing
                 {
 
 
-                    # make EvatData
-                    $send_inv = json_decode((new Evat())->send_invoice(billRef));
-                    (new anton())->log2file("SEND INVOICE RESPONSE \n".var_export($send_inv,true));
+                    $billComplete = false;
+                    if(evat === true){
+                        # make EvatData
+                        $send_inv = json_decode((new Evat())->send_invoice(billRef));
 
-                    if($send_inv->code === 202 || $send_inv->message === 'INVOICE ALREADY SUBMITTED'){
-                        // get signature
-                        $signature = json_decode((new Evat())->sign_invoice(billRef));
+                        if($send_inv->code === 202 || $send_inv->message === 'INVOICE ALREADY SUBMITTED')
+                        {
+                            // get signature
+                            $signature = json_decode((new Evat())->sign_invoice(billRef));
 
-                        (new anton())->log2file("SIGNATURE RESPONSE \n".var_export($signature,true));
-                        $sign = $signature->MESSAGE;
-                        (new anton())->log2file("SIGN \n$signature->STATUS");
+                            $sign = $signature->MESSAGE;
 
-                        if($signature->STATUS === 'SUCCESS'){
-                            $response['status'] = 200;
-                            $response['message'] = $sign;
-                            // save signatures\
-                            $ysdcrecnum = $sign->ysdcrecnum;
-                            $ysdcid = $sign->ysdcid;
-                            $ysdcintdata = $sign->ysdcintdata;
-                            $ysdcmrc = $sign->ysdcmrc;
-                            $ysdcitems = $sign->ysdcitems;
-                            $ysdcmrctim = $sign->ysdcmrctim;
-                            $ysdcregsig = $sign->ysdcregsig;
-                            $ysdctime = $sign->ysdctime;
-                            $qr_code = $signature->QR_CODE;
+                            if($signature->STATUS === 'SUCCESS'){
+                                $response['status'] = 200;
+                                $response['message'] = $sign;
+                                // save signatures\
+                                $ysdcrecnum = $sign->ysdcrecnum;
+                                $ysdcid = $sign->ysdcid;
+                                $ysdcintdata = $sign->ysdcintdata;
+                                $ysdcmrc = $sign->ysdcmrc;
+                                $ysdcitems = $sign->ysdcitems;
+                                $ysdcmrctim = $sign->ysdcmrctim;
+                                $ysdcregsig = $sign->ysdcregsig;
+                                $ysdctime = $sign->ysdctime;
+                                $qr_code = $signature->QR_CODE;
 
-                            // save keys in database
-                            $evat_tran = "INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
+                                // save keys in database
+                                $evat_tran = "INSERT into evat_transactions (billRef, ysdcid, ysdcitems, ysdcmrc, ysdcmrctim, ysdcrecnum, ysdctime, ysdcintdata, ysdcregsig, qr_code) VALUES 
                                                                         ('$billRef','$ysdcid','$ysdcitems','$ysdcmrc','$ysdcmrctim','$ysdcrecnum','$ysdctime','$ysdcintdata','$ysdcregsig','$qr_code')";
+                                $this->db_handler()->exe($evat_tran);
+
+                                $msg = "BILL DONE";
+                                $code = 200;
+
+
+                                $billComplete = true;
+                            }
+
+                            else {
+
+                                $message = $signature->MESSAGE;
+                                $msg = $message->ysdcregsig;
+                                $code = 505;
+                                $billComplete = false;
 
 
 
-                            // continue
-                            $this->db_handler()->db_connect()->exec($bill_header_insert);
-                            $this->db_handler()->exe($evat_tran);
+                            }
 
-                            if($method === 'refund') // update on refunds
-                            {
-                                // update values all to negative
-                                $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
+                        }
+                        else {
+                            $code = 505;
+                            $msg = "COUND NOT SEND INCOICE";
+                            $billComplete = false;
+                        }
+
+                    }
+                    else{
+                        $billComplete = true;
+                    }
+
+                    if($billComplete === true){
+                        // continue
+                        $this->db_handler()->db_connect()->exec($bill_header_insert);
+
+
+                        if($method === 'refund') // update on refunds
+                        {
+                            // update values all to negative
+                            $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
                        tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
                        tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2) 
                        where mach_no = $machine_number and bill_no = $bill_number and bill_date = '$today'";
 
-                                // bill tran
-                                $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
+                            // bill tran
+                            $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
                       bill_amt = bill_amt - (bill_amt * 2) where mach = $machine_number and bill_number = $bill_number and date_added = '$today'";
 
-                                // tax trans
-                                $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
+                            // tax trans
+                            $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
                          taxableAmt = taxableAmt - (taxableAmt * 2), 
                          tax_amt = tax_amt - (tax_amt * 2) 
                          where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
 
 
-                            }
-
-                            // print bill
-                            printbill(mech_no,$bill_number,$method);
-
-
-                            $response['status'] = 200;
-                            $response['message'] = "BILL DONE";
-
-
-
-                        }
-                        else {
-
-                            $message = $signature->MESSAGE;
-                            $response['status'] = 505;
-                            $response['message'] = $message->ysdcregsig;
-                            printMessage("EVAT ERROR: \n$message->ysdcregsig");
-
-
-
                         }
 
+                        // print bill
+                        printbill(mech_no,$bill_number,$method);
+
+                        $code = 200;
+                        $msg = "BILL COMPLETED";
+
+                    } else {
+                        $code = 505;
                     }
-                    else {
-                        $response['status'] = 505;
-                        $response['message'] = "HELLO WORLD HERE WE GO";
-
-                        (new anton())->log2file("COULD NOT SEND INVOICE FOR SIGNATURE",'',1);
-                        (new anton())->log2file("API RESPONSE");
-                        (new anton())->log2file(var_export($send_inv,true));
-
-                    }
-
-
-
-
-
-//                    $loyCount = (new db_handler())->row_count('loyalty_tran',"`billRef` = '$billRef'");
-//                    if($loyCount === 1){
-//
-//                        // loyalty points insert $gross_amt
-//                        $customer_details = (new db_handler())->get_rows('loyalty_tran',"`billRef` = '$billRef'");
-//                        $cust_code = $customer_details['cust_code'];
-//
-//                        (new Loyalty())->givePoints($cust_code,billRef,$net);
-//
-//                    }
 
                 }
                 else {
-                    $response['status'] = 404;
-                    $response['message'] = "THERE IS BILL WITH HEADER";
+                    $code = 505;
+                    $msg = "THERE IS BILL WITH HEADER";
                 }
 
 
@@ -438,12 +432,15 @@ class Billing
 
         } else
         {
-            $response['status'] = 404;
-            $response['message'] = 'Cannot make payment for an empty transaction';
+            $code = 505;
+            $msg  = 'Cannot make payment for an empty transaction';
         }
 
 
-        return $response;
+        return [
+            'code'=>$code,
+            'message'=>$msg
+        ];
 
 
 
@@ -544,25 +541,9 @@ class Billing
                         }
                         else {
                             // this is flat rate
-                            $tax_rate = $taxDetail['rate'];
-                            $vat = ($tax_rate / 100 ) * $retail;
-
-                            try {
-
-                                $tax_ins_query = "INSERT INTO posdb.bill_tax_tran (bill_date, clerk_code, mech_no, bill_no, tran_code, tran_qty, taxableAmt, tax_code,
-                                 tax_amt,billRef) VALUES ('$date', '$clerk', $mech_no, $bill_no, $i_code, $qty, $retail, '$tax_code', $vat,'$billRef');";
-                                (new anton())->log2file($tax_ins_query);
-
-                                $this->db_handler()->db_connect()->exec($tax_ins_query);
-                                $this->response['code'] = 200;
-                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat);
-                                $this->response['message'] = $tax_detail;
-
-                            } catch (PDOException $e)
-                            {
-                                $this->response['code'] = 505;
-                                $this->response['message'] .= " ".$e->getMessage();
-                            }
+                            $this->response['code'] = 200;
+                            $tax_detail = array('code'=>$tax_code,'vat'=>0.00,'cv'=>0.00,'gf'=>0.00,'nh'=>0.00);
+                            $this->response['message'] = $tax_detail;
 
                         }
 
