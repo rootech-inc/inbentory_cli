@@ -19,8 +19,8 @@ class Evat extends db_handler
 
        # do trans
        $output = "";
-       $t_q = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
-       $t_q = (new db_handler())->db_connect()->query("
+       $t_q = $db->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
+       $t_q = $db->db_connect()->query("
             select item_barcode, pm.`desc` as 'name', pm.retail as 'retail_price', tm.attr as 'tax_group',tm.rate as 'tax_rate',
 case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(tax_amt) as 'tax_amt',
 sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
@@ -34,7 +34,7 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
        {
            $item_count ++;
            $barcode = $tran['item_barcode'];
-           $item = (new db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
+           $item = $db->get_rows('prod_mast',"`barcode` = '$barcode'");
            $item_code = $item['id'];
             $tran_code = $tran['item_barcode'];
            // get taxes

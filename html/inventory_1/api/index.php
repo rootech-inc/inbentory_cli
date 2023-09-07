@@ -69,8 +69,8 @@ function handleViewRequest($module,$data)
     elseif($module === 'customer'){
         $cust_no = $data['cust_no'];
 
-        if((new db_handeer\db_handler())->row_count('customers',"`cust_no` = '$cust_no'") === 1){
-            $customer = (new db_handeer\db_handler())->get_rows('customers',"`cust_no` = '$cust_no'",'json');
+        if($db->row_count('customers',"`cust_no` = '$cust_no'") === 1){
+            $customer = $db->get_rows('customers',"`cust_no` = '$cust_no'",'json');
             (new \API\ApiResponse())->success(json_decode($customer));
         } else {
             (new \API\ApiResponse())->error("CANNOT FIND CUSTOMER");
@@ -98,14 +98,14 @@ function handlePostRequest($module, $data,$crud)
                 $country = $data['country'];
                 $address = $data['address'];
 
-                $cust_no = (new db_handeer\db_handler())->row_count('customers',"`customer_id` > 0") + 1;
+                $cust_no = $db->row_count('customers',"`customer_id` > 0") + 1;
                 $cust_no += 9990000000;
 
                 // Prepare the database query
-                $db = (new db_handeer\db_handler())->db_connect();
+                $db_conn = $db->db_connect();
                 $query = "INSERT INTO customers (first_name, last_name, email, phone_number, address, city, postal_code, country,cust_no) 
               VALUES (:first_name, :last_name, :email, :phone, :address, :city, :postal_code, :country,:cust_no)";
-                $statement = $db->prepare($query);
+                $statement = $db_conn->prepare($query);
 
                 // Bind parameters and execute the query
                 $statement->bindParam(':first_name', $first_name);
@@ -132,8 +132,8 @@ function handlePostRequest($module, $data,$crud)
         } elseif ($crud === 'read'){
             $cust_no = $data['cust_no'];
 
-            if((new db_handeer\db_handler())->row_count('customers',"`cust_no` = '$cust_no'") === 1){
-                $customer = (new db_handeer\db_handler())->get_rows('customers',"`cust_no` = '$cust_no'",'json');
+            if($db->row_count('customers',"`cust_no` = '$cust_no'") === 1){
+                $customer = $db->get_rows('customers',"`cust_no` = '$cust_no'",'json');
 
                 (new \API\ApiResponse())->success(json_decode($customer));
             } else {

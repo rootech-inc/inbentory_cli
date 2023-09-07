@@ -480,7 +480,7 @@ require '../includes/core.php';
                 $machine_number = (new MechConfig())->mech_details()['mechine_number'];
 
                 $bill_trans_count = "`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'";
-                $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                $bill_sql = $db->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
 
                 // make payment
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )

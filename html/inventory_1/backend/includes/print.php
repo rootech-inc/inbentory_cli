@@ -69,14 +69,14 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printbill($mech_no,$bill_number,$payment = 'payment'){
 
-        $db_hander = (new db_handler());
+        $db_hander = $db;
 
         $today = today;
         $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
-        if((new db_handler())->row_count('bill_header',$bill_hd_count) > 0)
+        if($db->row_count('bill_header',$bill_hd_count) > 0)
         {
 
-            $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
+            $bill_header = $db->get_rows('bill_header',$bill_hd_count);
             $curRef = "0".$bill_header['billRef'];
             $billRef = $bill_header['billRef'];
             $billSummary = (new billing\Billing())->billSummaryV2($billRef);
@@ -99,7 +99,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             );
 
             $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
-            $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+            $bill_sql = $db->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
             $billSn = 0;
             while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC))
             {
@@ -203,10 +203,10 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $printer -> text(str_repeat('-', 48) . "\n");
 
 
-            $nh = (new db_handler())->sum('bill_trans','nhis',"`billRef` = '$billRef'");
-            $gf = (new db_handler())->sum('bill_trans','gfund',"`billRef` = '$billRef'");
-            $cv = (new db_handler())->sum('bill_trans','covid',"`billRef` = '$billRef'");
-            $vat = (new db_handler())->sum('bill_trans','vat',"`billRef` = '$billRef'");
+            $nh = $db->sum('bill_trans','nhis',"`billRef` = '$billRef'");
+            $gf = $db->sum('bill_trans','gfund',"`billRef` = '$billRef'");
+            $cv = $db->sum('bill_trans','covid',"`billRef` = '$billRef'");
+            $vat = $db->sum('bill_trans','vat',"`billRef` = '$billRef'");
 
             $nhil = new item('NHIL (2.5%)', $nh);
             $printer->text($nhil);
@@ -285,13 +285,13 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         $date = today;
         $connector = new WindowsPrintConnector(printer);
         $printer = new Printer($connector);
-        $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
+        $shift_count = $db->row_count('shifts',"`recId` = '$recId'");
 
 
 
         if($shift_count === 1)
         {
-            $shift = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
+            $shift = $db->get_rows('shifts',"`recId` = '$recId'");
             $mech = $shift['mech_no'];
             $shift_no = $shift['shift_no'];
             $start_date = $shift['shift_date'];
@@ -300,13 +300,13 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $end_time = date('H:i:s');
 
 
-            $bills_count = (new db_handler())->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
+            $bills_count = $db->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
             if($bills_count > 0)
             {
                 // get all bills sum by payment
                 $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' group by pmt_type";
                 (new anton())->log2file($bill_hd_sql);
-                $bill_hd_stmt = (new db_handler())->db_connect()->query($bill_hd_sql);
+                $bill_hd_stmt = $db->db_connect()->query($bill_hd_sql);
                 $bill_sum = (new  db_handler())->fetch_rows("select sum(net_amt) as gross,sum(tax_amt) as tax ,sum(gross_amt) as net from bill_header;");
                 $subTotal = 0;
                 $hd_arr = array();
@@ -450,7 +450,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         $printer -> feed();
 
         # get machines
-        $machines = (new db_handler())->db_connect()->query("SELECT mech_no FROM mech_setup");
+        $machines = $db->db_connect()->query("SELECT mech_no FROM mech_setup");
 
         while ($machine = $machines->fetch(PDO::FETCH_ASSOC)){
             $t = 0;
@@ -466,7 +466,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             # get sales for machine
             $mach_sales_query = "select mech_setup.mech_no,mech_setup.descr, bill_header.pmt_type, sum(bill_header.gross_amt) as 'gross', sum(bill_header.tax_amt) as 'tax', sum(bill_header.net_amt) as 'net' from mech_setup join bill_header on bill_header.mach_no = mech_setup.mech_no where mech_no = '$m_no' group by bill_header.pmt_type, mech_setup.mech_no, mech_setup.descr;";
             (new anton())->log2file($mach_sales_query);
-            $m_sales = (new db_handler())->db_connect()->query($mach_sales_query);
+            $m_sales = $db->db_connect()->query($mach_sales_query);
             while ($m_sale = $m_sales->fetch(PDO::FETCH_ASSOC)){
 
                 $pmt_type = $m_sale['pmt_type'];
@@ -477,7 +477,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
             }
-            $t = (new db_handler())->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
+            $t = $db->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
             $printer -> setEmphasis(true);
             $printer -> text(new item("TOTAL",number_format($t,2)));
             $printer->setEmphasis(false);

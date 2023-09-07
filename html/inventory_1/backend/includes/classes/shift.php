@@ -48,7 +48,7 @@ class shift extends \db_handeer\db_handler
 
     function end_shit($recId): array
     {
-        if((new db_handler())->row_count('shifts',"`recId` = '$recId'") === 1){
+        if($db->row_count('shifts',"`recId` = '$recId'") === 1){
             // shift exist
             // close shift
             $start_sql = "UPDATE shifts SET endate = CURRENT_DATE,end_time = CURRENT_TIME WHERE recId = '$recId'";

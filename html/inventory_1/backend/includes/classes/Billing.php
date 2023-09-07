@@ -7,7 +7,7 @@ use PDO;
 use PDOException;
 use anton;
 use db_handeer\db_handler;
-class Billing
+class Billing extends db_handler
 {
 
     public $response = array('code'=>404,'status'=>null);
@@ -197,10 +197,10 @@ class Billing
         }
 
         // check if bill is paid for
-        $paid_for = (new db_handler())->row_count("$bill_header_table","`billRef` = '$billRef'");
+        $paid_for = $this->row_count("$bill_header_table","`billRef` = '$billRef'");
         if($paid_for === 1){
             // bill has been paid for so update header with this values
-            $bill_header = (new db_handler())->get_rows("$bill_header_table","`billRef` = '$billRef'");
+            $bill_header = $this->get_rows("$bill_header_table","`billRef` = '$billRef'");
             $bill_hd['total'] = $bill_header['gross'];
             $bill_hd['discount'] = $bill_header['disc_amt'];
             $bill_hd['bill_amt'] = $bill_header['net_amt'];
@@ -209,13 +209,13 @@ class Billing
             $bill_hd['total'] = $bill_header['amt_bal'];
         } else {
             // values should be updated with transactions
-            $total = (new db_handler())->sum($bill_trans_table,'bill_amt',"`trans_type` = 'i' and `billRef` = '$billRef'");
+            $total = $this->sum($bill_trans_table,'bill_amt',"`trans_type` = 'i' and `billRef` = '$billRef'");
             $bill_hd['total'] = number_format($total,2);
-            $tax = (new db_handler())->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
-            if((new db_handler())->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'") === 1)
+            $tax = $this->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
+            if($this->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'") === 1)
             {
                 // there is discount
-                $dic_rate = (new db_handler())->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'")['bill_amt'];
+                $dic_rate = $this->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'D'")['bill_amt'];
                 $dis_value = $dic_rate / 100;
                 $disc = $total * $dis_value;
                 $disc_type = "D";
@@ -224,8 +224,8 @@ class Billing
 
 
             }
-           elseif ((new db_handler())->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'") === 1) {
-               $disc = (new db_handler())->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'")['bill_amt'];
+           elseif ($this->row_count($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'") === 1) {
+               $disc = $this->get_rows($bill_trans_table,"`billRef` = '$billRef' and `trans_type` = 'L'")['bill_amt'];
                $tax_disc = 0;
                $dic_rate = 0.00;
                $disc_type = 'L';
@@ -248,7 +248,7 @@ class Billing
             $bill_hd['discount_type'] = $disc_type;
 
 
-            $tax = (new db_handler())->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
+            $tax = $this->sum($bill_tax_table,'tax_amt',"`billRef` = '$billRef'");
             $bill_hd['tax_amt'] = number_format($tax - $tax_disc,2);
 
         }
@@ -271,7 +271,7 @@ class Billing
         $machine_number = (new MechConfig())->mech_details()['mechine_number'];
         $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
         $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
-        $bill_trans_count = (new db_handler())->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'i'");
+        $bill_trans_count = $this->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'i'");
 
 
 
@@ -578,17 +578,17 @@ class Billing
 
     function MechSalesSammry($mech_no = 0): array
     {
-        $gross = (new db_handler())->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('SS')");
+        $gross = $this->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('SS')");
 
         $deduct = 0;
-        if((new db_handler())->row_count('bill_trans',"`mach`= '$mech_no' and `tran_type` in ('RF')") > 0){
-            $deduct = (new db_handler())->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('RF')");
+        if($this->row_count('bill_trans',"`mach`= '$mech_no' and `tran_type` in ('RF')") > 0){
+            $deduct = $this->sum('bill_trans','bill_amt',"`mach`= '$mech_no' and `tran_type` in ('RF')");
         }
 
 
         $net = $gross - abs($deduct);
 
-        $tax = (new db_handler())->sum('bill_tax_tran','tax_amt',"`mech_no`= '$mech_no'");
+        $tax = $this->sum('bill_tax_tran','tax_amt',"`mech_no`= '$mech_no'");
 
         return array(
             'gross'=>$gross,'deduct'=>$deduct,'net'=>$net,'tax'=>$tax
@@ -637,7 +637,7 @@ class Billing
         // Apply discount to the total bill
         $total_bill = ($taxable_total + $none_taxable_total) * (1 - $discount_rate);
 
-        #$total_bill = (new db_handler())->sum('bill_trans','tax_amt',"`billRef` = '$bill_ref' and `trans_type` = 'i'");
+        #$total_bill = $this->sum('bill_trans','tax_amt',"`billRef` = '$bill_ref' and `trans_type` = 'i'");
 
         // Calculate levies amount
         $levies_amount = $taxable_total * $tax_rate_levies;
@@ -648,13 +648,13 @@ class Billing
         // Calculate final bill amount
         $final_bill = $total_bill + $levies_amount + $vat_amount;
 
-        $final_bill = (new db_handler())->sum('bill_trans',"bill_amt","`billRef` = '$bill_ref'") ;
+        $final_bill = $this->sum('bill_trans',"bill_amt","`billRef` = '$bill_ref'") ;
 
-        $vat = (new db_handler())->sum('bill_trans',"`vat`","`billRef` = '$bill_ref'");
+        $vat = $this->sum('bill_trans',"`vat`","`billRef` = '$bill_ref'");
 
-        $cv = (new db_handler())->sum('bill_trans',"`covid`","`billRef` = '$bill_ref'");
-        $nh = (new db_handler())->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref'");
-        $gf = (new db_handler())->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref'");
+        $cv = $this->sum('bill_trans',"`covid`","`billRef` = '$bill_ref'");
+        $nh = $this->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref'");
+        $gf = $this->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref'");
 
         $levies = $cv + $nh + $gf;
 
@@ -666,8 +666,8 @@ class Billing
         $bill_header['ITEMS_COUNTS'] = $totalTrans;
 
 
-        if((new db_handler()) -> row_count('bill_header',"`billRef` = '$bill_ref'")){
-            $hd = (new db_handler()) -> get_rows('bill_header',"`billRef` = '$bill_ref'");
+        if($this -> row_count('bill_header',"`billRef` = '$bill_ref'")){
+            $hd = $this -> get_rows('bill_header',"`billRef` = '$bill_ref'");
             $bill_header['INVOICE_DATE'] = $hd['bill_date'];
 
         } else {

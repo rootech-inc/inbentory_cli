@@ -43,7 +43,8 @@ ini_set('display_errors',1);
 
     $anton = new anton();
     $db = new db_handler();
-    $db->db_connect();
+    $d_b = new db_handler();
+
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
     $company = $db->get_rows('company',"`id` = 0");
@@ -52,7 +53,7 @@ ini_set('display_errors',1);
     $machine_number = mech_no;
     if($shiftCL->is_shift(mech_no))
     {
-        $shit_detail = (new db_handler())->get_rows('shifts',"`mech_no` = '$machine_number'");
+        $shit_detail = $db->get_rows('shifts',"`mech_no` = '$machine_number'");
         $today = $shit_detail['shift_date'];
     } else {
         $today = date('Y-m-d');
