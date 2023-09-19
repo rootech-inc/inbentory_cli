@@ -16,6 +16,20 @@
                 $anton->set_session($session_data);
             }
 
+            // general query
+            elseif ($function === 'gen_query'){
+                $query = $anton->post('query');
+
+                //execute query
+                $stmt = $db->db_connect()->query($query);
+                $stmt->fetch(PDO::FETCH_ASSOC);
+                header('Content-Type: application/json');
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($res);
+
+
+            }
+
             elseif ($function === 'mech_ini')
             {
                 $desc = $anton->post('desc');

@@ -17,11 +17,14 @@ ini_set('display_errors',1);
     const db_password = '258963';
     const db_name = "posdb";
 
+    $phy = $_SERVER['APPL_PHYSICAL_PATH'];
+
 
     require 'session.php';
     $session_id = session_id();
-    $logo = root . "/assets/logo/comp_logo.png";
+    $logo = $phy . "\comp_logo_1.png";
     define('logo',$logo);
+
 
     // initialize classes
     require 'anton.php';
@@ -45,6 +48,8 @@ ini_set('display_errors',1);
     $db = new db_handler();
     $d_b = new db_handler();
 
+$anton->log2file($logo,"LOGO",1);
+
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
     $company = $db->get_rows('company',"`id` = 0");
@@ -66,8 +71,16 @@ ini_set('display_errors',1);
     ){
         $evat = true;
     }
+    $bill_print = false;
+    if(
+        $db->row_count("sys_settings","`set_key` = 'bill_print'") === 1 &&
+        $db->get_rows("sys_settings","`set_key` = 'bill_print'")['set_status'] === 1
+    ){
+        $bill_print = true;
+    }
     define('evat',$evat);
     define('today',$today);
+    define('bill_print',$bill_print);
     $current_time = date("Y-m-d H:m:s");
 
 

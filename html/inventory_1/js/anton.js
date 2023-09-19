@@ -66,9 +66,9 @@ if(Mech.is_shift())
     }
 } else {
     toDay = yyyy + '-' + mm + '-' + dd;
-    //cl('No SHift')
-}
 
+}
+console.log(toDay)
 const user_id = a_sess.get_session('clerk_id')
 
 var form_settings = {

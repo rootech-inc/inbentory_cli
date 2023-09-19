@@ -487,7 +487,8 @@ require '../includes/core.php';
                 {
 
                     $method = $anton->post('method');
-                    $response = $bill->makePyament($method,$amount_paid);
+                    $original_ref = $anton->post('ref');
+                    $response = $bill->makePyament($method,$amount_paid,$original_ref);
                     (new anton())->log2file("FINAL RESPONSE");
                     (new anton())->log2file(var_export($response,true),'',1);
                     (new anton())->log2file("DONE");

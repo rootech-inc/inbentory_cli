@@ -298,6 +298,29 @@ class Reports {
 
         $.ajax(ajaxform)
     }
+
+    itemAvailability(){
+        Swal.fire({
+            title:"ITEM AVAILABILITY AS OF",
+            html:`<div class="w-100 d-flex flex-wrap justify-content-between">
+                    <select name="loc_id" id="loc_id" class="form-control w-45 rounded-0"><option value="001">MAIN LOCATION</option></select>
+                    <input type="date" name="as_of" id="as_of" class="form-control w-45">
+                  </div>`,
+            showDenyButton: false,
+            showCancelButton: true,
+        }).then((result)=>{
+            if(result.isConfirmed){
+                // get values of form
+                let loc_id = $('#loc_id').val();
+                let as_of = $('#as_of').val();
+
+                let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}')`)
+                console.table(JSON.parse(availability))
+
+            }
+        });
+    }
+
 }
 
 const reports = new Reports()

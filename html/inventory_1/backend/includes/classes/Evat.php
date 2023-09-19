@@ -7,7 +7,7 @@ use Exception;
 
 class Evat extends db_handler
 {
-   public function send_invoice($billRef){
+   public function send_invoice($billRef,$flag = 'INVOICE',$original_bill_ref = ''){
        # get bill summary
        $bill = (new \billing\Billing())->billSummaryV2($billRef,1);
 
@@ -16,17 +16,24 @@ class Evat extends db_handler
        (new \anton())->log2file(var_export($bill,true),'',0);
        (new \anton())->log2file("BILL HEADER");
        (new \anton())->log2file(var_export($hd,true));
+       $refund_id = '';
+
+       if($flag === 'REFUND'){
+           // get extra
+           $refund_id = billRef;
+           $billRef = (new \anton())->get_session('refundBillRef'); // original invoice number;
+       }
 
        # do trans
        $output = "";
-       $t_q = $db->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
-       $t_q = $db->db_connect()->query("
+       $t_q = $this->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
+       $t_q = $this->db_connect()->query("
             select item_barcode, pm.`desc` as 'name', pm.retail as 'retail_price', tm.attr as 'tax_group',tm.rate as 'tax_rate',
-case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(tax_amt) as 'tax_amt',
-sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
-right join posdb.prod_mast pm on bill_trans.item_barcode = pm.barcode right join tax_master tm on pm.tax_grp = tm.id
-where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by bill_trans.item_barcode;
-       ");
+    case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(tax_amt) as 'tax_amt',
+    sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
+    right join posdb.prod_mast pm on bill_trans.item_barcode = pm.barcode right join tax_master tm on pm.tax_grp = tm.id
+    where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by bill_trans.item_barcode;
+           ");
 
        $trans = $bill['bill_trans'];
        $item_count = 0;
@@ -34,7 +41,7 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
        {
            $item_count ++;
            $barcode = $tran['item_barcode'];
-           $item = $db->get_rows('prod_mast',"`barcode` = '$barcode'");
+           $item = $this->get_rows('prod_mast',"`barcode` = '$barcode'");
            $item_code = $item['id'];
             $tran_code = $tran['item_barcode'];
            // get taxes
@@ -47,12 +54,12 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
                     "ITMDES": "'.$tran['name'].'",
                     "TAXRATE": "'.$tran['tax_rate'].'",
                     "TAXCODE": "'.$tran['tax_com'].'",
-                    "LEVY_AMOUNT_A": "'.$LEVY_A.'",
-                    "LEVY_AMOUNT_B": "'.$LEVY_B.'",
-                    "LEVY_AMOUNT_C": "'.$LEVY_C.'",
+                    "LEVY_AMOUNT_A": "'.abs($LEVY_A).'",
+                    "LEVY_AMOUNT_B": "'.abs($LEVY_B).'",
+                    "LEVY_AMOUNT_C": "'.abs($LEVY_C).'",
                     "LEVY_AMOUNT_D": "0",
-                    "QUANTITY": "'.$tran['qty'].'",
-                    "UNITYPRICE": "'.$tran['retail_price'].'",
+                    "QUANTITY": "'.abs($tran['qty']).'",
+                    "UNITYPRICE": "'.abs($tran['retail_price']).'",
                     "ITMDISCOUNT": "0",
                     "BATCH": "",
                     "EXPIRE": "",
@@ -63,7 +70,7 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
 
        $curl = curl_init();
         $setting = array(
-            CURLOPT_URL => 'http://127.0.0.1:8000/send_invoice/',
+            CURLOPT_URL => 'http://127.0.0.1:9000/send_invoice/',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -74,20 +81,21 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
             CURLOPT_POSTFIELDS =>'{
            "header": {
               "COMPUTATION_TYPE": "INCLUSIVE",
-              "FLAG": "INVOICE",
+              "FLAG": "'.$flag.'",
               "SALE_TYPE":"NORMAL",
               "USER_NAME": "ARNAU",
               "NUM": "'.$billRef.'",
+              "REFUND_ID":"'.$refund_id.'",
               "INVOICE_DATE": "2020-07-15",
               "CURRENCY": "GHS",
               "EXCHANGE_RATE": "1",
               "CLIENT_TIN": "C0022825405",
               "CLIENT_TIN_PIN": "2222",
               "CLIENT_NAME": "Elissa",
-              "TOTAL_VAT": "'.$hd['TOTAL_VAT'].'",
-              "TOTAL_LEVY":  "'.$hd['TOTAL_LEVY'].'",
-              "TOTAL_AMOUNT":  "'.$hd['TOTAL_AMOUNT'].'",
-              "ITEMS_COUNTS":  "'.$item_count.'",
+              "TOTAL_VAT": "'.abs($hd['TOTAL_VAT']).'",
+              "TOTAL_LEVY":  "'.abs($hd['TOTAL_LEVY']).'",
+              "TOTAL_AMOUNT":  "'.abs($hd['TOTAL_AMOUNT']).'",
+              "ITEMS_COUNTS":  "'.abs($item_count).'",
               "VOUCHER_AMOUNT": "0",
               "DISCOUNT_TYPE":"GENERAL",
               "DISCOUNT_AMOUNT":"0",
@@ -117,12 +125,17 @@ where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by b
 
     public function sign_invoice($num,$flag='INVOICE',$ref_id = '')
     {
-//        $num = "HELLO_ANTON";
+
+        if($flag === 'REFUND'){
+            // get extra
+            $ref_id = billRef;
+            $num = (new \anton())->get_session('refundBillRef'); // original invoice number;
+        }
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'http://127.0.0.1:8000/sign/',
+            CURLOPT_URL => 'http://127.0.0.1:9000/sign/',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,

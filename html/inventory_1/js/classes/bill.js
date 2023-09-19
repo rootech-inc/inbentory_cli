@@ -256,9 +256,8 @@ class Bill {
 
     // make payment
     payment(method){
-        console.log('making payment')
+
         b_msg("Making Payment....")
-        console.log("CASH RESPONSE")
         Swal.fire({
             html: `<div class='text-center'><strong>Making ${method.toUpperCase()} Payment...</strong></div>
                                <div class="text-center">
@@ -305,30 +304,26 @@ class Bill {
                 form_data = {
                     'function':'payment',
                     'method':method,
-                    'amount_paid':amount_paid
+                    'amount_paid':amount_paid,
+                    'ref':$('#billRef').val()
                 }
 
                 jqh.setText({
 
                     'amount_paid':actual_paid.toFixed(2),
-                    'amount_balance':b_balance.toFixed(2),
-                    'bill_num':parseFloat($('#bill_num').text()) + 1
+                    'amount_balance':b_balance.toFixed(2)
 
                 })
 
-                console.table(form_data)
 
                 // send ajax request
-                console.log("SENDING BILL0000")
+
                 $.ajax({
                     url: form_process,
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-                        console.log("BILL SENT")
-                        console.log("CASH RESPONSE")
                         console.table(response)
-                        console.log("CASH RESPONSE")
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
                         status = result['code']
@@ -341,7 +336,7 @@ class Bill {
 
 
                         if(status === 200){
-                            cl("PAYMENT ONE WITHOUT ERROR")
+
                             // get payment details
                             let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal,bill_number
                             bill_number = message['bill_number']
@@ -357,7 +352,7 @@ class Bill {
                             jqh.setText({
                                 'tax':tax_amt,
                                 'amount_paid':amt_paid,
-                                'bill_num':parseFloat(bill_number) + 1
+                                'bill_num':parseFloat($('#bill_num').text()) + 1
                             })
 
                             jqh.setVal({'general_input':''})
@@ -484,10 +479,8 @@ class Bill {
             denyButtonText: `CANCEL`,
             icon:'warning'
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax(setting)
-
             }
         })
         b_msg("")

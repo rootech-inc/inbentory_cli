@@ -49,6 +49,38 @@ function exec(query = 'none')
     }
 }
 
+// general query
+function FETCH(query) {
+
+    var form_data = {
+        'function':'gen_query',
+        'query':query,
+    }
+
+    console.log(query)
+
+    var result = 0;
+
+    $.ajax(
+        {
+            url:'/backend/process/ajax_tools.php',
+            'async': false,
+            'type': "POST",
+            'global': false,
+            'dataType': 'html',
+            data:form_data,
+            success: function (response)
+            {
+                result = response;
+
+            }
+        }
+    );
+
+    return result;
+
+}
+
 function get_row(table,condition) {
     var form_data = {
         'function':'get_row',

@@ -257,7 +257,7 @@ class Billing extends db_handler
 
     }
 
-    public function makePyament($method,$amount_paid): array
+    public function makePyament($method,$amount_paid,$oriRef = ''): array
     {
 
         $dbHandler = (new db_handler());
@@ -298,9 +298,11 @@ class Billing extends db_handler
                 $discount = $bill_totals['discount'];
                 $disc_rate = $bill_totals['disc_rate'];
 
+                $flag = "INVOICE";
                 if($method === 'refund'){
                     $amount_paid = $gross_amt;
                     $amt_balance = 0.00;
+                    $flag = "REFUND";
                 } else {
                     $amt_balance = $amount_paid - $gross_amt;
                 }
@@ -325,12 +327,12 @@ class Billing extends db_handler
                     $billComplete = false;
                     if(evat === true){
                         # make EvatData
-                        $send_inv = json_decode((new Evat())->send_invoice(billRef));
+                        $send_inv = json_decode((new Evat())->send_invoice(billRef,$flag,$oriRef));
 
                         if($send_inv->code === 202 || $send_inv->message === 'INVOICE ALREADY SUBMITTED')
                         {
                             // get signature
-                            $signature = json_decode((new Evat())->sign_invoice(billRef));
+                            $signature = json_decode((new Evat())->sign_invoice(billRef,$flag,$oriRef));
 
                             $sign = $signature->MESSAGE;
 

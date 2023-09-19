@@ -5,6 +5,7 @@
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
 <input type="hidden" id="bill_ref" value="<?php echo billRef ?>">
+<input type="hidden"  id="refundOriginalInvoice">
 <!-- REFIND MODAL -->
 <div class="modal" id="refundModal">
     <div class="modal-dialog">
@@ -15,6 +16,7 @@
             </div>
             <div class="modal-body">
                 <form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+
                     <input type="hidden" name="function" value="bill_refund">
                     <input type="hidden" required id="ref_type" name="ref_type" value="">
                     <input type="hidden" required id="billRef" name="billRef" value="">

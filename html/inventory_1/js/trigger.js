@@ -349,17 +349,14 @@ $(document).ready(function (){
                 data: formData,
                 success: function (response) {
                     // cl(response)
-                    // ct(response)
+                    ct(response)
                     let res = JSON.parse(JSON.stringify(response))
                     let code,message
                     code = res['code']
                     message = res['message']
                     ct(message)
-
-
-
-
                     if(code === 200){
+
                         // print bill
                         bill.loadBillsInTrans()
                         $('#refundModal').modal('hide')
@@ -368,10 +365,10 @@ $(document).ready(function (){
                         // bill.payment('refund')
                         // bill.printBill(bill_n,mech_no,toDay)
                     } else {
-                        let bill_n = message['bill_no']
+                        // let bill_n = message['bill_no']
                         let msg = message['msg']
                         // clear bill
-                        exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
+                        // exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
                         al(msg)
                     }
                 },
