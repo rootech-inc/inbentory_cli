@@ -5,7 +5,9 @@ use db_handeer\db_handler;
 ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     ini_set('memory_limit', '-1');
-    error_reporting(E_ALL);
+    
+    error_reporting(E_ALL ^ E_DEPRECATED);
+
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
     const printer = 'EPSON';

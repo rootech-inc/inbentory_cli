@@ -315,7 +315,10 @@ class Reports {
                 let as_of = $('#as_of').val();
 
                 let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}')`)
-                console.table(JSON.parse(availability))
+                for(let r = 0; r <= availability.length; r++){
+                    let row = availability[r];
+                    console.table(r);
+                }
 
             }
         });

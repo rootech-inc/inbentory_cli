@@ -18,11 +18,10 @@
 
             // general query
             elseif ($function === 'gen_query'){
-                $query = $anton->post('query');
+                $query = $_POST['query'];
 
                 //execute query
                 $stmt = $db->db_connect()->query($query);
-                $stmt->fetch(PDO::FETCH_ASSOC);
                 header('Content-Type: application/json');
                 $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 echo json_encode($res);

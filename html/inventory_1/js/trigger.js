@@ -100,6 +100,8 @@ $(document).ready(function() {
 
         let stock_response = fetch_rows(stock_query);
 
+        
+
         // validate
         if(isJson(JSON.stringify(stock_response))){
             // valid response

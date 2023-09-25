@@ -56,7 +56,7 @@ class RgbRasterImage extends AbstractRasterImage
         return self::rgbToInt($val[0], $val[1], $val[2]);
     }
     
-    public static function rgbToInt(int $r, int $g, int $b)
+    public static function rgbToInt($r, $g, $b)
     {
         return ($r << 16) | ($g << 8) | $b;
     }

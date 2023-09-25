@@ -57,7 +57,7 @@ function FETCH(query) {
         'query':query,
     }
 
-    console.log(query)
+
 
     var result = 0;
 
@@ -72,6 +72,11 @@ function FETCH(query) {
             success: function (response)
             {
                 result = response;
+                if(isJson(response)){
+                    result = JSON.parse(result)
+                } else {
+                    result = null;
+                }
 
             }
         }

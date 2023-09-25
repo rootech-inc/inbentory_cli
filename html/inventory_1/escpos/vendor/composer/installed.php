@@ -3,7 +3,7 @@
         'name' => 'mike42/escpos-php',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '0b4de0a171ee80dfb2897759c633ab557869a65e',
+        'reference' => 'e549c26c51404b0de20856e8732ec8167cbaa15c',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'mike42/escpos-php' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '0b4de0a171ee80dfb2897759c633ab557869a65e',
+            'reference' => 'e549c26c51404b0de20856e8732ec8167cbaa15c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

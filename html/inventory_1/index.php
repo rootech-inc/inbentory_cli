@@ -412,12 +412,12 @@ error_reporting(E_ALL);
             <input type='hidden' id='mech_no' value='$machine_number'>
         ";
         ?>
-        <main onclick="hideKboard()" class="p-0 mx-auto ant-bg-black">
+        <main onclick="hideKboard()" class="p-0 w-100 h-100 ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php
 
 
-                if($module === 'home')
+                if($module === 'home')  
                 {
                     include 'backend/includes/parts/home/home_index.php';
                 }
@@ -450,7 +450,7 @@ error_reporting(E_ALL);
         </main>
     <?php }
     else { ?>
-        <main class="mx-auto card grade_danger overflow-hidden">
+        <main class="card w-100 h-100 grade_danger overflow-hidden">
 
 
             <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-between">
@@ -492,32 +492,7 @@ error_reporting(E_ALL);
                                         <button class="btn rounded-0 btn-sm btn-success w-100" type="submit" name="login">LOGIN</button>
                                     </div>
                                 </div>
-<!--                                <div class="col-sm-9 p-2 h-100">-->
-<!--                                    <div class="w-100 text-warning" id="error_box">-->
-<!---->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group mb-2">-->
-<!--                                        <input id="clerk_code" value="--><?php //if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?><!--" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group mb-2">-->
-<!--                                        <input id="clerk_password" class="form-control rounded-0 font-weight-bold" type="password" autocomplete="off"  placeholder="Key" name="clerk_key" required>-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group">-->
-<!--                                        <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">-->
-<!--                                            <option selected value="Network">Network</option>-->
-<!--                                            <option value="Local">Local</option>-->
-<!--                                        </select>-->
-<!--                                        <input type="hidden" value="Network" name="db_state" id="setInp">-->
-<!--                                    </div>-->
-<!--                                </div>-->
 
-                                <!--KEYS-->
-<!--                                <div class="col-sm-3 d-flex flex-wrap align-content-center py-2 h-100 border">-->
-<!--                                    <button style="height: 100% !important" type="submit" name="login" class="w-100 font-weight-bolder fas fa-key btn-danger"></button>-->
-<!--                                </div>-->
                             </div>
                         </div>
 

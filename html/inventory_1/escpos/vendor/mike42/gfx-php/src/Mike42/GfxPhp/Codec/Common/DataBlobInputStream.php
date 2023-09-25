@@ -4,6 +4,9 @@ namespace Mike42\GfxPhp\Codec\Common;
 
 class DataBlobInputStream implements DataInputStream
 {
+    private $data;
+    private $offset;
+    
     public function __construct(string $data)
     {
         $this -> data = $data;
