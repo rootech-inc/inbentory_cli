@@ -299,11 +299,20 @@ class Reports {
         $.ajax(ajaxform)
     }
 
-    itemAvailability(){
+    itemAvailability(res='modal'){
+        // get locations
+        let locations = FETCH("SELECT loc_id,loc_desc from loc");
+        let lopt = '';
+        for(let l = 0; l < locations.length; l++){
+            let loc = locations[l];
+            lopt += `<option value='${loc['loc_id']}'>${loc['loc_desc']}</option>`;
+        }
         Swal.fire({
             title:"ITEM AVAILABILITY AS OF",
             html:`<div class="w-100 d-flex flex-wrap justify-content-between">
-                    <select name="loc_id" id="loc_id" class="form-control w-45 rounded-0"><option value="001">MAIN LOCATION</option></select>
+                    <select name="loc_id" id="loc_id" class="form-control w-45 rounded-0">
+                    ${lopt}
+                    </select>
                     <input type="date" name="as_of" id="as_of" class="form-control w-45">
                   </div>`,
             showDenyButton: false,
@@ -313,13 +322,65 @@ class Reports {
                 // get values of form
                 let loc_id = $('#loc_id').val();
                 let as_of = $('#as_of').val();
+                let tr = '';
 
-                let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}')`)
-                for(let r = 0; r <= availability.length; r++){
-                    let row = availability[r];
-                    console.table(r);
+                if(res === 'modal'){
+
+                    let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}')`)
+                    for(let r = 0; r < availability.length; r++){
+                        let barcode,name,stock;
+                        
+                        let row = availability[r];
+                        barcode = row['barcode'];
+                        name = row['item_desc'];
+                        stock = row['stock'];
+                        console.table(row);
+                        tr += `<tr>
+                            <td>${barcode}</td><td>${name}</td><td>${stock}</td>
+                        </tr>`;
+                    }
+
+                    let table = `<table class='table table-bordered table-row table-sm table-stripped'>
+                    <thead class='thead-dark'>
+                    <tr>
+                        <th>BAROCDE</th><th>DESCRIPTION</th><th>QTY</th>
+                    </tr>
+                    </thead><tbody>${tr}</tbody>
+                    </table>`;
+
+                    // $('#grn_modal_res').html(table);
+                    // $('#gen_modal').modal('show');
+                    mpop.setTitle(`ITEM AVAILABLITY REPORT AS OF ${as_of}`)
+                    mpop.setBody(table)
+                    mpop.setSize('lg')
+                    mpop.setFooter(`<button onclick="reports.itemAvailability('print')" class='btn btn-info'>PRINT</button>`)
+                    mpop.show()
+
+
+                } else if(res === 'print'){
+                    
+                    let form_data = {'function':'print_availability',loc_id:loc_id,as_of,as_of};
+
+                    ajaxform['url'] = '/backend/process/reports.php'
+                    ajaxform['data'] = form_data
+                    ajaxform['success'] = function (response) {
+                        
+                        if(isJson(response)){
+                            let ress = JSON.parse(response);
+                            mpop.setBody(`<embed type='application/pdf' src="http://localhost/assets/docs/${ress['file']}" style='width:100% !important' height="400" 
+                            type="application/pdf">`)
+                            //windowPopUp(`http://localhost/assets/docs/${ress['file']}`,'',1024,600)
+                            mpop.setSize('lg')
+                            mpop.show()
+                        } else {
+                            kasa.error("RESPONSE IS NOT A VALID JSON")
+                        }
+                    }
+
+                    $.ajax(ajaxform)
+
                 }
-
+                
             }
         });
     }

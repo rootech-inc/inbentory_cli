@@ -1,7 +1,9 @@
 /* ROOT */
-body{
+/* body{
     background: #EB9783 !important;
-}
+} */
+
+
 
 
 th{
@@ -96,20 +98,12 @@ article{height: 90%; width: 100%;}
 }
 
 
-body{
-    height: 100vh !important;
-    overflow: hidden;  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;}
 
 main{
     /*position: relative;*/
     /* height: 657px !important;
     width: 1024px !important; */
-    height: 100% !important;
+    height: 100vh !important;
     width: 100% !important;
     overflow: hidden !important;
     /*background: #2a4077;*/

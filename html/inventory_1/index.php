@@ -56,6 +56,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/loyalty.js"></script>
     <script src="/js/classes/kasa.js"></script>
     <script src="/js/classes/api.js"></script>
+    <script src="/js/classes/Modal.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 
@@ -412,7 +413,7 @@ error_reporting(E_ALL);
             <input type='hidden' id='mech_no' value='$machine_number'>
         ";
         ?>
-        <main onclick="hideKboard()" class="p-0 w-100 h-100 ant-bg-black">
+        <main onclick="hideKboard()" class="p-0 w-100 ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <?php
 
@@ -450,7 +451,7 @@ error_reporting(E_ALL);
         </main>
     <?php }
     else { ?>
-        <main class="card w-100 h-100 grade_danger overflow-hidden">
+        <main class="card w-100 grade_danger overflow-hidden">
 
 
             <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-between">
