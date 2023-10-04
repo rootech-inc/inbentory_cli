@@ -1,4 +1,18 @@
-
+<div class="modal" id="uploadOb">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <strong class="modal-title">UPLOAD FILE</strong>
+            </div>
+            <div class="modal-body">
+                <input type="file" id='csvFileInput' accept=".csv" require  class="form-control">
+            </div>
+            <div class="modal-footer">
+                <button id='processOb' class="btn btn-success">PROCESS</button>
+            </div>
+        </div>
+    </div>
+</div>
 <main class="p-0 mx-auto">
     <div class="container-fluid p-0 h-100">
 
@@ -20,6 +34,7 @@
                             <button onclick="set_session(['sub_module=purchasing','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Purchasing</p></button>
                             <button onclick="set_session(['sub_module=receiving','action=view'])" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Receive</p></button>
                             <button onclick="download_products()" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Download</p></button>
+                            <button data-toggle='modal' data-target='#uploadOb' class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">OPENING BALANCE</p></button>
                         </article>
 
                     </div>
@@ -260,11 +275,69 @@
                     {
                         $entry_no = $anton->get_session('entry_no');
                         echo "<script>editGrn()</script>";
-                    }
+                    } 
                 endif; ?>
 
             </div>
 
         </div>
 </main>
+<script>
+
+$(document).ready(function() {
+    $("#processOb").click(function() {
+        console.log('FILE PROCESSING')
+        const input = $("#csvFileInput")[0];
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                let ob_contents = e.target.result;
+                let ob_lines = ob_contents.split("\n");
+
+                // Loop through each row in the CSV file
+
+                for (let i = 1; i < ob_lines.length; i++) {
+                    let ob_product = ob_lines[i].split(",");
+                    
+                    let ob_barcode,ob_name,ob_tax_code,ob_cost,ob_retail,ob_supplier,ob_group,
+                    ob_sub_group,ob_md5;
+                    
+                    ob_barcode = ob_product[0];
+                    ob_name = ob_product[1];
+                    ob_tax = ob_product[2];
+                    ob_cost = ob_product[3];
+                    ob_retail = ob_product[4];
+                    ob_supplier = ob_product[5];
+                    ob_group = ob_product[6];
+                    ob_sub_group = ob_product[7];
+                    ob_md5 = ob_barcode;
+
+                    if(ob_barcode.length > 0){
+                      
+                        // validate if products exist
+                        let p_count = row_count('prod_master',`barcode = '${ob_barcode}'`);
+                        if(p_count === 0){
+                            // insert
+                            let q = `insert into prod_master (barcode,item_uni,`+"`group`"+`,sub_group,supplier,item_desc,item_desc1,cost,retail,tax,owner)
+                            values ('${ob_barcode}','${ob_barcode}','${ob_group}','${ob_sub_group}','${ob_supplier}','${ob_name}','${ob_name}','${ob_cost}','${ob_retail}','${ob_tax}','opening stock')`;
+                            console.log(q);
+                            exec(q);
+                        }
+                    }
+
+
+                }
+            };
+
+            reader.readAsText(file);
+        } else {
+            alert("Please select a CSV file.");
+        }
+    });
+});
+
+</script>
 

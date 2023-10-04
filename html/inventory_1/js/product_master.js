@@ -595,3 +595,5 @@ $('#barcode_search').on('keyup',function (e) {
     }
 })
 
+
+
