@@ -169,7 +169,7 @@ class System {
             type:'POST',
             data:data,
             success: function (response) {
-
+                console.log(response)
                 let res = JSON.parse(response);
                 swal_reload(res['message'])
             }

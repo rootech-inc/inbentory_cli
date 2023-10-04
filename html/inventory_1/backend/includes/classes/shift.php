@@ -32,7 +32,14 @@ class shift extends \db_handeer\db_handler
         {
             // start new shift
             try {
-                $start_sql = "INSERT INTO shifts (clerk, mech_no) values ('$clerk','$mech_no')";
+                // shift details
+                $mech = $this->get_rows('mech_setup',"`mech_no` = '$mech_no'");
+                $mac_addr = $mech['mac_addr'];
+
+                $currentDateTime = date("Y-m-d H:i:s");
+                $enc = md5($currentDateTime.$mac_addr.$clerk);
+
+                $start_sql = "INSERT INTO shifts (clerk, mech_no,enc) values ('$clerk','$mech_no','$enc')";
                 $start_stmt = $this->db_connect()->prepare($start_sql);
                 $start_stmt->execute();
                 $resp['code'] = 202; $resp['message'] = "Shift Started";
@@ -42,7 +49,7 @@ class shift extends \db_handeer\db_handler
                 $resp['code'] = 505; $resp['message'] = $e->getMessage();
             }
         }
-
+        header("Content-Type:Application/Json");
         echo json_encode($resp);
     }
 

@@ -250,13 +250,13 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $printer->feed(2);
 
                 $printer->text($date . "\n");
-                $printer->feed(1);
+                // $printer->feed(1);
 
-                $printer->setBarcodeHeight(80);
-                $printer->setBarcodeWidth(5);
-                $printer->barcode("$curRef", Printer::BARCODE_JAN13);
-                $printer->setTextSize(2, 1);
-                $printer->text("$curRef \n");
+                // $printer->setBarcodeHeight(80);
+                // $printer->setBarcodeWidth(5);
+                // $printer->barcode("$curRef", Printer::BARCODE_JAN13);
+                // $printer->setTextSize(2, 1);
+                // $printer->text("$curRef \n");
 
 
                 /* Cut the receipt and open the cash drawer */

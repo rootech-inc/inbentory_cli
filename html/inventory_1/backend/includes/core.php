@@ -62,8 +62,10 @@ $anton->log2file($logo,"LOGO",1);
     {
         $shit_detail = $db->get_rows('shifts',"`mech_no` = '$machine_number'");
         $today = $shit_detail['shift_date'];
+        $shift_enc = $shit_detail['enc'];
     } else {
         $today = date('Y-m-d');
+        $shift_enc = '';
     }
 
     $evat = false;
@@ -83,6 +85,7 @@ $anton->log2file($logo,"LOGO",1);
     define('evat',$evat);
     define('today',$today);
     define('bill_print',$bill_print);
+    define('shift_enc',$shift_enc);
     $current_time = date("Y-m-d H:m:s");
 
 
