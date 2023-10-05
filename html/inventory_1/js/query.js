@@ -1,8 +1,8 @@
-function row_count(table,condition = 'none') {
+function row_count(table, condition = 'none') {
     var form_data = {
-        'function':'row_count',
-        'table':table,
-        'condition':condition
+        'function': 'row_count',
+        'table': table,
+        'condition': condition
     }
 
     //echo("SELECT * FROM "+table+" WHERE "+condition)
@@ -11,14 +11,13 @@ function row_count(table,condition = 'none') {
 
     $.ajax(
         {
-            url:'/backend/process/ajax_tools.php',
+            url: '/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
 
             }
@@ -30,22 +29,30 @@ function row_count(table,condition = 'none') {
 }
 
 // execute query
-function exec(query = 'none')
-{
-    if(query !== 'none')
-    {
+function exec(query = 'none') {
+    if (query !== 'none') {
         // prepare
         form_data = {
-            'function':'query','query':query
+            'function': 'query', 'query': query
         }
+        var result = 0;
         $.ajax(
             {
-                url: '/backend/process/ajax_tools.php',type: 'POST',data:form_data,success: function (respose) {
-                    // cl(`###QUERY EXECUTE : ${query}`)
-                    echo(respose)
+                url: '/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (respose) {
+                    
+                    result = respose;
+                    // console.log(`RESPONSE FROM EXEC: ${respose}`)
                 }
             }
         );
+
+        return result;
     }
 }
 
@@ -53,8 +60,8 @@ function exec(query = 'none')
 function FETCH(query) {
 
     var form_data = {
-        'function':'gen_query',
-        'query':query,
+        'function': 'gen_query',
+        'query': query,
     }
 
 
@@ -63,16 +70,15 @@ function FETCH(query) {
 
     $.ajax(
         {
-            url:'/backend/process/ajax_tools.php',
+            url: '/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
-                if(isJson(response)){
+                if (isJson(response)) {
                     result = JSON.parse(result)
                 } else {
                     result = null;
@@ -86,25 +92,24 @@ function FETCH(query) {
 
 }
 
-function get_row(table,condition) {
+function get_row(table, condition) {
     var form_data = {
-        'function':'get_row',
-        'table':table,
-        'condition':condition
+        'function': 'get_row',
+        'table': table,
+        'condition': condition
     }
 
     var result = 0;
 
     $.ajax(
         {
-            url:'/backend/process/ajax_tools.php',
+            url: '/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
                 //echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
 
@@ -115,29 +120,26 @@ function get_row(table,condition) {
     return result;
 }
 
-function insert(table,data) {
+function insert(table, data) {
     // cl('obj')
     // ct(data['vars'])
     // cl('obj_end')
     let cols = data['cols']
     let vars = data['vars']
 
-    if(cols.length > vars.length)
-    {
-        swal_error("Columns are more than values \n Columns : " + cols + "\n Values : "+ vars)
-    } else if (vars.length > cols.length)
-    {
-        swal_error("Values are more than columns \n Columns : " + cols + "\n Values : "+ vars)
+    if (cols.length > vars.length) {
+        swal_error("Columns are more than values \n Columns : " + cols + "\n Values : " + vars)
+    } else if (vars.length > cols.length) {
+        swal_error("Values are more than columns \n Columns : " + cols + "\n Values : " + vars)
     } else {
         // prepare to execute
         let columns = '';
         for (let i = 0; i < cols.length; i++) {
 
-            if(cols.length - i > 1)
-            {
-                columns += "`"+cols[i]+"`,"
+            if (cols.length - i > 1) {
+                columns += "`" + cols[i] + "`,"
             } else {
-                columns += "`"+cols[i]+"`"
+                columns += "`" + cols[i] + "`"
             }
 
         }
@@ -146,33 +148,32 @@ function insert(table,data) {
         for (let i = 0; i < vars.length; i++) {
 
             if (cols.length - i > 1) {
-                values += '"'+ vars[i] + '",'
+                values += '"' + vars[i] + '",'
             } else {
                 values += '"' + vars[i] + '"'
             }
 
         }
 
-        let query = "INSERT INTO "+ table + " (" + columns + ") values ("+values+")";
+        let query = "INSERT INTO " + table + " (" + columns + ") values (" + values + ")";
         //echo(query)
 
         // prepare ajax submission
         var form_data = {
-            'function':'insert',
-            'query':query
+            'function': 'insert',
+            'query': query
         }
         var result = 0;
 
         $.ajax(
             {
-                url:'/backend/process/ajax_tools.php',
+                url: '/backend/process/ajax_tools.php',
                 'async': false,
                 'type': "POST",
                 'global': false,
                 'dataType': 'html',
-                data:form_data,
-                success: function (response)
-                {
+                data: form_data,
+                success: function (response) {
                     result = response;
                     //echo(result)
 
@@ -195,31 +196,28 @@ function insert(table,data) {
 }
 
 // get user details
-function getUser(id,fetch_get='none') {
+function getUser(id, fetch_get = 'none') {
     var form_data = {
-        'function':'getUser',
-        'id':id,
+        'function': 'getUser',
+        'id': id,
     }
 
     var result = 0;
 
     $.ajax(
         {
-            url:'backend/process/ajax_tools.php',
+            url: 'backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
 
 
-                if(fetch_get === 'none')
-                {
+                if (fetch_get === 'none') {
                     result = response;
-                } else
-                {
+                } else {
                     result = JSON.parse(response)[0][fetch_get]
                 }
                 cl(response)
@@ -234,8 +232,8 @@ function getUser(id,fetch_get='none') {
 // return query row
 function return_rows(query) {
     var form_data = {
-        'function':'return_rows',
-        'query':query,
+        'function': 'return_rows',
+        'query': query,
     }
 
 
@@ -243,14 +241,13 @@ function return_rows(query) {
 
     $.ajax(
         {
-            url:'backend/process/ajax_tools.php',
+            url: 'backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
 
 
@@ -264,8 +261,8 @@ function return_rows(query) {
 // fetch rows
 function fetch_rows(query) {
     var form_data = {
-        'function':'fetch_rows',
-        'query':query,
+        'function': 'fetch_rows',
+        'query': query,
     }
     // ct(query)
 
@@ -273,14 +270,13 @@ function fetch_rows(query) {
 
     $.ajax(
         {
-            url:'/backend/process/ajax_tools.php',
+            url: '/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
                 // cl(response)
 
@@ -293,8 +289,8 @@ function fetch_rows(query) {
 
 function md5(str) {
     var form_data = {
-        'function':'make_md5',
-        'str':str,
+        'function': 'make_md5',
+        'str': str,
     }
 
 
@@ -302,14 +298,13 @@ function md5(str) {
 
     $.ajax(
         {
-            url:'/backend/process/ajax_tools.php',
+            url: '/backend/process/ajax_tools.php',
             'async': false,
             'type': "POST",
             'global': false,
             'dataType': 'html',
-            data:form_data,
-            success: function (response)
-            {
+            data: form_data,
+            success: function (response) {
                 result = response;
                 cl(response)
 

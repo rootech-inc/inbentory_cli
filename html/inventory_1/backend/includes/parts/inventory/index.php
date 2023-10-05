@@ -303,7 +303,7 @@ $(document).ready(function() {
                     let ob_product = ob_lines[i].split(",");
                     
                     let ob_barcode,ob_name,ob_tax_code,ob_cost,ob_retail,ob_supplier,ob_group,
-                    ob_sub_group,ob_md5;
+                    ob_sub_group,ob_md5,ob_pack,ob_pack_qty,ob_expiry;
                     
                     ob_barcode = ob_product[0];
                     ob_name = ob_product[1];
@@ -313,7 +313,11 @@ $(document).ready(function() {
                     ob_supplier = ob_product[5];
                     ob_group = ob_product[6];
                     ob_sub_group = ob_product[7];
-                    ob_md5 = ob_barcode;
+                    ob_md5 = md5(`${ob_barcode}_${ob_name}`);
+                    ob_pack = ob_product[8];
+                    ob_pack_qty = ob_product[9];
+                    ob_expiry = ob_product[10];
+
 
                     if(ob_barcode.length > 0){
                       
@@ -321,10 +325,20 @@ $(document).ready(function() {
                         let p_count = row_count('prod_master',`barcode = '${ob_barcode}'`);
                         if(p_count === 0){
                             // insert
-                            let q = `insert into prod_master (barcode,item_uni,`+"`group`"+`,sub_group,supplier,item_desc,item_desc1,cost,retail,tax,owner)
-                            values ('${ob_barcode}','${ob_barcode}','${ob_group}','${ob_sub_group}','${ob_supplier}','${ob_name}','${ob_name}','${ob_cost}','${ob_retail}','${ob_tax}','opening stock')`;
-                            console.log(q);
-                            exec(q);
+                            let q = `insert into prod_master (barcode,item_uni,`+"`group`"+`,sub_group,supplier,item_desc,item_desc1,cost,retail,tax,owner,expiry_date)
+                            values ('${ob_barcode}','${ob_barcode}','${ob_group}','${ob_sub_group}','${ob_supplier}','${ob_name}','${ob_name}','${ob_cost}','${ob_retail}','${ob_tax}','opening stock','${ob_expiry}')`;
+                            //console.log(q);
+                            let sv = exec(q);
+                            console.table(sv);
+                            if(isJson(sv)){
+                                // get data
+                                let j = JSON.parse(sv);
+                                if(j['code'] === 200){
+                                    // insert packaging
+                                    let packaging_query = ``;
+                                }
+                            }
+                          
                         }
                     }
 

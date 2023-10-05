@@ -84,7 +84,7 @@
             {
                 $response = array('code'=>1,'message'=>'ini');
                 $query = $_POST['query'];
-                echo($query);
+                // echo($query);
                 try {
                     $db->exe($query);
                     $response['code'] = 202;

@@ -319,10 +319,13 @@ function loadProduct(prod_id,action='view')
         $('#barcode').text(prod_result.barcode)
         $('#item_desc').text(prod_result.item_desc)
         $('#item_desc1').text(prod_result.item_desc1)
-
-        $("#packing").text(
-            JSON.parse(get_row('packaging', "`id` = '" + prod_result.packing + "'"))[0].desc
-        )
+        
+        if(row_count('packaging', "`id` = '" + prod_result.packing + "'") === 1)
+        {
+            $("#packing").text(
+                JSON.parse(get_row('packaging', "`id` = '" + prod_result.packing + "'"))[0].desc
+            )
+        }
         $('#expiry').text(prod_result.expiry_date)
         $('#owner').text(prod_result.owner)
         $('#created_at').text(prod_result.created_at)
