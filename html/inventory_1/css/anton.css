@@ -169,6 +169,17 @@ main{
     text-overflow: ellipsis;
 }
 
+.ellipsized-text-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show only 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allows wrapping within the container */
+    max-height: 3em; /* Adjust based on your font size and line height */
+  }
+  
+
 .x_border
 {
     border: 4px solid #092f09 !important;
@@ -191,7 +202,7 @@ main{
 .item_btn{
 
     height: 85px;
-    width: 130px;
+    width: 30% !important;
     cursor: pointer;
 }
 

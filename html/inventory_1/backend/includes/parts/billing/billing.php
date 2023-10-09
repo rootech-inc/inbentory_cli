@@ -92,27 +92,6 @@
                         </tr>
                     </tbody>
                 </table>
-<!--                <div class="w-16 text-center h-50 x_border">TOTAL</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">DISC AMT.</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">BILL AMT.</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">TAX AMT</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">PAID</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">BAL. AMT</div>-->
-
-
-
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Taxable Amt</span> <span id="sub_total">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Tax Amt</span> <span id="tax">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Amount Paid</span> <span id="amount_paid">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Amount Bal.</span> <span id="amount_balance">0.00</span>-->
-<!--                </div>-->
             </div>
 
 
@@ -165,7 +144,7 @@
                             </div>
 
                             <!--SCROLL DOwn-->
-                            <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
+                            <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-between border">
                                 <button onclick="custom_scroll('category','down')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
                                     style="height: 45px; width: 45px;"
@@ -178,8 +157,8 @@
 
                         <!--Items-->
                         <div id="items_container"  class="w-75 d-flex flex-wrap align-content-start justify-content-between h-100 border">
-                                <div id="items" class="h-90 w-100 overflow-hidden d-flex flex-wrap border align-content-start justify-content-start">
-
+                                <div id="items" class="h-90 w-100 overflow-auto d-flex flex-wrap border align-content-start justify-content-between">
+                                    
 
                                 </div>
                                 <!--ITEMS SCROW-->

@@ -63,9 +63,9 @@ require '../includes/core.php';
                             }
 
                             $items .= "
-                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-2 p-1\">
+                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-1 p-1\">
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
-                                            <p class=\"text-elipse m-0 p-0 font-weight-bolder\">$name</p>
+                                            <small class=\"ellipsized-text-2 m-0 p-0 font-weight-bolder\">$name</small>
                                         </div>
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
                                             <strike class='text-danger'><small>$ori_p</small></strike>
@@ -491,7 +491,7 @@ require '../includes/core.php';
                     $response = $bill->makePyament($method,$amount_paid,$original_ref);
                     (new anton())->log2file("FINAL RESPONSE");
                     (new anton())->log2file(var_export($response,true),'',1);
-                    (new anton())->log2file("DONE");
+                    
                     header("Content-Type: Application\json");
                     echo json_encode($response);
 

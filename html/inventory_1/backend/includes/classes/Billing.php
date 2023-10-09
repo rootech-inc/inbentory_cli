@@ -326,6 +326,7 @@ class Billing extends db_handler
 
                     $billComplete = false;
                     if(evat === true){
+
                         # make EvatData
                         $send_inv = json_decode((new Evat())->send_invoice(billRef,$flag,$oriRef));
 
@@ -376,7 +377,7 @@ class Billing extends db_handler
                         }
                         else {
                             $code = 505;
-                            $msg = "COUND NOT SEND INCOICE";
+                            $msg = $send_inv->message;
                             $billComplete = false;
                         }
 
@@ -439,10 +440,14 @@ class Billing extends db_handler
         }
 
 
-        return [
+        $x = [
             'code'=>$code,
             'message'=>$msg
         ];
+
+        (new anton())->log2file(var_export($x,true));
+        (new anton())->log2file("HELLO FUTURE");
+        return $x;
 
 
 

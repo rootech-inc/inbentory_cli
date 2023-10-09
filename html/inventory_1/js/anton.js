@@ -1693,9 +1693,9 @@ function download_products() // download products
     exec("DELETE FROM item_buttons");
     // download item buttons
     var item_groups = JSON.parse(
-        get_row('item_group', "`id` > 0")
+        get_row('item_group', "`status` = 1")
     );
-    echo(item_groups)
+    // echo(item_groups)
     for (let b = 0; b < item_groups.length; b++) {
         var button = item_groups[b];
 

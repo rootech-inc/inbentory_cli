@@ -69,12 +69,15 @@ $anton->log2file($logo,"LOGO",1);
     }
 
     $evat = false;
+    $evat_url = '';
     if(
         $db->row_count("sys_settings","`set_key` = 'evat'") === 1 &&
         $db->get_rows("sys_settings","`set_key` = 'evat'")['set_status'] === 1
     ){
         $evat = true;
+        $evat_url = $db->get_rows("sys_settings","`set_key` = 'evat'")['set_value'];
     }
+    define('evat_url',$evat_url);
     $bill_print = false;
     if(
         $db->row_count("sys_settings","`set_key` = 'bill_print'") === 1 &&

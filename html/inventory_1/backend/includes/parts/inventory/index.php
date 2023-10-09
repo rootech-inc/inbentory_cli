@@ -303,10 +303,10 @@ $(document).ready(function() {
                     let ob_product = ob_lines[i].split(",");
                     
                     let ob_barcode,ob_name,ob_tax_code,ob_cost,ob_retail,ob_supplier,ob_group,
-                    ob_sub_group,ob_md5,ob_pack,ob_pack_qty,ob_expiry;
+                    ob_sub_group,ob_md5,ob_pack,ob_pack_qty,ob_expiry,ob_pur_qty,ob_sal_qty;
                     
                     ob_barcode = ob_product[0];
-                    ob_name = ob_product[1];
+                    ob_name = ob_product[1].trimEnd();
                     ob_tax = ob_product[2];
                     ob_cost = ob_product[3];
                     ob_retail = ob_product[4];
@@ -317,6 +317,8 @@ $(document).ready(function() {
                     ob_pack = ob_product[8];
                     ob_pack_qty = ob_product[9];
                     ob_expiry = ob_product[10];
+                    ob_pur_qty = ob_product[11];
+                    ob_sal_qty = ob_product[12];
 
 
                     if(ob_barcode.length > 0){
@@ -326,7 +328,7 @@ $(document).ready(function() {
                         if(p_count === 0){
                             // insert
                             let q = `insert into prod_master (barcode,item_uni,`+"`group`"+`,sub_group,supplier,item_desc,item_desc1,cost,retail,tax,owner,expiry_date)
-                            values ('${ob_barcode}','${ob_barcode}','${ob_group}','${ob_sub_group}','${ob_supplier}','${ob_name}','${ob_name}','${ob_cost}','${ob_retail}','${ob_tax}','opening stock','${ob_expiry}')`;
+                            values ('${ob_barcode}','${ob_md5}','${ob_group}','${ob_sub_group}','${ob_supplier}','${ob_name}','${ob_name}','${ob_cost}','${ob_retail}','${ob_tax}','opening stock','${ob_expiry}')`;
                             //console.log(q);
                             let sv = exec(q);
                             console.table(sv);
@@ -334,8 +336,13 @@ $(document).ready(function() {
                                 // get data
                                 let j = JSON.parse(sv);
                                 if(j['code'] === 200){
+                                    // get product 
+                                    let product_row, prod_object, prod_result;
+                                    product_row = get_row('prod_master',"`barcode` = '" + ob_barcode + "'");
+                                    prod_object = JSON.parse(product_row);
+                                    prod_result = prod_object[0];
                                     // insert packaging
-                                    let packaging_query = ``;
+                                    let pack_query = "INSERT INTO `posdb`.`prod_packing` (`item_code`, `pack_id`, `qty`, `purpose`, `pack_desc`)" + `VALUES ('${prod_result['item_code']}', '${ob_pack}', '${ob_pur_qty}', '2', 'DEF_PUR'), ('${prod_result['item_code']}', '${ob_pack}', '${ob_sal_qty}', '1', 'DEF_SALE');`
                                 }
                             }
                           
