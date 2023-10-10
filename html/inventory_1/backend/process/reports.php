@@ -41,7 +41,7 @@
                     {
                         include '../includes/print.php';
                         // print z details
-                        //printzreport($recId);
+                        printzreport($recId);
                     } else {
                         // roll back data
                     }

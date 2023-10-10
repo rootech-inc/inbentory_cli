@@ -21,6 +21,7 @@ class shift extends \db_handeer\db_handler
     }
 
     function start_shift($mech_no = mech_no,$clerk = clerk_code){
+        $db = (new db_handler());
         $resp = ['code'=>000,'message'=>000];
         $day = today;
 
@@ -38,8 +39,8 @@ class shift extends \db_handeer\db_handler
 
                 $currentDateTime = date("Y-m-d H:i:s");
                 $enc = md5($currentDateTime.$mac_addr.$clerk);
-
-                $start_sql = "INSERT INTO shifts (clerk, mech_no,enc) values ('$clerk','$mech_no','$enc')";
+                $shift_no = $db->row_count('shifts',"`mech_no` = '$mech_no' and `shift_date` = '$day'") + 1;
+                $start_sql = "INSERT INTO shifts (clerk, mech_no,enc,shift_no) values ('$clerk','$mech_no','$enc','$shift_no')";
                 $start_stmt = $this->db_connect()->prepare($start_sql);
                 $start_stmt->execute();
                 $resp['code'] = 202; $resp['message'] = "Shift Started";
@@ -55,6 +56,7 @@ class shift extends \db_handeer\db_handler
 
     function end_shit($recId): array
     {
+        $db = (new db_handler());
         if($db->row_count('shifts',"`recId` = '$recId'") === 1){
             // shift exist
             // close shift

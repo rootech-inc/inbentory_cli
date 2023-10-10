@@ -57,7 +57,7 @@ class reports extends \db_handeer\db_handler
 
     public function z_report($recId): array
     {
-//
+        $db = (new db_handler());
         $record = $db->get_rows('shifts',"`recId` = '$recId'");
         $day = $record['shift_date'];
         $mech_no = $record['mech_no'];
@@ -122,7 +122,7 @@ class reports extends \db_handeer\db_handler
                     delete from zserial where mech_no = '$mech_no' and sales_date = '$day';";
                                         $db->db_connect()->exec($deleteQ);
                     $this->response['code'] = $e->getCode();
-                    $this->response['message'] = $e->getMessage() . " LINE : ".$e->getLine();
+                    $this->response['message'] = $e->getMessage() . "FILe : ".  $e->getFile() . " LINEF : ".$e->getLine();
 
                 }
             }

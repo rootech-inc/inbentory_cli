@@ -58,15 +58,18 @@ $anton->log2file($logo,"LOGO",1);
     // validate machine
     define('mech_no',$MConfig->mech_details()['mechine_number']);
     $machine_number = mech_no;
+    $shift_no = '';
     if($shiftCL->is_shift(mech_no))
     {
         $shit_detail = $db->get_rows('shifts',"`mech_no` = '$machine_number'");
         $today = $shit_detail['shift_date'];
         $shift_enc = $shit_detail['enc'];
+        $shift_no = $shit_detail['shift_no'];
     } else {
         $today = date('Y-m-d');
         $shift_enc = '';
     }
+    define('shift_no',$shift_no);
 
     $evat = false;
     $evat_url = '';

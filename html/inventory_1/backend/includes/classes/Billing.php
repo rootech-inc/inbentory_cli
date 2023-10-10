@@ -28,6 +28,7 @@ class Billing extends db_handler
         //get item details
         $machine_number = mech_no;
         $clerk = $_SESSION['clerk_id'];
+        $shift_no = shift_no;
 
 
         // get item details
@@ -80,10 +81,10 @@ class Billing extends db_handler
                 $sql = "insert into `bill_trans` 
                 (`mach`,`clerk`,`bill_number`,`item_barcode`,
                  `item_desc`,`retail_price`,`item_qty`,`tax_amt`,
-                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type,covid,gfund,nhis,vat,tax_code) values
+                 `bill_amt`,`trans_type`,`tax_grp`,`tax_rate`,date_added,billRef,tran_type,covid,gfund,nhis,vat,tax_code,shift) values
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
-                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat','$tax_code')";
+                  '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat','$tax_code','$shift_no')";
 
                 $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
                 $text = "$sql\n";
@@ -317,8 +318,9 @@ class Billing extends db_handler
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt)
-                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount');";
+                $shift_no = shift_no;
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt,shift)
+                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no');";
 
                 if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 {
