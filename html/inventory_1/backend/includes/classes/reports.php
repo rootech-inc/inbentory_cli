@@ -93,23 +93,23 @@ class reports extends \db_handeer\db_handler
 
 
                     // z serial
-                    $clerk_code = clerk_code;
-                    $zQuery = "insert into zserial(zSerial, mech_no, sales_date, clerk_code, shift_no, gross, deduction, net) VALUES 
-                                                ('$zserial','$mech_no','$day','$clerk_code','$shift','$gross','$deduct','$net')";
+                    // $clerk_code = clerk_code;
+                    // $zQuery = "insert into zserial(zSerial, mech_no, sales_date, clerk_code, shift_no, gross, deduction, net) VALUES 
+                    //                             ('$zserial','$mech_no','$day','$clerk_code','$shift','$gross','$deduct','$net')";
 
-                    // delete from bill_trans
-                    $del_bills = "delete from bill_header where mach_no = '$mech_no' and bill_date ='$day';
-                    delete from bill_trans where mach = '$mech_no' and date_added = '$day';
-                    delete from bill_tax_tran where mech_no = '$mech_no' and bill_date = '$day';";
-
-
+                    // // delete from bill_trans
+                    // $del_bills = "delete from bill_header where mach_no = '$mech_no' and bill_date ='$day';
+                    // delete from bill_trans where mach = '$mech_no' and date_added = '$day';
+                    // delete from bill_tax_tran where mech_no = '$mech_no' and bill_date = '$day';";
 
 
-                    $db->exe($zQuery);
-                    $db->db_connect()->exec($del_bills);
-                    $db->commit();
-                    // END shift
-                    (new shift())->end_shit($recId);
+
+
+                    // $db->exe($zQuery);
+                    // $db->db_connect()->exec($del_bills);
+                    // $db->commit();
+                    // // END shift
+                    // (new shift())->end_shit($recId);
                     $this->response['code'] = 202;
                     $this->response['message'] = "Z-Report Taken";
                 } catch (\Exception  $e){

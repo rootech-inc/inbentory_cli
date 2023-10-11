@@ -9,15 +9,19 @@
             <div class="ant-bg-dark w-75 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
                 <div class="w-50 text_xx">
                     <p>
-                        <span class="font-weight-bolder">User </span>
+                        <span class="font-weight-bolder">CLERK </span>
                         <span class="ant-text-sec"><?php echo $myName ?></span>
                     </p>
                     <p>
-                        <span class="font-weight-bolder">Date </span>
+                        <span class="font-weight-bolder">DATE </span>
                         <span class="ant-text-sec"><?php echo $today ?></span>
                     </p>
                     <p>
-                        <span class="font-weight-bolder">Bill N<u>0</u> </span>
+                        <span class="font-weight-bolder">SHIFT N<u>0</u> </span>
+                        <span class="ant-text-sec"><?php echo shift_no ?></span>
+                    </p>
+                    <p>
+                        <span class="font-weight-bolder">BILL N<u>0</u> </span>
                         <span class="ant-text-sec"><?php echo $bill_number ?></span>
                     </p>
                 </div>

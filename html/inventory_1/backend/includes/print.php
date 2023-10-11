@@ -8,6 +8,10 @@ use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use billing\shift;
+use tools\anton;
+use billing\Billing;
+
 
 
 
@@ -81,11 +85,11 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
                 $curRef = $bill_header['billRef'];
                 $billRef = $bill_header['billRef'];
-                $billSummary = (new billing\Billing())->billSummaryV2($billRef);
+                $billSummary = (new Billing())->billSummaryV2($billRef);
 
 
                 $payment = $bill_header['pmt_type'];
-                $bill_total = (new \billing\Billing())->billTotal($bill_number, $today);
+                $bill_total = (new Billing())->billTotal($bill_number, $today);
                 $tran_qty = $bill_total['tran_qty'];
                 $taxable_amt = number_format($bill_total['taxable_amt'], 2);
                 $tax_amt = number_format($bill_total['tax_amt'], 2);
@@ -279,32 +283,43 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
     function printzreport($recId)
     {
         $db_hander = new db_handler();
+        $shiftCL = new shift();
         $date = today;
-        $connector = new WindowsPrintConnector(printer);
-        $printer = new Printer($connector);
+        
         $shift_count = $db_hander->row_count('shifts',"`recId` = '$recId'");
+        $return = array(
+            'status'=>false,"message"=>null
+        );
 
 
 
-        if($shift_count === 1)
+        if(true)
         {
-            $shift = $db_hander->get_rows('shifts',"`recId` = '$recId'");
-            $mech = $shift['mech_no'];
+            
+
+            //$shift = $db_hander->get_rows('shifts',"`recId` = '$recId'");
+            $shift = $shiftCL->my_shift($recId);
+            $mech = $shift['counter'];
             $shift_no = $shift['shift_no'];
             $start_date = $shift['shift_date'];
             $start_time = $shift['start_time'];
             $end_date = today;
             $end_time = date('H:i:s');
-
-
-            $bills_count = $db_hander->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
+            
+            $bill_cond = "mach_no = '$mech' and bill_date = '$date' and `shift` = '$shift_no'";
+            
+            $bills_count = $db_hander->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date' and `shift` = '$shift_no'");
             if($bills_count > 0)
             {
+                $connector = new WindowsPrintConnector(printer);
+                $printer = new Printer($connector);
+
+                // die(print_r($shift));
                 // get all bills sum by payment
-                $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' group by pmt_type";
-                (new anton())->log2file($bill_hd_sql);
+                $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' and  `shift` = '$shift_no' group by pmt_type";
+                
                 $bill_hd_stmt = $db_hander->db_connect()->query($bill_hd_sql);
-                $bill_sum = (new  db_handler())->fetch_rows("select sum(net_amt) as gross,sum(tax_amt) as tax ,sum(gross_amt) as net from bill_header;");
+                $bill_sum = (new  db_handler())->fetch_rows("select sum(net_amt) as gross,sum(tax_amt) as tax ,sum(gross_amt) as net from bill_header where mach_no = '$mech' and bill_date = '$date' and  `shift` = '$shift_no';");
                 $subTotal = 0;
                 $hd_arr = array();
                 while($hd_row = $bill_hd_stmt->fetch(PDO::FETCH_ASSOC))
@@ -370,8 +385,8 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 $printer->feed();
 
                 $db_handler = new db_handler();
-                $stmt = $db_handler->db_connect()->prepare("SELECT ig.shrt_name, SUM(bill_amt) AS total, ROUND((SUM(bill_amt) / (SELECT SUM(bill_amt) FROM bill_trans)) * 100, 2) AS percentage FROM bill_trans RIGHT JOIN prod_mast pm ON bill_trans.item_barcode = pm.barcode RIGHT JOIN item_group ig ON pm.item_grp = ig.id WHERE bill_trans.mach = ? AND DATE(bill_trans.date_added) = ? GROUP BY ig.shrt_name HAVING SUM(bill_amt) IS NOT NULL OR SUM(bill_amt) > 0");
-                $stmt->execute([$mech, $end_date]);
+                $stmt = $db_handler->db_connect()->prepare("SELECT ig.shrt_name, SUM(bill_amt) AS total, ROUND((SUM(bill_amt) / (SELECT SUM(bill_amt) FROM bill_trans)) * 100, 2) AS percentage FROM bill_trans RIGHT JOIN prod_mast pm ON bill_trans.item_barcode = pm.barcode RIGHT JOIN item_group ig ON pm.item_grp = ig.id WHERE bill_trans.mach = ? AND DATE(bill_trans.date_added) = ? AND shift = ? GROUP BY ig.shrt_name HAVING SUM(bill_amt) IS NOT NULL OR SUM(bill_amt) > 0");
+                $stmt->execute([$mech, $end_date,$shift_no]);
                 $printer->text(new item('Department','Sales (%)'));
                 $printer ->setEmphasis(false);
                 while ($d_sales = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -383,27 +398,63 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
                 }
                 // END GROUP WISE with percentage report
 
-                
+                //
 
 
 
                 // print details
+                /* Cut the receipt and open the cash drawer */
+               
+                
+
+                $zserial = $db_hander->row_count("zserial","`mech_no` = '$mech'") + 1;
+                $saleSummary = (new Billing())->MechSalesSammry($mech);
+                $gross = $saleSummary['gross'];
+                $deduct = $saleSummary['deduct'];
+                $net = $saleSummary['net'];
+                $day = today;
+                $clerk_code = clerk_code;
+                $zQuery = "insert into zserial(zSerial, mech_no, sales_date, clerk_code, shift_no, gross, deduction, net) VALUES 
+                                                ('$zserial','$mech','$day','$clerk_code','$shift_no','$gross','$deduct','$net')";
+
+                    // delete from bill_trans
+                $del_bills = "delete from bill_header where mach_no = '$mech' and bill_date ='$day';
+                    delete from bill_trans where mach = '$mech' and date_added = '$day';
+                    delete from bill_tax_tran where mech_no = '$mech' and bill_date = '$day';";
+                
+                try {
+                    $db_hander->exe($zQuery);
+                    $db_hander->db_connect()->exec($del_bills);
+                    $db_hander->commit();
+                    // END shift
+                    (new shift())->end_shit($recId);
+                    $return['status'] = true;
+                    $return['message'] = "Z REPORT TAKEN";
+                } catch (\Throwable $th) {
+                    $return['status'] = $th->getMessage();
+                }
+                
+
+
+                $printer -> cut();
+                $printer -> pulse();
+                $printer -> close();
+
             } else {
-                $printer -> text("NO BILL HEADER FOR MACHINE #$mech on $date");
+                printMessage("NO BILL HEADER FOR MACHINE #$mech on $date");
+                $return['message'] = "NO BILL HEADER FOR MACHINE #$mech on $date";
             }
 
 
 
         }
         else {
-            $printer ->text("NO OPEN SHIFT");
+            printMessage("NO OPEN SHIFT");
+            $return['message'] = "NO OPEN SHIFT";
         }
 
 
-        /* Cut the receipt and open the cash drawer */
-        $printer -> cut();
-        $printer -> pulse();
-        $printer -> close();
+        return $return;
     }
 
     // print sales report

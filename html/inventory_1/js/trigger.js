@@ -90,7 +90,31 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $("#eod").click(function(){
-        reports.EndOfDay()
+
+
+        // get z from db
+        if(row_count('shifts',"`pending_eod` = 0") > 0)
+        {
+            let eods = get_row('shifts',"`pending_eod` = 0");
+            if(isJson(JSON.stringify(eods))){
+
+                let jods = JSON.parse(eods);
+                let opt = '';
+                for (let index = 0; index < jods.length; index++) {
+                    let jod = jods[index];
+                    let shift_date = jod['shift_date'];
+                    opt += `<option value=''>${jod['mech_no']} - ${shift_date}</option>`
+                }
+                
+            } else {
+                kasa.error("INVALID RESPONSE")
+            }
+        } else {
+            kasa.error("NO PENDING EOD")
+        }
+         
+
+        //reports.EndOfDay()
     });
     $('#item_availability').click(function () {
         reports.itemAvailability();

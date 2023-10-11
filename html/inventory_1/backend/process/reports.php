@@ -35,13 +35,17 @@
                 $admin_auth = $auth->adminAuth($clerk_code,$clerk_key);
                 if($admin_auth['code'] === 200)
                 {
+                    include '../includes/print.php';
+                       
+                    
                     // access granted
                     $zreport = $Reports->z_report($recId);
                     if($zreport['code'] === 202)
                     {
-                        include '../includes/print.php';
+                        //include '../includes/print.php';
                         // print z details
-                        printzreport($recId);
+                        $zreport = printzreport($recId);
+                        
                     } else {
                         // roll back data
                     }

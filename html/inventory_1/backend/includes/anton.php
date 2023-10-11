@@ -2,8 +2,7 @@
 
     include_once 'pdf/fpdf.php';
 
-
-
+ 
 class anton extends FPDF
 {
     /** @noinspection MultiAssignmentUsageInspection */

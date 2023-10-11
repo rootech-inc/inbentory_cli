@@ -14,10 +14,11 @@ class Billing extends db_handler
 
     function billNumber (): int
     {
+        $shift_no = shift_no;
         $machine_number = mech_no;
         $today = today;
         return (new \db_handeer\db_handler)->row_count('bill_header',"`mach_no` = '$machine_number' and `bill_date`
-         = '$today'") + 1;
+         = '$today' and `shift` = '$shift_no'") + 1;
     }
 
     public function AddToBill($bill_number,$item,$qty,$myName,$tran_type = 'SS')
@@ -322,7 +323,8 @@ class Billing extends db_handler
                 $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt,shift)
                     VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no');";
 
-                if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
+                //if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
+                if(true)
                 {
 
 

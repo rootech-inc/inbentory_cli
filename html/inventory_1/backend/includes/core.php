@@ -61,15 +61,19 @@ $anton->log2file($logo,"LOGO",1);
     $shift_no = '';
     if($shiftCL->is_shift(mech_no))
     {
-        $shit_detail = $db->get_rows('shifts',"`mech_no` = '$machine_number'");
-        $today = $shit_detail['shift_date'];
+        $rid = $db->get_rows("shifts","`mech_no` = '$machine_number'  AND `end_time` is null ")['recId'];
+        $shit_detail = $shiftCL->my_shift($rid);
+        
+        $today = $shit_detail['date'];
         $shift_enc = $shit_detail['enc'];
         $shift_no = $shit_detail['shift_no'];
+        
     } else {
         $today = date('Y-m-d');
         $shift_enc = '';
     }
     define('shift_no',$shift_no);
+    
 
     $evat = false;
     $evat_url = '';
@@ -134,7 +138,7 @@ $anton->log2file($logo,"LOGO",1);
 //        print_r($module);
 
 
-        $bill_number = $MConfig->bill_number();
+        // $bill_number = $MConfig->bill_number();
         $bill_number = $bill->billNumber();
         $billRef = "001".date('ymd',strtotime(today)).$bill_number.mech_no;
         //$billRef = "001".date('ymd').$bill_number.mech_no;

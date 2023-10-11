@@ -385,6 +385,12 @@ class Reports {
         });
     }
 
+    eodScreen(){
+        // get all eod
+        let eods = JSON.parse(get_row('eod_serial',"`status` = 0"));
+        console.table(eods);
+    }
+
 }
 
 const reports = new Reports()

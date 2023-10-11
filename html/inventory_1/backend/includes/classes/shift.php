@@ -6,18 +6,40 @@ use db_handeer\db_handler;
 
 class shift extends \db_handeer\db_handler
 {
-    function is_shift($mech = mech_no): bool
-    {
-//        $day = today;
-        if($this->row_count('shifts',"`mech_no` = '$mech'  AND `end_time` is null ") > 0)
+    
+    function is_shift($mech = mech_no){
+
+        if($this->row_count('shifts',"`mech_no` = '$mech'  AND `end_time` is null ") === 1)
         {
             // there is shift
             return true;
+
         } else {
             // no shift
             return false;
         }
 
+    }
+
+    function my_shift($recId){
+        $response = array(
+            'rec'=>null,'date'=>null,'shift_no'=>null,'counter'=>null,
+            'enc'=>null,'shift_date'=>null,'start_time'=>null
+        );
+
+        if($this->row_count('shifts',"`recId` = '$recId'") === 1){
+            $shift = $this->get_rows('shifts',"`recId` = '$recId'");
+            $response['rec'] = $shift['recId'];
+            $response['date'] = $shift['shift_date'];
+            $response['shift_no'] = $shift['shift_no'];
+            $response['counter'] = $shift['mech_no'];
+            $response['enc'] = $shift['enc'];
+
+            $response['shift_date'] = $shift['shift_date'];
+            $response['start_time'] = $shift['start_time'];
+        }
+
+        return $response;
     }
 
     function start_shift($mech_no = mech_no,$clerk = clerk_code){
@@ -64,6 +86,7 @@ class shift extends \db_handeer\db_handler
             $start_stmt = $this->db_connect()->prepare($start_sql);
             $start_stmt->execute();
             $resp['code'] = 202; $resp['message'] = "Shift Ended";
+            $this->eodSerial($recId);
         } else {
             $resp['code'] = 404; $resp['message'] = "NO SHIFT FOUND";
         }
@@ -71,6 +94,23 @@ class shift extends \db_handeer\db_handler
         return $resp;
 
     }
+
+
+    function eodSerial($recId){
+        // check shift with record exist
+        
+        if($this->row_count('shifts',"recId = '$recId'") === 1){
+            $shift = $this->get_rows('shifts',"recId = '$recId'");
+            $sales_date = $shift['shift_date'];
+
+            // check if date exist in eod_serial
+            if($this->row_count('eod_serial',"sales_date = '$sales_date'") === 0){
+                // insert date
+                $this->exe("INSERT INTO eod_serial (sales_date) value ('$sales_date')");
+            }
+        }
+    }
+
 }
 
 $shiftCL = new shift();
