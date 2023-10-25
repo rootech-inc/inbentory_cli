@@ -1,47 +1,46 @@
 class Evat {
-    invoice(){
+    send_invoice(){
         ajaxform['url'] = '/backend/process/evat.php';
         ajaxform['data'] = {
             'evfunc':'invoice','mech_no':1,'bill_no':1,'date':toDay
         }
 
         ajaxform['success'] = function (response) {
-            cl(response)
-            if(isJson(response))
-            {
-                let resp = JSON.parse(response)
-                let message,status
-                status = resp['status']
-                message = resp['message']
-                let evat_code = message['code']
-                let evat_msg = message['message']
-                ct(evat_msg)
-                if(status === 200)
-                {
-                    al('VALID')
-                } else {
-                    let code = message['code']
-                    let msg = message['message']
 
-                    Swal.fire({
-                        icon:'error',
-                        title:`EVAT ERROR ${code}`,
-                        text: msg
-                    })
-                }
+            if(isJson(response)){
 
-                // ct(resp)
-
+                console.table(JSON.parse(response))
             } else {
-                al("Invalid Response")
+                console.log("INVALID REPONSE")
             }
-
-
         }
 
         $.ajax(ajaxform)
 
+    }
 
+    sign_invoice(num){
+        ajaxform['url'] = '/backend/process/evat.php';
+        ajaxform['data'] = {
+            'evfunc':'sign_invoice',num:num
+        }
+
+        ajaxform['success'] = function (response) {
+            console.log(response)
+            if(isJson(response)){
+                let resp = JSON.parse(response);
+                if(resp['STATUS'] === 'SUCCESS'){
+                    kasa.success("SIGNATURE DONE")
+                } else {
+                    kasa.error(resp['MESSAGE'])
+                }
+                console.table(JSON.parse(response))
+            } else {
+                console.log("INVALID RESPONSE")
+            }
+        }
+
+        $.ajax(ajaxform)
     }
 }
 

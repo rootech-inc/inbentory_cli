@@ -66,9 +66,9 @@ if(Mech.is_shift())
     }
 } else {
     toDay = yyyy + '-' + mm + '-' + dd;
-    //cl('No SHift')
-}
 
+}
+console.log(toDay)
 const user_id = a_sess.get_session('clerk_id')
 
 var form_settings = {
@@ -1693,9 +1693,9 @@ function download_products() // download products
     exec("DELETE FROM item_buttons");
     // download item buttons
     var item_groups = JSON.parse(
-        get_row('item_group', "`id` > 0")
+        get_row('item_group', "`status` = 1")
     );
-    echo(item_groups)
+    // echo(item_groups)
     for (let b = 0; b < item_groups.length; b++) {
         var button = item_groups[b];
 
@@ -1986,6 +1986,49 @@ function delete_doc(doc,entry_no) // delete document
     }
 }
 
-function db_access(){
+// validate array of inputs
+function validateInputs(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        const value = $(`#${ids[i]}`).val().trim();
+        if (value === '') {
+            // alert('False');
+            $(`#${ids[i]}`).addClass('border-danger')
+            $(`#${ids[i]}`).removeClass('border-success')
+            return false;
 
+        } else {
+            $(`#${ids[i]}`).addClass('border-success')
+            $(`#${ids[i]}`).removeClass('border-danger')
+        }
+    }
+    return true;
+}
+
+function disableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        $(`#${ids[i]}`).prop('disabled',true)
+    }
+}
+
+function enableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+
+        $(`#${ids[i]}`).prop('disabled',false)
+    }
+}
+
+function autoFill(ids,data) {
+    if(ids.length === data.length){
+
+        for (let i = 0; i < ids.length; i++) {
+            let id = ids[i];
+            let da = data[i]
+
+            $(`#${id}`).val(da)
+
+        }
+
+    } else {
+        kasa.error("ID DATA MISMATCH")
+    }
 }

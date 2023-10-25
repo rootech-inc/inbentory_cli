@@ -69,189 +69,207 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printbill($mech_no,$bill_number,$payment = 'payment'){
 
+        if(bill_print) {
 
 
-        $today = today;
-        $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
-        if((new db_handler())->row_count('bill_header',$bill_hd_count) > 0)
-        {
+            $db_hander = new db_handler();
 
-            $bill_header = (new db_handler())->get_rows('bill_header',$bill_hd_count);
-            $curRef = "0".$bill_header['billRef'];
+            $today = today;
+            $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
+            if ($db_hander->row_count('bill_header', $bill_hd_count) > 0) {
 
-            $payment = $bill_header['pmt_type'];
-            $bill_total = (new \billing\Billing())->billTotal($bill_number,$today);
-            $tran_qty = $bill_total['tran_qty'];
-            $taxable_amt = number_format($bill_total['taxable_amt'],2);
-            $tax_amt = number_format($bill_total['tax_amt'],2);
-            $bill_amt = number_format($bill_total['bill_amt'],2);
-            $amt_paid = number_format($bill_header['amt_paid'],2);
-            $amt_bal = number_format($bill_header['amt_bal'],2);
+                $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
+                $curRef = $bill_header['billRef'];
+                $billRef = $bill_header['billRef'];
+                $billSummary = (new billing\Billing())->billSummaryV2($billRef);
 
-            $items = array(
 
-            );
+                $payment = $bill_header['pmt_type'];
+                $bill_total = (new \billing\Billing())->billTotal($bill_number, $today);
+                $tran_qty = $bill_total['tran_qty'];
+                $taxable_amt = number_format($bill_total['taxable_amt'], 2);
+                $tax_amt = number_format($bill_total['tax_amt'], 2);
+                $bill_amt = number_format($bill_total['bill_amt'], 2);
+                $amt_paid = number_format($bill_header['amt_paid'], 2);
+                $amt_bal = number_format($bill_header['amt_bal'], 2);
 
-            $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
-            $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
-            $billSn = 0;
-            while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC))
-            {
-                $billSn++;
-                $item_qty = $row['item_qty'];
-                $item_barcode = $row['item_barcode'];
-                if($billSn > 9)
-                {
-                    $bq = "   $item_barcode QTY : $item_qty";
-                } else
-                {
-                    $bq = "  $item_barcode QTY : $item_qty";
+                $items = array();
+
+                $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
+                $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                $billSn = 0;
+                while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC)) {
+                    $billSn++;
+                    $item_qty = $row['item_qty'];
+                    $item_barcode = $row['item_barcode'];
+                    if ($billSn > 9) {
+                        $bq = "   $item_barcode QTY : $item_qty";
+                    } else {
+                        $bq = "  $item_barcode QTY : $item_qty";
+                    }
+
+                    $item_name = $row['item_desc'];
+                    $item_desc = "$billSn $item_name";
+                    $price = number_format($row['bill_amt'], 2);
+                    
+                    array_push($items, new item(substr($item_desc, 0, 30), $price)); // push item desc and cost
+                    array_push($items, new item($bq, '')); // push barcode Quantity
                 }
 
-                $item_name = $row['item_desc'];
-                $item_desc = "$billSn $item_name";
-                $price = number_format($row['bill_amt'] ,2);
-                array_push($items,new item($item_desc,$price)); // push item desc and cost
-                array_push($items,new item($bq,'')); // push barcode Quantity
-            }
+                $subtotal = new item('Subtotal', '12.95');
 
-            $subtotal = new item('Subtotal', '12.95');
-
-            $taxable = new item('Taxable Amount', $taxable_amt);
-            $tax = new item('Tax Amount', $tax_amt);
-            $billAmt = new item('Bill Amount', $bill_amt);
-            $paidAmt = new item('Paid Amount', $amt_paid);
-            $balAmt = new item("Bal. Amount",$amt_bal);
+                $non_taxable = new item('Non-Taxable Amount', $bill_header['non_taxable_amt']);
+                $taxable = new item('Taxable Amount', $bill_header['taxable_amt']);
+                $tax = new item('Tax Amount', $bill_header['tax_amt']);
+                $billAmt = new item('Bill Amount', $bill_header['gross_amt']);
+                $paidAmt = new item('Paid Amount', $bill_header['amt_paid']);
+                $balAmt = new item("Bal. Amount", $bill_header['amt_bal']);
 
 
+                /* Date is kept the same for testing */
+                $date = date('l jS \of F Y ') . date('H:i');
+                //$date = "Monday 6th of April 2015 02:56:25 PM";
 
-            $nhil = new item('NHIL (2.5%)', '1.30');
-            $getf = new item('GETL (2.5%)', '1.30');
-            $covid = new item('COVID (1%)', '1.30');
-            $total = new item('TAXABLE AMT', '1.30');
-            $vat = new item('VAT (21.9%)', '1.30');
-            /* Date is kept the same for testing */
-            $date = date('l jS \of F Y ').date('H:i');
-            //$date = "Monday 6th of April 2015 02:56:25 PM";
-
-            $connector = null;
-            $connector = new WindowsPrintConnector(printer);
-            $printer = new Printer($connector);
-            $logo = EscposImage::load(logo, false);
+                $connector = null;
+                $connector = new WindowsPrintConnector(printer);
+                $printer = new Printer($connector);
+                $logo = EscposImage::load(logo, false);
 
                 /* Print top logo */
-            $printer -> setJustification(Printer::JUSTIFY_CENTER);
-            $printer -> graphics($logo);
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->graphics($logo);
 
-            /* Name of shop */
-            $printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer -> text(company_name);
-            $printer -> selectPrintMode();
-            $printer -> setEmphasis(false);
-            $printer -> feed();
-            $printer -> text(company_country . ' , ' . company_city);
-            $printer -> feed();
-            $printer -> text("Mob : ".company_mob);
+                /* Name of shop */
+                $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+                $printer->text(company_name);
+                $printer->selectPrintMode();
+                $printer->setEmphasis(false);
+                $printer->feed();
+                $printer->text(company_country . ' , ' . company_city);
+                $printer->feed();
+                $printer->text("Mob : " . company_mob);
 
-            /* Title of receipt */
-            $printer -> feed(2);
-            $printer -> setEmphasis(true);
-            if($payment === 'refund')
-            {
-                $printer -> text("REFUND\n");
+                /* Title of receipt */
+                $printer->feed(2);
+                $printer->setEmphasis(true);
+                if ($payment === 'refund') {
+                    $printer->text("REFUND\n");
+                } else {
+                    $printer->text("TAX INVOICE\n");
+                }
+                $printer->feed(2);
+                $printer->setEmphasis(false);
+
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                $printer->text("Bill# $bill_number");
+                $printer->feed();
+                $printer->text(new item(date('d-M-Y'), 'TIME : ' . date('H:i')));
+
+                $printer->text(new item('M# : 6', 'Clerk : Admin'));
+
+                $printer->feed();
+                /* Items */
+                $printer->setJustification(Printer::JUSTIFY_LEFT);
+                $printer->setEmphasis(true);
+                $printer->text(str_repeat('-', 48) . "\n");
+                $printer->text(new item('No. Product', 'Amount'));
+                $printer->text(str_repeat('-', 48) . "\n");
+                $printer->setEmphasis(false);
+                $printer->feed();
+                foreach ($items as $item) {
+                    $printer->text($item);
+                }
+
+                $printer->feed();
+                $printer->text(str_repeat('-', 48) . "\n");
+                /* Tax and total */
+                $printer->text($non_taxable);
+                $printer->text($taxable);
+                $printer->text($tax);
+                $printer->text($billAmt);
+                $printer->text($paidAmt);
+                $printer->text($balAmt);
+                $printer->feed();
+
+
+                $printer->text(str_repeat('-', 48) . "\n");
+                $printer->text(new item('TAX DESC', 'TAX AMOUNT'));
+                $printer->text(str_repeat('-', 48) . "\n");
+
+
+                $nh = $db_hander->sum('bill_trans', 'nhis', "`billRef` = '$billRef'");
+                $gf = $db_hander->sum('bill_trans', 'gfund', "`billRef` = '$billRef'");
+                $cv = $db_hander->sum('bill_trans', 'covid', "`billRef` = '$billRef'");
+                $vat = $db_hander->sum('bill_trans', 'vat', "`billRef` = '$billRef'");
+
+                $nhil = new item('NHIL (2.5%)', $nh);
+                $printer->text($nhil);
+                $getf = new item('GETL (2.5%)', $gf);
+                $printer->text($getf);
+                $covid = new item('COVID (1%)', $cv);
+                $printer->text($covid);
+                $printer->text(str_repeat('-', 48) . "\n");
+                $vat = new item('VAT (15%)', $vat);
+                $printer->text($vat);
+
+                if (evat === true) {
+
+                    $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->feed();
+                    $printer->setUnderline(1);
+                    $printer->text("SDC INFORMATION \n");
+                    $printer->setUnderline(0);
+                    $ysdcmrctim = $evat_signatures['ysdcmrctim'];
+                    $printer->text("TIME SDC : $ysdcmrctim \n");
+
+                    $ysdcid = $evat_signatures['ysdcid'];
+                    $printer->text("SDC ID : $ysdcid \n");
+
+                    $ysdcrecnum = $evat_signatures['ysdcrecnum'];
+                    $printer->text("REC. NUMBER : $ysdcrecnum \n");
+
+                    $ysdcintdata = $evat_signatures['ysdcintdata'];
+                    $printer->text("INT. DATA: $ysdcintdata \n");
+
+                    $ysdcregsig = $evat_signatures['ysdcregsig'];
+                    $printer->text("REC. SIGN: $ysdcregsig \n");
+
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+                    $printer->qrCode($evat_signatures['qr_code']);
+
+                    $printer->feed();
+                    $printer->setUnderline(1);
+
+                }
+
+                /* Footer */
+                $printer->feed();
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->text("Thank you for shopping at ExampleMart\n");
+                $printer->text("For trading hours, please visit example.com\n");
+                $printer->feed(2);
+
+                $printer->text($date . "\n");
+                // $printer->feed(1);
+
+                // $printer->setBarcodeHeight(80);
+                // $printer->setBarcodeWidth(5);
+                // $printer->barcode("$curRef", Printer::BARCODE_JAN13);
+                // $printer->setTextSize(2, 1);
+                // $printer->text("$curRef \n");
+
+
+                /* Cut the receipt and open the cash drawer */
+                $printer->cut();
+                $printer->close();
+
+
             } else {
-                $printer -> text("TAX INVOICE\n");
-            }
-            $printer -> feed(2);
-            $printer -> setEmphasis(false);
-
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-            $printer -> text("Bill# $bill_number");
-            $printer->feed();
-            $printer -> text(new item(date('d-M-Y'),'TIME : '.date('H:i')));
-            $printer -> setUnderline();
-            $printer -> text(new item('M# : 6','Clerk : Admin'));
-            $printer -> setUnderline(0);
-            $printer -> feed();
-            /* Items */
-            $printer -> setJustification(Printer::JUSTIFY_LEFT);
-            $printer -> setEmphasis(true);
-            $printer -> setUnderline(1);
-            $printer -> text(new item('No. Product', 'Amount'));
-            $printer -> setUnderline(0);
-            $printer -> setEmphasis(false);
-            $printer -> feed();
-            foreach ($items as $item) {
-                $printer -> text($item);
+                //todo print no found bill
+                printMessage("CANNOT FINE BILL");
             }
 
-            $printer -> feed();
-
-            /* Tax and total */
-
-            $printer -> text($taxable);
-            $printer -> text($tax);
-            $printer -> text($billAmt);
-            $printer -> text($paidAmt);
-            $printer -> text($balAmt);
-            $printer -> feed();
-
-
-            $printer -> setUnderline(1);
-            $printer -> text(new item('TAX DESC', 'TAX AMOUNT'));
-            $printer -> setUnderline(0);
-
-            $tax_sql = "select tax_code,sum(tax_amt) as 'tv' from bill_tax_tran where tax_code in ('nh','gf','cv') and bill_no = $bill_number and bill_date = '$today' group by tax_code;";
-            (new anton())->log2file($tax_sql,"TAX QUERY");
-            $taxes_query = (new db_handler())->db_connect()->query($tax_sql);
-
-//            $file = __DIR__ . "../../../log_file.log";
-//            $text = "$tax_sql\n";
-//            file_put_contents($file, $text, FILE_APPEND);
-
-            (new  anton())->log2file($tax_sql);
-
-
-            while ($tax_resp = $taxes_query->fetch(PDO::FETCH_ASSOC))
-            {
-                $tax_code = $tax_resp['tax_code'];
-                $tax_value = $tax_resp['tv'];
-
-                $tax_line = new item($tax_code,$tax_value);
-                $printer ->text($tax_line);
-            }
-
-//            $printer -> text($nhil);
-//            $printer -> text($getf);
-//            $printer -> text($covid);
-            $printer -> feed();
-            $printer->setUnderline(1);
-
-            /* Footer */
-            $printer -> feed(2);
-            $printer -> setJustification(Printer::JUSTIFY_CENTER);
-            $printer -> text("Thank you for shopping at ExampleMart\n");
-            $printer -> text("For trading hours, please visit example.com\n");
-            $printer -> feed(2);
-
-            $printer -> text($date . "\n");
-            $printer -> feed(1);
-
-            $printer->setBarcodeHeight(80);
-            $printer->setBarcodeWidth(5);
-            $printer->barcode("$curRef", Printer::BARCODE_JAN13);
-            $printer->setTextSize(2,1);
-            $printer -> text("$curRef \n");
-
-
-            /* Cut the receipt and open the cash drawer */
-            $printer -> cut();
-            $printer -> close();
-
-
-        } else {
-            //todo print no found bill
-            printMessage("CANNOT FINE BILL");
         }
 
 
@@ -260,16 +278,17 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
     function printzreport($recId)
     {
+        $db_hander = new db_handler();
         $date = today;
         $connector = new WindowsPrintConnector(printer);
         $printer = new Printer($connector);
-        $shift_count = (new db_handler())->row_count('shifts',"`recId` = '$recId'");
+        $shift_count = $db_hander->row_count('shifts',"`recId` = '$recId'");
 
 
 
         if($shift_count === 1)
         {
-            $shift = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
+            $shift = $db_hander->get_rows('shifts',"`recId` = '$recId'");
             $mech = $shift['mech_no'];
             $shift_no = $shift['shift_no'];
             $start_date = $shift['shift_date'];
@@ -278,13 +297,13 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             $end_time = date('H:i:s');
 
 
-            $bills_count = (new db_handler())->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
+            $bills_count = $db_hander->row_count('bill_header',"mach_no = '$mech' and bill_date = '$date'");
             if($bills_count > 0)
             {
                 // get all bills sum by payment
                 $bill_hd_sql = "select  pmt_type, count(pmt_type) as 'pmt_count',sum(net_amt) as 'total' from bill_header where mach_no = '$mech' and bill_date = '$date' group by pmt_type";
                 (new anton())->log2file($bill_hd_sql);
-                $bill_hd_stmt = (new db_handler())->db_connect()->query($bill_hd_sql);
+                $bill_hd_stmt = $db_hander->db_connect()->query($bill_hd_sql);
                 $bill_sum = (new  db_handler())->fetch_rows("select sum(net_amt) as gross,sum(tax_amt) as tax ,sum(gross_amt) as net from bill_header;");
                 $subTotal = 0;
                 $hd_arr = array();
@@ -390,19 +409,14 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
     // print sales report
     function printSales(){
 
+        $db_hander = new db_handler();
 
         /* Fill in your own connector here */
         $connector = new WindowsPrintConnector(printer);
 
 
         /* Information for the receipt */
-        $items = array(
-            new item("Example item #1", "4.00"),
-            new item("Another thing", "3.50"),
-            new item("Something else", "1.00"),
-            new item("A final item", "4.45"),
-        );
-        $subtotal = new item('Subtotal', '12.95');
+
 
 
 
@@ -428,7 +442,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
         $printer -> feed();
 
         # get machines
-        $machines = (new db_handler())->db_connect()->query("SELECT mech_no FROM mech_setup");
+        $machines = $db_hander->db_connect()->query("SELECT mech_no FROM mech_setup");
 
         while ($machine = $machines->fetch(PDO::FETCH_ASSOC)){
             $t = 0;
@@ -444,7 +458,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
             # get sales for machine
             $mach_sales_query = "select mech_setup.mech_no,mech_setup.descr, bill_header.pmt_type, sum(bill_header.gross_amt) as 'gross', sum(bill_header.tax_amt) as 'tax', sum(bill_header.net_amt) as 'net' from mech_setup join bill_header on bill_header.mach_no = mech_setup.mech_no where mech_no = '$m_no' group by bill_header.pmt_type, mech_setup.mech_no, mech_setup.descr;";
             (new anton())->log2file($mach_sales_query);
-            $m_sales = (new db_handler())->db_connect()->query($mach_sales_query);
+            $m_sales = $db_hander->db_connect()->query($mach_sales_query);
             while ($m_sale = $m_sales->fetch(PDO::FETCH_ASSOC)){
 
                 $pmt_type = $m_sale['pmt_type'];
@@ -455,7 +469,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 
 
             }
-            $t = (new db_handler())->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
+            $t = $db_hander->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
             $printer -> setEmphasis(true);
             $printer -> text(new item("TOTAL",number_format($t,2)));
             $printer->setEmphasis(false);

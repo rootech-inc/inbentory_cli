@@ -16,6 +16,19 @@
                 $anton->set_session($session_data);
             }
 
+            // general query
+            elseif ($function === 'gen_query'){
+                $query = $_POST['query'];
+
+                //execute query
+                $stmt = $db->db_connect()->query($query);
+                header('Content-Type: application/json');
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($res);
+
+
+            }
+
             elseif ($function === 'mech_ini')
             {
                 $desc = $anton->post('desc');
@@ -71,7 +84,7 @@
             {
                 $response = array('code'=>1,'message'=>'ini');
                 $query = $_POST['query'];
-                echo($query);
+                // echo($query);
                 try {
                     $db->exe($query);
                     $response['code'] = 202;
@@ -191,7 +204,7 @@
 
             elseif ($function === 'bill_summary'){
                 $billRef = billRef;
-                $sum = (new \billing\Billing())->billSummary($billRef);
+                $sum = (new \billing\Billing())->billSummaryV2($billRef);
                 header("Content-Type:Application/Json");
                 echo json_encode($sum);
 

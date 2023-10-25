@@ -63,9 +63,9 @@ require '../includes/core.php';
                             }
 
                             $items .= "
-                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-2 p-1\">
+                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-1 p-1\">
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
-                                            <p class=\"text-elipse m-0 p-0 font-weight-bolder\">$name</p>
+                                            <small class=\"ellipsized-text-2 m-0 p-0 font-weight-bolder\">$name</small>
                                         </div>
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
                                             <strike class='text-danger'><small>$ori_p</small></strike>
@@ -305,7 +305,7 @@ require '../includes/core.php';
                     }
 
                     $bill_trans = [
-                        'bill_header'=>bill_total,
+                        'bill_header'=>(new billing\Billing())->billSummaryV2(),
                         'count'=>$bill_tran_count,
                         'total'=>number_format(bill_total['taxable_amt'],2),
                         'tax'=>number_format($db->sum('bill_tax_tran','tax_amt',$bill_cond),2),
@@ -326,6 +326,8 @@ require '../includes/core.php';
             elseif ($function === 'void') // void
             {
                 $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1 and mach = '$machine_number'");
+
+                // todo delete tax transactions
                 echo 'done';
             }
 
@@ -478,24 +480,22 @@ require '../includes/core.php';
                 $machine_number = (new MechConfig())->mech_details()['mechine_number'];
 
                 $bill_trans_count = "`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'";
-                $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                $bill_sql = $db->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
 
                 // make payment
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
                     $method = $anton->post('method');
-                    $response = $bill->makePyament($method,$amount_paid);
-//                    printMessage("MUFASA");
-//                    if($response['status'] === 200)
-//                   {
-//
-//                       printbill($machine_number,$bill_number,$method);
-//
-//                   }
-
-                    header('Content-Type: application/json');
+                    $original_ref = $anton->post('ref');
+                    $response = $bill->makePyament($method,$amount_paid,$original_ref);
+                    (new anton())->log2file("FINAL RESPONSE");
+                    (new anton())->log2file(var_export($response,true),'',1);
+                    
+                    header("Content-Type: Application\json");
                     echo json_encode($response);
+
+
 
 
                     die();

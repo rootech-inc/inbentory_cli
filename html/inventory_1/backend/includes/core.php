@@ -5,10 +5,12 @@ use db_handeer\db_handler;
 ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     ini_set('memory_limit', '-1');
-    error_reporting(E_ALL);
+    
+    error_reporting(E_ALL ^ E_DEPRECATED);
+
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
-    const printer = 'EPSON_OFFICE';
+    const printer = 'EPSON';
 
     $bill_number = 0;
 
@@ -17,11 +19,14 @@ ini_set('display_errors',1);
     const db_password = '258963';
     const db_name = "posdb";
 
+    $phy = $_SERVER['APPL_PHYSICAL_PATH'];
+
 
     require 'session.php';
     $session_id = session_id();
-    $logo = root . "/assets/logo/comp_logo.png";
+    $logo = $phy . "\comp_logo_1.png";
     define('logo',$logo);
+
 
     // initialize classes
     require 'anton.php';
@@ -37,14 +42,16 @@ ini_set('display_errors',1);
     require 'classes/ProductMaster.php';
 
     $evat = new \billing\Evat('');
-    $evat->set_url("http://192.168.2.88:8080/evat_api");
 
     $bill = new \billing\Billing();
 
 
     $anton = new anton();
     $db = new db_handler();
-    $db->db_connect();
+    $d_b = new db_handler();
+
+$anton->log2file($logo,"LOGO",1);
+
     $taxCalc = new tax_calculator();
     $MConfig = new \mechconfig\MechConfig();
     $company = $db->get_rows('company',"`id` = 0");
@@ -53,14 +60,35 @@ ini_set('display_errors',1);
     $machine_number = mech_no;
     if($shiftCL->is_shift(mech_no))
     {
-        $shit_detail = (new db_handler())->get_rows('shifts',"`mech_no` = '$machine_number'");
+        $shit_detail = $db->get_rows('shifts',"`mech_no` = '$machine_number'");
         $today = $shit_detail['shift_date'];
+        $shift_enc = $shit_detail['enc'];
     } else {
         $today = date('Y-m-d');
+        $shift_enc = '';
     }
 
-
+    $evat = false;
+    $evat_url = '';
+    if(
+        $db->row_count("sys_settings","`set_key` = 'evat'") === 1 &&
+        $db->get_rows("sys_settings","`set_key` = 'evat'")['set_status'] === 1
+    ){
+        $evat = true;
+        $evat_url = $db->get_rows("sys_settings","`set_key` = 'evat'")['set_value'];
+    }
+    define('evat_url',$evat_url);
+    $bill_print = false;
+    if(
+        $db->row_count("sys_settings","`set_key` = 'bill_print'") === 1 &&
+        $db->get_rows("sys_settings","`set_key` = 'bill_print'")['set_status'] === 1
+    ){
+        $bill_print = true;
+    }
+    define('evat',$evat);
     define('today',$today);
+    define('bill_print',$bill_print);
+    define('shift_enc',$shift_enc);
     $current_time = date("Y-m-d H:m:s");
 
 

@@ -1,6 +1,6 @@
 class Api {
 
-    call(method,data,int='/apiv2/'){
+    call(method,data,int='/api/'){
         // console.log(JSON.stringify(data))
         // let link = interface
         // console.table(link)

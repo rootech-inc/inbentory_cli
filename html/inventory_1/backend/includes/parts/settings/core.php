@@ -11,6 +11,11 @@
     } elseif ($sub_module === 'loyalty'){
         require 'backend/includes/parts/settings/loyalty.php';
     }
+    elseif ($sub_module === 'customers'){
+        require 'backend/includes/parts/settings/customers.php';
+    } elseif ($sub_module === 'company_setup'){
+        require 'backend/includes/parts/settings/company_setup.php';
+    }
     else
     {
         print_r($_SESSION);

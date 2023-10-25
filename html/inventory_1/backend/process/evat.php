@@ -12,11 +12,26 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
     if($function === 'invoice')
     {
         // make invoice
-        $response = $evat->invoice(1,1,today);
-        header('Content-Type: application/json');
-        print_r(json_encode($response)) ;
+        $billRef = '';
+        $response = $evat->send_invoice($billRef);
 
-    } else {
+        echo $response;
+
+    }
+    elseif ($function === 'sign_invoice'){
+        // sign invoice
+        $num = $_POST['num'];
+        $response = $evat->sign_invoice($num);
+        $resp_encode = json_decode($response);
+        $status = $resp_encode->STATUS;
+
+        if($status === 'SUCCESS'){
+            // SAVE IN BILL MORE
+        }
+
+        echo $response;
+    }
+    else {
 
         echo 'NO CALL OR WHATEVER';
 

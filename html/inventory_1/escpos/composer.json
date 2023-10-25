@@ -26,9 +26,8 @@
 		"ext-json": "*",
 		"ext-intl": "*",
 		"ext-zlib": "*",
-		"mike42/gfx-php" : "^0.6",
-      "ext-pdo": "*"
-    },
+		"mike42/gfx-php" : "^0.6"
+	},
 	"suggest" : {
 		"ext-imagick" : "Will be used for image printing if present. Required for PDF printing or use of custom fonts.",
 		"ext-gd" : "Used for image printing if present."

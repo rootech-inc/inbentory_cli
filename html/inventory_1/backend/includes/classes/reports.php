@@ -58,7 +58,7 @@ class reports extends \db_handeer\db_handler
     public function z_report($recId): array
     {
 //
-        $record = (new db_handler())->get_rows('shifts',"`recId` = '$recId'");
+        $record = $db->get_rows('shifts',"`recId` = '$recId'");
         $day = $record['shift_date'];
         $mech_no = $record['mech_no'];
         $shift = $record['shift_no'];
@@ -84,7 +84,7 @@ class reports extends \db_handeer\db_handler
                     $this->db_connect()->exec($hist_tax);
 //                $this   ->db_connect()->exec("UPDATE shifts set end_time = CURTIME() where mech_no = '$mech_no' and shift_date = '$day' ");
 
-                    $zserial = (new db_handler())->row_count("zserial","`mech_no` = '$mech_no'") + 1;
+                    $zserial = $db->row_count("zserial","`mech_no` = '$mech_no'") + 1;
                     $saleSummary = (new Billing())->MechSalesSammry($mech_no);
                     $gross = $saleSummary['gross'];
                     $deduct = $saleSummary['deduct'];
@@ -105,9 +105,9 @@ class reports extends \db_handeer\db_handler
 
 
 
-                    (new db_handler())->exe($zQuery);
-                    (new db_handler())->db_connect()->exec($del_bills);
-                    (new db_handler())->commit();
+                    $db->exe($zQuery);
+                    $db->db_connect()->exec($del_bills);
+                    $db->commit();
                     // END shift
                     (new shift())->end_shit($recId);
                     $this->response['code'] = 202;
@@ -120,7 +120,7 @@ class reports extends \db_handeer\db_handler
                     delete from history_trans where mach = '$mech_no' and date_added = '$day';
                     delete from history_tax_tran where mech_no = '$mech_no' and bill_date = '$day';
                     delete from zserial where mech_no = '$mech_no' and sales_date = '$day';";
-                                        (new db_handler())->db_connect()->exec($deleteQ);
+                                        $db->db_connect()->exec($deleteQ);
                     $this->response['code'] = $e->getCode();
                     $this->response['message'] = $e->getMessage() . " LINE : ".$e->getLine();
 

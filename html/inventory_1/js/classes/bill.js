@@ -25,13 +25,14 @@ class Bill {
 
                     let message = res['message']
                     // let header = res['message']['bill_header']
-                    let header = bill.billSummary()
+                    let header = bill.billSummary()['bill_header']
+
                     let count,total,tax,trans,discount,bill_amt,disc_type
                     count = message['count']
-                    total = header['total']
-                    discount = header['discount']
-                    bill_amt = header['bill_amt']
-                    tax = header['tax_amt']
+                    total = header['TOTAL_AMOUNT']
+                    discount = 0;
+                    bill_amt = header['TOTAL_AMOUNT']
+                    tax = header['TOTAL_VAT']
                     trans = message['trans']
                     disc_type = header['discount_type'];
                     let sel_count = 0
@@ -40,6 +41,9 @@ class Bill {
 
                     arr_disable('recall,REFUND')
                     arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
+                    enableFields(['load_cust'])
+
+
 
 
                     // load header
@@ -171,6 +175,10 @@ class Bill {
                     $('#msglegend').html('')
                     //cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
                 }
+
+                // validate if there is credit customer loaded
+                
+
             }
         };
 
@@ -248,8 +256,20 @@ class Bill {
 
     // make payment
     payment(method){
-        console.log('making payment')
+
         b_msg("Making Payment....")
+        Swal.fire({
+            html: `<div class='text-center'><strong>Making ${method.toUpperCase()} Payment...</strong></div>
+                               <div class="text-center">
+                                   <div class="spinner-border text-primary" role="status">
+                                       <span class="sr-only">Making ${method.toUpperCase()} Payment...</span>
+                                   </div>
+                               </div>`,
+            showConfirmButton: false, // Hide confirm button
+            allowOutsideClick: false, // Prevent click outside to close
+            allowEscapeKey: false, // Prevent ESC key to close
+        });
+
 
 
         // validate there is cash input
@@ -257,6 +277,7 @@ class Bill {
             // amount_paid = $('#sub_total').text()
             $('#general_input').val($('#bill_amt').text())
         }
+
 
 
 
@@ -278,33 +299,36 @@ class Bill {
             if(actual_paid >= actual_balance)
             {
 
+
                 // make form data
                 form_data = {
                     'function':'payment',
                     'method':method,
-                    'amount_paid':amount_paid
+                    'amount_paid':amount_paid,
+                    'ref':$('#billRef').val()
                 }
 
                 jqh.setText({
 
                     'amount_paid':actual_paid.toFixed(2),
-                    'amount_balance':b_balance.toFixed(2),
-                    'bill_num':parseFloat($('#bill_num').text()) + 1
+                    'amount_balance':b_balance.toFixed(2)
 
                 })
 
+
                 // send ajax request
+
                 $.ajax({
                     url: form_process,
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-                        ct(response)
+                        console.table(response)
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
-                        status = result['status']
+                        status = result['code']
                         message = result['message']
-                        ct(message)
+                        console.table(response)
 
                         // let bill_num = $('#bill_num').text()
                         let mech_no = Mech.ThisMech()['mechine_number'];
@@ -328,7 +352,7 @@ class Bill {
                             jqh.setText({
                                 'tax':tax_amt,
                                 'amount_paid':amt_paid,
-                                'bill_num':parseFloat(bill_number) + 1
+                                'bill_num':parseFloat($('#bill_num').text()) + 1
                             })
 
                             jqh.setVal({'general_input':''})
@@ -336,23 +360,30 @@ class Bill {
                             jqh.setHtml({'bill_loader':''})
 
                             b_msg('payment complete..')
-                            bill.loadBillsInTrans()
+                            // bill.loadBillsInTrans()
+
+                            // console.log('BILL TRANSACTION DONE')
+                            Swal.close()
 
 
 
 
-                        } else
+                        }
+                        else
                         {
                             // bill not saved
-                            b_msg('Payment completed with an error')
-                            error_handler(`error%%Cound Not Make Bill ${status}`)
+                            console.log("BILL COMPLETED WITH ERROR")
+                            b_msg(message)
+                            // error_handler(`error%%Cound Not Make Bill ${status}`)
+                            kasa.error(message)
                         }
 
-                        //location.reload()
+
 
 
                     }
                 });
+
 
             }
             else
@@ -448,10 +479,8 @@ class Bill {
             denyButtonText: `CANCEL`,
             icon:'warning'
         }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
                 $.ajax(setting)
-
             }
         })
         b_msg("")

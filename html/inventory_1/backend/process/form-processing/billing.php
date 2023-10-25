@@ -66,12 +66,14 @@
 
             elseif ($function === 'bill_refund') // refund bill
             {
-                $response = array('code'=>404,'message'=>array('bill_no'=>0,'msg'=>'none'));
+                $response = array('code'=>404,'message'=>'');
 
                 try {
                     $ref_type = $anton->post('ref_type');
-                    $billRef = $anton->post('billRef');
+                    $refund_bil_ref = $anton->post('billRef');
                     $refund_item = $_POST['refund_item'];
+
+                    $anton->set_session(["refundBillRef=$refund_bil_ref"]);
 
                     // check reference type
                     if($ref_type === 'active_shift'){
@@ -97,8 +99,7 @@
                         $sold = (new \db_handeer\db_handler())->get_rows("$table","`id` = '$id' AND `item_barcode` = '$barcode'");
                         $soldQuantity = $sold['item_qty'];
                         $refundQty = $soldQuantity * -1;
-                        $anton->log2file('#####');
-                        $anton->log2file($refundQty);
+
                         $refundItem = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
                         $add_bill = (new \billing\Billing())->AddToBill("$bill_number",$refundItem,"$refundQty",clerk_code,"RF");
                         $anton->log2file('#####');
@@ -109,11 +110,16 @@
                     $response['message']['bill_no'] = $bill_number;
                     $response['message']['msg'] = "REFUND DONE";
 
+                    $bill = (new \billing\Billing())->billSummaryV2(billRef,1);
+
+                    $hd = $bill['bill_header'];
+                    $pay = (new billing\Billing())->makePyament('refund',$hd['TOTAL_AMOUNT'],$refund_bil_ref);
+                    $response = $pay;
+
 
                 } catch (Exception $e){
                     $response['code'] = 505;
-                    $response['message']['bill_no'] = $bill_number;
-                    $response['message']['msg'] = $e->getMessage();
+                    $response['message'] = $e->getMessage();
                 }
 
                 header('Content-Type: application/json');

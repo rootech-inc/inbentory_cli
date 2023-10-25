@@ -5,6 +5,7 @@
 <input type="hidden" name="clerk" id="clerk" value="<?php echo $myName ?>">
 <input type="hidden" name="bill_number" id="bill_number" value="<?php echo $bill_number ?>">
 <input type="hidden" id="bill_ref" value="<?php echo billRef ?>">
+<input type="hidden"  id="refundOriginalInvoice">
 <!-- REFIND MODAL -->
 <div class="modal" id="refundModal">
     <div class="modal-dialog">
@@ -15,6 +16,7 @@
             </div>
             <div class="modal-body">
                 <form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+
                     <input type="hidden" name="function" value="bill_refund">
                     <input type="hidden" required id="ref_type" name="ref_type" value="">
                     <input type="hidden" required id="billRef" name="billRef" value="">
@@ -90,27 +92,6 @@
                         </tr>
                     </tbody>
                 </table>
-<!--                <div class="w-16 text-center h-50 x_border">TOTAL</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">DISC AMT.</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">BILL AMT.</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">TAX AMT</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">PAID</div>-->
-<!--                <div class="w-16 text-center h-50 x_border">BAL. AMT</div>-->
-
-
-
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Taxable Amt</span> <span id="sub_total">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Tax Amt</span> <span id="tax">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Amount Paid</span> <span id="amount_paid">0.00</span>-->
-<!--                </div>-->
-<!--                <div class="w-50 h-50 d-flex flex-wrap justify-content-between align-content-center px-2 x_border">-->
-<!--                    <span>Amount Bal.</span> <span id="amount_balance">0.00</span>-->
-<!--                </div>-->
             </div>
 
 
@@ -163,7 +144,7 @@
                             </div>
 
                             <!--SCROLL DOwn-->
-                            <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
+                            <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-between border">
                                 <button onclick="custom_scroll('category','down')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
                                     style="height: 45px; width: 45px;"
@@ -176,8 +157,8 @@
 
                         <!--Items-->
                         <div id="items_container"  class="w-75 d-flex flex-wrap align-content-start justify-content-between h-100 border">
-                                <div id="items" class="h-90 w-100 overflow-hidden d-flex flex-wrap border align-content-start justify-content-start">
-
+                                <div id="items" class="h-90 w-100 overflow-auto d-flex flex-wrap border align-content-start justify-content-between">
+                                    
 
                                 </div>
                                 <!--ITEMS SCROW-->
@@ -283,10 +264,13 @@
                                 <!-- BUTTONS -->
                                 <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
 
-                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         CASH
                                     </button>
-                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
+                                        MOMO
+                                    </button>
+                                    <button id="credit_payment" onclick="bill.payment('credit_payment')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         MOMO
                                     </button>
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
@@ -305,11 +289,17 @@
                                         LKUP
                                     </button>
                                     <button disabled onclick="lty.loadCustomer()" id="LOYALTY_LOOKUP" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
-                                        LOYLOAD
+                                        LOY LOAD
                                     </button>
+
                                     <button disabled onclick="lty.redeem()" id="LOYALTY_REDEEM" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
                                         LOYRED
                                     </button>
+
+                                    <button onclick="kasa.info('NOT INPLEMENTED')" disabled id="load_cust" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                        LOAD CUST
+                                    </button>
+
                                     <button id="bill_recall" disabled onclick="bill.recall()" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
                                     </button>

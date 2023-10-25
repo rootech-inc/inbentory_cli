@@ -102,58 +102,6 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
             // Page header
             function Header()
             {
-
-//                // Logo
-//               $this->Image('logo.png',10,6,30,);
-//                // Arial bold 15
-//                $this->SetFont('Arial','B',12);
-//                // Move to the right
-//
-//                // Title
-//                $this->Cell(280,5,$company['c_name'],0,1,'R');
-//                $this->Cell(280,5,'VAT : '.$company['vat_code'],0,1,'R');
-//                $this->Cell(280,5,$company['box']. ", ".$company['country'].", ".$company['city'].", ".$company['street'],0,1,'R');
-//                $this->Cell(280,5,'Tel : '.$company['phone'],0,1,'R');
-//                $this->Cell(280,5,'Email : '.$company['email'],0,1,'R');
-//
-//                $this->SetFont('Arial','B',20);
-//                $this->Cell(93,10,'',0,0,'C');
-//                $this->Cell(93,15,'PURCHASE ORDER',1,0,'C');
-//                $this->Cell(93,10,'',0,1,'C');
-//
-//                $this->SetFont('Arial','B',12);
-//                $this->Cell(140,10,"Delivery Details",0,0,'L');
-//                $this->Cell(140,10,"Order Details",0,1,'R');
-//                $this->SetFont('Arial','',12);
-
-                // branch % date
-//                $this->Cell(140,5,"Delivery Date : 00/00/0000",0,0,'L');
-//                $this->Cell(140,5,"Date : ".$po_hd['created_on'],0,1,'R');
-//                # branch & order number
-//                $this->Cell(140,5,"Branch : Test Branch",0,0,'L');
-//                $this->Cell(140,5,"Order No : $po_number",0,1,'R');
-//                # address & Supplier Code
-//                $this->Cell(140,5,"Address : PO BOX 150",0,0,'L');
-//                $this->Cell(140,5,"Supplier Code : ".$po_hd['suppler'],0,1,'R');
-//                # city & Suppler Name
-//                $this->Cell(140,5,"City : Accra , Adenta",0,0,'L');
-//                $this->Cell(140,5,"Supplier Name : ".$db->get_rows('supp_mast',"`supp_id` = '$supplier'")['supp_name'],0,1,'R');
-//                #empty and total amount
-//                $this->Cell(140,5,"",0,0,'L');
-//                $this->Cell(140,5,"Total Cost : ".number_format($po_hd['total_amount'],2),0,1,'R');
-
-                // Line break
-//                $this->Ln(20);
-//                // table
-//                $this->SetFont('Arial','B',12);
-//                $this->Cell(40,10,"Item Code",1,0,"L");
-//                $this->Cell(40,10,"Description",1,0,"L");
-//                $this->Cell(40,10,"Pack Id",1,0,"L");
-//                $this->Cell(40,10,"Pack Desc",1,0,"L");
-//                $this->Cell(40,10,"Quantity",1,0,"L");
-//                $this->Cell(40,10,"Cost",1,0,"L");
-//                $this->Cell(40,10,"Total Cost",1,1,"L");
-                // Line break
             }
 
             // Page footer

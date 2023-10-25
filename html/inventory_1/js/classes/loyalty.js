@@ -181,4 +181,28 @@ class Loyalty {
 
 }
 
+class Customer{
+    getCustomer(cust_no){
+        // validate if customer exist with number
+        let payload = {
+            module:'customer',
+            crud:"read",
+            data:{
+                cust_no:cust_no
+            }
+        }
+        return api.call('POST',payload,'/api/')
+    }
+
+    isInTransaction(){
+        let payload = {
+            'module':'customer_in_transit',
+            'crud':'read',
+            'data':{}
+        }
+    }
+
+}
+
+const m_cust = new Customer()
 const lty = new Loyalty()

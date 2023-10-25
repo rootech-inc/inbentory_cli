@@ -11,6 +11,11 @@
       <sourceFolder url="file://$MODULE_DIR$/escpos/test/unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/process/print_config/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/process/print_config/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/print_config/src/Mike42" isTestSource="false" packagePrefix="Mike42\" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/process/print_config/src/Mike42" isTestSource="false" packagePrefix="Mike42\" />
+      <sourceFolder url="file://$MODULE_DIR$/escpos/src/Mike42" isTestSource="false" packagePrefix="Mike42\" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/integration" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/unit" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php" />
