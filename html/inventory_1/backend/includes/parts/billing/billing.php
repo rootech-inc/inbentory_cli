@@ -59,13 +59,13 @@
     <main class="p-0 d-flex flex-wrap align-content-start justify-content-center">
         <header class="billing-header border-light m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
-                Bill #<div id="bill_num"><?php echo $bill_number ?></div>
+                <kbd class='mr-2 bg-primary'>SHIFT <?php echo shift_no ?></kbd> Bill #<div id="bill_num"><?php echo $bill_number ?></div>
             </div>
 
             <div class="d-flex flex-wrap w-25 h-100 justify-content-start align-content-center overflow-hidden">
                 <div style="display: none" class="text-success text-left w-100"><i id="date" class="date"><?php echo $today ?></i></div>
-                <div class="w-fit text-left text-left">
-                    <strong id="bill_time" class="time text-left">00:00</strong>
+                <div class="w-fit text-left text-center">
+                    <strong id="bill_time" class="time text-center">00:00</strong>
                 </div>
             </div>
 

@@ -424,7 +424,7 @@ use billing\Billing;
                 
                 try {
                     $db_hander->exe($zQuery);
-                    $db_hander->db_connect()->exec($del_bills);
+//                    $db_hander->db_connect()->exec($del_bills);
                     $db_hander->commit();
                     // END shift
                     (new shift())->end_shit($recId);
@@ -463,7 +463,7 @@ use billing\Billing;
         $db_hander = new db_handler();
 
         /* Fill in your own connector here */
-        $connector = new WindowsPrintConnector(printer);
+        $sales_connector = new WindowsPrintConnector(printer);
 
 
         /* Information for the receipt */
@@ -478,19 +478,19 @@ use billing\Billing;
 
         /* Start the printer */
         $logo = EscposImage::load(logo, false);
-        $printer = new Printer($connector);
+        $sales_printer = new Printer($sales_connector);
 
         /* Print top logo */
-        $printer -> setJustification(Printer::JUSTIFY_CENTER);
-        $printer -> graphics($logo);
+        $sales_printer -> setJustification(Printer::JUSTIFY_CENTER);
+        $sales_printer -> graphics($logo);
 
 
         /* Title of receipt */
-        $printer -> setEmphasis(true);
-        $printer -> text("SALES REPORT\n");
-        $printer -> setEmphasis(false);
+        $sales_printer -> setEmphasis(true);
+        $sales_printer -> text("SALES REPORT\n");
+        $sales_printer -> setEmphasis(false);
 
-        $printer -> feed();
+        $sales_printer -> feed();
 
         # get machines
         $machines = $db_hander->db_connect()->query("SELECT mech_no FROM mech_setup");
@@ -499,51 +499,158 @@ use billing\Billing;
             $t = 0;
             $m_no = $machine['mech_no'];
 
-            $printer -> setJustification(Printer::JUSTIFY_LEFT);
-            $printer -> setEmphasis(true);
-            $printer -> text("MECH #$m_no");
-            $printer->feed(2);
-            $printer -> setEmphasis(false);
+            $sales_printer -> setJustification(Printer::JUSTIFY_LEFT);
+            $sales_printer -> setEmphasis(true);
+            $sales_printer -> text("MECH #$m_no");
+            $sales_printer->feed(2);
+            $sales_printer -> setEmphasis(false);
 
 
             # get sales for machine
             $mach_sales_query = "select mech_setup.mech_no,mech_setup.descr, bill_header.pmt_type, sum(bill_header.gross_amt) as 'gross', sum(bill_header.tax_amt) as 'tax', sum(bill_header.net_amt) as 'net' from mech_setup join bill_header on bill_header.mach_no = mech_setup.mech_no where mech_no = '$m_no' group by bill_header.pmt_type, mech_setup.mech_no, mech_setup.descr;";
-            (new anton())->log2file($mach_sales_query);
+            // 0.
             $m_sales = $db_hander->db_connect()->query($mach_sales_query);
             while ($m_sale = $m_sales->fetch(PDO::FETCH_ASSOC)){
 
                 $pmt_type = $m_sale['pmt_type'];
                 $total = $m_sale['net'];
-                $printer->setUnderline(1);
-                $printer -> text(new item($pmt_type,$total));
-                $printer->feed(1);
+                $sales_printer->setUnderline(1);
+                $sales_printer -> text(new item($pmt_type,$total));
+                $sales_printer->feed(1);
 
 
             }
             $t = $db_hander->sum('bill_header',"net_amt","`mach_no` = '$m_no'");
-            $printer -> setEmphasis(true);
-            $printer -> text(new item("TOTAL",number_format($t,2)));
-            $printer->setEmphasis(false);
-            $printer->setUnderline(0);
+            $sales_printer -> setEmphasis(true);
+            $sales_printer -> text(new item("TOTAL",number_format($t,2)));
+            $sales_printer->setEmphasis(false);
+            $sales_printer->setUnderline(0);
         }
 
 
-        $printer -> feed();
+        $sales_printer -> feed();
 
 
 
 
-        $printer -> text($date . "\n");
+        $sales_printer -> text($date . "\n");
 
         /* Cut the receipt and open the cash drawer */
-        $printer -> cut();
-        $printer -> pulse();
+        $sales_printer -> cut();
+        $sales_printer -> pulse();
 
-        $printer -> close();
+        $sales_printer -> close();
 
 
         printCut();
 
+
+
+    }
+
+    function print_eod($sales_date){
+        # get all mech in shift
+        $db = new db_handler();
+        $sh = (new shift());
+        $shifts = $sh->shifts('*',$sales_date);
+
+        if($shifts['code'] === 200){
+            // printer connection
+            $eod_connector = new WindowsPrintConnector(printer);
+            $eod_printer = new Printer($eod_connector);
+
+            $logo = EscposImage::load(logo, false);
+
+            /* Print top logo */
+            $eod_printer -> setJustification(Printer::JUSTIFY_CENTER);
+            $eod_printer -> graphics($logo);
+
+            /* Name of shop */
+            $eod_printer -> selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+            $eod_printer -> text(company_name);
+            $eod_printer -> selectPrintMode();
+            $eod_printer -> setEmphasis(false);
+            $eod_printer -> feed();
+            $eod_printer -> text(company_country . ' , ' . company_city);
+            $eod_printer -> feed();
+            $eod_printer -> text("Mob : ".company_mob);
+            $eod_printer->feed(2);
+            $eod_printer->text("EOD REPORT");
+
+            $eod_printer -> feed(2);
+            $eod_printer -> setJustification(Printer::JUSTIFY_LEFT);
+            // header
+
+
+            $eod_printer->feed();
+
+
+
+
+
+            // there are shifts
+            $sfts = $shifts['message']['trans'];
+            for ($i = 0; $i < count($sfts); $i++) {
+                $sft = $sfts[$i];
+
+                $recId = $sft['recId'];
+                $this_shift = $sh->my_shift($recId);
+                $mech_no = $this_shift['counter'];
+                $shift_no = $this_shift['shift_no'];
+                $st = $this_shift['shift_date'] . " " . $this_shift['start_time'];
+                $end = $this_shift['end_date'] . " " . $this_shift['end_time'];
+
+                $eod_printer->text("Mech No.: $mech_no");
+                $eod_printer->feed();
+                $eod_printer->text("Clerk: NOT SET");$eod_printer->feed();
+                $eod_printer->text("Shift No.: $shift_no");$eod_printer->feed();
+                $eod_printer->text("Shift Start : $st");
+                $eod_printer->feed();
+                $eod_printer->text("Shift End : $end");$eod_printer->feed();
+
+                $pmts_sql = "CALL ReportPaymentSummary($mech_no,'$sales_date',$shift_no);";
+                $pmt_stmt = $db->db_connect()->prepare($pmts_sql);
+                $pmt_stmt->execute();
+                $eod_printer->text(str_repeat('-', 48) . "\n");
+                $eod_printer->text((new item("PAY METHOD","AMT")));
+                $eod_printer->text(str_repeat('-', 48) . "\n");
+                while($payment = $pmt_stmt->fetch(PDO::FETCH_ASSOC)){
+                    $eod_printer->text((new item($payment['pmt_type'],$payment['total'])));
+                }
+                $eod_printer->text(str_repeat('-', 48) . "\n");
+                $eod_printer->text((new item("GROSS",0.00)));
+                $eod_printer->text((new item("TAX",0.00)));
+                $eod_printer->text((new item("NET",0.00)));
+
+
+                // get payments for machine
+
+                $eod_printer->text(str_repeat('-', 48) . "\n");
+
+                $eod_printer->feed();
+
+
+
+            }
+
+            # print summary
+            $sh_sum = $shifts['message']['summary'];
+            $eod_printer->text((new item("NON TAXABLE",$sh_sum['non_taxable_amt'])));
+            $eod_printer->text((new item("TAXABLE",$sh_sum['taxable_amt'])));
+            $eod_printer->text((new item("TAX",$sh_sum['tax_amt'])));
+            $eod_printer->text((new item("GROSS",$sh_sum['gross'])));
+            $eod_printer->text((new item("NET",$sh_sum['net'])));
+
+            $eod_printer -> cut();
+            /* Close printer */
+            $eod_printer -> close();
+
+
+
+        } else {
+            // no shift
+            printMessage("CANNOT PRINT EOD ${shifts['message']}");
+        }
 
 
     }

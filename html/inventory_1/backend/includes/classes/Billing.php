@@ -7,6 +7,8 @@ use PDO;
 use PDOException;
 use anton;
 use db_handeer\db_handler;
+use billing\shift;
+
 class Billing extends db_handler
 {
 
@@ -700,6 +702,27 @@ class Billing extends db_handler
         ];
 
         // Return the response
+        return $response;
+
+    }
+
+    function shifts(){
+        return (new shift());
+    }
+    // make total sales
+    function downloadSales($sales_date = today): array
+    {
+        $response = array('code'=>505,'message'=>null);
+        try {
+           
+            $this->db_connect()->exec("CALL copySalesHd('$sales_date')"); // copy hd
+            $this->db_connect()->exec("CALL copySalesTrans('$sales_date')"); // copy trans
+            $response['code'] = 200;
+            $response['message'] = "SALES COPIED";
+        } catch (\Exception $e){
+            $response['message'] = "Could not copy sales " . $e->getMessage();
+        }
+
         return $response;
 
     }

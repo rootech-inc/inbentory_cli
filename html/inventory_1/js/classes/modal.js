@@ -13,7 +13,7 @@ class Modal{
     }
 
     setTitle(title){
-        $('#gen_modal_title').text(title)
+        $('#gen_modal_title').html(title)
     }
 
     setSize(size){

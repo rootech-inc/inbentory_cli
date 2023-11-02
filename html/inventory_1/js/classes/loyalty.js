@@ -3,6 +3,7 @@ class Loyalty {
     // save customer
     base_url = '/backend/process/form-processing/loyalty.php';
     result = {'code':505,'message':"INIT"};
+
     customerReg(full_name,email,mobile){
         ajaxform['type'] = 'POST';
         ajaxform['data'] = {'email':email,'name':full_name,'mobile':mobile,'task':'register'}

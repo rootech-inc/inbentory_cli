@@ -93,18 +93,25 @@ $(document).ready(function() {
 
 
         // get z from db
-        if(row_count('shifts',"`pending_eod` = 0") > 0)
+        if(row_count('eod_serial',"`status` = 0") > 0)
         {
-            let eods = get_row('shifts',"`pending_eod` = 0");
+            let eods = get_row('eod_serial',"`status` = 0");
             if(isJson(JSON.stringify(eods))){
 
                 let jods = JSON.parse(eods);
                 let opt = '';
                 for (let index = 0; index < jods.length; index++) {
                     let jod = jods[index];
-                    let shift_date = jod['shift_date'];
-                    opt += `<option value=''>${jod['mech_no']} - ${shift_date}</option>`
+                    let shift_date = jod['sales_date'];
+                    opt += `<option value='${shift_date}'>${shift_date}</option>`
                 }
+
+                let ht = `<strong>SELECT SALES DATE</strong><br><select class='form-control rounded-0' name="eod" id="eod_serial">${opt}</select>`;
+
+                mpop.setTitle("PENDING EOD");
+                mpop.setBody(ht);
+                mpop.setFooter(`<button onclick="reports.TakeEod()" class='btn btn-success'>TAKE EOD</button>`);
+                mpop.show(); 
                 
             } else {
                 kasa.error("INVALID RESPONSE")

@@ -239,9 +239,10 @@ require '../includes/core.php';
 
             elseif ($function === 'get_bill') // get bill v2
             {
+                $shift = shift_no;
                 $billRef = billRef;
                 $response = ['status'=>404,'message'=>'null'];
-                $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number'";
+                $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number' and shift = '$shift'";
                 // count bill tran count
                 $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'");
 
@@ -249,7 +250,7 @@ require '../includes/core.php';
                 if($bill_tran_count > 0){
 
                     // get all bill trans and loop
-                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND billRef = '$billRef' order by trans_type desc";
+                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND billRef = '$billRef' and shift = '$shift' order by trans_type desc";
                     (new anton())->log2file("BILL TRANS \n $q \n BILL TRANS");
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 

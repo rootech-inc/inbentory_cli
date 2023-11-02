@@ -5,10 +5,12 @@ function row_count(table, condition = 'none') {
         'condition': condition
     }
 
+ 
+
     //echo("SELECT * FROM "+table+" WHERE "+condition)
 
     var result = 0;
-
+    
     $.ajax(
         {
             url: '/backend/process/ajax_tools.php',
@@ -35,6 +37,7 @@ function exec(query = 'none') {
         form_data = {
             'function': 'query', 'query': query
         }
+        
         var result = 0;
         $.ajax(
             {

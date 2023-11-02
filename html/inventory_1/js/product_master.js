@@ -14,7 +14,7 @@ function loadProduct(prod_id,action='view')
     // echo(prod_id)
     // get item as json from database
 
-
+    mpop.hide()
 
     // disable next and back
     if(row_count('prod_master',"`item_code` > '" + prod_id +"'") > 0)
@@ -90,6 +90,7 @@ function loadProduct(prod_id,action='view')
             }
 
         }
+
         $('#packing').html(pack_opt)
         //echo(pack_opt)
 
@@ -166,7 +167,7 @@ function loadProduct(prod_id,action='view')
         )
         // loop through groups
         let tax_row = '';
-        console.table(all_tax)
+        // console.table(all_tax)
         for (let i = 0; i < all_tax.length; i++) {
             let rate = all_tax[i].rate + '% ';
             let id = all_tax[i].id;
@@ -183,7 +184,7 @@ function loadProduct(prod_id,action='view')
                 tax_row += `<option value="${id}">${tax_code}</option>`
             }
         }
-        console.log(tax_row)
+        // console.log(tax_row)
         $('#prod_tax').html(tax_row)
 
 
@@ -245,36 +246,55 @@ function loadProduct(prod_id,action='view')
         // get packing
         let pac_id = prod_result.packing
         const packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + prod_id + "'"));
+        if (packing.length > 0){
 
-        let pack_desc;
-        var package_row = '';
-        let index_id = '';
-        let purp;
-        for (let i = 0; i < packing.length; i++) {
-            let pack = packing[i], pack_id, qty, purpose;
-            pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
-            qty = pack.qty
-            purpose = pack.purpose
-            pack_desc = pack.pack_desc
-            index_id += 'pack_id'+pack.id+',';
-            //echo(index_id)
+            let pack_desc;
+            var package_row = '';
+            let index_id = '';
+            let purp;
+            for (let i = 0; i < packing.length; i++) {
+                let pack = packing[i], pack_id, qty, purpose;
+                pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
+                qty = pack.qty
+                purpose = pack.purpose
+                pack_desc = pack.pack_desc
+                index_id += 'pack_id'+pack.id+',';
+                //echo(index_id)
 
 
-            if (purpose === 1) {
-                purp = 'Sell UN';
-            } else if (purpose === 2) {
-                purp = 'Purch UN'
+                if (purpose === 1) {
+                    purp = 'SELLING';
+                }
+                else if (purpose === 2) {
+                    purp = 'BUYING'
+                }
+
+                package_row += "<tr class=\"thead-light\">\n" + "<td class=\"p-1\">" + purp + "</td>\n" +
+                    "                                        <td class=\"p-1\"><select name='packaging_id[]' id='pack_id" + index_id + "'>" +pack_opt +
+                    "</select></td>\n" +
+                    "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_desc[]' value=' " + pack_desc + "' required</td>\n" +
+                    "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_qty[]' value=' " + qty + "' required</td>\n" +
+                    "                                    </tr>";
+
+
             }
 
-            package_row += "<tr class=\"thead-light\">\n" + "<td class=\"p-1\">" + purp + "</td>\n" +
-                "                                        <td class=\"p-1\"><select name='packaging_id[]' id='pack_id" + index_id + "'>" +pack_opt +
-                "</select></td>\n" +
-                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_desc[]' value=' " + pack_desc + "' required</td>\n" +
-                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_qty[]' value=' " + qty + "' required</td>\n" +
-                "                                    </tr>";
-
-
+        } else
+        {
+            package_row = `
+                <tr class="thead-dark">
+                    <td>SELLING</td><td><select name='packaging_id[]' id='pack_id0'>${pack_opt}</select></td>
+                    <td><input style='width: 100px' name='packaging_desc[]' value="1 * 1"></td>
+                    <td><input type="number" style='width: 100px' name='packaging_qty[]' value=1></td>
+                </tr>
+                <tr class="thead-dark">
+                    <td>PURCHASING</td><td><select name='packaging_id[]' id='pack_id1'>${pack_opt}</select></td>
+                    <td><input style='width: 100px' name='packaging_desc[]' value="1 * 1"></td>
+                    <td><input type="number" style='width: 100px' name='packaging_qty[]' value=1></td>
+                </tr>
+            `;
         }
+
         //echo(package_row)
         $('#packaging_row').html(package_row)
         $('#pack_id').html(pack_opt)
@@ -541,7 +561,7 @@ function retailWithoutTax()
                 data:form_data,
                 type:'POST',
                 success: function (response) {
-                    ct(response)
+                    //ct(response)
                     let r = JSON.parse(response)
                     let details = r['details']
                     let code = r['code']
@@ -565,16 +585,17 @@ function retailWithoutTax()
 
 function searchTrigger(){ // trigger search bar
 
-    $('#barcode_search').show(500)
-    $('#barcode_search').focus()
+    $('#bcodeSearch').show(500)
+    $('#bcodeSearch').focus()
 }
 
-$('#barcode_search').on('keyup',function (e) {
+$('#bcodeSearch').on('keyup',function (e) {
     let key = e.which, barcode, item_code;
+    console.log(key)
     if(key === 13)
     {
         // search
-        barcode = $('#barcode_search').val();
+        barcode = $('#bcodeSearch').val();
         //echo(barcode)
         if(row_count('prod_master',"`barcode` = '" + barcode + "'") === '1')
         {
@@ -582,8 +603,8 @@ $('#barcode_search').on('keyup',function (e) {
             item_code = JSON.parse(get_row('prod_master',"`barcode` = '" + barcode + "'"))[0].item_code;
 
             // hide search input anf clear
-            $('#barcode_search').val('')
-            $('#barcode_search').fadeOut(500)
+            $('#bcodeSearch').val('')
+            $('#bcodeSearch').fadeOut(500)
             // load item
             loadProduct(item_code)
 
@@ -591,7 +612,7 @@ $('#barcode_search').on('keyup',function (e) {
             //echo(item_code)
         }
         else {
-            $('#barcode_search').val('')
+            $('#bcodeSearch').val('')
             alert("Item Not Found")
 
         }

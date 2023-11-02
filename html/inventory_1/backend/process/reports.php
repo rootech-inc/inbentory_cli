@@ -25,7 +25,8 @@
                     // access denied
                 }
 
-            } elseif ($function === 'z_report'){
+            }
+            elseif ($function === 'z_report'){
 
                 // Z REPORT
                 $clerk_code = $anton->post('clerk_code');
@@ -56,6 +57,49 @@
                     echo $anton->json_enc($admin_auth);
                     // access denied
                 }
+            }
+            elseif ($function === 'take_eod'){
+                require '../../api/ApiResponse.php';
+                require '../includes/print.php';
+                $response = (new API\ApiResponse());
+                try{
+
+                    $sale_date = $anton->post('sale_date');
+
+                    // validate eod again
+                    $eod_count = $db->row_count('eod_serial',"`sales_date` = '$sale_date'");
+                    $open_shifts = $db->row_count('shifts',"`shift_date` = '$sale_date' AND `end_time` is NULL");
+                    if ($eod_count === 1){
+
+                        // check if shift still open for other machines
+                        if($open_shifts > 0){
+                            $response->error("You have $open_shifts shifts(s) still open");
+                        } else {
+
+                            // take report
+                            print_eod($sale_date);
+                            $close = (new \billing\shift())->closeEod($sale_date);
+                            $code = $close['code'];
+                            $message = $close['message'];
+                            if($code === 200){
+                                $response->error($message);
+                            } else {
+                                $response->success($message);
+                            }
+
+                        }
+
+                    } else {
+                        $response->error("Invalidate sales date");
+                    }
+
+
+
+                } catch (\Exception $e){
+                    $response->error($e->getMessage());
+                }
+
+
             }
             elseif ($function === 'print_availability'){
                 // get details

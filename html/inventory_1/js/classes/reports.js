@@ -1,4 +1,8 @@
 class Reports {
+
+    base_url = '/backend/process/reports.php';
+    result = {'code':505,'message':"INIT"};
+
     SalesReport(){
 
         // check if there is sales
@@ -87,7 +91,7 @@ class Reports {
 
                                 }
                                 this_sales += `<div class='w-100 font-weight-bold clearfix border-dark p-1 border-bottom'>\
-                                <div class='w-45 float-left'><p class='m-0 p-0'>Total</p></div>\
+                                <div class='w-45 float-left'><p class='m-0 text-left p-0'>Total</p></div>\
                                 <div class='w-45 float-right text-right'><p class='m-0 p-0'> ${this_total.toFixed(2)}</p></div>\
                             </div>`
 
@@ -385,10 +389,38 @@ class Reports {
         });
     }
 
-    eodScreen(){
+    TakeEod(){
         // get all eod
-        let eods = JSON.parse(get_row('eod_serial',"`status` = 0"));
-        console.table(eods);
+        let sales_date = $('#eod_serial').val();
+
+        if(sales_date.length > 0){
+            // continue
+            let payload = {
+                'function':'take_eod',
+                'sale_date': sales_date
+            }
+            ajaxform['type'] = 'POST';
+            ajaxform['url'] = this.base_url;
+            ajaxform['data'] = payload;
+            ajaxform['success'] = function (response) {
+                if(isJson(response)){
+                    let jponse = JSON.parse(response);
+                    console.table(jponse);
+                    if(response['status_code'] !== 200){
+                        kasa.error(jponse['message']);
+                    } else {
+                        kasa.info(jponse['message']);
+                    }
+                    
+                } else {
+                    kasa.warning("INVALID EOD RESPONSE")
+                }
+            };
+            $.ajax(ajaxform);
+            
+        } else {
+            kasa.error("SELECT DATE");
+        }
     }
 
 }

@@ -236,19 +236,26 @@
             $sell_pk_id = $packaging_id[0];
             $sell_pk_desc = $packaging_desc[0];
             $sell_pk_qty = $packaging_qty[0];
-            $db->db_connect()->exec(
-                "UPDATE `prod_packing` set pack_id = '$sell_pk_id',pack_desc='$sell_pk_desc',qty='$sell_pk_qty'
-                            WHERE item_code = '$item_code' AND purpose = 1"
-            );
+            $sel_pk_query = "INSERT INTO prod_packing (`pack_id`,`pack_desc`,`qty`,`purpose`,`item_code`) VALUES 
+                                                                     ('$sell_pk_id','$sell_pk_desc','$sell_pk_qty',1,'$item_code')";
+//            $db->db_connect()->exec(
+//                "UPDATE `prod_packing` set pack_id = '$sell_pk_id',pack_desc='$sell_pk_desc',qty='$sell_pk_qty'
+//                            WHERE item_code = '$item_code' AND purpose = 1"
+//            );
 
             // purchasing = 1
             $buy_pk_id = $packaging_id[1];
             $buy_pk_desc = $packaging_desc[1];
             $buy_pk_qty = $packaging_qty[1];
-            $db->db_connect()->exec(
-                "UPDATE `prod_packing` set pack_id = '$buy_pk_id',pack_desc='$buy_pk_desc',qty='$buy_pk_qty'
-                            WHERE item_code = '$item_code' AND purpose = 2"
-            );
+            $buy_query = "INSERT INTO prod_packing (`pack_id`,`pack_desc`,`qty`,`purpose`,`item_code`) VALUES 
+                                                                     ('$buy_pk_id','$buy_pk_desc','$buy_pk_qty',2,'$item_code')";
+//            $db->db_connect()->exec(
+//                "UPDATE `prod_packing` set pack_id = '$buy_pk_id',pack_desc='$buy_pk_desc',qty='$buy_pk_qty'
+//                            WHERE item_code = '$item_code' AND purpose = 2"
+//            );
+            $db->db_connect()->exec("DELETE FROM prod_packing WHERE item_code = '$item_code'");
+            $db->db_connect()->exec($sel_pk_query);
+            $db->db_connect()->exec($buy_query);
             $anton->set_session(['action=view']);
             $anton->done('done');
 

@@ -57,6 +57,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/kasa.js"></script>
     <script src="/js/classes/api.js"></script>
     <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/productMaster.js"></script>
     
     <link rel="stylesheet" href="/css/anton.css">
 
@@ -71,7 +72,7 @@ error_reporting(E_ALL);
 
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
-
+    
     <div class="modal" id="loader">
         <div class="w-100 h-100 bg_trans_50 d-flex flex-wrap align-content-center justify-content-center">
             <div style="width: 100px; height: 100px; background: none !important">
@@ -415,6 +416,7 @@ error_reporting(E_ALL);
         ?>
         <main onclick="hideKboard()" class="p-0 w-100 ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
+            <input type="hidden" id='my_shift_no' value="<?php echo shift_no ?>">
             <?php
 
 

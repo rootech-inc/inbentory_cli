@@ -13,6 +13,8 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 
 // Extract the module and data from the API body
 $api_body = json_decode(file_get_contents('php://input'), true);
+print_r($api_body);
+echo "OLD PIRATE";
 
 $module = $api_body['module'];
 $data = $api_body['data'];
@@ -76,6 +78,10 @@ function handleViewRequest($module,$data)
             (new \API\ApiResponse())->error("CANNOT FIND CUSTOMER");
         }
 
+    }
+
+    elseif ($module === 'take_eod') {
+        (new \API\ApiResponse())->success(json_decode("OKAY"));
     }
 
 

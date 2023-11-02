@@ -316,13 +316,13 @@ class TaxMaster{
                 'global': false,
                 'dataType': 'html',
                 success: function (response) {
-                    cl(response)
+                    // cl(response)
                     let r = JSON.parse(response)
                     let details = r['details']
                     let code = r['code']
                     let withoutTax = details['withoutTax']
 
-                    ct(r)
+                    // ct(r)
 
                     result = r;
 

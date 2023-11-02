@@ -140,7 +140,7 @@ $anton->log2file($logo,"LOGO",1);
 
         // $bill_number = $MConfig->bill_number();
         $bill_number = $bill->billNumber();
-        $billRef = "001".date('ymd',strtotime(today)).$bill_number.mech_no;
+        $billRef = "001".date('ymd',strtotime(today)).$bill_number.shift_no.mech_no;
         //$billRef = "001".date('ymd').$bill_number.mech_no;
         define('billRef',$billRef);
         define('bill_total',$bill->billTotal($bill_number,$today));

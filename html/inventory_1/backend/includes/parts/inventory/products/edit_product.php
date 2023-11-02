@@ -29,11 +29,8 @@
 
 
                 <!--SAVE-->
-                <button id="edit_prod" type="submit" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/save_close.png"
-                            class="img-fluid"
-                    >
+                <button id="edit_prod" type="submit" title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa fa-save text-success"></i>
                 </button>
 
             </div>
