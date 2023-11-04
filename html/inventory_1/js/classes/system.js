@@ -871,3 +871,16 @@ class MechConfig {
 
 }
 
+class Keyboard {
+    showQwerty(){
+
+        $('#alphsKeyboard').fadeIn();
+    }
+
+    hideQwerty(){
+
+        $('#alphsKeyboard').hide();
+    }
+}
+
+const keyboard = new Keyboard();

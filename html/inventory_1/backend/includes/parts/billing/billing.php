@@ -56,7 +56,7 @@
     </div>
 
 </div>
-    <main class="p-0 d-flex flex-wrap align-content-start justify-content-center">
+    <main style="" class="p-0 h-100 d-flex flex-wrap align-content-start justify-content-center">
         <header class="billing-header border-light m-1 d-flex flex-wrap align-content-center justify-content-between">
             <div class="w-25 h-100 d-flex flex-wrap text_xx align-content-center">
                 <kbd class='mr-2 bg-primary'>SHIFT <?php echo shift_no ?></kbd> Bill #<div id="bill_num"><?php echo $bill_number ?></div>
@@ -106,13 +106,19 @@
                         <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">
                             EXIT
                         </button>
+
+                        <select onchange="change_category(this.value)" name="" id="" class="form-control rounded-0 w-50">
+                            <option value="0">SELECT CATEGORY</option>
+                            <?php while($selcGroup = $item_groups2->fetch(PDO::FETCH_ASSOC)): ?>
+                                <option value="<?php echo $selcGroup['button_index'] ?>"><?php echo $selcGroup['description'] ?></option>
+                            <?php endwhile; ?>
+                        </select>
                         <span id="msglegend"></span>
                     </div>
 
                     <div class="bill-item-body p-1 border d-flex flex-wrap align-content-start justify-content-between">
-                        <!-- category-->
+                        <!-- category
                         <div class="w-25 p-1 h-100 border">
-                            <!--Scroll Up-->
                             <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-center border">
                                 <button onclick="custom_scroll('category','up')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
@@ -123,7 +129,6 @@
                                 </button>
                             </div>
 
-                            <!--Categories-->
                             <div id="category" class="h-80 w-100 d-flex flex-wrap justify-content-center overflow-hidden align-content-start border">
 
                                 <?php while ($group = $item_groups->fetch(PDO::FETCH_ASSOC)):
@@ -143,7 +148,6 @@
 
                             </div>
 
-                            <!--SCROLL DOwn-->
                             <div class="h-10 w-100 d-flex flex-wrap align-content-center justify-content-between border">
                                 <button onclick="custom_scroll('category','down')" class="cat_button_scroll btn rounded-0 shadow text-center m-2">
                                     <img
@@ -154,14 +158,15 @@
                                 </button>
                             </div>
                         </div>
+                    -->
 
                         <!--Items-->
-                        <div id="items_container"  class="w-75 d-flex flex-wrap align-content-start justify-content-between h-100 border">
-                                <div id="items" class="h-90 w-100 overflow-auto d-flex flex-wrap border align-content-start justify-content-between">
+                        <div id="items_container"  class="w-100 d-flex flex-wrap align-content-start justify-content-between h-100 border">
+                                <div id="items" class="h-100 w-100 overflow-auto d-flex flex-wrap border align-content-start justify-content-start">
                                     
 
                                 </div>
-                                <!--ITEMS SCROW-->
+                                <!--ITEMS
                                 <div class="w-100 h-10 p-2 clearfix">
                                     <button onclick="custom_scroll('items','up')" class="w-45 item_scroll h-100 float-left h-100">
                                         <img
@@ -177,7 +182,7 @@
                                         src="../assets/icons/home/arrrow_down.png"
                                     >
                                     </button>
-                                </div>
+                                </div> SCROW-->
 
                         </div>
                     </div>
@@ -249,7 +254,13 @@
                             <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group bg-danger h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
 
-                                <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off" class="bill_main_input form-control rounded-0">
+                                <div class="input-group">
+                                    <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off"
+                                            class="bill_main_input h-100 form-control rounded-0">
+                                    <div class="input-group-prepend">
+                                        <button type="button" onclick="keyboard.showQwerty()" class="btn btn-info"><i class="fa fa-keyboard"></i></button>
+                                    </div>
+                                </div>
                                 <div style="display: none" class="input-group-append w-20 bill_main_input p-0">
                                     <span class="input-group-text w-100 rounded-0 text-dark p-0">
                                         <button type="submit" class="btn h-100 rounded-0 w-100 btn-info">GO</button>

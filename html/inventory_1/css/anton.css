@@ -186,8 +186,10 @@ main{
     font-size: small;
 }
 
-.billing-header{width: 100%;height: 70px;}
-.bill-body{width: 100%;height: 587px;background-color: #18191D;}
+.billing-header{width: 100%;height: 10% !important;}
+/*.billing-header{width: 100%;height: 70px;}*/
+/*.bill-body{width: 100%;height: 587px;background-color: #18191D;}*/
+.bill-body{width: 100%;height: 90% !important;background-color: #18191D;}
 .time{color: #537DEB;font-size: 35px;}
 .date{color: #05813F;font-size: 15px;font-weight: bold;}
 .company_name{font-size: 25px;}

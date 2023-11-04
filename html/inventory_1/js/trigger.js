@@ -240,6 +240,10 @@ $(document).ready(function() {
 
     });
 
+    $('#general_input').click(function () {
+        // keypad()
+    });
+
 });
 
 $(document).ready(function() {

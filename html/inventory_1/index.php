@@ -85,7 +85,7 @@ error_reporting(E_ALL);
     </div>
     <script>loader('show')</script>
 
-    <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
+    <button onclick="sys.OnKeyboard()" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
         <i class="fa fa-keyboard"></i>
     </button>
 
@@ -155,6 +155,7 @@ error_reporting(E_ALL);
 
 
     <div id="alphsKeyboard" class="ant-bg-black p-1">
+        <span class="badge badge info">QWERTY 0.1  </span>
         <script>
             sys.OffKeyboard()
         </script>
@@ -328,20 +329,23 @@ error_reporting(E_ALL);
 
             <!-- QWERTY LAST ROW -->
             <div class="w-100 d-flex flex-wrap">
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
-                </div>
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                <div class="alpha_double">
+                    <button onclick="sys.OffKeyboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm">
+                        <i class="fa fa-window-close"></i>
+                    </button>
                 </div>
                 <div class="alpha_space">
                     <button type="button" onclick="keyboardInput($(this).text())" class="alpha_space btn w-100 h-100 btn-light btn-sm shadow-sm"> </button>
                 </div>
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
-                </div>
-                <div class="alpha">
-                    <button onclick="sys.OffKeyboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"></button>
+<!--                <div class="alpha">-->
+<!--                    <button  class="btn btn-success m-0 btn-sm w-100 h-100 shadow-sm">-->
+<!--                        <i class="fa fa-hammer"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+                <div class="alpha_double">
+                    <button onclick="" class="btn btn-success m-0 btn-sm w-100 h-100 shadow-sm">
+                        <i class="fa fa-hammer"></i>
+                    </button>
                 </div>
             </div>
 
@@ -414,7 +418,7 @@ error_reporting(E_ALL);
             <input type='hidden' id='mech_no' value='$machine_number'>
         ";
         ?>
-        <main onclick="hideKboard()" class="p-0 w-100 ant-bg-black">
+        <main class="p-0 w-100 ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
             <input type="hidden" id='my_shift_no' value="<?php echo shift_no ?>">
             <?php
@@ -429,6 +433,7 @@ error_reporting(E_ALL);
 
                     // get categories
                     $item_groups = $db->db_connect()->query("SELECT * from `item_buttons`");
+                    $item_groups2 = $db->db_connect()->query("SELECT * from `item_buttons`");
 
 
                     // include billing

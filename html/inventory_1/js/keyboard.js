@@ -27,15 +27,19 @@ function showNumKeyboard() {
     document.getElementById('numericKeyboard').style.display = '';
 }
 
-function keypad(task) {
+function keypad(task='none') {
 
-    document.getElementById('alphsKeyboard').style.display = '';
+    // document.getElementById('alphsKeyboard').style.display = '';
+    // console.log("SHOW KEYBOAD")
+    keyboard.showQwerty()
 }
 
 function hideKboard()
 {
-    $('#alphsKeyboard').hide();
+    // $('#alphsKeyboard').hide();
     // document.getElementById('alphsKeyboard').style.display = 'none';
+    // document.getElementById('alphsKeyboard').style.display = 'none';
+    keyboard.hideQwerty()
 }
 
 function keyboardInput(number) {
