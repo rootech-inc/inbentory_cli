@@ -16,6 +16,17 @@
                 $anton->set_session($session_data);
             }
 
+            // tax inclusive details
+            elseif ($function === 'taxInclusive'){
+                $code = $anton->post('tax_code');
+                $value = $anton->post('value');
+
+                $tasker = (new \taxer\tax_calculator());
+                $tax_detail = $tasker->taxInclusive($code,$value);
+                header("Content-Type:Application/Json");
+                echo json_encode($tax_detail);
+            }
+
             // general query
             elseif ($function === 'gen_query'){
                 $query = $_POST['query'];

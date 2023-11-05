@@ -176,6 +176,40 @@ class System {
         });
 
     }
+
+
+    taxComponents(tax_code,value){
+
+        var form_data = {
+            'function':'taxInclusive',
+            'tax_code':tax_code,
+            'value':value
+        }
+        var result = 0;
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data:form_data,
+                success: function (response) {
+                    ct(response)
+                    if(responseType(response) === 'done')
+                    {
+
+                        result =  responseMessage(response)
+
+                    }
+                }
+            }
+        );
+
+        return result;
+
+    }
+
 }
 
 class TaxMaster{

@@ -522,11 +522,6 @@ class Billing extends db_handler
                             $vat = (15.9 / 100) * $taxableAmount;
 
 
-
-
-
-
-
                             // insert into tax transactions
                             try {
 
@@ -650,7 +645,6 @@ class Billing extends db_handler
         // Apply discount to the total bill
         $total_bill = ($taxable_total + $none_taxable_total) * (1 - $discount_rate);
 
-        #$total_bill = $this->sum('bill_trans','tax_amt',"`billRef` = '$bill_ref' and `trans_type` = 'i'");
 
         // Calculate levies amount
         $levies_amount = $taxable_total * $tax_rate_levies;

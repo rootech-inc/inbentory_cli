@@ -1719,10 +1719,10 @@ function download_products() // download products
     }
 
     // delete all items
-    exec("DELETE FROM prod_mast");
+
     // download item buttons
     var items = JSON.parse(
-        get_row('prod_master', "`item_code` > 0")
+        get_row('prod_master', "`item_code` > 0 and download_flag = 1")
     );
 
     for (let i = 0; i < items.length; i++) {
@@ -1749,8 +1749,9 @@ function download_products() // download products
             'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp'],
             'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group]
         }
-
+        exec(`DELETE FROM prod_mast where id = '${item_id}'`);
         insert('prod_mast', data)
+        exec(`UPDATE prod_master SET download_flag = 0 where item_code = '${item_id}'`)
 
     }
 

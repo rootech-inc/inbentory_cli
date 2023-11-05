@@ -100,7 +100,7 @@
             let next_count = row_count('sales_hd',`sales_date > '${sales_date}'`);
             //console.log(next_count);
             if(next_count > 0){
-                let next = FETCH(`SELECT sales_date from sales_hd where sales_date > '${sales_date} order by sales_date asc limit 1'`)[0];
+                let next = FETCH(`SELECT sales_date from sales_hd where sales_date > '${sales_date}' order by sales_date asc limit 1`)[0];
                 $('#next').val(next['sales_date']);
                 $('#next').prop('disabled',false);
             } else {
@@ -109,8 +109,9 @@
 
             // previous
             if(row_count('sales_hd',`sales_date < '${sales_date}'`) > 0){
+                let prev_query = `SELECT sales_date from sales_hd where sales_date < '${sales_date}' order by sales_date desc limit 1`
 
-                let prev = FETCH(`SELECT sales_date from sales_hd where sales_date < '${sales_date} order by sales_date desc limit 1'`)[0];
+                let prev = FETCH(prev_query)[0];
                 $('#prev').val(prev['sales_date']);
                 $('#prev').prop('disabled',false);
 

@@ -17,27 +17,18 @@
             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
 
                 <!-- EXIT -->
-                <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="assets/icons/inventory/inventory_home.png"
-                            class="img-fluid"
-                    >
+                <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="btn btn-primary btn-sm mr-1">
+                    <i class="fa fa-home"></i>
                 </button>
 
                 <!--ADD-->
-                <button id="save_grn" title="Save Document" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/save_close.png"
-                            class="img-fluid"
-                    >
+                <button id="save_grn" title="Save Document" class="btn btn-success btn-sm btn-sm mr-1">
+                    <i class="fa fa-save"></i>
                 </button>
 
                 <!--DELETE-->
-                <button onclick="set_session(['inventory=home'])" type="button" title="Cancel" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/cancel.png"
-                            class="img-fluid"
-                    >
+                <button onclick="set_session(['inventory=home'])" type="button" title="Cancel" class="btn btn-sm btn-danger">
+                    <i class="fa fa-trash"></i>
                 </button>
 
 
@@ -48,11 +39,11 @@
             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
                 <!--ADD-->
                 <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" placeholder="PO Number" class="form-control form-control-sm mr-2" id="po_search">
-                <button type="button" title="Search" onclick="searchTrigger()" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="assets/icons/home/retrieve.png"
-                            class="img-fluid"
-                    >
+                <button type="button" title="Search" onclick="searchTrigger()" class="btn btn-dark mr-2 btn-sm">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button onclick="retrievePo()" class="btn btn-info btn-sm mr-1 d-flex">
+                    Retrieve PO
                 </button>
                 <!-- INSERT NEW LINE -->
                 <button type="button" style="display: none !important" data-toggle="modal" data-target="#new_grn_item_modal" disabled id="new_item" title="New Line" class="header_icon ml-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
@@ -143,9 +134,9 @@
                         <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                             <p class="m-0 p-0 text-elipse">Taxable</p>
                         </div>
-                        <select disabled onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="tax_grp">
-                            <option value="0">No</option>
-                            <option value="V3">VAT 3%</option>
+                        <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="taxable">
+                            <option value="1">YES</option>
+                            <option value="0">NO</option>
 
                         </select>
                     </div>

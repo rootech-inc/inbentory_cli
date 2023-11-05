@@ -160,11 +160,11 @@ $('#po_search').on('keyup',function (e) // search for po
         $('#po_search').val('')
         $('#po_search').hide(500)
 
-    } else {
-        // do nothin
-        echo("Keep Inputting")
     }
 })
+
+
+
 
 // find item for grn
 $('#new_grn_item').on('keyup', function (e) {
@@ -889,3 +889,197 @@ $(document).ready(function (){
         })
     });
 });
+
+
+function retrievePo(){
+    // get pending pos
+    let pending = fetch_rows(`select doc_no,CONCAT(location,' - ',(SELECT loc_desc FROM loc where loc_id = po_hd.location)) as 'location',(SELECT supp_name FROM supp_mast where supp_id = po_hd.suppler) as 'supplier',total_amount from po_hd where grn = 0`);
+    let tr = "",table = "";
+    if(isJson(pending)){
+
+        let pending_json = JSON.parse(pending);
+        for (let p = 0; p < pending_json.length ; p++) {
+            let doc_no,location,supplier,total, po = pending_json[p];
+            doc_no = po['doc_no'];
+            location = po['location'];
+            supplier = po['supplier'];
+            total = po['total_amount']
+
+            tr += `<tr ondblclick="loadPoIntoGrn('${doc_no}');mpop.hide()">
+                        <td>${doc_no}</td>
+                        <td>${location}</td>
+                        <td>${supplier}</td>
+                        <td>${total}</td>
+                    </tr>`;
+
+            // console.table(po);
+        }
+        table = `
+            <table class="table table-sm table-bordered">
+                <thead class="thead-dark"><tr><th>DOC</th><th>LOCATION</th><th>SUPPLIER</th><th>TOTAL</th></tr></thead>
+                <tbody>${tr}</tbody>
+            </table>
+        `;
+
+
+    }
+    else {
+        table = "INVALID RESPONSE"
+    }
+    mpop.setBody(table)
+    mpop.setTitle("PENDING POs");
+    mpop.show()
+
+}
+
+
+function loadPoIntoGrn(po_number){
+
+    let action = a_sess.get_session('action');
+
+    if(action === 'new') // load po for grn
+    {
+
+        var po_exist = row_count('po_hd', "`doc_no` = '" + po_number + "'");
+        var grn_made = row_count('grn_hd', "`po_number` = '" + po_number + "'")
+        if (po_exist === 1) {
+
+            if (grn_made === 1) {
+                swal_error("Goods has been received")
+            } else
+
+
+            if (grn_made === 0) {
+                po_details = JSON.parse(
+                    get_row('po_hd', "`doc_no` = '" + po_number + "'")
+                )[0]
+
+                // check if po is approved
+                var po_status = po_details.status;
+                if (po_status === 1) {
+
+                    // header details
+
+                    var supplier = JSON.parse(get_row('supp_mast', "`supp_id` = '" + po_details.suppler + "'"))[0].supp_name
+                    var loc = po_details.location
+                    var location_desc = JSON.parse(get_row('loc', "`loc_id` = '" + loc + "'"))[0].loc_desc
+
+
+                    // populate header
+                    set_value('loc_id', loc)
+                    set_text('loc_desc', location_desc)
+                    set_value('supp_id', po_details.suppler)
+                    set_text('supplier', supplier)
+                    set_value('ref_doc', po_number)
+                    set_value('remarks', po_details.remarks)
+                    arr_enable('tax_grp')
+                    jqh.loadTax()
+
+                    // get po trans
+                    var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
+
+                    if (po_trans_rows > 0) {
+                        // there is po trans items
+                        var po_trans = JSON.parse(
+                            get_row('po_trans', "`parent` = '" + po_number + "'")
+                        )
+                        var sn = 0;
+                        var tr = "";
+                        var grn_total = 0;
+                        for (let t = 0; t < po_trans.length; t++) {
+                            var po_tran = po_trans[t]
+                            let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
+                                net_amount, retail, pack_um, cost, this_cost;
+                            item_code = po_tran.item_code
+                            barcode = po_tran.barcode
+                            description = po_tran.item_description
+                            pack_id = po_tran.pack_desc
+                            packing = po_tran.packing
+                            qty = po_tran.qty
+                            price = po_tran.cost
+                            total_amt = po_tran.total_cost
+                            pack_um = po_tran.pack_um
+                            cost = po_tran.cost
+                            this_cost = parseFloat(price) / parseFloat(pack_um)
+                            tax_amount = 0
+                            net_amount = total_amt - tax_amount
+                            retail = JSON.parse(
+                                get_row('prod_master', "`barcode` = '" + barcode + "'")
+                            )[0].retail
+
+                            sn++
+                            grn_total += parseFloat(net_amount);
+                            echo("##### " + total_amt)
+
+
+                            // ids
+                            var qty_id = "qty_" + sn.toString();
+                            var price_id = 'price_' + sn.toString();
+                            var total_id = 'total_' + sn.toString();
+                            var tr_id = 'row_' + item_code.toString();
+                            let cost_id = 'cost_' + sn.toString()
+                            let retail_id = 'retail_' + sn.toString()
+                            let code_id = 'code_id_' + sn.toString()
+                            let net_id = 'net_' + sn.toString()
+                            let tax_id = 'tax_' + sn.toString()
+
+                            let retail_bg = '';
+                            if (this_cost >= retail) {
+                                // danger
+                                retail_bg = 'bg-danger'
+                            }
+
+
+                            tr += "<tr id='" + tr_id + "'>\n" +
+                                "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
+                                "                            <td class='text_xs'>" + barcode + "</td>\n" +
+                                "                            <td class='text_xs'>" + description + "</td>\n" +
+                                "                            <td class='text_xs'>" + pack_id + "</td>\n" +
+                                "                            <td class='text_xs'>" + packing + "</td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
+                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+                                "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
+                                "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
+                                "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
+                                "                        </tr>";
+                            echo(sn)
+                        }
+                        $('#grn_items_list').html(tr)
+                        // get grn total
+                        echo(grn_total)
+                        set_value('total_amount', grn_total.toFixed(2))
+                        arr_enable('new_item')
+                        $('#new_item').show()
+
+                    } else {
+                        swal_error("No items in PO Transaction")
+                    }
+                } else if (po_status === 0) {
+                    swal_error("Document " + po_number + " Has not been approved")
+                } else {
+                    swal_error("Document " + po_number + " Not Found")
+                }
+
+            }
+
+
+            // hide po search
+            $('#po_search').val('')
+            $('#po_search').hide(500)
+        } else {
+            swal.fire(po_number + " Does Not Exist")
+            $('#po_search').focus()
+        }
+
+        echo("Search Fired")
+    } else if(action === 'view')
+    {
+        viewGrn(po_number)
+    }
+
+    $('#po_search').val('')
+    $('#po_search').hide(500)
+}

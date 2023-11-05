@@ -188,7 +188,7 @@
                             <select
                                     name="tax"
                                     autocomplete="off"
-                                    id="prod_tax" onchange="retailWithoutTax()"
+                                    id="prod_tax"
                             >
 
 
@@ -214,24 +214,24 @@
                                     id="retail_with_tax"
                                     autocomplete="off"
                                     type="text"
-                                    onkeyup="retailWithoutTax()"
+
                             >
                         </div>
 
                         <!--RETAIL WITHOUT TAX-->
-                        <div class="w-100 d-flex flex-wrap prod_inp_container">
-                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>
-                            </div>
-                            <input readonly
-                                   name="retail_without_tax"
-                                   autocomplete="off"
-                                   type="text"
-                                   id="retail_without_tax"
-
-                            >
-
-                        </div>
+<!--                        <div class="w-100 d-flex flex-wrap prod_inp_container">-->
+<!--                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">-->
+<!--                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>-->
+<!--                            </div>-->
+<!--                            <input readonly-->
+<!--                                   name="retail_without_tax"-->
+<!--                                   autocomplete="off"-->
+<!--                                   type="text"-->
+<!--                                   id="retail_without_tax"-->
+<!---->
+<!--                            >-->
+<!---->
+<!--                        </div>-->
 
 
                     </div>

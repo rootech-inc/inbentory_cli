@@ -338,7 +338,7 @@ class Reports {
                         barcode = row['barcode'];
                         name = row['item_desc'];
                         stock = row['stock'];
-                        console.table(row);
+                        // console.table(row);
                         tr += `<tr>
                             <td>${barcode}</td><td>${name}</td><td>${stock}</td>
                         </tr>`;
@@ -371,7 +371,7 @@ class Reports {
                         
                         if(isJson(response)){
                             let ress = JSON.parse(response);
-                            mpop.setBody(`<embed type='application/pdf' src="http://localhost/assets/docs/${ress['file']}" style='width:100% !important' height="400" 
+                            mpop.setBody(`<embed type='application/pdf' src="/assets/docs/${ress['file']}" style='width:100% !important' height="400" 
                             type="application/pdf">`)
                             //windowPopUp(`http://localhost/assets/docs/${ress['file']}`,'',1024,600)
                             mpop.setSize('lg')
