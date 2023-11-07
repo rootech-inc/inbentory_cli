@@ -8,13 +8,13 @@ $response = new \API\ApiResponse();
 
 
 
+
 // Define the HTTP request method
 $request_method = $_SERVER['REQUEST_METHOD'];
 
 // Extract the module and data from the API body
 $api_body = json_decode(file_get_contents('php://input'), true);
-print_r($api_body);
-echo "OLD PIRATE";
+
 
 $module = $api_body['module'];
 $data = $api_body['data'];
@@ -90,6 +90,7 @@ function handleViewRequest($module,$data)
 
 function handlePostRequest($module, $data,$crud)
 {
+    $db= (new \db_handeer\db_handler());
     if($module === 'customer'){
         // create customer
         if($crud === 'write'){

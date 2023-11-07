@@ -282,7 +282,7 @@
                                         MOMO
                                     </button>
                                     <button id="credit_payment" onclick="bill.payment('credit_payment')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
-                                        MOMO
+                                        CARD
                                     </button>
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
                                         CANCEL
@@ -290,9 +290,9 @@
                                     <button id="void_button" disabled onclick="bill.void()" class="bill_func_sub_btn btn btn-sm btn-warning rounded-0">
                                         VOID
                                     </button>
-                                    <button id="subTotal" disabled onclick="bill.sub_total()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">
-                                        SUB TOTAL
-                                    </button>
+<!--                                    <button id="subTotal" disabled onclick="bill.sub_total()" class="bill_func_sub_btn btn btn-sm btn-success rounded-0">-->
+<!--                                        SUB TOTAL-->
+<!--                                    </button>-->
                                     <button id="hold" disabled onclick="bill.holdBill()" class="bill_func_sub_btn btn btn-sm btn_traditional rounded-0">
                                         HOLD
                                     </button>

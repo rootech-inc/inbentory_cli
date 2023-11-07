@@ -342,7 +342,8 @@ require '../includes/core.php';
 
                     // mark bill as canceled
 //                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
+                    $shift = shift_no;
+                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
                     $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
                     $db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
 
@@ -355,10 +356,7 @@ require '../includes/core.php';
             {
                 $response = ['status'=>202,'message'=>"INI"];
                 $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
-
-                //$anton->print_bill('2','hold');
-
-
+                $clerk_id = $clerk_id;
 
                 if(bill_total['valid'] === 'Y')
                 {
@@ -369,18 +367,16 @@ require '../includes/core.php';
                     {
                         $item_barcode = $item['item_barcode'];
                         $item_qty = $item['item_qty'];
+                        $line_id = $item['id'];
 //                        echo $item_barcode;
-                        $db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')");
-
+                        $insert_hold_tr = "INSERT INTO bill_hld_tr (bill_group, barcode, qty,clerk) values ('$randomString','$item_barcode','$item_qty','$clerk_id')";
+                        $db->db_connect()->exec($insert_hold_tr);
+                        $db->db_connect()->exec("DELETE from bill_trans where id = '$line_id'");
 
 
 
                     }
-                    // todo print held bill
-                    $delete = "DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number";
-                    // delete item
-//                    echo $delete;
-                    $db->db_connect()->exec($delete);
+
                     $response['message'] = "Bill Hold Number : $randomString";
 
                 } else {
@@ -539,39 +535,45 @@ require '../includes/core.php';
 
             elseif ($function === 'recall_bill') // recall bill
             {
+
+
                 $bill_grp = $anton->post('bill_grp');
 
 
-
-
+                $condition = "`bill_group` = '$bill_grp'";
+                $count = $db->fetch_rows("SELECT COUNT(*) as 'rows' FROM bill_hld_tr where `bill_group` = '$bill_grp' and billed  = 0 ")['rows'];
+                $response['status'] = 404;
+                $response['message'] = "Bill Not Found ($bill_grp <> $count)";
                 // check if bill number exist
-                if($db->row_count('bill_hold',"`bill_grp` = '$bill_grp' AND `bill_date` = '$today'") < 1 )
+                if($count > 0 )
                 {
-//                    $anton->err('bill_recall_does_not_exits');
-                    $response['status'] = 404;
-                    $response['message'] = "Bill Not Found";
-//                    die();
-                }
-                else
-                {
+
                     // load bill
-                    $held_bill = $db->db_connect()->query("SELECT * FROM `bill_hold` WHERE `bill_grp` = '$bill_grp' and `bill_date` = '$today'");
+                    $held_bill = $db->db_connect()->query("
+                        select bill_hld_tr.id as 'id', pm.`desc`,pm.retail,pm.id,pm.discount,pm.barcode,qty from bill_hld_tr right join posdb.prod_mast pm on bill_hld_tr.barcode = pm.barcode where bill_group = '$bill_grp' and billed = 0
+                    ");
                     while($item = $held_bill->fetch(PDO::FETCH_ASSOC))
                     {
-                        $barcode = $item['item_barcode'];
-                        $item_qty = $item['item_qty'];
-//                        print_r($barcode);
-//                        die();
+                        $barcode = $item['barcode'];
+                        $item_qty = $item['qty'];
+                        $id = $item['id'];
+
+                        $this_item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");;
 
                         // insert into bill
-                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
+//                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
+                        (new billing\Billing())->AddToBill($bill_number,$this_item,$item_qty,$myName);
+
+
+
 
                     }
+                    $db->db_connect()->exec("UPDATE bill_hld_tr SET billed = 1 where bill_group = '$bill_grp'");
                     // delete all bill item
-                    $db->delete("`bill_hold`","`bill_grp` = '$bill_grp'");
+
                     $response['status'] = 200;
                     $response['message'] = "Bill Loaded";
-//                    $anton->done('bill_found');
+
                 }
                 header('Content-Type: application/json');
 //                header('Content-Type: application/json');

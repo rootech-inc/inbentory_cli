@@ -91,6 +91,17 @@
                                 <div class="row h-100">
                                     <!-- COMPANY  ADDRESS -->
                                     <div class="col-sm-4">
+
+                                        <!-- COMPANY CODE -->
+                                        <div class="input-group mb-2">
+                                            <label class="w-100" for="c_name">Company Name </label>
+                                            <input value="<?php echo $comp_setup['code'] ?>" disabled autocomplete="off" type="text"
+                                                   class="form-control rounded-0 form-control-sm"
+                                                   id="code"
+                                                   name = 'code'
+                                            >
+                                        </div>
+
                                         <!-- COMPANY NAME -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="c_name">Company Name </label>

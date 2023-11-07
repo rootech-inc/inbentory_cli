@@ -40,7 +40,7 @@ class Bill {
                     // ct(header)
 
                     arr_disable('recall,REFUND')
-                    arr_enable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
+                    arr_enable('cash_payment,momo_payment,credit_payment,cancel,subTotal,hold,discount')
                     enableFields(['load_cust'])
 
 
@@ -144,13 +144,13 @@ class Bill {
                 else if (res['status'] === 404)
                 {
                     arr_enable('recall,REFUND')
-                    arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
+                    arr_disable('cash_payment,momo_payment,credit_payment,cancel,subTotal,hold,discount')
                     let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                     jqh.setHtml({'bill_loader':no_bill})
                     b_msg("No bill transactions")
                 } else {
                   arr_enable('recall,REFUND')
-                  arr_disable('cash_payment,momo_payment,cancel,subTotal,hold,discount')
+                  arr_disable('cash_payment,momo_payment,credit_payment,cancel,subTotal,hold,discount')
                   let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
                   jqh.setHtml({'bill_loader':no_bill})
                   b_msg("Could not load bill. Contact system administrator")
@@ -419,6 +419,8 @@ class Bill {
                 'bill_grp':val.value,
                 'token':''
             };
+
+            console.table(data)
 
             // make ajax function
             $.ajax({

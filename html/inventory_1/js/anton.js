@@ -652,7 +652,7 @@ function arr_enable(elements) {
 
 // set session
 function set_session(array_data,reload = 1) {
-    loader('show')
+    // loader('show')
     var form_data = {
         'token':'none',
         'function':'set_session',
@@ -672,7 +672,7 @@ function set_session(array_data,reload = 1) {
             }
         }
     );
-    loader('show')
+    // loader('hide')
 }
 
 // get session

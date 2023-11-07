@@ -707,7 +707,7 @@ class UserConfig {
 
     ClerkNav(direction)
     {
-        let clerk_details
+        let clerk_details;
         let clk_act = get_session('user_act');
         if(direction === '>')
         {

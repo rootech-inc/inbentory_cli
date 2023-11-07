@@ -126,6 +126,7 @@ $anton->log2file($logo,"LOGO",1);
 
         define('clerk_code',$my['clerk_code']);
         define('clerk_name',$my['clerk_name']);
+        define('clerk_id',$clerk_id);
         $clerk_code = clerk_code;
 
         if(!isset($_SESSION['action']))

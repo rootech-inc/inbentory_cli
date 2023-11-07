@@ -1,35 +1,35 @@
-2023-11-07 04:55:20 - LOGO
+2023-11-07 07:13:58 - LOGO
 C:\Users\reza\Documents\GitHub\inbentory_cli\html\inventory_1\\comp_logo_1.png
 LOGO
-2023-11-07 04:55:20 - SELECT * FROM company WHERE `id` = 0
-2023-11-07 04:55:20 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-2023-11-07 04:55:20 - 1
-2023-11-07 04:55:20 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
-2023-11-07 04:55:20 - SELECT * FROM shifts WHERE `recId` = '48'
-2023-11-07 04:55:20 - 1
-2023-11-07 04:55:20 - SELECT * FROM shifts WHERE `recId` = '48'
-2023-11-07 04:55:20 - SELECT * FROM sys_settings WHERE `set_key` = 'evat'
-2023-11-07 04:55:20 - 1
-2023-11-07 04:55:20 - SELECT * FROM sys_settings WHERE `set_key` = 'evat'
-2023-11-07 04:55:20 - SELECT * FROM sys_settings WHERE `set_key` = 'bill_print'
-2023-11-07 04:55:20 - 1
-2023-11-07 04:55:20 - SELECT * FROM sys_settings WHERE `set_key` = 'bill_print'
-2023-11-07 04:55:20 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-11-04' AND `end_time` = NULL 
-2023-11-07 04:55:20 - 0
-2023-11-07 04:55:20 - SELECT * FROM clerk WHERE `id` = '2'
-2023-11-07 04:55:20 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
+2023-11-07 07:13:58 - SELECT * FROM company WHERE `id` = 0
+2023-11-07 07:13:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-11-07 07:13:58 - 1
+2023-11-07 07:13:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null 
+2023-11-07 07:13:58 - SELECT * FROM shifts WHERE `recId` = '48'
+2023-11-07 07:13:58 - 1
+2023-11-07 07:13:58 - SELECT * FROM shifts WHERE `recId` = '48'
+2023-11-07 07:13:58 - SELECT * FROM sys_settings WHERE `set_key` = 'evat'
+2023-11-07 07:13:58 - 1
+2023-11-07 07:13:58 - SELECT * FROM sys_settings WHERE `set_key` = 'evat'
+2023-11-07 07:13:58 - SELECT * FROM sys_settings WHERE `set_key` = 'bill_print'
+2023-11-07 07:13:58 - 1
+2023-11-07 07:13:58 - SELECT * FROM sys_settings WHERE `set_key` = 'bill_print'
+2023-11-07 07:13:58 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2023-11-04' AND `end_time` = NULL 
+2023-11-07 07:13:58 - 0
+2023-11-07 07:13:58 - SELECT * FROM clerk WHERE `id` = '2'
+2023-11-07 07:13:58 - SELECT * FROM bill_header WHERE `mach_no` = '1' and `bill_date`
          = '2023-11-04' and `shift` = '1'
-2023-11-07 04:55:20 - 6
-2023-11-07 04:55:20 - SELECT * FROM bill_trans WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1
-2023-11-07 04:55:20 - 0
-2023-11-07 04:55:20 - SELECT * FROM bill_trans WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'D'
-2023-11-07 04:55:20 - 0
-2023-11-07 04:55:20 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
-2023-11-07 04:55:20 - SELECT * FROM bill_trans WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
-2023-11-07 04:55:20 - 0
-2023-11-07 04:55:20 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '7' and `bill_date` = '2023-11-04' and mech_no = 1
-2023-11-07 04:55:20 - SELECT * FROM bill_tax_tran WHERE `bill_no` = '7' and `bill_date` = '2023-11-04' and mech_no = 1
-2023-11-07 04:55:20 - 0
-2023-11-07 04:55:20 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
-2023-11-07 04:55:20 - SELECT * FROM bill_trans WHERE `bill_number` = '7' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
-2023-11-07 04:55:20 - 0
+2023-11-07 07:13:58 - 12
+2023-11-07 07:13:58 - SELECT * FROM bill_trans WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1
+2023-11-07 07:13:58 - 0
+2023-11-07 07:13:58 - SELECT * FROM bill_trans WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'D'
+2023-11-07 07:13:58 - 0
+2023-11-07 07:13:58 - SELECT SUM(retail_price) as result FROM `bill_trans` WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
+2023-11-07 07:13:58 - SELECT * FROM bill_trans WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
+2023-11-07 07:13:58 - 0
+2023-11-07 07:13:58 - SELECT SUM(tax_amt) as result FROM `bill_tax_tran` WHERE `bill_no` = '13' and `bill_date` = '2023-11-04' and mech_no = 1
+2023-11-07 07:13:58 - SELECT * FROM bill_tax_tran WHERE `bill_no` = '13' and `bill_date` = '2023-11-04' and mech_no = 1
+2023-11-07 07:13:58 - 0
+2023-11-07 07:13:58 - SELECT SUM(bill_amt) as result FROM `bill_trans` WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
+2023-11-07 07:13:58 - SELECT * FROM bill_trans WHERE `bill_number` = '13' and `date_added` = '2023-11-04' and mach = 1 and `trans_type` = 'i'
+2023-11-07 07:13:58 - 0
