@@ -22,9 +22,9 @@
                 $value = $anton->post('value');
 
                 $tasker = (new \taxer\tax_calculator());
-                $tax_detail = $tasker->taxInclusive($code,$value);
+                $tax_x = $tasker->taxInclusive($code,$value);
                 header("Content-Type:Application/Json");
-                echo json_encode($tax_detail);
+                echo json_encode($tax_x);
             }
 
             // general query

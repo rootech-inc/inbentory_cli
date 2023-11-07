@@ -1,0 +1,16 @@
+version: '3'
+services:
+  web:
+    image: my-php-app:1.0  # Use your custom image
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Sunderland@411
+    volumes:
+      - ./db_backup:/docker-entrypoint-initdb.d

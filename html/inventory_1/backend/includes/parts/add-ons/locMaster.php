@@ -29,14 +29,25 @@
     <script src="/js/classes/inventory.js"></script>
     <script src="/js/classes/screen.js"></script>
 
-    <script src="/js/sweetalert2@11"></script>
-    <link rel="stylesheet" href="css/sweetalert.min.css">
+    <script src="/js/sweetalert2@11.js"></script>
+
+    <link rel="stylesheet" href="/css/sweetalert.min.css">
 
     <script src="/js/error_handler.js"></script>
     <script src="/js/anton.js"></script>
     <script src="/js/keyboard.js"></script>
 
     <script src="/js/classes/buttons.js"></script>
+    <script src="/js/classes/bill.js"></script>
+    <script src="/js/trigger.js"></script>
+    <script src="/js/classes/reports.js"></script>
+    <script src="/js/classes/Evat.js"></script>
+    <script src="/js/classes/tax.js"></script>
+    <script src="/js/classes/loyalty.js"></script>
+    <script src="/js/classes/kasa.js"></script>
+    <script src="/js/classes/api.js"></script>
+    <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/productMaster.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 

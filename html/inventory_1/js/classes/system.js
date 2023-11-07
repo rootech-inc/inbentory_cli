@@ -185,7 +185,7 @@ class System {
             'tax_code':tax_code,
             'value':value
         }
-        var result = 0;
+        var result = {};
         $.ajax(
             {
                 url:'/backend/process/ajax_tools.php',
@@ -195,13 +195,9 @@ class System {
                 'dataType': 'html',
                 data:form_data,
                 success: function (response) {
-                    ct(response)
-                    if(responseType(response) === 'done')
-                    {
 
-                        result =  responseMessage(response)
-
-                    }
+                    result =  JSON.parse(response)
+                    ct(result)
                 }
             }
         );

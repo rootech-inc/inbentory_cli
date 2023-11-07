@@ -222,6 +222,7 @@ function addToPoTransV2(item_code) {
         let item_desc_id = "itemDesc_" + last_row.toString();
         let item_pack_id = "itemPack_" + last_row.toString();
         let item_packing_id = "itemPacking_" + last_row.toString();
+        let item_packing_um_id = "itemPackingUm_" + last_row.toString();
         let item_qty_id = "itemQty_" + last_row.toString();
         let item_cost_id = "itemCost_" + last_row.toString();
         let item_amount_id = "itemAmount_" + last_row.toString();
@@ -240,7 +241,9 @@ function addToPoTransV2(item_code) {
             "                                    <option value='" + pack_id_desc + "'>" + pack_id_desc + " </option>\n" +
             "                                </select>\n" +
             "                            </td>\n" +
-            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+            "                            <td><input style=\"width: 50px\"  type=\"text\" value='" + pack_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'>" +
+            "<input style='width: 50px' type='text' id='"+item_packing_um_id+"' value='"+packing_um+"' name='pack_um[]'>" +
+            "</td>\n" +
             "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='0' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
             "                            <td><input style=\"width: 50px\" required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='0' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
             "                            <td><input style=\"width: 50px\" required type=\"number\" readonly name=\"item_amount[]\" value='0' id='" + item_amount_id + "'></td>\n" +
@@ -328,7 +331,7 @@ function appendToPoTransV2(item_code)  // save po v2
     let po_trans_row = $('#po_items_list tr').length
     let item_code_id;
     let exist = 0;
-    cl(po_trans_row)
+
     for (let row = 0; row <= po_trans_row; row++) {
         cl(row)
 
@@ -364,6 +367,7 @@ function appendToPoTransV2(item_code)  // save po v2
             );
             pack_id = this_packing[0].pack_id;
             x_pack_desc = this_packing[0].pack_desc
+            let pack_um =this_packing[0].qty
             pack_desc = JSON.parse(
                 get_row('packaging', "`id` = '" + pack_id + "'")
             )[0].desc;
@@ -374,6 +378,7 @@ function appendToPoTransV2(item_code)  // save po v2
             let item_desc_id = "itemDesc_" + i.toString();
             let item_pack_id = "itemPack_" + i.toString();
             let item_packing_id = "itemPacking_" + i.toString();
+            let item_packing_um_id = "itemPackingUm_" + i.toString();
             let item_qty_id = "itemQty_" + i.toString();
             let item_cost_id = "itemCost_" + i.toString();
             let item_amount_id = "itemAmount_" + i.toString();
@@ -402,7 +407,9 @@ function appendToPoTransV2(item_code)  // save po v2
                     "                                    <option value='" + pack_desc + "'>" + pack_desc + " </option>\n" +
                     "                                </select>\n" +
                     "                            </td>\n" +
-                    "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'></td>\n" +
+                    "                            <td><input style=\"width: 50px\" class='text_xxs'  type=\"text\" value='" + pack_id_desc + "' readonly name=\"item_packing[]\" id='" + item_packing_id + "'>" +
+                    "<input type='text' id='"+item_packing_um_id+"' value='"+pack_um+"' name='pack_um[]'>" +
+                    "</td>\n" +
                     "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" type=\"number\" value='" + item_qty + "' name=\"item_qty[]\" id='" + item_qty_id + "'></td>\n" +
                     "                            <td><input style=\"width: 50px\" class='text_xxs' required onkeyup=\"po_line_calculate(" + "'" + row_id + "'" + ")\" min='1' value='" + item_cost + "' type=\"number\" name=\"item_cost[]\" id='" + item_cost_id + "'></td>\n" +
                     "                            <td><input style=\"width: 50px\" class='text_xxs' required type=\"number\" readonly name=\"item_amount[]\" value='" + item_total_cost + "' id='" + item_amount_id + "'></td>\n" +

@@ -56,12 +56,13 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
             $item_packing = $_POST['item_packing'][$index];
             $item_cost = $_POST['item_cost'][$index];
             $item_amount = $_POST['item_amount'][$index];
+            $pack_um = $_POST['pack_um'][$index];
 
             $total_cost += $item_amount;
 
             $insert_query = "insert into po_trans 
-            (item_code, barcode, item_description, owner, pack_desc, packing, cost,qty, parent,total_cost,line) values 
-            ('$item_code','$barcode','$item_desc','$myName','$item_pack','$item_packing','$item_cost','$item_qty','$po_number','$total_amount',$line)";
+            (item_code, barcode, item_description, owner, pack_desc, packing, cost,qty, parent,total_cost,line,pack_um) values 
+            ('$item_code','$barcode','$item_desc','$myName','$item_pack','$item_packing','$item_cost','$item_qty','$po_number','$total_amount',$line,'$pack_um')";
 //            echo $insert_query;
             $db->db_connect()->exec($insert_query);
 

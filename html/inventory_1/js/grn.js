@@ -354,8 +354,6 @@ function new_grn_tax_calc(tax_class,line='*') {
             var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
             $(net_id).val(net_amt.toFixed(2))
         }
-    } else {
-        swal_error("Cannot find tax class")
     }
 }
 
@@ -893,7 +891,7 @@ $(document).ready(function (){
 
 function retrievePo(){
     // get pending pos
-    let pending = fetch_rows(`select doc_no,CONCAT(location,' - ',(SELECT loc_desc FROM loc where loc_id = po_hd.location)) as 'location',(SELECT supp_name FROM supp_mast where supp_id = po_hd.suppler) as 'supplier',total_amount from po_hd where grn = 0`);
+    let pending = fetch_rows(`select doc_no,CONCAT(location,' - ',(SELECT loc_desc FROM loc where loc_id = po_hd.location)) as 'location',(SELECT supp_name FROM supp_mast where supp_id = po_hd.suppler) as 'supplier',total_amount from po_hd where grn = 0 and status = 1`);
     let tr = "",table = "";
     if(isJson(pending)){
 
@@ -975,6 +973,9 @@ function loadPoIntoGrn(po_number){
                     arr_enable('tax_grp')
                     jqh.loadTax()
 
+                    let is_taxable = $('#taxable').val();
+
+
                     // get po trans
                     var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
 
@@ -987,6 +988,7 @@ function loadPoIntoGrn(po_number){
                         var tr = "";
                         var grn_total = 0;
                         for (let t = 0; t < po_trans.length; t++) {
+
                             var po_tran = po_trans[t]
                             let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
                                 net_amount, retail, pack_um, cost, this_cost;
@@ -1000,16 +1002,36 @@ function loadPoIntoGrn(po_number){
                             total_amt = po_tran.total_cost
                             pack_um = po_tran.pack_um
                             cost = po_tran.cost
-                            this_cost = parseFloat(price) / parseFloat(pack_um)
+                            this_cost = price / pack_um
+                            console.table(po_tran)
+                            echo(`THIS PRICE : ${price}`)
+                            echo(`THIS UM : ${pack_um}`)
+
+                            echo(`THIS COST: ${this_cost.toFixed(2)}`)
                             tax_amount = 0
                             net_amount = total_amt - tax_amount
-                            retail = JSON.parse(
-                                get_row('prod_master', "`barcode` = '" + barcode + "'")
-                            )[0].retail
+
+
+                            let product =  FETCH(`
+                                        SELECT barcode,item_desc,retail ,(select pack_id from prod_packing where item_code = '1000000002' and purpose = 2)  as 'pack_id',(SELECT attr FROM tax_master where id = prod_master.tax) as 'tax_code' FROM prod_master where item_code = '${item_code}';
+                                `)[0];
+
+                            retail =product['retail']
+                            let tax_code = product['tax_code'],tax_rate = 0;
+                            if(is_taxable === '1'){
+
+                                let tax_details = sys.taxComponents(product['tax_code'],price);
+                                let t_d = tax_details['message'];
+                                tax_amount = t_d['vat'];
+                                tax_rate = t_d['rate']
+
+
+                            }
 
                             sn++
                             grn_total += parseFloat(net_amount);
-                            echo("##### " + total_amt)
+
+                            let tax_details = "";
 
 
                             // ids
@@ -1039,7 +1061,7 @@ function loadPoIntoGrn(po_number){
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
-                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount.toFixed(2) + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
+                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
                                 "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
                                 "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
