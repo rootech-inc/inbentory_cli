@@ -273,6 +273,9 @@ require '../includes/core.php';
                         $item_name = $bill['item_desc'];
                         $qty = $bill['item_qty'];
                         $cost = $bill['bill_amt'];
+                        if($bill['trans_type'] === 'D'){
+                            $cost = $bill['tax_amt'];
+                        }
                         $barcode = $bill['item_barcode'];
                         $id = $bill['id'];
                         $select = $bill['selected'] ;
@@ -343,9 +346,11 @@ require '../includes/core.php';
                     // mark bill as canceled
 //                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
                     $shift = shift_no;
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
-                    $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
-                    $db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
+                    $billRef = billRef;
+                    //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
+                    $db->db_connect()->query("DELETE FROM `bill_trans` where billRef = '$billRef'");
+                    //$db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
+                    $db->db_connect()->exec("DELETE FROM loyalty_tran where billRef = '$billRef'");
 
                 }
 

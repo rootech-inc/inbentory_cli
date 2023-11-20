@@ -50,6 +50,30 @@ class System {
         $('#alphsKeyboard').hide();
     }
 
+    sys_variable(variable){
+        var form_data = {
+            'token':'none',
+            'function':'sys_variable',
+            'variable':variable
+        }
+        //cl("session var : " + sess_var)
+        var result = '';
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    result = response;
+                }
+            }
+        );
+        return result;
+    }
+
     adminAuth(){
         let admin_auth_username,admin_auth_password,err_c = 0,err_m = ' ',result = false;
         admin_auth_username = $('#admin_auth_username').val()
@@ -370,6 +394,83 @@ class TaxMaster{
     {
         alert('TAX CLASS LOADED')
     }
+
+    taxCalculate(value){
+        var form_data = {
+            'function': 'tax_calculation',
+            'value': value,
+        }
+
+
+
+        //echo("SELECT * FROM "+table+" WHERE "+condition)
+
+        var result = {};
+
+        $.ajax(
+            {
+                url: '/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    if(isJson(response)){
+                        result = JSON.parse(response);
+                    } else {
+                        result['code'] = 505;
+                        result['message'] = response;
+                    }
+
+
+                }
+            }
+        );
+
+        console.table(result)
+        return result;
+    }
+
+    taxInclusive(value) {
+        try {
+            const covidRate = 1;
+            const nhisRate = 2.5;
+            const getFundRate = 2.5;
+
+
+             // retail price + quantity
+            const taxableAmount = (value * 100) / 121.9;
+
+            // get levies values
+            const covid = (covidRate / 100) * taxableAmount;
+            const nhis = (nhisRate / 100) * taxableAmount;
+            const gFund = (getFundRate / 100) * taxableAmount;
+            const vat = (15.9 / 100) * taxableAmount;
+
+            const taxDetail = {
+                type: "INCLUSIVE",
+                vat: vat.toFixed(2),
+                cv: covid.toFixed(2),
+                gf: gFund.toFixed(2),
+                nh: nhis.toFixed(2)
+            };
+
+            return {
+                code: 200,
+                message: taxDetail
+            };
+        } catch (error) {
+            return {
+                code: 505,
+                message: `${error.message} ${error.lineNumber || error.line}`
+            };
+        }
+    }
+
+
+
+
 }
 
 class UserConfig {

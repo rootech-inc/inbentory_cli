@@ -30,8 +30,8 @@ class Bill {
                     let count,total,tax,trans,discount,bill_amt,disc_type
                     count = message['count']
                     total = header['TOTAL_AMOUNT']
-                    discount = 0;
-                    bill_amt = header['TOTAL_AMOUNT']
+                    discount = header['DISCOUNT'];
+                    bill_amt = header['BILL_AMT']
                     tax = header['TOTAL_VAT']
                     trans = message['trans']
                     disc_type = header['discount_type'];
@@ -157,23 +157,42 @@ class Bill {
                 }
 
                 // load loyalty details
-                let bill_ref = $('#bill_ref').val()
+                let bill_ref = sys.sys_variable('billRef');
                 let is_loyalty =  row_count('loyalty_tran',`billRef = '${bill_ref}'`);
 
                 if(is_loyalty === 1){
+
                     let cust_code_q = JSON.parse(get_row('loyalty_tran',`billRef = '${bill_ref}'`))[0];
                     let cust_code = cust_code_q['cust_code']
-                    // disable loyalty button
-                    arr_disable('LOYALTY_LOOKUP')
-                    arr_enable('LOYALTY_REDEEM')
-                    let loyalty = JSON.parse(fetch_rows(`select lc.name as 'customer' from loyalty_tran join loy_customer lc on loyalty_tran.cust_code = lc.cust_code where loyalty_tran.cust_code = '${cust_code}';`))[0];
-                    $('#msglegend').html(`LOYALTY CUSTOMER : ${loyalty['customer']}`)
+                    let response = lty.getCustomer(cust_code)
+                    if(response['code'] === 200){
+
+                        let customer,name,phone,cardno,points,message = response['message'];
+
+                        customer = message['customer'];
+                        name = customer['name'];
+                        phone = customer['phone'];
+                        cardno = message['number'];
+                        points = message['points'];
+
+                        // disable loyalty button
+                        arr_disable('LOYALTY_LOOKUP')
+                        if(points > 1000)
+                        {
+                            arr_enable('LOYALTY_REDEEM')
+                        } else {
+                            arr_disable('LOYALTY_REDEEM')
+                        }
+
+                        $('#msglegend').html(`LOYALTY CUSTOMER : ${name} with <span class="badge badge-success">${points}</span> points`)
+                    }
+
                 }
                 else {
                     arr_enable('LOYALTY_LOOKUP')
                     arr_disable('LOYALTY_REDEEM')
                     $('#msglegend').html('')
-                    //cl(`NO LOYALTY CUSTOMER ${is_loyalty}`)
+
                 }
 
                 // validate if there is credit customer loaded
@@ -611,15 +630,17 @@ class Bill {
                     if(b === 0){
                         req = 'required'
                     }
-                    tr += `<tr>
+                    if(line['trans_type'] === 'i')
+                    {
+                        tr += `<tr>
                                 <td><input ${req} name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
                                 <td>${b_code}</td>
                                 <td>${item_desc}</td>
                                 <td>-${qty}</td>
                             </tr>`
-                    ct(line)
+                    }
+
                 }
-                ct(b_hd)
                 let m_form = `<form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
                         <input type="hidden" name="function" value="bill_refund">
                         <input type="hidden" name="ref_type" value="${ref_type}">

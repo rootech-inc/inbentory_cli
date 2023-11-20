@@ -68,8 +68,10 @@ if(Mech.is_shift())
     toDay = yyyy + '-' + mm + '-' + dd;
 
 }
-console.log(toDay)
 const user_id = a_sess.get_session('clerk_id')
+const billNo = a_sess.get_session('bill_no');
+const billREF = a_sess.get_session('bill_ref');
+const shiftNO = a_sess.get_session('shift')
 
 var form_settings = {
     "url": "/backend/process/form_process.php",
@@ -1725,12 +1727,14 @@ function download_products() // download products
         get_row('prod_master', "`item_code` > 0 and download_flag = 1")
     );
 
+    console.table(items)
+
     for (let i = 0; i < items.length; i++) {
         var item = items[i];
 
         // get index (id) and short description
         let item_id, uni, group, sub_group, barcode, desc, cost, retail, tax_grp, packing, discount, discount_rate,
-            stock_type;
+            stock_type,tax_amt,retail_wo_tax;
 
         item_id = item.item_code
         uni = item.item_uni;
@@ -1742,15 +1746,19 @@ function download_products() // download products
         retail = item.retail
         tax_grp = item.tax
         packing = item.packing;
-        stock_type = item.stock_type
+        stock_type = item.stock_type;
+        tax_amt = item.tax_amt;
+        retail_wo_tax = item.retail_wo_tax
 
 
-        var data = {
-            'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp'],
-            'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group]
+
+        var prod_data = {
+            'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp','tax_amt','retail_wo_tax'],
+            'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group,tax_amt,retail_wo_tax]
         }
+        console.table(prod_data)
         exec(`DELETE FROM prod_mast where id = '${item_id}'`);
-        insert('prod_mast', data)
+        insert('prod_mast', prod_data)
         exec(`UPDATE prod_master SET download_flag = 0 where item_code = '${item_id}'`)
 
     }

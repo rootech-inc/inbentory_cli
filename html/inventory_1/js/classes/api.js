@@ -4,7 +4,7 @@ class Api {
         // console.log(JSON.stringify(data))
         // let link = interface
         // console.table(link)
-        var result = 0;
+        var result = {};
         $.ajax({
             url:int,
             type: method,

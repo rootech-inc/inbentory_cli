@@ -3,6 +3,7 @@ class Loyalty {
     // save customer
     base_url = '/backend/process/form-processing/loyalty.php';
     result = {'code':505,'message':"INIT"};
+    api_url = 'http://127.0.0.1:8000/api/'
 
     customerReg(full_name,email,mobile){
         ajaxform['type'] = 'POST';
@@ -30,51 +31,65 @@ class Loyalty {
 
     }
 
-    getCustomer(str){
-        ajaxform['type'] = 'POST';
-        ajaxform['data'] = {'str':str,'task':'get_customer'}
-        ajaxform['url'] = this.base_url
-        ajaxform['success'] = function (response) {
-            if(isJson(JSON.stringify(response))){
-                lty.result = JSON.parse(response)
-                // ct(lty.result)
-            } else {
-                al('INVALID RESPONSE')
+    getCustomer(cust_code){
+        // let cust_code = $('#general_input').val()
+        // get customer from database
+        let payload = {
+            "module":"card",
+            pass_from:'VIEW',
+            "data":{
+                "card_no":cust_code
             }
         }
-        $.ajax(ajaxform)
 
-        return lty.result
+        return  api.call('POST',payload,this.api_url);
+
     }
 
     loadCustomer(){
         let cust_code = $('#general_input').val()
-        if(cust_code.length > 0){
-            // validate customer exist
-            let cust_rows = row_count('loy_customer',`cust_code = '${cust_code}'`)
-
-            if(cust_rows === 1){
-                // there is customer
-                let bill_ref = $('#bill_ref').val()
-                exec(`DELETE FROM loyalty_tran WHERE cust_code = '${cust_code}' AND billRef = '${bill_ref}'`)
-                exec(`INSERT INTO loyalty_tran (cust_code, billRef) VALUES ('${cust_code}','${bill_ref}')`)
-                bill.loadBillsInTrans()
-                al('Customer Added')
-                $('#general_input').removeClass('border-danger')
-
-
-            } else {
-                // no customer
-                $('#legmsg').html(`<span class="text-dark">Customer Does Not Exist</span>`)
-                al('CUSTOMER DOES NOT EXIST')
+        // get customer from database
+        let payload = {
+            "module":"card",
+            pass_from:'VIEW',
+            "data":{
+                "card_no":cust_code
             }
+        }
+
+        let response = api.call('POST',payload,this.api_url);
+        if(response['code'] === 200){
+            let system = new System();
+            let bill_ref = system.sys_variable('billRef');
+            let customer,name,phone,cardno,points,message = response['message'];
+            customer = message['customer'];
+            name = customer['name'];
+            phone = customer['phone'];
+            cardno = message['number'];
+            points = message['points'];
+            // console.table(message)
+            // console.table(customer)
+
+            // validate card in bill
+            exec(`DELETE FROM loyalty_tran where billRef = '${bill_ref}'`);
+            let ins_data = {
+                'cols':['cust_code','billRef'],
+                'vars':[`${cardno}`,`${bill_ref}`]
+            }
+            insert('loyalty_tran',ins_data);
+
+            console.table(ins_data)
+
+            kasa.info(`${name} Loaded`);
+            bill.loadBillsInTrans();
+
 
 
         } else {
-            $('#general_input').addClass('border-danger')
-            al("Provide Customer Code")
+            kasa.error(response['message'])
         }
-        $('#general_input').val('')
+
+
 
     }
 
@@ -82,12 +97,17 @@ class Loyalty {
         let billRef = $('#bill_ref').val()
         if(row_count('loyalty_tran',`billRef = '${billRef}'`) === 1){
             // there is customer
-            if(row_count('bill_trans',`billRef = '${billRef}' and trans_type = 'D'`) === 0){
+            let condition = `billRef = '${billRef}' and trans_type in ('D','L')`;
+
+            if(row_count('bill_trans',condition) === 0){
                 // there is no discount
                 let customer_get = get_row('loyalty_tran',`billRef = '${billRef}'`);
-                let customer = JSON.parse(customer_get)[0]
-                let cust_code = customer['cust_code'];
-                let pointsSum = JSON.parse(return_rows(`select sum(value) as value from loyalty_point_stmt where cust_code = '${cust_code}'`))[0]['value'];
+                let customer_row = JSON.parse(customer_get)[0]
+                let cust_code = customer_row['cust_code'];
+
+                let customer = lty.getCustomer(cust_code)['message'];
+
+                let pointsSum = customer['points'];
 
                 // check if value is up to 50
 
@@ -99,7 +119,7 @@ class Loyalty {
                         title: 'Enter Points and Redeem Amount',
                         html:
                             `<div style="width: 100% !important"><input id="totalPoints" readonly value="${value}" class="swal2-input form-control form-control-sm w-75" placeholder="Total Points">
-                            <input id="redeemAmount" class="swal2-input form-control form-control-sm w-75" placeholder="Redeem Amount"></div>`,
+                            <input id="redeemAmount" value="${$('#sub_total').text()}" class="swal2-input form-control form-control-sm w-75" placeholder="Redeem Amount"></div>`,
                         showCancelButton: true,
                         confirmButtonText: 'Confirm',
                         cancelButtonText: 'Cancel',
@@ -136,9 +156,12 @@ class Loyalty {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // add to bill trans
+                                        let bill_tran = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, item_qty, bill_amt, item_desc, tran_type, billRef, shift,tax_amt) VALUES ('${mech_no}','${user_id}','${billNo}','${cust_code}','D',1,${minusPoint},'LOYALTY','L','${billREF}','${shiftNO}','${redAmt}')`;
+                                        console.log(bill_tran)
+                                        exec(bill_tran);
                                         // add to loyalty trans
 
-                                        let points_query = `INSERT INTO loyalty_point_stmt (cust_code, value, billRef) VALUES ('${cust_code}','${minusPoint}','${billRef}')`;
+                                        //let points_query = `INSERT INTO loyalty_point_stmt (cust_code, value, billRef) VALUES ('${cust_code}','${minusPoint}','${billRef}')`;
 
                                         ajaxform['data'] = {
                                             'function':'loy_redem',
@@ -150,7 +173,10 @@ class Loyalty {
                                         }
                                         ajaxform['url'] = '/backend/process/form_process.php'
 
-                                        $.ajax(ajaxform)
+                                        kasa.info("POINTS REDEMED")
+                                        bill.loadBillsInTrans();
+
+                                        // $.ajax(ajaxform)
 
 
                                     } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -176,6 +202,22 @@ class Loyalty {
 
         } else {
             info("LOAD CUSTOMER")
+        }
+    }
+
+    givePoints(billRef){
+        // check if bill exit
+        let trans = row_count('loyalty_tran',`billRef = '${billRef}'`);
+        let loyalty_i = row_count('bill_trans',"trans_type = 'L'");
+        if(trans === 1 && loyalty_i === 0){
+            // give points
+            let payload = {
+                'module':'points',
+                'data':{
+                    'card_no':'',
+                    'points':0
+                }
+            }
         }
     }
 

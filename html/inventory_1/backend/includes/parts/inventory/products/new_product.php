@@ -248,19 +248,15 @@
                                 <p class="m-0 p-0 text-elipse">Tax Group</p>
                             </div>
                             <select
-                                    name="tax"
+                                    name="taxable"
                                     autocomplete="off"
                                     class="form-control form-control-sm prod_inp"
-                                    id="tax"
+                                    id="taxable"
                             >
 
-                                <?php
-                                    while ($tax = $tax_master->fetch(PDO::FETCH_ASSOC))
-                                    {
-                                        $tax_id = $tax['attr']; $description = $tax['description']; $rate = $tax['rate'];
-                                        echo "<option value='$tax_id'>$rate%  $description</option>";
-                                    }
-                                ?>
+                                <option value="NO">NO</option>
+                                <option value="YES">YES</option>
+
                             </select>
                         </div>
 
@@ -290,27 +286,45 @@
                                     name="retail_with_tax"
                                     id="retail_with_tax"
                                     autocomplete="off"
-                                    type="text"
+                                    type="number"
                                     value="0.00"
-                                    class="form-control form-control-sm prod_inp"
+                                    class="form-control form-control-sm prod_inp",
+                                    onkeyup="retailWithoutTax()"
+
+                            >
+                        </div>
+
+                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                <p class="m-0 p-0 text-elipse">Tax Amount</p>
+                            </div>
+                            <input
+                                    name="tax_amt"
+                                    id="tax_amt"
+                                    autocomplete="off"
+                                    type="number"
+                                    value="0.00"
+                                    class="form-control form-control-sm prod_inp",
+                                    readonly
 
                             >
                         </div>
 
                         <!--RETAIL WITHOUT TAX-->
-<!--                        <div class="w-100 d-flex flex-wrap prod_inp_container">-->
-<!--                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">-->
-<!--                                <p class="m-0 p-0 text-elipse">Retail Without Tax</p>-->
-<!--                            </div>-->
-<!--                            <input readonly-->
-<!--                                    name="retail_without_tax"-->
-<!--                                    autocomplete="off"-->
-<!--                                    type="text"-->
-<!--                                    class="form-control form-control-sm prod_inp"-->
-<!--                                    id="retail_without_tax"-->
-<!---->
-<!--                            >-->
-<!--                        </div>-->
+                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                <p class="m-0 p-0 text-elipse">Retail Without Tax</p>
+                            </div>
+                            <input readonly
+                                    name="retail_without_tax"
+                                    autocomplete="off"
+                                    type="number"
+                                    class="form-control form-control-sm prod_inp"
+                                    id="retail_without_tax"
+                                    value="0.00"
+
+                            >
+                        </div>
 
 
                     </div>

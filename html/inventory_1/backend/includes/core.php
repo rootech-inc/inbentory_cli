@@ -145,8 +145,12 @@ $anton->log2file($logo,"LOGO",1);
         $billRef = "001".date('ymd',strtotime(today)).$bill_number.shift_no.mech_no;
         //$billRef = "001".date('ymd').$bill_number.mech_no;
         define('billRef',$billRef);
+        $_SERVER['billRef'] = $billRef;
         define('bill_total',$bill->billTotal($bill_number,$today));
         define('bill_no',$bill_number);
+        $anton->set_session(
+            ["bill_no=$bill_number","bill_ref=$billRef","shift=$shift_no"]
+        );
         $response = ['status' => 000,'message'=>'null'];
         $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 

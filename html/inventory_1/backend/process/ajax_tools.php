@@ -27,6 +27,14 @@
                 echo json_encode($tax_x);
             }
 
+            // get tax of product
+            elseif ($function === 'tax_calculation'){
+                $value = $anton->post('value');
+                $tax_response = (new billing\Billing())->tax_inclusive($value);
+                header("Content-Type:Application/Json");
+                echo json_encode($tax_response);
+            }
+
             // general query
             elseif ($function === 'gen_query'){
                 $query = $_POST['query'];
@@ -219,6 +227,18 @@
                 header("Content-Type:Application/Json");
                 echo json_encode($sum);
 
+            }
+
+            elseif ($function === 'sys_variable'){
+//                print_r($_POST);
+                // get system variavle
+                $variable = $anton->post('variable');
+//                echo $variable;
+                if($_SERVER["$variable"]){
+                    echo $_SERVER["$variable"];
+                } else {
+                    echo '';
+                }
             }
 
         }

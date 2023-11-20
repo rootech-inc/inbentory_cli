@@ -103,17 +103,19 @@
                 <!-- Items -->
                 <div class="col-sm-7 pr-1 h-100">
                     <div class="bill-item-header d-flex flex-wrap align-content-center justify-content-between pl-3 pr-3">
-                        <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">
-                            EXIT
-                        </button>
+<!--                        <button onclick="set_session(['module=home'])" class="exit_button rounded-0 btn">-->
+<!--                            EXIT-->
+<!--                        </button>-->
 
-                        <select onchange="change_category(this.value)" name="" id="" class="form-control rounded-0 w-50">
+                        <select onchange="change_category(this.value)" name="" id="" class="form-control rounded-0 w-25">
                             <option value="0">SELECT CATEGORY</option>
                             <?php while($selcGroup = $item_groups2->fetch(PDO::FETCH_ASSOC)): ?>
                                 <option value="<?php echo $selcGroup['button_index'] ?>"><?php echo $selcGroup['description'] ?></option>
                             <?php endwhile; ?>
                         </select>
-                        <span id="msglegend"></span>
+                        <div class="w-75 h-t00 d-flex flex-wrap align-content-center justify-content-center">
+                            <span id="msglegend"></span>
+                        </div>
                     </div>
 
                     <div class="bill-item-body p-1 border d-flex flex-wrap align-content-start justify-content-between">
@@ -329,6 +331,9 @@
                                 <div class="w-15 h-100 py-1 d-flex flex-wrap justify-content-between align-content-between">
 <!--                                    <button type="button" class="bill_func_sub_btn btn-outline-dark h-30 w-100 btn-sm" onclick="sys.OnKeyboard()" ><i class="fa fa-keyboard"></i></button>-->
                                     <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','up')"><i class="fa fa-arrow-up"></i></button>
+                                    <button type="button" class="btn-sm btn-danger rounded-0 bill_func_sub_btn w-100 h-30" onclick="set_session(['module=home'])" >
+                                        <i class="fa fa-power-off"></i>
+                                    </button>
                                     <button type="button" class="bill_func_sub_btn item_scroll h-30 w-100 btn-sm" onclick="custom_scroll('functionButtons','down')"><i class="fa fa-arrow-down"></i></button>
                                 </div>
                             </div>

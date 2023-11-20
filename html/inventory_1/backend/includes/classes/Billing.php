@@ -119,6 +119,8 @@ class Billing extends db_handler
 
     }
 
+
+
     public function billTotal($bill_number,$date,$billRef = ''): array
     {
         $machine_number = mech_no;
@@ -295,12 +297,12 @@ class Billing extends db_handler
             $code = "";
             if($bill_totals['valid'] === 'Y')
             {
-                $net = $bill_totals['bill_amt'];
-                $tax_amt = $bill_totals['tax_amt'];
-                $gross_amt = floatval(str_replace(',','',$bill_totals['total']));
-                $tran_qty = $bill_totals['tran_qty'];
-                $discount = $bill_totals['discount'];
-                $disc_rate = $bill_totals['disc_rate'];
+                $net = $header2['BILL_AMT'];
+                $tax_amt = $header2['TOTAL_VAT'];
+                $gross_amt = $header2['TOTAL_AMOUNT'];
+                $tran_qty = $header2['ITEMS_COUNTS'];
+                $discount = $header2['DISCOUNT'];
+                $disc_rate = $header2['DISCOUNT_RATE'];
 
                 $flag = "INVOICE";
                 if($method === 'refund'){
@@ -316,8 +318,8 @@ class Billing extends db_handler
 
                 $tax_amt = $levies + $vat;
 
-                $taxable_amount = $dbHandler->sum('bill_trans','bill_amt',"`billRef` = '$billRef' and `tax_code` = 'VM'");
-                $non_taxable_amount = $dbHandler->sum('bill_trans','bill_amt',"`billRef` = '$billRef' and `tax_code` != 'VM'");
+                $taxable_amount = $header2['TAXABLE_AMOUNT'];
+                $non_taxable_amount = $header2['NON_TAXABLE_AMOUNT'];
                 #1 make bill tran payment.
                 #2 make bill hd payment,
                 #3 return bill details
@@ -397,8 +399,10 @@ class Billing extends db_handler
                         $this->db_handler()->db_connect()->exec($bill_header_insert);
 
 
+
                         if($method === 'refund') // update on refunds
                         {
+
                             // update values all to negative
                             $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
                        tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
@@ -415,11 +419,126 @@ class Billing extends db_handler
                          tax_amt = tax_amt - (tax_amt * 2) 
                          where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
 
+                            // check if there is loyalty
+                            $original_reference = $oriRef;
+                            $loyalty_cont = $this->row_count('loyalty_tran',"billRef = '$original_reference'");
+                            if($loyalty_cont === 1){
+                                $loyalty_tran = $this->get_rows('loyalty_tran',"billRef = '$original_reference'");
+                                $cust_code = $loyalty_tran['cust_code'];
+                                $points = $amount_paid;
+                                $curl = curl_init();
+                                // then substitute points
+                                $payload = '{
+                                "module":"points",
+                                    "pass_from":"PUT",
+                                    "data":{
+                                        "billRef":"'.$billRef.'",
+                                        "card_no":"'.$cust_code.'",
+                                        "points":"'.$points.'"
+                                    }
+                                }';
+
+                                curl_setopt_array($curl, array(
+                                    CURLOPT_URL => 'http://localhost:8000/api/',
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => '',
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => 'POST',
+                                    CURLOPT_POSTFIELDS =>"$payload",
+                                    CURLOPT_HTTPHEADER => array(
+                                        'Content-Type: application/json'
+                                    ),
+                                ));
+
+                                curl_exec($curl);
+
+                                curl_close($curl);
+
+                            }
+
 
                         }
 
+                        // REDEEM points
+                        if($this->row_count('bill_trans',"`billRef` = '$billRef' and tran_type = 'L'") === 1)
+                        {
+                            $loyalty_tran = $this->get_rows('bill_trans',"`billRef` = '$billRef' and tran_type = 'L'");
+                            $cust_code = $loyalty_tran['item_barcode'];
+                            $points = $loyalty_tran['bill_amt'];
+                            $curl = curl_init();
+
+                            $payload = '{
+                                "module":"points",
+                                "pass_from":"PUT",
+                                "data":{
+                                    "billRef":"'.$billRef.'",
+                                    "card_no":"'.$cust_code.'",
+                                    "points":"'.$points.'"
+                                }
+                            }';
+                            curl_setopt_array($curl, array(
+                                CURLOPT_URL => 'http://localhost:8000/api/',
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => '',
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 0,
+                                CURLOPT_FOLLOWLOCATION => true,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => 'POST',
+                                CURLOPT_POSTFIELDS =>"$payload",
+                                CURLOPT_HTTPHEADER => array(
+                                    'Content-Type: application/json'
+                                ),
+                            ));
+
+                            curl_exec($curl);
+
+                            curl_close($curl);
+
+                        } else {
+                            // give points
+                            if($this->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1){
+                                $cardno = $this->get_rows('loyalty_tran',"`billRef` = '$billRef'")['cust_code'];
+                                $points = $net;
+                                $payload = '{
+                                    "module":"points",
+                                    "pass_from":"PUT",
+                                    "data":{
+                                        "billRef":"'.$billRef.'",
+                                        "card_no":"'.$cardno.'",
+                                        "points":"'.$points.'"
+                                    }
+                                }';
+
+                                $curl = curl_init();
+                                curl_setopt_array($curl, array(
+                                    CURLOPT_URL => 'http://localhost:8000/api/',
+                                    CURLOPT_RETURNTRANSFER => true,
+                                    CURLOPT_ENCODING => '',
+                                    CURLOPT_MAXREDIRS => 10,
+                                    CURLOPT_TIMEOUT => 0,
+                                    CURLOPT_FOLLOWLOCATION => true,
+                                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                    CURLOPT_CUSTOMREQUEST => 'POST',
+                                    CURLOPT_POSTFIELDS =>"$payload",
+                                    CURLOPT_HTTPHEADER => array(
+                                        'Content-Type: application/json'
+                                    ),
+                                ));
+
+                                curl_exec($curl);
+
+                                curl_close($curl);
+
+                            }
+                        }
+
+
                         // print bill
-                        printbill(mech_no,$bill_number,$method);
+                        //printbill(mech_no,$bill_number,$method);
 
                         $code = 200;
                         $msg = "BILL COMPLETED";
@@ -469,17 +588,17 @@ class Billing extends db_handler
         return (new anton());
     }
 
-    function TaxTran($bill_no,$mech_no,$item_code,$qty){
+    function TaxTran($bill_no=bill_no,$mech_no=mech_no,$item_code='',$qty=1){
         $date = today;
         $clerk = clerk_code;
         $billRef = billRef;
         // validate machine, item_code
         $itemCount = $this->db_handler()->row_count('prod_mast',"`barcode` = '$item_code'");
-        $mechValid = $this->db_handler()->row_count("mech_setup","`mech_no` = '$mech_no'");
 
-        if($itemCount < 1 || $itemCount > 1)
+
+        if($itemCount!== 1)
         {
-            $this->response['message'] = " Item Not Found";
+            $this->response['message'] = "Item Not Found $item_code";
         }
         else {
 
@@ -522,22 +641,17 @@ class Billing extends db_handler
                             $vat = (15.9 / 100) * $taxableAmount;
 
 
-                            // insert into tax transactions
                             try {
 
-//
 
-                                $logMessage = "Original Tax-Inclusive Amount for $qty items: $cost\n";
-                                $logMessage .= "RETAIL AMOUNT $taxableAmount \n";
-                                $logMessage .= "NHIS AMOUNT $nhis \n";
-                                $logMessage .= "GFUND AMOUNT $gFund \n";
-                                $logMessage .= "COVID AMOUNT $covid \n";
-
-                                (new Anton())->log2file($logMessage,'',1);
-
-//                                $this->db_handler()->db_connect()->exec($tax_ins_query);
                                 $this->response['code'] = 200;
-                                $tax_detail = array('code'=>$tax_code,'vat'=>$vat,'cv'=>$covid,'gf'=>$gFund,'nh'=>$nhis);
+                                $tax_detail = array(
+                                    'code'=>$tax_code,
+                                    'vat'=>number_format($vat,2),
+                                    'cv'=>number_format($covid,2),
+                                    'gf'=>number_format($gFund,2),
+                                    'nh'=>number_format($nhis,2)
+                                );
                                 $this->response['message'] = $tax_detail;
 
                             } catch (PDOException $e)
@@ -582,6 +696,41 @@ class Billing extends db_handler
         return $this->response;
 
 
+    }
+
+    public function tax_inclusive($value) {
+        try {
+
+            $covidRate = 1;
+            $nhisRate = 2.5;
+            $getFundRate = 2.5;
+
+            $totalCost = $value; // retail price + quantity
+
+            $taxableAmount = $totalCost * 100 / 121.9;
+
+            // get levies values
+            $covid = ($covidRate / 100) * $taxableAmount;
+            $nhis = ($nhisRate / 100) * $taxableAmount;
+            $gFund = ($getFundRate / 100) * $taxableAmount;
+            $vat = (15.9 / 100) * $taxableAmount;
+
+            $this->response['code'] = 200;
+            $tax_detail = array(
+                'type'=>"INCLUSIVE",
+                'vat'=>number_format($vat,2),
+                'cv'=>number_format($covid,2),
+                'gf'=>number_format($gFund,2),
+                'nh'=>number_format($nhis,2)
+            );
+            $this->response['message'] = $tax_detail;
+
+        } catch (\Exception $e){
+                $this->response['code'] = 505;
+                $this->response['message'] .= " ".$e->getMessage() . " " . $e->getLine();
+        }
+
+        return $this->response;
     }
 
     function MechSalesSammry($mech_no = 0): array
@@ -655,22 +804,36 @@ class Billing extends db_handler
         // Calculate final bill amount
         $final_bill = $total_bill + $levies_amount + $vat_amount;
 
-        $final_bill = $this->sum('bill_trans',"bill_amt","`billRef` = '$bill_ref'") ;
+        $final_bill = $this->sum('bill_trans',"bill_amt","`billRef` = '$bill_ref' and `trans_type` = 'i'") ;
 
         $vat = $this->sum('bill_trans',"`vat`","`billRef` = '$bill_ref'");
 
-        $cv = $this->sum('bill_trans',"`covid`","`billRef` = '$bill_ref'");
-        $nh = $this->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref'");
-        $gf = $this->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref'");
+        $cv = $this->sum('bill_trans',"`covid`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
+        $nh = $this->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
+        $gf = $this->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
+        $taxable_amount_inclusive = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` = 'VM' and `trans_type` = 'i'");
+        $non_taxable_amount = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` != 'VM' and `trans_type` = 'i'");
+        $discount = $this->sum('bill_trans',"`tax_amt`","`billRef` = '$bill_ref' and `trans_type` = 'D'");
 
-        $levies = $cv + $nh + $gf;
+
+        $levies = $gf + $nh + $cv;
+
+
+
+        $taxRate = 0.219; // 21.9%
+
 
 
         $bill_header = array();
+        $bill_header['BILL_AMT'] = $final_bill + $discount;
         $bill_header['TOTAL_AMOUNT'] = $final_bill;
         $bill_header['TOTAL_LEVY'] = $levies;
         $bill_header['TOTAL_VAT'] = $vat;
         $bill_header['ITEMS_COUNTS'] = $totalTrans;
+        $bill_header['TAXABLE_AMOUNT'] = $taxable_amount_inclusive;
+        $bill_header['NON_TAXABLE_AMOUNT'] = $non_taxable_amount;
+        $bill_header['DISCOUNT'] = $discount;
+        $bill_header['DISCOUNT_RATE'] = 0;
 
 
         if($this -> row_count('bill_header',"`billRef` = '$bill_ref'")){

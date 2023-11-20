@@ -66,7 +66,7 @@
 
             elseif ($function === 'bill_refund') // refund bill
             {
-                $response = array('code'=>404,'message'=>'');
+                $response = array('code'=>404,'message'=>array());
 
                 try {
                     $ref_type = $anton->post('ref_type');
@@ -102,7 +102,7 @@
 
                         $refundItem = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
                         $add_bill = (new \billing\Billing())->AddToBill("$bill_number",$refundItem,"$refundQty",clerk_code,"RF");
-                        $anton->log2file('#####');
+
 
                     }
 
