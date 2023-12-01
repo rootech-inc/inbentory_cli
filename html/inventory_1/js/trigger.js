@@ -2,6 +2,7 @@
 $(document).ready(function() {
     $("#REFUND").click(function(){
         bill.refundBill()
+        // bill.setSale('refund');
     });
 });
 //REFUND
@@ -225,6 +226,8 @@ $(document).ready(function() {
 
 
 
+
+
 });
 
 $(document).ready(function() {
@@ -403,4 +406,23 @@ $(document).ready(function (){
 })
 
 // EOD
+
+// enter general bill
+console.log('general_input_key_start')
+$('#general_input').on('keyup',function (e)
+{
+    let key = e.which;
+
+    if (key === 13) {
+        console.log("ENTER PRESSED");
+
+    } else {
+        console.log("NOT ENTER")
+    }
+})
+
+function is_enter() {
+    let event =  this.event
+    return event['keyCode'] === 13;
+}
 

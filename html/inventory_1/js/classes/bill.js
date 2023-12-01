@@ -1,4 +1,64 @@
 class Bill {
+
+    setSale(billing_type = 'sale'){
+        switch (billing_type) {
+            case 'refund':
+                // validate sales
+                let oldRef = $('#general_input').val();
+                if(oldRef.length > 0){
+                    
+                    // validate bull reference
+                    let bill_count = 0,ref_type='';
+                    if(row_count('bill_trans',`billRef = '${oldRef}'`) === 1){
+                        bill_count = 1;
+                        ref_type = 'active_shift';
+                        anton.setCookie('refund_table','bill_trans');
+                        anton.setCookie('oldBillRef',oldRef)
+                    } else if(row_count('bill_history_trans',`billRef = '${oldRef}'`) === 1){
+                        bill_count = 1;
+                        ref_type = 'active_shift';
+                        anton.setCookie('refund_table','bill_trans')
+                        anton.setCookie('oldBillRef',oldRef)
+                    } else {
+                        al(`Cannot find bill with reference ${oldRef}`)
+                    }
+
+                    al("Bill loaded for refunding please add items to cart!!")
+                    
+                } else {
+                    al('Please enter buill reference')
+                }
+                anton.setCookie('billing_type',billing_type);
+                break;
+            case 'sale':
+                anton.setCookie('billing_type',billing_type);
+                break;
+            default:
+                al("UNKNOWN SALES TYPE");
+                break;
+
+            
+        }
+
+        bill.checkBillType()
+       
+        
+    }
+
+    checkBillType(){
+        if(anton.getCookie('billing_type') === 'refund'){
+            $('#cart_display').addClass('bg-danger');
+            
+        } else {
+            $('#cart_display').removeClass('bg-danger');
+        }
+    }
+
+    validateRefindItem(){
+        // bill refund details
+        
+    }
+
     loadBillsInTrans(){
         b_msg('Loading Bill Transactions...')
 
@@ -16,8 +76,9 @@ class Bill {
             "data": form,
             success: function (response) {
 
-                // al(response)
+
                 let res = JSON.parse(response)
+
 
 
                 if(res['status'] === 202)
@@ -59,73 +120,74 @@ class Bill {
 
 
 
-                    let rows = ''
+                    let rows = message['trans_html'];
                     // ct(trans)
                     // for (const rowsKey in trans) {
                     //     ct(rowsKey)
                     // }
                     // loop through trans
-                    for (let rowsKey in trans) {
-
-                        let this_tran = trans[rowsKey]
-                        // ct(this_tran)
-
-                        let this_row,id,barcode,desc,qty,cost,tax,select,sel_note,tran,r_bg,sn
-                        id = this_tran['id']
-                        barcode = this_tran['barcode']
-                        desc = this_tran['desc']
-                        qty = this_tran['qty']
-                        cost = this_tran['cost']
-                        tax = this_tran['tax']
-                        select = this_tran['select']
-                        tran = this_tran['tran']
-                        sn = parseInt(rowsKey)+ 1
-
-                        if(tran === 'D')
-                        {
-                            r_bg = 'bg-warning text-danger'
-                            sn = ''
-                            barcode = ''
-                        } else {
-                            r_bg = ''
-                        }
-
-
-                        sel_note = 'cart_item'
-                        if (select == '1')
-                        {
-                            sel_note = 'cart_item active'
-                            sel_count ++
-                        }
-
-                        this_row = `<div
-                                    onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
-                                    class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
-                                    >
-
-                                    <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <small class="m-0 p-0">${sn}</small>
-                                    </div>
-
-                                    <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <div class="w-100"><small>${barcode}</small></div>
-                                        <small class="m-0 p-0">${desc}</small>
-                                    </div>
-
-                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <small class="m-0 p-0">${qty}</small>
-                                    </div>
-
-                                    <!--Cost-->
-                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                                        <small class="m-0 p-0">${cost}</small>
-                                    </div>
-                                </div>`
-
-                        // append row
-                        rows += this_row
-
-                    }
+                    //ct(trans)
+                    // for (let rowsKey in trans) {
+                    //
+                    //     let this_tran = trans[rowsKey]
+                    //     // ct(this_tran)
+                    //
+                    //     let this_row,id,barcode,desc,qty,cost,tax,select,sel_note,tran,r_bg,sn
+                    //     id = this_tran['id']
+                    //     barcode = this_tran['barcode']
+                    //     desc = this_tran['desc']
+                    //     qty = this_tran['qty']
+                    //     cost = this_tran['cost']
+                    //     tax = this_tran['tax']
+                    //     select = this_tran['select']
+                    //     tran = this_tran['tran']
+                    //     sn = parseInt(rowsKey)+ 1
+                    //
+                    //     if(tran === 'D')
+                    //     {
+                    //         r_bg = 'bg-warning text-danger'
+                    //         sn = ''
+                    //         barcode = ''
+                    //     } else {
+                    //         r_bg = ''
+                    //     }
+                    //
+                    //
+                    //     sel_note = 'cart_item'
+                    //     if (select == '1')
+                    //     {
+                    //         sel_note = 'cart_item active'
+                    //         sel_count ++
+                    //     }
+                    //
+                    //     this_row = `<div
+                    //                 onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
+                    //                 class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
+                    //                 >
+                    //
+                    //                 <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                     <small class="m-0 p-0">${sn}</small>
+                    //                 </div>
+                    //
+                    //                 <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                     <div class="w-100"><small>${barcode}</small></div>
+                    //                     <small class="m-0 p-0">${desc}</small>
+                    //                 </div>
+                    //
+                    //                 <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                     <small class="m-0 p-0">${qty}</small>
+                    //                 </div>
+                    //
+                    //                 <!--Cost-->
+                    //                 <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                     <small class="m-0 p-0">${cost}</small>
+                    //                 </div>
+                    //             </div>`
+                    //
+                    //     // append row
+                    //     rows += this_row
+                    //
+                    // }
                     // ct(rows)
                     if(sel_count > 0)
                     {
@@ -143,6 +205,7 @@ class Bill {
                 }
                 else if (res['status'] === 404)
                 {
+                    console.table(res)
                     arr_enable('recall,REFUND')
                     arr_disable('cash_payment,momo_payment,credit_payment,cancel,subTotal,hold,discount')
                     let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
@@ -163,29 +226,17 @@ class Bill {
                 if(is_loyalty === 1){
 
                     let cust_code_q = JSON.parse(get_row('loyalty_tran',`billRef = '${bill_ref}'`))[0];
-                    let cust_code = cust_code_q['cust_code']
-                    let response = lty.getCustomer(cust_code)
-                    if(response['code'] === 200){
 
-                        let customer,name,phone,cardno,points,message = response['message'];
-
-                        customer = message['customer'];
-                        name = customer['name'];
-                        phone = customer['phone'];
-                        cardno = message['number'];
-                        points = message['points'];
-
-                        // disable loyalty button
-                        arr_disable('LOYALTY_LOOKUP')
-                        if(points > 1000)
-                        {
-                            arr_enable('LOYALTY_REDEEM')
-                        } else {
-                            arr_disable('LOYALTY_REDEEM')
-                        }
-
-                        $('#msglegend').html(`LOYALTY CUSTOMER : ${name} with <span class="badge badge-success">${points}</span> points`)
+                    let name, points;
+                    name = cust_code_q['cust_name'];
+                    points = cust_code_q['points_before'];
+                    arr_disable('LOYALTY_LOOKUP')
+                    if (points > 1000) {
+                        arr_enable('LOYALTY_REDEEM')
+                    } else {
+                        arr_disable('LOYALTY_REDEEM')
                     }
+                    $('#msglegend').html(`LOYALTY CUSTOMER : ${name} with <span class="badge badge-success">${points}</span> points`)
 
                 }
                 else {
@@ -324,7 +375,8 @@ class Bill {
                     'function':'payment',
                     'method':method,
                     'amount_paid':amount_paid,
-                    'ref':$('#billRef').val()
+                    'ref':$('#billRef').val(),
+                    'billing_type':billing_type
                 }
 
                 jqh.setText({
@@ -342,6 +394,7 @@ class Bill {
                     type:'POST',
                     data:form_data,
                     success: function (response) {
+                        console.table(response)
                         console.table(response)
                         let result = JSON.parse(JSON.stringify(response))
                         let status,message
@@ -383,8 +436,8 @@ class Bill {
 
                             // console.log('BILL TRANSACTION DONE')
                             Swal.close()
-
-
+                            anton.setCookie('billing_type','sale')
+                            bill.checkBillType()
 
 
                         }
@@ -569,7 +622,7 @@ class Bill {
 
 
             // check if bill reference exist
-            let b_hd,b_tr,b_count,ref_type;
+            let b_hd,b_tr,b_count,ref_type = '';
             let bill_details = {
                 'header':null,
                 'trans':{
@@ -609,12 +662,14 @@ class Bill {
             b_tr = bill_details['trans']['list']
             b_count = bill_details['trans']['count']
 
+            console.table(bill_details)
+            
 
 
             if(b_count > 0)
             {
                 let tr = "";
-
+            
                 for (let b = 0; b < b_tr.length; b++) {
                     let line = b_tr[b]
                     let b_code,qty,r_price,bill_amt,taxable,tax,id
@@ -633,13 +688,13 @@ class Bill {
                     if(line['trans_type'] === 'i')
                     {
                         tr += `<tr>
-                                <td><input ${req} name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
+                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
                                 <td>${b_code}</td>
                                 <td>${item_desc}</td>
-                                <td>-${qty}</td>
+                                <td><input type='number' value='-${qty}' name=''qty[] /></td>
                             </tr>`
                     }
-
+            
                 }
                 let m_form = `<form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
                         <input type="hidden" name="function" value="bill_refund">
@@ -647,13 +702,13 @@ class Bill {
                         <input type="hidden" name="billRef" value="${billRef}">
                         <div class="w-100 d-flex flex-wrap justify-content-between">
                             <div class="w-50">
-                                <strong>Date : </strong>${b_hd['bill_date']} <br>
-                                <strong>Time : </strong>${b_hd['bill_time']} <br>
+                                <strong>Date : </strong> <br>
+                                <strong>Time : </strong> <br>
                             </div>
-                            
+            
                             <div class="w-50 text-right">
-                                <strong>Mech # : </strong>${b_hd['mach_no']} <br>
-                                <strong>Clerk : </strong>${b_hd['clerk']} <br>
+                                <strong>Mech # : </strong> <br>
+                                <strong>Clerk : </strong> <br>
                             </div>
                         </div>
                         <hr>
@@ -677,62 +732,62 @@ class Bill {
                 $('#refundTime').text(b_hd['bill_time'])
                 $('#refMech').text(b_hd['mach_no'])
                 $('#refClerk').text(b_hd['clerk'])
-
+            
                 $('#refundBody').html(tr)
                 // $('#grn_modal_res').html(m_form)
                 // $('#gen_modal_title').text("REFUND")
                 $('#refundModal').modal('show')
             }
 
-            // let admin_id_v2,admin_password_v2,result = false;
-            // Swal.fire({
-            //     title: 'AUTHENTICATE',
-            //     html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
-            //         <input type="password" id="password" class="swal2-input" placeholder="Password">`,
-            //     confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
-            //     focusConfirm: false,
-            //     backdrop: `
-            //     rgba(245, 39, 39, 0.8)
-            //     left top
-            //     no-repeat
-            //   `,
-            //
-            //     preConfirm: () => {
-            //         const login = Swal.getPopup().querySelector('#login').value
-            //         const password = Swal.getPopup().querySelector('#password').value
-            //         if (!login || !password) {
-            //             Swal.showValidationMessage(`Please enter login and password`)
-            //         }
-            //         return { login_v2: login, password_v2: password }
-            //     }
-            // }).then((result) => {
-            //     admin_id_v2 = result.value.login_v2;
-            //     admin_password_v2 = result.value.password_v2;
-            //
-            //     if(User.adminAuth(admin_id_v2,admin_password_v2))
-            //     {
-            //         // make refund
-            //         let bill_amt,amount_paid;
-            //         bill_amt = $('#sub_total').text();
-            //         if(bill_amt.length > 0 && bill_amt > 0){
-            //
-            //             // there is bill
-            //             $('#general_input').val(bill_amt);
-            //             this.payment('refund')
-            //             this.loadBillsInTrans();
-            //
-            //         } else {
-            //             // no bill
-            //             swal_error('NO BILL')
-            //         }
-            //
-            //
-            //     }
-            //     else {
-            //         al("NO ACCESS")
-            //     }
-            //
-            // })
+            let admin_id_v2,admin_password_v2,result = false;
+            Swal.fire({
+                title: 'AUTHENTICATE',
+                html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
+                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
+                confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
+                focusConfirm: false,
+                backdrop: `
+                rgba(245, 39, 39, 0.8)
+                left top
+                no-repeat
+              `,
+            
+                preConfirm: () => {
+                    const login = Swal.getPopup().querySelector('#login').value
+                    const password = Swal.getPopup().querySelector('#password').value
+                    if (!login || !password) {
+                        Swal.showValidationMessage(`Please enter login and password`)
+                    }
+                    return { login_v2: login, password_v2: password }
+                }
+            }).then((result) => {
+                admin_id_v2 = result.value.login_v2;
+                admin_password_v2 = result.value.password_v2;
+            
+                if(User.adminAuth(admin_id_v2,admin_password_v2))
+                {
+                    // make refund
+                    let bill_amt,amount_paid;
+                    bill_amt = $('#sub_total').text();
+                    if(bill_amt.length > 0 && bill_amt > 0){
+            
+                        // there is bill
+                        $('#general_input').val(bill_amt);
+                        this.payment('refund')
+                        this.loadBillsInTrans();
+            
+                    } else {
+                        // no bill
+                        swal_error('NO BILL')
+                    }
+            
+            
+                }
+                else {
+                    al("NO ACCESS")
+                }
+            
+            })
         } else {
 
             al("PLEASE PROVIDE BILL REFERENCE")
@@ -782,6 +837,135 @@ class Bill {
     billSummaryV2(){
 
     }
+
+    addToBill(){
+
+        let barcode_string = $('#general_input').val();
+        let input = ['general_input'];
+        if(anton.validateInputs(input)){
+            let bill_ref = billREF;
+            let qty = 1;
+            let barcode_qty = barcode_string.split('*');
+            let barcode = barcode_qty[0];
+            if(barcode_qty.length === 2){
+                qty = barcode_qty[0];
+                barcode = barcode_qty[1]
+            }
+
+            // check if item exist
+            let is_product = row_count('prod_mast',`barcode = '${barcode}'`);
+
+            if(is_product === 1){
+                let product_row = get_row('prod_mast',`barcode = '${barcode}'`);
+                if(isJson(product_row)){
+                    let product = JSON.parse(product_row)[0];
+                    let name,retail,retail_wo_tax,tax_amt,taxable;
+                    name = product['desc'];
+                    retail = product['retail'];
+                    retail_wo_tax = product['retail_wo_tax']
+                    tax_amt = product['tax_amt'];
+                    taxable = product['tax_grp'];
+
+
+                    let mach, clerk, bill_number, item_barcode, trans_type, retail_price, item_qty, tax_amt_2, bill_amt, item_desc, tran_type, billRef, gfund, nhis, covid, vat;
+                    mach = mech_no;
+                    clerk = user_id;
+                    bill_number = a_sess.get_session('bill_no');
+                    item_barcode = barcode;
+                    trans_type = 'i';
+                    retail_price = retail;
+                    item_qty = qty;
+                    tax_amt_2 = tax_amt * qty;
+                    bill_amt = retail * qty;
+                    item_desc = name;
+                    tran_type = 'SS';
+                    bill_ref = a_sess.get_session('bill_ref');
+                    // let row_uni = md5(`${barcode},${qty},${new Date()}`)
+
+                    if(taxable === 'YES'){
+                        let tax = taxMaster.taxInclusive(retail * qty);
+                        let taxes = tax['message'];
+                        vat = taxes['vat'];
+                        nhis = taxes['nh'];
+                        gfund = taxes['gf'];
+                        covid = taxes['cv']
+
+                    } else {
+
+                        gfund = 0;
+                        nhis = 0;
+                        covid = 0;
+                        vat = 0;
+                    }
+
+                    let sel_note,r_bg;
+                    sel_note = '';r_bg=''
+
+                    let sn = $('#bill_loader div').length + 1;
+
+
+
+                    let insert_qeury = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, retail_price, item_qty, tax_amt, bill_amt, item_desc, tran_type, billRef, gfund, nhis, covid, vat, shift) value 
+                                                                    ('${mach}','${clerk}','${bill_number}','${barcode}','${trans_type}','${retail}','${qty}','${tax_amt_2}','${bill_amt}','${name}','SS','${bill_ref}',${gfund},${nhis},${covid},'${vat}','${shiftNO}')`;
+
+                    let insert = exec(insert_qeury);
+                    // if(insert['code'] === 202){
+                    //     let row = `<div
+                    //                             onclick= "mark_bill_item('${row_uni}')" id='billItem${barcode}'
+                    //                             class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
+                    //                             >
+                    //
+                    //                             <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                                 <small class="m-0 p-0">${sn}</small>
+                    //                             </div>
+                    //
+                    //                             <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                                 <div class="w-100"><small>${barcode}</small></div>
+                    //                                 <small class="m-0 p-0">${name}</small>
+                    //                             </div>
+                    //
+                    //                             <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                                 <small class="m-0 p-0">${qty}</small>
+                    //                             </div>
+                    //
+                    //                             <!--Cost-->
+                    //                             <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                    //                                 <small class="m-0 p-0">${bill_amt}</small>
+                    //                             </div>
+                    //                    </div>`;
+                    //     $('#bill_loader').append(row);
+                    // } else {
+                    //     al(insert['message']);
+                    // }
+
+                    $('#general_input').val('');
+                    this.loadBillsInTrans()
+
+                    // bill.loadBillsInTrans();
+                    // console.log(insert_qeury)
+                    // console.table(product);
+                }
+
+            } else {
+                kasa.error(`Product with barcode ${barcode} does not exist`)
+            }
+
+            // console.table(barcode_qty);
+            // console.log(`BARCODE ${barcode}`)
+            // console.log(`QTY : ${qty}`)
+
+        } else {
+            kasa.error('ENTER BARCODE');
+        }
+
+
+
+
+
+    }
+
+
+
 }
 
 class Shift {

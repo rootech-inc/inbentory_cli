@@ -86,6 +86,9 @@ use billing\Billing;
                 $curRef = $bill_header['billRef'];
                 $billRef = $bill_header['billRef'];
                 $billSummary = (new Billing())->billSummaryV2($billRef);
+                $head = $billSummary['bill_header'];
+
+
 
 
                 $payment = $bill_header['pmt_type'];
@@ -116,16 +119,17 @@ use billing\Billing;
                     $item_desc = "$billSn $item_name";
                     $price = number_format($row['bill_amt'], 2);
                     
-                    array_push($items, new item(substr($item_desc, 0, 30), $price)); // push item desc and cost
+                    array_push($items, new item(substr($item_desc, 0, 30), number_format($price,2))); // push item desc and cost
                     array_push($items, new item($bq, '')); // push barcode Quantity
                 }
 
                 $subtotal = new item('Subtotal', '12.95');
 
-                $non_taxable = new item('Non-Taxable Amount', $bill_header['non_taxable_amt']);
-                $taxable = new item('Taxable Amount', $bill_header['taxable_amt']);
-                $tax = new item('Tax Amount', $bill_header['tax_amt']);
-                $billAmt = new item('Bill Amount', $bill_header['gross_amt']);
+                $non_taxable = new item('Non-Taxable', $head['NON_TAXABLE_AMOUNT']);
+                $taxable = new item('Taxable', $head['TAXABLE_AMOUNT']);
+                $discount = new item('Discount', $head['DISCOUNT']);
+                $tax = new item('Tax Amount', $head['TOTAL_VAT']);
+                $billAmt = new item('Bill Amount', $head['BILL_AMT']);
                 $paidAmt = new item('Paid Amount', $bill_header['amt_paid']);
                 $balAmt = new item("Bal. Amount", $bill_header['amt_bal']);
 
@@ -184,16 +188,31 @@ use billing\Billing;
                     $printer->text($item);
                 }
 
+
                 $printer->feed();
                 $printer->text(str_repeat('-', 48) . "\n");
                 /* Tax and total */
                 $printer->text($non_taxable);
                 $printer->text($taxable);
+                $printer->text($discount);
                 $printer->text($tax);
                 $printer->text($billAmt);
                 $printer->text($paidAmt);
                 $printer->text($balAmt);
                 $printer->feed();
+
+                if($db_hander->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1 ){
+                    $customer = $db_hander->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->text(new item('LOYALTY', ''));
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->text(new item('CUSTOMER', $customer['cust_name']));
+                    $printer->text(new item('POINTS BEFORE', number_format($customer['points_before'],2)));
+                    $printer->text(new item('POINTS EARNED', number_format($customer['points_earned'],2)));
+                    $printer->text(new item('POINTS STAND', number_format($customer['current_points'],2)));
+                    $printer->feed();
+                }
+
 
 
                 $printer->text(str_repeat('-', 48) . "\n");

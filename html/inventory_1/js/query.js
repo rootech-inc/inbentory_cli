@@ -38,7 +38,10 @@ function exec(query = 'none') {
             'function': 'query', 'query': query
         }
         
-        var result = 0;
+        var result = {
+            code:0,
+            message:'Initiating....'
+        };
         $.ajax(
             {
                 url: '/backend/process/ajax_tools.php',
@@ -47,9 +50,15 @@ function exec(query = 'none') {
                 'global': false,
                 'dataType': 'html',
                 data: form_data,
-                success: function (respose) {
-                    
-                    result = respose;
+                success: function (response) {
+
+                    if(isJson(response)){
+                        result = JSON.parse(response)
+                    } else {
+                        result['code'] = 500;
+                        result['message'] = `Invalid Response : ${response}`
+                    }
+
                     // console.log(`RESPONSE FROM EXEC: ${respose}`)
                 }
             }
@@ -162,7 +171,7 @@ function insert(table, data) {
         }
 
         let query = "INSERT INTO " + table + " (" + columns + ") values (" + values + ")";
-        echo(query)
+        // echo(query)
 
         // prepare ajax submission
         var form_data = {
@@ -312,7 +321,7 @@ function md5(str) {
             data: form_data,
             success: function (response) {
                 result = response;
-                cl(response)
+
 
             }
         }

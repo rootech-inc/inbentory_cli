@@ -73,12 +73,13 @@ class Loyalty {
             // validate card in bill
             exec(`DELETE FROM loyalty_tran where billRef = '${bill_ref}'`);
             let ins_data = {
-                'cols':['cust_code','billRef'],
-                'vars':[`${cardno}`,`${bill_ref}`]
+                'cols':['cust_code','billRef','cust_name','points_before'],
+                'vars':[`${cardno}`,`${bill_ref}`,`${name}`,`${points}`]
             }
             insert('loyalty_tran',ins_data);
 
-            console.table(ins_data)
+            // console.table(ins_data)
+            $('#general_input').val('')
 
             kasa.info(`${name} Loaded`);
             bill.loadBillsInTrans();
@@ -156,9 +157,12 @@ class Loyalty {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // add to bill trans
-                                        let bill_tran = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, item_qty, bill_amt, item_desc, tran_type, billRef, shift,tax_amt) VALUES ('${mech_no}','${user_id}','${billNo}','${cust_code}','D',1,${minusPoint},'LOYALTY','L','${billREF}','${shiftNO}','${redAmt}')`;
+                                        let bill_tran = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, item_qty, loyalty_points, item_desc, tran_type, billRef, shift,discount) VALUES ('${mech_no}','${user_id}','${billNo}','${cust_code}','D',1,${minusPoint},'LOYALTY','L','${billREF}','${shiftNO}','${redAmt}')`;
+                                        let loy_trans = `UPDATE loyalty_tran SET points_earned = ${redAmt}, current_points = points_before + ${redAmt} where billRef = '${billREF}'`
                                         console.log(bill_tran)
+                                        console.log(loy_trans)
                                         exec(bill_tran);
+                                        exec(loy_trans);
                                         // add to loyalty trans
 
                                         //let points_query = `INSERT INTO loyalty_point_stmt (cust_code, value, billRef) VALUES ('${cust_code}','${minusPoint}','${billRef}')`;

@@ -521,7 +521,6 @@ function retailWithoutTax()
             tax_amt = message['vat'];
             taxable_amt = value - tax_amt;
         }
-        console.table(tax_details);
     }
 
     $('#retail_without_tax').val(taxable_amt)

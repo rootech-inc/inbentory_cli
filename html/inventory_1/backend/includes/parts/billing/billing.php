@@ -228,7 +228,7 @@
                     <div class="bill-item-body border">
 
                         <!--CART-->
-                        <div class="cart_display">
+                        <div id='cart_display' class="cart_display">
 
                             <div class="border border-light h-100">
                                 <div id="bill_loader" class="h-90 w-100 overflow-auto">
@@ -255,9 +255,9 @@
                         <div class="card_functions p-2 d-flex flex-wrap align-content-between border">
                             <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group bg-danger h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
-
+                                <input type="hidden" name="billing_type" id="billing_type">
                                 <div class="input-group">
-                                    <input  required id="general_input" name="barcode" value="" type="text" autocomplete="off"
+                                    <input onkeyup="" required id="general_input" name="barcode" value="" type="text" autocomplete="off"
                                             class="bill_main_input h-100 form-control rounded-0">
                                     <div class="input-group-prepend">
                                         <button type="button" onclick="keyboard.showQwerty()" class="btn btn-info"><i class="fa fa-keyboard"></i></button>
@@ -381,7 +381,8 @@
       </div>
 
 <script>
+    bill.checkBillType()
     get_bill();
     checkVoud();
-
+    $('#billing_type').val(billing_type);
 </script>

@@ -38,9 +38,6 @@ class Billing extends db_handler
         $item_desc = $item['desc'];
         $item_retail = $item['retail'];
         $barcode = $item['barcode'];
-        $item_code = $item['id'];
-        $disc = $item['discount'];
-//        echo $disc;
 
 
         if($item['discount'] == '1')
@@ -57,28 +54,24 @@ class Billing extends db_handler
         }
 
         $bill_amt = $retail_p * $qty;
-        $tax_group = $item['tax_grp'];
 
 
-        // get tax rate
-        $taxDetails = (new \db_handeer\db_handler())->get_rows('tax_master',"`id` = '$tax_group'");
-        $rate = $taxDetails['rate'];
-        $tax_description =$taxDetails['description'];
-        $tax_code = $taxDetails['attr'];
-
-        $tax = (new \anton())->tax($tax_code,$bill_amt);
 
         try {
             $tax_tran = $this->TaxTran("$bill_number","$machine_number","$barcode","$qty");
+            $tax = $tax_tran['message'];
 
-            if($tax_tran['code'] === 200)
+            if(true)
             {
-                $tax_detail = $tax_tran['message'];
-                $taxAmount = $tax_detail['vat'];
-                $gf = $tax_detail['gf'];
-                $nh = $tax_detail['nh'];
-                $cv = $tax_detail['cv'];
-                $vat = $tax_detail['vat'];
+                $taxAmount = $item['tax_amt'];
+                $gf = $tax['gf'];
+                $nh = $tax['nh'];
+                $cv = $tax['cv'];
+                $vat = $tax['vat'];
+
+                $tax_description = $item['tax_grp'];
+                $rate = 0;
+                $tax_code = $tax_description;
 
                 // add to bill in trans
                 $sql = "insert into `bill_trans` 
@@ -89,9 +82,7 @@ class Billing extends db_handler
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat','$tax_code','$shift_no')";
 
-                $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
-                $text = "$sql\n";
-                file_put_contents($file, $text, FILE_APPEND);
+
 
                 (new \db_handeer\db_handler())->db_connect()->prepare($sql);
                 (new \db_handeer\db_handler())->db_connect()->exec($sql);
@@ -263,7 +254,7 @@ class Billing extends db_handler
 
     }
 
-    public function makePyament($method,$amount_paid,$oriRef = ''): array
+    public function makePyament($method,$amount_paid,$oriRef = '',$billing_type='sales'): array
     {
 
         $dbHandler = (new db_handler());
@@ -273,11 +264,12 @@ class Billing extends db_handler
         $response = [];
         $billRef = billRef;
         // get current bill details
+        $bill_cond = "`billRef` = '$billRef'  and `trans_type` = 'i'";
         $bill_number = bill_no;
         $machine_number = (new MechConfig())->mech_details()['mechine_number'];
         $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
         $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
-        $bill_trans_count = $this->row_count('bill_trans',"`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number' and `trans_type` = 'i'");
+        $bill_trans_count = $this->row_count('bill_trans',$bill_cond);
 
 
 
@@ -400,7 +392,7 @@ class Billing extends db_handler
 
 
 
-                        if($method === 'refund') // update on refunds
+                        if($billing_type === 'refund') // update on refunds
                         {
 
                             // update values all to negative
@@ -457,6 +449,8 @@ class Billing extends db_handler
 
                                 curl_close($curl);
 
+
+
                             }
 
 
@@ -467,7 +461,7 @@ class Billing extends db_handler
                         {
                             $loyalty_tran = $this->get_rows('bill_trans',"`billRef` = '$billRef' and tran_type = 'L'");
                             $cust_code = $loyalty_tran['item_barcode'];
-                            $points = $loyalty_tran['bill_amt'];
+                            $points = $loyalty_tran['loyalty_points'];
                             $curl = curl_init();
 
                             $payload = '{
@@ -497,6 +491,9 @@ class Billing extends db_handler
                             curl_exec($curl);
 
                             curl_close($curl);
+
+                            $update_q = "UPDATE loyalty_tran SET points_earned = $points, current_points = points_before + $points where billRef = '$billRef'";
+                            $this->db_connect()->exec($update_q);
 
                         } else {
                             // give points
@@ -533,12 +530,17 @@ class Billing extends db_handler
 
                                 curl_close($curl);
 
+                                // update total in trans
+
+                                $update_q = "UPDATE loyalty_tran SET points_earned = $amount_paid, current_points = points_before + $amount_paid where billRef = '$billRef'";
+                                $this->db_connect()->exec($update_q);
+
                             }
                         }
 
 
                         // print bill
-                        //printbill(mech_no,$bill_number,$method);
+                        printbill(mech_no,$bill_number,$method);
 
                         $code = 200;
                         $msg = "BILL COMPLETED";
@@ -610,20 +612,18 @@ class Billing extends db_handler
                 $i_code = $item['id'];
 
                 // get tax details
-                $taxCount = $this->db_handler()->row_count('tax_master',"`id` = '$tax_code'");
 
-                if($taxCount === 1)
+                if(true)
                 {
 
                     try {
 
                         // there is tax code
-                        $taxDetail = $this->db_handler()->get_rows('tax_master',"`id` = '$tax_code'");
-                        $tax_code = $taxDetail['attr'];
+
                         $retail = $item['retail'];
                         $cost = $retail * $qty;
 
-                        if($tax_code === 'VM')
+                        if($tax_code === 'YES')
                         {
 
                             $covidRate = 1;
@@ -811,9 +811,26 @@ class Billing extends db_handler
         $cv = $this->sum('bill_trans',"`covid`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
         $nh = $this->sum('bill_trans',"`nhis`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
         $gf = $this->sum('bill_trans',"`gfund`","`billRef` = '$bill_ref' and `trans_type` = 'i'");
-        $taxable_amount_inclusive = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` = 'VM' and `trans_type` = 'i'");
-        $non_taxable_amount = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` != 'VM' and `trans_type` = 'i'");
-        $discount = $this->sum('bill_trans',"`tax_amt`","`billRef` = '$bill_ref' and `trans_type` = 'D'");
+        $taxable_amount_inclusive = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` = 'YES' and `trans_type` = 'i'");
+        $non_taxable_amount = $this->sum('bill_trans','bill_amt',"`billRef` = '$bill_ref' and `tax_code` != 'YES' and `trans_type` = 'i'");
+
+
+        if($this->row_count('bill_trans',"`tran_type` = 'D' and `billRef` = '$bill_ref'") === 1)
+        {
+            // there is rate discount
+            $disc_row = $this->get_rows('bill_trans',"`tran_type` = 'D' and `billRef` = '$bill_ref'");
+            $rate = $disc_row['discount_rate'] / 100;
+
+            $discount1 = $final_bill * $rate;
+            $discount2 = $discount1 * 2;
+            $discount = $discount1 - $discount2;
+
+        } elseif ($this->row_count('bill_trans',"`tran_type` = 'L' and `billRef` = '$bill_ref'") === 1){
+            $discount = $this->sum('bill_trans',"`discount`","`billRef` = '$bill_ref' and `tran_type` = 'L'");
+        } else {
+            $discount = 0;
+        }
+
 
 
         $levies = $gf + $nh + $cv;
@@ -825,14 +842,14 @@ class Billing extends db_handler
 
 
         $bill_header = array();
-        $bill_header['BILL_AMT'] = $final_bill + $discount;
+        $bill_header['BILL_AMT'] = number_format($final_bill + $discount,2);
         $bill_header['TOTAL_AMOUNT'] = $final_bill;
         $bill_header['TOTAL_LEVY'] = $levies;
         $bill_header['TOTAL_VAT'] = $vat;
         $bill_header['ITEMS_COUNTS'] = $totalTrans;
         $bill_header['TAXABLE_AMOUNT'] = $taxable_amount_inclusive;
         $bill_header['NON_TAXABLE_AMOUNT'] = $non_taxable_amount;
-        $bill_header['DISCOUNT'] = $discount;
+        $bill_header['DISCOUNT'] = number_format($discount,2);
         $bill_header['DISCOUNT_RATE'] = 0;
 
 
@@ -882,6 +899,31 @@ class Billing extends db_handler
 
         return $response;
 
+    }
+
+    // validate refund
+    public function validateRefund($table,$oldReference){
+        // check if bill exist
+        $response = array('status'=>false,'message'=>'not initialized');
+        if($this->row_count("$table","`billRef` = '$oldReference'") > 0){
+            $error = 0;
+            $error_msg = 0;
+            // check items
+            $sql = "SELECT * FROM `$table` where `billRef`='$oldReference'";
+            $stmt = $this-db_connect()->prepare($sql);
+            $stmt->execute();
+            while ($row = $stmt->PDO::FETCH_ASSOC) {
+                $barcode = $row['item_barcode'];
+                $qty = $row['qty'];
+
+                // check in current bill
+                
+            }
+            $response['status'] = true;
+
+        }
+
+        return $response;
     }
 
 }

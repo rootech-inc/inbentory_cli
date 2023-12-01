@@ -187,7 +187,7 @@ require '../includes/core.php';
                                     </div>
 
                                     <div class=\"w-50 h-100 d-flex flex-wrap align-content-center pl-1\">
-                                    <small>$barcode</small>
+                                        <small>$barcode</small>
                                         <p class=\"m-0 p-0\">$item_name</p>
                                         <small class='text-info'>$selected</small>
                                     </div>
@@ -242,15 +242,16 @@ require '../includes/core.php';
                 $shift = shift_no;
                 $billRef = billRef;
                 $response = ['status'=>404,'message'=>'null'];
-                $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number' and shift = '$shift'";
+                $bill_cond = "`billRef` = '$billRef'";
                 // count bill tran count
-                $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'");
+                //echo $bill_cond;
+                $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',$bill_cond);
 
                 $response['message'] = $bill_tran_count;
                 if($bill_tran_count > 0){
 
                     // get all bill trans and loop
-                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND billRef = '$billRef' and shift = '$shift' order by trans_type desc";
+                    $q = "SELECT * FROM `bill_trans` WHERE `trans_type` in ('i','D') AND billRef = '$billRef' order by trans_type desc";
                     (new anton())->log2file("BILL TRANS \n $q \n BILL TRANS");
                     $bill_query = (new \db_handeer\db_handler())->db_connect()->query($q);
 
@@ -260,6 +261,7 @@ require '../includes/core.php';
                     $bill_items = 'done%%';
                     $sn = 0;
                     $trans = [];
+                    $trans_html = '';
                     $total = 0;
                     $tax_total = 0;
                     while($bill = $bill_query->fetch(PDO::FETCH_ASSOC)) {
@@ -295,6 +297,41 @@ require '../includes/core.php';
                             'tran'=>$tran
                         ];
 
+                        $selected = '';
+                        if($bill['selected'] == '1')
+                        {
+                            $cart_item = 'cart_item active';
+                            $selected = 'selected';
+                        }
+                        else
+                        {
+                            $cart_item = 'cart_item';
+                        }
+
+                        $trans_html .= "<div
+                                    onclick= \"mark_bill_item('$id')\" id='billItem$barcode'
+                                    class=\"d-flex flex-wrap $cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
+                                    >
+
+                                    <div class=\"w-10 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">$sn</p>
+                                    </div>
+
+                                    <div class=\"w-50 h-100 pl-1\">
+                                    <small>$barcode</small>
+                                        <p class=\"m-0 p-0\">$item_name</p>
+                                    </div>
+
+                                    <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">$qty</p>
+                                    </div>
+
+                                    <!--Cost-->
+                                    <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">".number_format($cost,2)."</p>
+                                    </div>
+                                </div>";
+
                         $trans[] = $this_tran;
 
                         $selected = '';
@@ -313,7 +350,8 @@ require '../includes/core.php';
                         'count'=>$bill_tran_count,
                         'total'=>number_format(bill_total['taxable_amt'],2),
                         'tax'=>number_format($db->sum('bill_tax_tran','tax_amt',$bill_cond),2),
-                        'trans'=>$trans
+                        'trans'=>$trans,
+                        'trans_html'=>$trans_html
                     ];
                     $response['status'] = 202;
                     $response['message'] = $bill_trans;
@@ -472,8 +510,8 @@ require '../includes/core.php';
             elseif ($function === 'payment') // making payment
             {
 
-
                 $amount_paid = $anton->post('amount_paid');
+                $billing_type = $anton->post('billing_type');
 
                 $myName = $_SESSION['clerk_id'];
                 $today = today;
@@ -490,7 +528,7 @@ require '../includes/core.php';
 
                     $method = $anton->post('method');
                     $original_ref = $anton->post('ref');
-                    $response = $bill->makePyament($method,$amount_paid,$original_ref);
+                    $response = $bill->makePyament($method,$amount_paid,$original_ref,$billing_type);
                     (new anton())->log2file("FINAL RESPONSE");
                     (new anton())->log2file(var_export($response,true),'',1);
                     
@@ -601,18 +639,20 @@ require '../includes/core.php';
                 if($db->clerkAuth($user_id,$password))
                 {
                     $billRef = billRef;
+                    $shift = shift_no;
                     //$anton->done('pass');
                     // apply discount
                     // check if discount already, already applied
                     if($db->row_count('bill_trans',"`bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'") < 1)
                     {
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`,`date_added`,`billRef`) values ('$machine_number','$bill_number','DISCOUNT','D','$clerk_code','DICOUNT','$rate','$today','$billRef')");
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`discount_rate`,`date_added`,`billRef`,`shift`,`tran_type`) values 
+                                                                                    ('$machine_number','$bill_number','DISCOUNT','D','$clerk_code','DICOUNT','$rate','$today','$billRef','$shift','D')");
                         $anton->done('discount_applied');
                     }
                     else
                     {
                         // update discount
-                        $db->db_connect()->exec("UPDATE `bill_trans` SET `bill_amt` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'");
+                        $db->db_connect()->exec("UPDATE `bill_trans` SET `discount_rate` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'");
                         $anton->done('discount_updated');
                     }
 

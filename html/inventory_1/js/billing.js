@@ -1,7 +1,6 @@
 $(function() {
     //hang on event of form with id=myform
     $("#add_to_bill_form").submit(function(e) {
-//prevent Default functionality
         e.preventDefault();
         //get the action-url of the form
         var actionurl = e.currentTarget.action;
@@ -32,7 +31,7 @@ $(function() {
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
                 success: function (response){
-                    echo(response);
+                    // echo(response);
                     if(isJson(response))
                     {
                         // bill is valid json
@@ -50,10 +49,8 @@ $(function() {
                         let er_msg = response.split('%%')[1]
                         kasa.error(er_msg)
                     } else {
-                        get_bill()
+                        bill.loadBillsInTrans()
                     }
-                    // alert(response.split('%%')[1]);
-
                     // clear input
                     $('#general_input').val('')
 

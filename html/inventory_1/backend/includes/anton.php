@@ -202,7 +202,7 @@ class anton extends FPDF
             "tax_trans"=>$tax_trans
         );
 
-        if($tax_code === 'VM'){
+        if($tax_code === 'YES'){
 
             //get levies NIHIS & GFUND = 2.5, COVID = 1
             $two_five = 100 / 2.5;
@@ -217,8 +217,7 @@ class anton extends FPDF
         } else
         {
             // get tax code
-            $tax_group = (new \db_handeer\db_handler())->get_rows('tax_master',"`attr` = '$tax_code'");
-            $tax_rate = $tax_group['rate'];
+            $tax_rate = 0;
             $rate_percentage = $tax_rate / 100;
 
             $taxAmt = $amount * $rate_percentage;

@@ -893,7 +893,6 @@ function change_category(group_uni) {
 function add_item_to_bill(barcode) {
 
     let newValue;
-    echo(barcode);
     var existingValue = $('#general_input').val();
     if(existingValue.includes("*"))
     {
@@ -2041,3 +2040,66 @@ function autoFill(ids,data) {
         kasa.error("ID DATA MISMATCH")
     }
 }
+
+class Anton {
+    getCookie(name){
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    setCookie(name,value){
+        document.cookie = name + "=" + value + ";path=/";
+    }
+
+    lineXyz(line){
+        let x = $(`#x_${line}`).val()
+        let y = $(`#y_${line}`).val()
+        let z = parseFloat(x*y).toFixed(2)
+        console.log(x)
+        $(`#z_${line}`).val(z)
+    }
+
+    validateInputs(ids) {
+        for (let i = 0; i < ids.length; i++) {
+            const value = $(`#${ids[i]}`).val();
+            if (value === '' || value === undefined) {
+                // alert('False');
+                return false;
+                $(`#${ids[i]}`).addClass('border-danger')
+                $(`#${ids[i]}`).removeClass('border-success')
+            } else {
+                $(`#${ids[i]}`).addClass('border-success')
+                $(`#${ids[i]}`).removeClass('border-danger')
+            }
+        }
+        return true;
+    }
+
+    Inputs(ids){
+        let xd = {};
+        for (let i = 0; i < ids.length; i++) {
+            xd[ids[i]] = $(`#${ids[i]}`).val()
+        }
+
+        return xd;
+    }
+
+    wait(time = 1){
+        setTimeout(function () {
+            console.log(waiting)
+        },time * 1000)
+    }
+
+
+}
+
+const anton = new Anton()
+
+let billing_type = 'none';
+if(!anton.getCookie('billing_type')){
+    anton.setCookie('billing_type','sale');
+}
+
+billing_type = anton.getCookie('billing_type');
+console.log(`BILLING TYPE is ${billing_type}`)
