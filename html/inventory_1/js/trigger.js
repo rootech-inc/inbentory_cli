@@ -212,7 +212,8 @@ $(document).ready(function() {
             }
             let request = api.call('POST',payload)
             // ct(request)
-            kasa.success(request['message'])
+            kasa.success(request['message']);
+            location.reload()
 
         } else {
             kasa.error('PLEASE FILL ALL REQUIRED FILDS')
@@ -408,7 +409,6 @@ $(document).ready(function (){
 // EOD
 
 // enter general bill
-console.log('general_input_key_start')
 $('#general_input').on('keyup',function (e)
 {
     let key = e.which;

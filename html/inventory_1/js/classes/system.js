@@ -884,35 +884,64 @@ class UserConfig {
         }
     }
 
-    adminAuth(code,clerk_key){
-        let form_data = {
-            'function':'adminAuth','code':code,'clerk_key':clerk_key
-        }
+    adminAuthScreen(){
+        let html = `
+            <input type="password" id="admin_code" maxlength="4" class="form-control text-center rounded-0 mb-2" placeholder="PIN" />
+            <button onclick="User.adminAuth()" class="w-100 btn btn-danger">AUTH</button>
+        `;
+        mpop.setTitle('ADMIN AUTH')
+        mpop.setBody(html);
+        mpop.show()
+    }
 
+    adminAuth(){
         let result = false;
-
-        $.ajax(
-            {
-                url:'/backend/process/ajax_tools.php',
-                'async': false,
-                'type': "POST",
-                'global': false,
-                'dataType': 'html',
-                data:form_data,
-                success: function (response)
-                {
-                    let res = JSON.parse(response)
-                    ct(res)
-                    if(res['code'] === 200)
-                    {
-                        result = true
-                    }
-                    // result = JSON.parse(response);
-
-
-                }
+        let ids = ['admin_code'];
+        if(anton.validateInputs(ids)){
+            let input = anton.Inputs(ids);
+            let admin_code = md5(input['admin_code']);
+            // console.log(admin_code)
+            let condition = `pin = '${admin_code}' and user_grp = 1`;
+            console.log(condition)
+            let validate = row_count('clerk',condition);
+            if(validate === 1){
+                result = true
             }
-        );
+
+            // validate
+
+
+        } else {
+            kasa.error("Provide Pin")
+        }
+        // let form_data = {
+        //     'function':'adminAuth','code':code,'clerk_key':clerk_key
+        // }
+
+
+
+        // $.ajax(
+        //     {
+        //         url:'/backend/process/ajax_tools.php',
+        //         'async': false,
+        //         'type': "POST",
+        //         'global': false,
+        //         'dataType': 'html',
+        //         data:form_data,
+        //         success: function (response)
+        //         {
+        //             let res = JSON.parse(response)
+        //             ct(res)
+        //             if(res['code'] === 200)
+        //             {
+        //                 result = true
+        //             }
+        //             // result = JSON.parse(response);
+        //
+        //
+        //         }
+        //     }
+        // );
 
         return result;
 

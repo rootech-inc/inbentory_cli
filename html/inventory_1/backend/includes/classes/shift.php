@@ -69,6 +69,7 @@ class shift extends \db_handeer\db_handler
                 $start_sql = "INSERT INTO shifts (clerk, mech_no,enc,shift_no) values ('$clerk','$mech_no','$enc','$shift_no')";
                 $start_stmt = $this->db_connect()->prepare($start_sql);
                 $start_stmt->execute();
+                (new \anton())->set_session(['module=billing']);
                 $resp['code'] = 202; $resp['message'] = "Shift Started";
 
             } catch (\PDOException  $e)
@@ -119,7 +120,7 @@ class shift extends \db_handeer\db_handler
     {
         // copy data to history
         $download = (new Billing())->downloadSales($sales_date);
-        if($download['code'] === 200){
+        if($download['status_code'] === 200){
 
             $this->exe("INSERT INTO bill_history_header SELECT * FROM bill_header where bill_date = '$sales_date'");
             $this->exe("INSERT INTO `bill_history_trans` SELECT * FROM `bill_trans` where date_added = '$sales_date'");
@@ -129,7 +130,7 @@ class shift extends \db_handeer\db_handler
 
             $this->exe("UPDATE eod_serial SET status = 1 where sales_date = '$sales_date'");
         }
-        print_r($download);
+        //print_r($download);
         return $download;
         
 

@@ -296,24 +296,11 @@ function lookupAddToBill(lit) {
 // voiding bill
 // mark bill item
 function mark_bill_item(id) {
-
-    var form_data = {
-        'function':'mark_bill','id':id
+    let row = JSON.parse(get_row('bill_trans',`id = '${id}'`))[0];
+    let query = `UPDATE bill_trans set selected = 1 WHERE id = '${id}'`;
+    if(row['selected'] === 1){
+        query = `UPDATE bill_trans set selected = 0 WHERE id = '${id}'`;
     }
-
-
-
-    $.ajax({
-        url: 'backend/process/form-processing/billing.php',
-        type: 'POST',
-        data: form_data,
-        success: function (response)
-        {
-            console.log(response);
-            get_bill();
-        }
-    });
-
-    get_bill();
+    exec(query)
+    bill.loadBillsInTrans()
 }
-// voiding bill

@@ -74,6 +74,7 @@ $anton->log2file($logo,"LOGO",1);
         $shift_enc = '';
     }
     define('shift_no',$shift_no);
+    define('is_shift',$shiftCL->is_shift(mech_no));
     
 
     $evat = false;

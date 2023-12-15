@@ -7,6 +7,7 @@ use Exception;
 
 class Evat extends db_handler
 {
+
    public function send_invoice($billRef,$flag = 'INVOICE',$original_bill_ref = ''){
 
         if($this->checkServer()){
@@ -29,16 +30,18 @@ class Evat extends db_handler
 
             # do trans
             $output = "";
-            $t_q = $this->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
-            $t_q = $this->db_connect()->query("
-                    select item_barcode, pm.`desc` as 'name', pm.retail as 'retail_price', tm.attr as 'tax_group',tm.rate as 'tax_rate',
-                case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(tax_amt) as 'tax_amt',
-                sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
-                right join posdb.prod_mast pm on bill_trans.item_barcode = pm.barcode right join tax_master tm on pm.tax_grp = tm.id
-                where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by bill_trans.item_barcode;
-                    ");
+            # $t_q = $this->db_connect()->query("SELECT * FROM bill_trans where billRef = '$billRef' and trans_type = 'i'");
+            $q = "SELECT item_barcode, pm.`desc` AS 'name', pm.retail AS 'retail_price', CASE WHEN pm.tax_grp = 'YES' THEN 'VM' ELSE 'V0' END AS 'tax_group', CASE WHEN pm.tax_grp = 'YES' THEN '15' ELSE '0' END AS 'tax_rate', CASE WHEN pm.tax_grp = 'YES' THEN 'B' ELSE 'A' END AS 'tax_com', SUM(item_qty) AS 'qty', SUM(bill_trans.tax_amt) AS 'tax_amt', SUM(nhis) AS 'LEVY_A', SUM(gfund) AS 'LEVY_B', SUM(covid) AS 'LEVY_C' FROM bill_trans RIGHT JOIN posdb.prod_mast pm ON bill_trans.item_barcode = pm.barcode WHERE bill_trans.billRef = '$billRef' AND bill_trans.trans_type = 'i' GROUP BY bill_trans.item_barcode;";
+//            $t_q = $this->db_connect()->query("
+//                    select item_barcode, pm.`desc` as 'name', pm.retail as 'retail_price', tm.attr as 'tax_group',tm.rate as 'tax_rate',
+//                case when tm.attr = 'VM' then 'B' else 'A' end as 'tax_com', sum(item_qty) as 'qty', sum(bill_trans.tax_amt) as 'tax_amt',
+//                sum(nhis) as 'LEVY_A', sum(gfund) as 'LEVY_B', sum(covid) as 'LEVY_C' from bill_trans
+//                right join posdb.prod_mast pm on bill_trans.item_barcode = pm.barcode right join tax_master tm on pm.tax_grp = tm.id
+//                where bill_trans.billRef = '$billRef' and bill_trans.trans_type = 'i' group by bill_trans.item_barcode;
+//                    ");
+            $t_q = $this->db_connect()->query($q);
 
-            $trans = $bill['bill_trans'];
+            # $trans = $bill['bill_trans'];
             $item_count = 0;
             while($tran = $t_q->fetch(\PDO::FETCH_ASSOC))
             {
@@ -134,31 +137,32 @@ class Evat extends db_handler
 
    }
 
-   public function checkServer(){
+   public function checkServer(): bool
+   {
     
 
-    // Initialize cURL session
-    $curl = curl_init(evat_url);
+        // Initialize cURL session
+        $curl = curl_init(evat_url);
 
-    // Set cURL options
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5); // Set a timeout in seconds
+        // Set cURL options
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5); // Set a timeout in seconds
 
-    // Execute the cURL request
-    $response = curl_exec($curl);
+        // Execute the cURL request
+        $response = curl_exec($curl);
 
-    // Check if the cURL request was successful and the response code is 200 (OK)
-    if ($response === false || curl_getinfo($curl, CURLINFO_RESPONSE_CODE) !== 200) {
-        $r = false;
-    } else {
-        $r = true;
-    }
+        // Check if the cURL request was successful and the response code is 200 (OK)
+        if ($response === false || curl_getinfo($curl, CURLINFO_RESPONSE_CODE) !== 200) {
+            $r = false;
+        } else {
+            $r = true;
+        }
 
-   
 
-    // Close the cURL session
-    curl_close($curl);
-    return $r;
+
+        // Close the cURL session
+        curl_close($curl);
+        return $r;
 
    }
 
@@ -207,7 +211,7 @@ class Evat extends db_handler
         }
         
 
-        print_r($response);
+//        print_r($response);
         return $response;
 
     }

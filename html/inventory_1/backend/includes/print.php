@@ -79,6 +79,7 @@ use billing\Billing;
             $db_hander = new db_handler();
 
             $today = today;
+
             $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
             if ($db_hander->row_count('bill_header', $bill_hd_count) > 0) {
 
@@ -103,6 +104,7 @@ use billing\Billing;
                 $items = array();
 
                 $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
+
                 $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
                 $billSn = 0;
                 while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC)) {
@@ -119,8 +121,8 @@ use billing\Billing;
                     $item_desc = "$billSn $item_name";
                     $price = number_format($row['bill_amt'], 2);
                     
-                    array_push($items, new item(substr($item_desc, 0, 30), number_format($price,2))); // push item desc and cost
-                    array_push($items, new item($bq, '')); // push barcode Quantity
+                    $items[] = new item(substr($item_desc, 0, 30), number_format($price, 2)); // push item desc and cost
+                    $items[] = new item($bq, ''); // push barcode Quantity
                 }
 
                 $subtotal = new item('Subtotal', '12.95');
@@ -160,20 +162,20 @@ use billing\Billing;
                 /* Title of receipt */
                 $printer->feed(2);
                 $printer->setEmphasis(true);
-                if ($payment === 'refund') {
-                    $printer->text("REFUND\n");
-                } else {
-                    $printer->text("TAX INVOICE\n");
-                }
+
+                $sales_type = strtoupper($bill_header['sales_type']);
+                $printer->text("$sales_type\n");
+
                 $printer->feed(2);
                 $printer->setEmphasis(false);
-
+                $time = $bill_header['bill_time'];
+                $date = $bill_header['bill_date'];
+                $clerk = $bill_header['clerk'];
                 $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $printer->text("Bill# $bill_number");
-                $printer->feed();
-                $printer->text(new item(date('d-M-Y'), 'TIME : ' . date('H:i')));
-
-                $printer->text(new item('M# : 6', 'Clerk : Admin'));
+                $printer->text(new item("BILL # : $bill_number", $date));
+                $printer->text(new item("CLERK : $clerk",  $time));
+                $mech_no = $bill_header['mach_no'];
+                $printer->text(new item("M# : $mech_no", ));
 
                 $printer->feed();
                 /* Items */

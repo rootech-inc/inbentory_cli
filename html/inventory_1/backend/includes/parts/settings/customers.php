@@ -1,4 +1,9 @@
 <main class="p-0 mx-auto">
+    <?php
+        $customers_q = "select CONCAT(first_name,' ',last_name) as 'name',email,phone_number,CONCAT(country,' ',city,' ',address) as 'address',cust_no from customers;";
+        $stmt = $db->db_connect()->prepare($customers_q);
+        $stmt->execute();
+    ?>
     <div class="container-fluid p-0 h-100">
 
         <div class="h-100 row p-0 no-gutters">
@@ -69,40 +74,69 @@
                                 <i class="fa fa-forward text-info"></i>
                             </button>
                         </header>
-                        <article class="inside_card_body">
+                        <article class="inside_card_body p-1">
                             <div class="container h-100">
-                                <div class="row h-100">
-                                    <div class="col-sm-6">
-                                        <label for="prev_first_name">First Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_first_name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="prev_last_name">Last Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_last_name">
-                                    </div>
+                                <div class="w-100 table-responsive h-100">
+                                    <table class="table table-sm table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>NAME</th><th>EMAIL</th><th>PHONE</th><th>ADDRESS</th><th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php while($customer = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
+                                                <tr>
+                                                    <td class="text-light"><?php echo $customer['name'] ?></td>
+                                                    <td class="text-light"><?php echo $customer['email'] ?></td>
+                                                    <td class="text-light"><?php echo $customer['phone_number'] ?></td>
+                                                    <td class="text-light"><?php echo $customer['address'] ?></td><td class="text-light">
+                                                        <div class="dropdown dropleft">
+                                                            <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
 
-                                    <div class="col-sm-3">
-                                        <label for="prev_phone">Phone </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_phone">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label for="prev_email">Email </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_email">
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <label for="prev_country">Country </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_country">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label for="prev_city">City </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_city">
-                                    </div>
-
-                                    <div class="col-sm-3">
-                                        <label for="prev_address">Address </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_address">
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <label for="prev_postal">Postal </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_postal">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <label for="prev_cust_number">NUMBER </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  w-100 mb-2" id="prev_cust_number">
-                                    </div>
+                                                            <!-- Dropdown menu -->
+                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                                <a class="dropdown-item" onclick="customerMaster.make_payment('<?php echo $customer['cust_no'] ?>')" href="javascript:void(0)">Make Payment</a>
+                                                                <a class="dropdown-item" href="javascript:void(0)" onclick="customerMaster.printStatement('<?php echo $customer['cust_no'] ?>')">Statement</a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php endwhile; ?>
+                                        </tbody>
+                                    </table>
                                 </div>
+<!--                                <div class="row h-100">-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <label for="prev_first_name">First Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_first_name">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <label for="prev_last_name">Last Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_last_name">-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_phone">Phone </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_phone">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_email">Email </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_email">-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_country">Country </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_country">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_city">City </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_city">-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_address">Address </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_address">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-3">-->
+<!--                                        <label for="prev_postal">Postal </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_postal">-->
+<!--                                    </div>-->
+<!--                                    <div class="col-sm-6">-->
+<!--                                        <label for="prev_cust_number">NUMBER </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  w-100 mb-2" id="prev_cust_number">-->
+<!--                                    </div>-->
+<!--                                </div>-->
                             </div>
                         </article>
                     </div>

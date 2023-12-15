@@ -79,12 +79,12 @@
                             // take report
                             print_eod($sale_date);
                             $close = (new \billing\shift())->closeEod($sale_date);
-                            $code = $close['code'];
+                            $code = $close['status_code'];
                             $message = $close['message'];
                             if($code === 200){
                                 $response->error($message);
                             } else {
-                                $response->success($message);
+                                $response->success("COULD NOT CLOSE EOD: $message");
                             }
 
                         }

@@ -15,7 +15,7 @@
                 <button class="close" data-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+                <div id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
 
                     <input type="hidden" name="function" value="bill_refund">
                     <input type="hidden" required id="ref_type" name="ref_type" value="">
@@ -48,9 +48,9 @@
                     </table>
 
                     <hr>
-                    <button type="submit" class="btn btn-warning">REFUND</button>
+                    <button type="button" onclick="bill.addRefundTransactions()" class="btn btn-warning">REFUND</button>
 
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -277,14 +277,17 @@
                                 <!-- BUTTONS -->
                                 <div id="functionButtons" class="w-85 h-100 d-flex overflow-hidden flex-wrap align-content-start">
 
-                                    <button id="cash_payment" onclick="bill.payment('cash')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
+                                    <button id="cash_payment" onclick="bill.make_payment('cash')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         CASH
                                     </button>
-                                    <button id="momo_payment" onclick="bill.payment('momo')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
+                                    <button id="momo_payment" onclick="bill.make_payment('momo')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         MOMO
                                     </button>
-                                    <button id="credit_payment" onclick="bill.payment('credit_payment')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
+                                    <button id="credit_payment" onclick="bill.make_payment('credit_payment')" class="bill_func_sub_btn btn btn-sm btn-primary rounded-0">
                                         CARD
+                                    </button>
+                                    <button onclick="customerMaster.makePurchase()" disabled id="load_cust" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
+                                        CREDIT
                                     </button>
                                     <button id="cancel" disabled onclick="cancel_bill()" class="bill_func_sub_btn btn btn-sm btn-danger rounded-0">
                                         CANCEL
@@ -309,9 +312,7 @@
                                         LOYRED
                                     </button>
 
-                                    <button onclick="kasa.info('NOT INPLEMENTED')" disabled id="load_cust" class="bill_func_sub_btn btn btn-sm btn-light rounded-0">
-                                        LOAD CUST
-                                    </button>
+
 
                                     <button id="bill_recall" disabled onclick="bill.recall()" class="bill_func_sub_btn btn btn-info btn-sm rounded-0">
                                         RECAL
@@ -324,6 +325,12 @@
                                     </button>
                                     <button disabled id="REFUND" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
                                         REFUND
+                                    </button>
+                                    <button id="reprint" onclick="bill.printScreen()" class="bill_func_sub_btn btn_traditional btn-sm rounded-0">
+                                        RE-PRINT
+                                    </button>
+                                    <button id="foc" onclick="bill.focScreen()" class="bill_func_sub_btn btn-danger btn-sm rounded-0">
+                                        F.O.C
                                     </button>
 
                                 </div>
@@ -385,4 +392,5 @@
     get_bill();
     checkVoud();
     $('#billing_type').val(billing_type);
+
 </script>

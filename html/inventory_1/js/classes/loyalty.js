@@ -47,48 +47,53 @@ class Loyalty {
     }
 
     loadCustomer(){
-        let cust_code = $('#general_input').val()
-        // get customer from database
-        let payload = {
-            "module":"card",
-            pass_from:'VIEW',
-            "data":{
-                "card_no":cust_code
+        if(anton.validateInputs(['general_input'])){
+            let cust_code = $('#general_input').val()
+            // get customer from database
+            let payload = {
+                "module":"card",
+                pass_from:'VIEW',
+                "data":{
+                    "card_no":cust_code
+                }
             }
-        }
 
-        let response = api.call('POST',payload,this.api_url);
-        if(response['code'] === 200){
-            let system = new System();
-            let bill_ref = system.sys_variable('billRef');
-            let customer,name,phone,cardno,points,message = response['message'];
-            customer = message['customer'];
-            name = customer['name'];
-            phone = customer['phone'];
-            cardno = message['number'];
-            points = message['points'];
-            // console.table(message)
-            // console.table(customer)
+            let response = api.call('POST',payload,this.api_url);
+            if(response['code'] === 200){
+                let system = new System();
+                let bill_ref = system.sys_variable('billRef');
+                let customer,name,phone,cardno,points,message = response['message'];
+                customer = message['customer'];
+                name = customer['name'];
+                phone = customer['phone'];
+                cardno = message['number'];
+                points = message['points'];
+                // console.table(message)
+                // console.table(customer)
 
-            // validate card in bill
-            exec(`DELETE FROM loyalty_tran where billRef = '${bill_ref}'`);
-            let ins_data = {
-                'cols':['cust_code','billRef','cust_name','points_before'],
-                'vars':[`${cardno}`,`${bill_ref}`,`${name}`,`${points}`]
+                // validate card in bill
+                exec(`DELETE FROM loyalty_tran where billRef = '${bill_ref}'`);
+                let ins_data = {
+                    'cols':['cust_code','billRef','cust_name','points_before'],
+                    'vars':[`${cardno}`,`${bill_ref}`,`${name}`,`${points}`]
+                }
+                insert('loyalty_tran',ins_data);
+
+                // console.table(ins_data)
+                $('#general_input').val('')
+
+                kasa.info(`${name} Loaded`);
+                bill.loadBillsInTrans();
+
+
+
+            } else {
+                kasa.error(response['message'])
             }
-            insert('loyalty_tran',ins_data);
-
-            // console.table(ins_data)
-            $('#general_input').val('')
-
-            kasa.info(`${name} Loaded`);
-            bill.loadBillsInTrans();
-
-
-
         } else {
-            kasa.error(response['message'])
+            kasa.error("Provide Card Number")
         }
+
 
 
 

@@ -2092,6 +2092,20 @@ class Anton {
     }
 
 
+    btn_enable(buttons) {
+        for (let bt = 0; bt < buttons.length; bt++) {
+            let but = buttons[bt];
+            $(`#${but}`).prop('disabled',false)
+            console.log(`${but} is enabled`)
+        }
+    }
+    btn_disable(buttons) {
+        for (let bt = 0; bt < buttons.length; bt++) {
+            let but = buttons[bt];
+            $(`#${but}`).prop('disabled',true)
+            console.log(`${but} is disabled`)
+        }
+    }
 }
 
 const anton = new Anton()
@@ -2102,4 +2116,3 @@ if(!anton.getCookie('billing_type')){
 }
 
 billing_type = anton.getCookie('billing_type');
-console.log(`BILLING TYPE is ${billing_type}`)

@@ -61,8 +61,8 @@ class Bill {
 
     loadBillsInTrans(){
         b_msg('Loading Bill Transactions...')
-
-        bill.sub_total()
+        this.checkBillType()
+        //bill.sub_total()
         var form = new FormData();
         form.append("function", "get_bill");
 
@@ -120,74 +120,70 @@ class Bill {
 
 
 
-                    let rows = message['trans_html'];
-                    // ct(trans)
-                    // for (const rowsKey in trans) {
-                    //     ct(rowsKey)
-                    // }
-                    // loop through trans
-                    //ct(trans)
-                    // for (let rowsKey in trans) {
-                    //
-                    //     let this_tran = trans[rowsKey]
-                    //     // ct(this_tran)
-                    //
-                    //     let this_row,id,barcode,desc,qty,cost,tax,select,sel_note,tran,r_bg,sn
-                    //     id = this_tran['id']
-                    //     barcode = this_tran['barcode']
-                    //     desc = this_tran['desc']
-                    //     qty = this_tran['qty']
-                    //     cost = this_tran['cost']
-                    //     tax = this_tran['tax']
-                    //     select = this_tran['select']
-                    //     tran = this_tran['tran']
-                    //     sn = parseInt(rowsKey)+ 1
-                    //
-                    //     if(tran === 'D')
-                    //     {
-                    //         r_bg = 'bg-warning text-danger'
-                    //         sn = ''
-                    //         barcode = ''
-                    //     } else {
-                    //         r_bg = ''
-                    //     }
-                    //
-                    //
-                    //     sel_note = 'cart_item'
-                    //     if (select == '1')
-                    //     {
-                    //         sel_note = 'cart_item active'
-                    //         sel_count ++
-                    //     }
-                    //
-                    //     this_row = `<div
-                    //                 onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
-                    //                 class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
-                    //                 >
-                    //
-                    //                 <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
-                    //                     <small class="m-0 p-0">${sn}</small>
-                    //                 </div>
-                    //
-                    //                 <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
-                    //                     <div class="w-100"><small>${barcode}</small></div>
-                    //                     <small class="m-0 p-0">${desc}</small>
-                    //                 </div>
-                    //
-                    //                 <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                    //                     <small class="m-0 p-0">${qty}</small>
-                    //                 </div>
-                    //
-                    //                 <!--Cost-->
-                    //                 <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
-                    //                     <small class="m-0 p-0">${cost}</small>
-                    //                 </div>
-                    //             </div>`
-                    //
-                    //     // append row
-                    //     rows += this_row
-                    //
-                    // }
+                    //let rows = message['trans_html'];
+                    let rows = '';
+
+                    for (let rowsKey in trans) {
+
+                        let this_tran = trans[rowsKey]
+                        // ct(this_tran)
+
+                        let this_row,id,barcode,desc,qty,cost,tax,select,sel_note,tran,r_bg,sn
+                        id = this_tran['id']
+                        barcode = this_tran['barcode']
+                        desc = this_tran['desc']
+                        qty = this_tran['qty']
+                        cost = this_tran['cost']
+                        tax = this_tran['tax']
+                        select = this_tran['select']
+                        tran = this_tran['tran']
+                        sn = parseInt(rowsKey)+ 1
+
+                        if(tran === 'D')
+                        {
+                            r_bg = 'bg-warning text-danger'
+                            sn = ''
+                            barcode = ''
+                        } else {
+                            r_bg = ''
+                        }
+
+
+                        sel_note = 'cart_item'
+                        if (select == '1')
+                        {
+                            sel_note = 'cart_item active'
+                            sel_count ++
+                        }
+
+                        this_row = `<div
+                                    onclick= "mark_bill_item('${id}')" id='billItem${barcode}'
+                                    class="d-flex flex-wrap ${sel_note} ${r_bg} align-content-center justify-content-between border-dotted pb-1 pt-1"
+                                    >
+
+                                    <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1">
+                                        <small class="m-0 p-0">${sn}</small>
+                                    </div>
+
+                                    <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1">
+                                        <div class="w-100"><small>${barcode}</small></div>
+                                        <small class="m-0 p-0">${desc}</small>
+                                    </div>
+
+                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                                        <small class="m-0 p-0">${qty}</small>
+                                    </div>
+
+                                    <!--Cost-->
+                                    <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1">
+                                        <small class="m-0 p-0">${cost}</small>
+                                    </div>
+                                </div>`
+
+                        // append row
+                        rows += this_row
+
+                    }
                     // ct(rows)
                     if(sel_count > 0)
                     {
@@ -205,7 +201,6 @@ class Bill {
                 }
                 else if (res['status'] === 404)
                 {
-                    console.table(res)
                     arr_enable('recall,REFUND')
                     arr_disable('cash_payment,momo_payment,credit_payment,cancel,subTotal,hold,discount')
                     let no_bill = `<div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-center"><i class="fa fa-4x text-muted fa-cart-plus"></i></div>`
@@ -260,6 +255,9 @@ class Bill {
         {
             arr_disable('bill_recall')
         }
+
+        //this.buttonRefresh()
+        b_msg("")
 
     }
 
@@ -325,7 +323,7 @@ class Bill {
     }
 
     // make payment
-    payment(method){
+    make_payment(method,customer='bill'){
 
         b_msg("Making Payment....")
         Swal.fire({
@@ -375,8 +373,9 @@ class Bill {
                     'function':'payment',
                     'method':method,
                     'amount_paid':amount_paid,
-                    'ref':$('#billRef').val(),
-                    'billing_type':billing_type
+                    'billing_type':anton.getCookie('billing_type'),
+                    'old_ref':anton.getCookie('refund_ref'),
+                    'customer':customer
                 }
 
                 jqh.setText({
@@ -394,18 +393,15 @@ class Bill {
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-                        console.table(response)
-                        console.table(response)
-                        let result = JSON.parse(JSON.stringify(response))
+                        console.log("HELLO")
+                        console.log(response)
+                        kasa.info("GOOD THINGS ON THE WAY")
+                        let result = JSON.parse(response)
                         let status,message
                         status = result['code']
                         message = result['message']
-                        console.table(response)
-
-                        // let bill_num = $('#bill_num').text()
-                        let mech_no = Mech.ThisMech()['mechine_number'];
-
-
+                        
+                        alert(response)
 
                         if(status === 200){
 
@@ -432,12 +428,17 @@ class Bill {
                             jqh.setHtml({'bill_loader':''})
 
                             b_msg('payment complete..')
-                            // bill.loadBillsInTrans()
+
 
                             // console.log('BILL TRANSACTION DONE')
-                            Swal.close()
+
                             anton.setCookie('billing_type','sale')
+                            anton.setCookie('refund_ref',null)
+                            anton.setCookie('refund_table',null)
+                            anton.setCookie('refund_header',null)
                             bill.checkBillType()
+                            bill.loadBillsInTrans()
+                            Swal.close()
 
 
                         }
@@ -529,6 +530,28 @@ class Bill {
 
     void(){
         b_msg("Voiding Selected Items...")
+        let bill_ref = a_sess.get_session('bill_ref');
+        let query = `DELETE FROM bill_trans where billRef = '${bill_ref}' and selected = '1'`;
+        if(row_count('bill_trans',`billRef = '${bill_ref}'`) > 0){
+
+            Swal.fire({
+                text: 'Are you sure you want to void items from bill?',
+                showDenyButton: false,
+                showCancelButton: true,
+                confirmButtonText: 'YES',
+                denyButtonText: `CANCEL`,
+                icon:'warning'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    exec(query);
+                    kasa.success('Selected Items Voided')
+                    this.loadBillsInTrans()
+                }
+            })
+
+        } else {
+            kasa.error("NO ITEM SELECTED")
+        }
         var form = new FormData();
         form.append("function", "void");
         var setting = {
@@ -545,18 +568,7 @@ class Bill {
             }
         }
 
-        Swal.fire({
-            text: 'Are you sure you want to void items from bill?',
-            showDenyButton: false,
-            showCancelButton: true,
-            confirmButtonText: 'YES',
-            denyButtonText: `CANCEL`,
-            icon:'warning'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax(setting)
-            }
-        })
+
         b_msg("")
     }
 
@@ -623,6 +635,7 @@ class Bill {
 
             // check if bill reference exist
             let b_hd,b_tr,b_count,ref_type = '';
+            let refund_header,refund_trans;
             let bill_details = {
                 'header':null,
                 'trans':{
@@ -633,9 +646,9 @@ class Bill {
 
             if(row_count('bill_header',`billRef = '${billRef}'`) === 1 )
             {
-                ref_type = 'active_shift'
-                // bill is found in trans
-                // al("BILL REFERENCE TO EXIST IN CURRENT BILL")
+                ref_type = 'bill_header'
+                refund_header = 'bill_header';
+                refund_trans = 'bill_trans';
                 bill_details['header'] = JSON.parse(get_row('bill_header',`billRef = '${billRef}'`))
                 bill_details['trans']['count'] = row_count('bill_trans',`billRef = '${billRef}'`)
                 bill_details['trans']['list'] = JSON.parse(get_row('bill_trans',`billRef = '${billRef}'`))
@@ -644,9 +657,9 @@ class Bill {
             }
             else if(row_count('bill_history_header',`billRef = '${billRef}'`) === 1)
             {
-                ref_type = 'history_shift'
-                // there is bill in history
-                // al("BILL REFERENCE EXIST IN HISTORY TRANSACTION")
+                ref_type = 'bill_history_header'
+                refund_header = 'bill_history_header';
+                refund_trans = 'bill_history_trans';
                 bill_details['header'] = JSON.parse(get_row('bill_history_header',`billRef = '${billRef}'`))
                 bill_details['trans']['count'] = row_count('bill_history_trans',`billRef = '${billRef}'`)
                 bill_details['trans']['list'] = JSON.parse(get_row('bill_history_trans',`billRef = '${billRef}'`))
@@ -668,35 +681,42 @@ class Bill {
 
             if(b_count > 0)
             {
+                anton.setCookie('refund_table',ref_type);
+                anton.setCookie('refund_ref',billRef)
+                anton.setCookie('refund_header',refund_header);
+                anton.setCookie('refund_trans',refund_trans)
+                let transactions = fetch_rows(`SELECT bt.item_barcode, bt.item_desc, bt.retail_price, SUM(bt.item_qty) AS qty, SUM(bt.bill_amt) AS bill_amt, SUM(gfund) AS gfund, SUM(nhis) AS nhis, SUM(covid) AS covid, SUM(vat) AS vat FROM ` + "`" +refund_trans +"`" + ` bt WHERE bt.billRef = '${billRef}' GROUP BY bt.bill_number, bt.item_barcode, bt.retail_price, bt.item_barcode, bt.retail_price, bt.item_desc;`);
+                let trans = JSON.parse(transactions);
+                console.table(trans);
                 let tr = "";
             
-                for (let b = 0; b < b_tr.length; b++) {
-                    let line = b_tr[b]
+                for (let b = 0; b < trans.length; b++) {
+                    let line = trans[b]
                     let b_code,qty,r_price,bill_amt,taxable,tax,id
                     id = line['id']
                     b_code = line['item_barcode']
-                    qty = line['item_qty']
+                    qty = line['qty']
                     r_price = line['retail_price']
                     bill_amt = line['bill_amt']
-                    taxable = line['tax_amt']
+                    taxable = line['vat']
                     tax = r_price - taxable
                     let item_desc = line['item_desc']
                     let req = ''
                     if(b === 0){
                         req = 'required'
                     }
-                    if(line['trans_type'] === 'i')
-                    {
-                        tr += `<tr>
-                                <td><input required name="refund_item[]" type="checkbox" value="${b_code}|${id}"></td>
-                                <td>${b_code}</td>
-                                <td>${item_desc}</td>
-                                <td><input type='number' value='-${qty}' name=''qty[] /></td>
+                    tr += `<tr>
+                                <td><input id="refund_item_${b}" required name="refund_item[]" type="checkbox" value="${b_code}"></td>
+                                <td id="barcode_${b}">${b_code}</td>
+                                <td id="name_${b}">${item_desc}</td>
+                                <td><input value="${r_price}" type="number" style="width: 50px" name="price[]" id="price_${b}"></td>
+                                <td><input type='number' style="width: 50px" id="ref_qty_${b}" max="${qty}" value='${qty}' name='refund_item[]' /></td>
+                                <td><input value="${bill_amt}" type="number" style="width: 50px" name="total_amt[]" id="total_amt_${b}"></td>
+                                <td><input value="${taxable}" type="number" style="width: 50px" name="tax_amt" id="tax_amt_${b}"></td>
                             </tr>`
-                    }
             
                 }
-                let m_form = `<form id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
+                let m_form = `<div id="refundForm" method="post" action="/backend/process/form-processing/billing.php">
                         <input type="hidden" name="function" value="bill_refund">
                         <input type="hidden" name="ref_type" value="${ref_type}">
                         <input type="hidden" name="billRef" value="${billRef}">
@@ -718,81 +738,115 @@ class Bill {
                                     <th><i class="fa fa-check-square"></i></th>
                                     <th>Barcode</th>
                                     <th>Description</th>
-                                    <th>Quantity</th>
+                                    <th>PRICE</th>
+                                    <th>QTY</th>
+                                    <th>TOTAL</th>
+                                    <th>TAX </th>
                                 </tr>
                             </thead>
                             ${tr}
                         </table>
                         <hr>
-                        <button type="button" onclick="$('#refundForm').submit()" class="btn btn-danger">LOAD TRANSACTION</button>
-                    </form> `
-                $('#ref_type').val(ref_type)
-                $('#billRef').val(billRef)
-                $('#refDate').text(b_hd['bill_date'])
-                $('#refundTime').text(b_hd['bill_time'])
-                $('#refMech').text(b_hd['mach_no'])
-                $('#refClerk').text(b_hd['clerk'])
-            
-                $('#refundBody').html(tr)
-                // $('#grn_modal_res').html(m_form)
-                // $('#gen_modal_title').text("REFUND")
-                $('#refundModal').modal('show')
+                        <button type="button" onclick="bill.addRefundTransactions()" class="btn btn-danger">LOAD TRANSACTION</button>
+                    </div> `
+
+                mpop.setBody(m_form);
+                mpop.setTitle("BILL REFUND");
+                mpop.setSize('lg');
+                mpop.show()
             }
 
-            let admin_id_v2,admin_password_v2,result = false;
-            Swal.fire({
-                title: 'AUTHENTICATE',
-                html: `<input type="text" autocomplete='off' id="login" class="swal2-input" placeholder="User ID">
-                    <input type="password" id="password" class="swal2-input" placeholder="Password">`,
-                confirmButtonText: 'AUTH <i class="fa fa-key"></i>',
-                focusConfirm: false,
-                backdrop: `
-                rgba(245, 39, 39, 0.8)
-                left top
-                no-repeat
-              `,
-            
-                preConfirm: () => {
-                    const login = Swal.getPopup().querySelector('#login').value
-                    const password = Swal.getPopup().querySelector('#password').value
-                    if (!login || !password) {
-                        Swal.showValidationMessage(`Please enter login and password`)
-                    }
-                    return { login_v2: login, password_v2: password }
-                }
-            }).then((result) => {
-                admin_id_v2 = result.value.login_v2;
-                admin_password_v2 = result.value.password_v2;
-            
-                if(User.adminAuth(admin_id_v2,admin_password_v2))
-                {
-                    // make refund
-                    let bill_amt,amount_paid;
-                    bill_amt = $('#sub_total').text();
-                    if(bill_amt.length > 0 && bill_amt > 0){
-            
-                        // there is bill
-                        $('#general_input').val(bill_amt);
-                        this.payment('refund')
-                        this.loadBillsInTrans();
-            
-                    } else {
-                        // no bill
-                        swal_error('NO BILL')
-                    }
-            
-            
-                }
-                else {
-                    al("NO ACCESS")
-                }
-            
-            })
+
         } else {
 
             al("PLEASE PROVIDE BILL REFERENCE")
 
         }
+
+
+    }
+
+    addRefundTransactions(){
+        let checkboxes = document.getElementsByName('refund_item[]');
+        let isChecked = false;
+        let itemCount = 0;
+        let refund_table = anton.getCookie('refund_table');
+        let refund_ref = anton.getCookie('refund_ref');
+        let refund_header = anton.getCookie('refund_header');
+        let refund_trans = anton.getCookie('refund_trans');
+        let refund_data = {
+            table:refund_table,
+            bill_reference:refund_ref,
+        }
+        let trans = [];
+        let query = '';
+        for (let i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                let box = checkboxes[i];
+                let value = box['value'];
+                let id = box['id'];
+                let box_number = id.charAt(id.length - 1);
+                let qty_id = `ref_qty_${box_number}`;
+                let qty = $(`#${qty_id}`).val();
+                let mach, clerk, bill_number, trans_type, tax_amt_2, bill_amt, item_desc, tran_type, bill_ref, gfund, nhis, covid;
+
+                let item_qty,retail_price,item_barcode,vat;
+                item_qty = $(`#ref_qty_${box_number}`).val();
+                retail_price = $(`#price_${box_number}`).val();
+                item_barcode = $(`#barcode_${box_number}`).text();
+                item_desc = $(`#name_${box_number}`).text();
+                vat = $(`#tax_amt_${box_number}`).val();
+                bill_amt = retail_price * qty;
+                tax_amt_2 = 0;
+
+                gfund = 0;
+                nhis = 0;
+                covid = 0;
+                vat = 0;
+                if(vat > 0){
+                    let tax = taxMaster.taxInclusive(bill_amt);
+                    let taxes = tax['message'];
+                    vat = taxes['vat'];
+                    nhis = taxes['nh'];
+                    gfund = taxes['gf'];
+                    covid = taxes['cv']
+                }
+
+                // insert into current bill
+
+                mach = mech_no;
+                clerk = user_id;
+                bill_number = a_sess.get_session('bill_no');
+                tran_type = 'RR';
+                trans_type = 'i';
+                bill_ref = a_sess.get_session('bill_ref');
+
+                let q = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, retail_price, item_qty, tax_amt, bill_amt, item_desc, tran_type, billRef, gfund, nhis, covid, vat, shift,old_bill_ref) values ('${mach}','${clerk}','${bill_number}','${item_barcode}','${trans_type}','${retail_price}','${qty}','${tax_amt_2}','${bill_amt}','${name}','SS','${bill_ref}',${gfund},${nhis},${covid},'${vat}','${shiftNO}','${refund_ref}');`;
+                exec(q);
+
+                trans.push({
+                    barcode:item_barcode,
+                    sold_price:retail_price,
+                    refund_qty:item_qty
+                });
+                itemCount += 1;
+            }
+
+        }
+
+        refund_data['trans'] = trans;
+        console.table(refund_data)
+        if (itemCount > 0) {
+            bill.loadBillsInTrans();
+            mpop.hide();
+            kasa.success("Proceed to Cash Out")
+            anton.setCookie('billing_type','refund')
+
+
+        } else {
+            al("Please Select Items")
+        }
+
 
 
     }
@@ -964,7 +1018,103 @@ class Bill {
 
     }
 
+    printScreen(){
+        let form = `
+            <div class="w-100">
+                <input type="date" value="${toDay}" readonly class="form-control rounded-0 mb-2" id="print_date">
+                <input type="number" class="form-control rounded-0 mb-2" id="print_bill_number">
+                <button onclick="bill.printBillTrigger()" class="w-100 btn btn-info rounded-0">PRINT</button>
+            </div>
+        `;
+        mpop.setTitle("BILL PRINT");
+        mpop.setBody(form);
+        mpop.show();
+    }
 
+
+    printBillTrigger() {
+        let id = ['print_date','print_bill_number'];
+        if(anton.validateInputs(id)){
+            let inputs = anton.Inputs(id);
+            let date,bill;
+            date = inputs['print_date'];
+            bill = inputs['print_bill_number'];
+            this.printBill(bill,mech_no,date);
+            mpop.hide()
+        } else {
+            kasa.error("Fill ALL Fields")
+        }
+    }
+
+    focScreen(){
+        let form = `
+            <div class="w-100">
+                
+                <input type="text" placeholder="Barcode" class="form-control text-center rounded-0 mb-2" id="foc_barcode">
+                <input type="number" placeholder="Quantity" class="form-control text-center rounded-0 mb-2" id="foc_qty">
+                <button onclick="bill.addFoc()" class="w-100 btn btn-info rounded-0">ADD</button>
+            </div>
+        `;
+        mpop.setTitle("ADDING F.O.C");
+        mpop.setBody(form);
+        mpop.show();
+    }
+
+    addFoc() {
+        let ids = ['foc_barcode','foc_qty'];
+        if(anton.validateInputs(ids)){
+            let barcode,qty, inputs;
+            inputs = anton.Inputs(ids);
+            barcode = inputs['foc_barcode'];
+            qty = inputs['foc_qty'];
+
+            // validate product exist
+            if(row_count('prod_mast',`barcode = '${barcode}'`) === 1){
+                let product = JSON.parse(get_row('prod_mast',`barcode = '${barcode}'`))[0];
+                let desc,retail,tax_grp,mach,clerk,bill_number,tran_type,trans_type,bill_ref,
+                    gfund,nhis,covid,vat;
+                desc = product['desc'];
+                retail = product['retail'];
+                tax_grp = product['tax_grp'];
+
+                mach = mech_no;
+                clerk = user_id;
+                bill_number = a_sess.get_session('bill_no');
+                tran_type = 'SS';
+                trans_type = 'i';
+                bill_ref = a_sess.get_session('bill_ref');
+
+                gfund = 0;
+                nhis = 0;
+                covid = 0;
+                vat = 0;
+                let foc_q = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, retail_price, item_qty, tax_amt, bill_amt, item_desc, tran_type, billRef, gfund, nhis, covid, vat, shift,date_added) values ('${mach}','${clerk}','${bill_number}','${barcode}','${trans_type}','0.00','${qty}','0.00','0.00','${desc}','SS','${bill_ref}',0,0,0,'0','${shiftNO}','${toDay}');`;
+                //console.log(foc_q)
+                exec(foc_q);
+                bill.loadBillsInTrans();
+            } else {
+                kasa.error("Product does not exist")
+
+            }
+
+            mpop.hide();
+
+        } else {
+            kasa.info("Fill ALl Fields")
+        }
+    }
+
+    buttonRefresh(){
+        let buttons = ['foc','LOYALTY_LOOKUP','discount','REFUND','cancel'];
+        let admin_lock = anton.getCookie('admin_lock');
+        if(admin_lock === 'open'){
+            // enable all buttons
+            anton.btn_enable(buttons)
+        } else {
+            // close all buttons
+            anton.btn_disable(buttons)
+        }
+    }
 
 }
 

@@ -512,6 +512,7 @@ require '../includes/core.php';
 
                 $amount_paid = $anton->post('amount_paid');
                 $billing_type = $anton->post('billing_type');
+                $customer = $anton->post('customer');
 
                 $myName = $_SESSION['clerk_id'];
                 $today = today;
@@ -526,52 +527,21 @@ require '../includes/core.php';
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
+
                     $method = $anton->post('method');
-                    $original_ref = $anton->post('ref');
-                    $response = $bill->makePyament($method,$amount_paid,$original_ref,$billing_type);
-                    (new anton())->log2file("FINAL RESPONSE");
-                    (new anton())->log2file(var_export($response,true),'',1);
-                    
-                    header("Content-Type: Application\json");
+                    $old_ref = $anton->post('old_ref');
+
+                    $response = $bill->makePyament($method,$amount_paid,$old_ref,$billing_type,$customer);
+
+
+                    //header("Content-Type: Application\json");
                     echo json_encode($response);
+//
+//                    print_r($response);
+//                    die(print_r($_POST));
 
 
 
-
-                    die();
-
-
-                    // get bill quantity items
-//                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
-//                    $tran_qty = (new \mechconfig\MechConfig)->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $tran_qty = (new \db_handeer\db_handler())->col_sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-//                    $gross_amt  = (new \mechconfig\MechConfig)->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $gross_amt  = (new \db_handeer\db_handler())->col_sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-
-//                    $tax_amt = (new \mechconfig\MechConfig)->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $tax_amt = (new \db_handeer\db_handler())->col_sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-
-
-                        $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES
-                                                                            ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
-    ";
-                    // mark bill as canceled
-                    try {
-                        // todo print_bill
-                        //$anton->print_bill($bill_number,'P');
-                        (new \db_handeer\db_handler())->db_connect()->exec($bill_header_insert);
-                        (new \db_handeer\db_handler())->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
-
-                        $anton->done($bill_number);
-
-                    } catch (PDOException $exception)
-                    {
-                        $error = $exception->getMessage();
-                        $anton->err($error);
-                    }
                 }
 
             }

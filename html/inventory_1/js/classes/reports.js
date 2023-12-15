@@ -363,7 +363,7 @@ class Reports {
 
                 } else if(res === 'print'){
                     
-                    let form_data = {'function':'print_availability',loc_id:loc_id,as_of,as_of};
+                    let form_data = {'function':'print_availability',loc_id:loc_id,as_of:as_of};
 
                     ajaxform['url'] = '/backend/process/reports.php'
                     ajaxform['data'] = form_data
@@ -403,6 +403,7 @@ class Reports {
             ajaxform['url'] = this.base_url;
             ajaxform['data'] = payload;
             ajaxform['success'] = function (response) {
+                console.log(response)
                 if(isJson(response)){
                     let jponse = JSON.parse(response);
                     console.table(jponse);

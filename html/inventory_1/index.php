@@ -58,7 +58,9 @@ error_reporting(E_ALL);
     <script src="/js/classes/api.js"></script>
     <script src="/js/classes/Modal.js"></script>
     <script src="/js/classes/productMaster.js"></script>
-    
+    <script src="/js/classes/cust.js"></script>
+    <script src="/js/classes/jspdf.umd.min.js"></script>
+
     <link rel="stylesheet" href="/css/anton.css">
 
 
@@ -568,6 +570,8 @@ error_reporting(E_ALL);
     dragElement(document.getElementById("numericKeyboard"))
     loader('hide')
 </script>
+
+
 
 
 

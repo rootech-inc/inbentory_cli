@@ -6,7 +6,7 @@ use db_handeer\db_handler;
 
 class reports extends \db_handeer\db_handler
 {
-    private array $response = ['code'=>000,'message'=>000];
+    private $response = ['code'=>000,'message'=>000];
 
     public function json_enc($data){
 

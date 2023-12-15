@@ -254,7 +254,7 @@ class Billing extends db_handler
 
     }
 
-    public function makePyament($method,$amount_paid,$oriRef = '',$billing_type='sales'): array
+    public function makePyament($method,$amount_paid,$oriRef = '',$billing_type='sales',$customer): array
     {
 
         $dbHandler = (new db_handler());
@@ -289,6 +289,8 @@ class Billing extends db_handler
             $code = "";
             if($bill_totals['valid'] === 'Y')
             {
+
+
                 $net = $header2['BILL_AMT'];
                 $tax_amt = $header2['TOTAL_VAT'];
                 $gross_amt = $header2['TOTAL_AMOUNT'];
@@ -316,8 +318,8 @@ class Billing extends db_handler
                 #2 make bill hd payment,
                 #3 return bill details
                 $shift_no = shift_no;
-                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt,shift)
-                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no');";
+                $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt,shift,sales_type,customer)
+                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no','$billing_type','$customer');";
 
                 //if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 if(true)
@@ -325,6 +327,7 @@ class Billing extends db_handler
 
 
                     $billComplete = false;
+                    $billError = "There is an error completing bill";
                     if(evat === true){
 
                         # make EvatData
@@ -368,7 +371,7 @@ class Billing extends db_handler
                                 $message = $signature->MESSAGE;
                                 $msg = $message->ysdcregsig;
                                 $code = 505;
-                                $billComplete = false;
+                                $billError = $msg;
 
 
 
@@ -398,12 +401,12 @@ class Billing extends db_handler
                             // update values all to negative
                             $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
                        tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
-                       tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2) 
-                       where mach_no = $machine_number and bill_no = $bill_number and bill_date = '$today'";
+                       tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2),old_bill_ref='$oriRef' 
+                       where billRef = '$billRef'";
 
                             // bill tran
                             $trans = "UPDATE bill_trans SET item_qty = item_qty - (item_qty * 2),tax_amt = tax_amt - (tax_amt * 2),
-                      bill_amt = bill_amt - (bill_amt * 2) where mach = $machine_number and bill_number = $bill_number and date_added = '$today'";
+                      bill_amt = bill_amt - (bill_amt * 2) where billRef = '$billRef'";
 
                             // tax trans
                             $tax_tran = "UPDATE bill_tax_tran SET tran_qty = tran_qty - (tran_qty * 2),
@@ -411,6 +414,8 @@ class Billing extends db_handler
                          tax_amt = tax_amt - (tax_amt * 2) 
                          where bill_date = '$today' and mech_no = $machine_number and bill_no = $bill_number";
 
+                            $this->db_connect()->exec($header);
+                            $this->db_connect()->exec($trans);
                             // check if there is loyalty
                             $original_reference = $oriRef;
                             $loyalty_cont = $this->row_count('loyalty_tran',"billRef = '$original_reference'");
@@ -495,7 +500,9 @@ class Billing extends db_handler
                             $update_q = "UPDATE loyalty_tran SET points_earned = $points, current_points = points_before + $points where billRef = '$billRef'";
                             $this->db_connect()->exec($update_q);
 
-                        } else {
+                        }
+                        else
+                        {
                             // give points
                             if($this->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1){
                                 $cardno = $this->get_rows('loyalty_tran',"`billRef` = '$billRef'")['cust_code'];
@@ -545,8 +552,10 @@ class Billing extends db_handler
                         $code = 200;
                         $msg = "BILL COMPLETED";
 
-                    } else {
+                    }
+                    else {
                         $code = 505;
+                        printMessage($billError);
                     }
 
                 }
@@ -572,11 +581,11 @@ class Billing extends db_handler
             'message'=>$msg
         ];
 
+        printMessage($x['message']);
+
         (new anton())->log2file(var_export($x,true));
         (new anton())->log2file("HELLO FUTURE");
         return $x;
-
-
 
     }
 
@@ -886,19 +895,46 @@ class Billing extends db_handler
     // make total sales
     function downloadSales($sales_date = today): array
     {
-        $response = array('code'=>505,'message'=>null);
+        $response = array('status_code'=>505,'message'=>null);
         try {
            
             $this->db_connect()->exec("CALL copySalesHd('$sales_date')"); // copy hd
             $this->db_connect()->exec("CALL copySalesTrans('$sales_date')"); // copy trans
-            $response['code'] = 200;
+            # customer
+            $this->checkPayments($sales_date);
+            $response['status_code'] = 200;
             $response['message'] = "SALES COPIED";
         } catch (\Exception $e){
-            $response['message'] = "Could not copy sales " . $e->getMessage();
+            $msg = $e->getMessage() . " LINE " . $e->getLine();
+            $response['message'] = "Could not copy sales " . $msg;
         }
 
         return $response;
 
+    }
+
+    public function checkPayments ($date = today) {
+        $bills_query = "SELECT gross_amt,customer,tran_qty,billRef FROM bill_header where sales_date = '$date'";
+        $bill_stmt = $this->db_connect()->prepare($bills_query);
+        $bill_stmt->execute();
+
+        while($row = $bill_stmt->fetch(PDO::FETCH_ASSOC)){
+            $cust_no = $row['customer'];
+            $gross = $row['gross_amt'];
+            $nega_gross = $gross * -1;
+            $qty = $row['tran_qty'];
+            $ref = $row['billRef'];
+            if($this->row_count('customers',"`cust_no` = '$cust_no'") === 1){
+                $customer = $this->get_rows('customers',"`cust_no` = '$cust_no'");
+                $id = $customer['customer_id'];
+
+                // add transaction
+                $transaction = "INSERT INTO customers_trans (customer_id, total_amount, payment_method, items_purchased, transaction_notes) VALUES 
+                                                            ('$id','$gross','credit','$qty','$ref')";
+                $this->exe($transaction);
+            }
+
+        }
     }
 
     // validate refund

@@ -2,7 +2,7 @@ class Kasa {
     alert(icon, message) {
         Swal.fire({
             icon: icon,
-            title:`${icon}!!`,
+            title:`${icon.toUpperCase()}`,
             text: message,
             timer: 3000,
             showConfirmButton: false,
