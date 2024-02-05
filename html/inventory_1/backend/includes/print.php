@@ -44,6 +44,44 @@ use billing\Billing;
         }
     }
 
+    function printHold($hold_no){
+        try {
+            // Enter the share name for your USB printer here
+            $connector = null;
+            $connector = new WindowsPrintConnector(printer);
+
+            /* Print a "Hello world" receipt" */
+            $printer = new Printer($connector);
+            $logo = EscposImage::load(logo, false);
+
+                /* Print top logo */
+            $printer->setJustification(Printer::JUSTIFY_CENTER);
+            $printer->graphics($logo);
+
+                /* Name of shop */
+            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+            $printer->text(company_name);
+            $printer->selectPrintMode();
+            $printer->setEmphasis(false);
+            $printer->feed();
+            $printer->text(company_country . ' , ' . company_city);
+            $printer->feed();
+            $printer->text("Mob : " . company_mob);
+            $printer->feed(2);
+
+            $printer->text('Bill Held');
+            $printer->feed(2);
+            $printer->setTextSize(2, 5);
+            $printer -> text("$hold_no\n");
+            $printer -> cut();
+
+            /* Close printer */
+            $printer -> close();
+        } catch (Exception $e) {
+            echo "Couldn't print to this printer: " . $e -> getMessage() . "\n";
+        }
+    }
+
     function printMessage($message){
         try {
             // Enter the share name for your USB printer here
@@ -71,7 +109,7 @@ use billing\Billing;
         $printer -> close();
     }
 
-    function printbill($mech_no,$bill_number,$payment = 'payment'){
+    function printbill($billRef){
 
         if(bill_print) {
 
@@ -80,7 +118,7 @@ use billing\Billing;
 
             $today = today;
 
-            $bill_hd_count = "`bill_date` = '$today' and `mach_no` = '$mech_no' and `bill_no` = '$bill_number'";
+            $bill_hd_count = "`billRef` = '$billRef'";
             if ($db_hander->row_count('bill_header', $bill_hd_count) > 0) {
 
                 $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
@@ -88,6 +126,7 @@ use billing\Billing;
                 $billRef = $bill_header['billRef'];
                 $billSummary = (new Billing())->billSummaryV2($billRef);
                 $head = $billSummary['bill_header'];
+                $bill_number = $bill_header['bill_no'];
 
 
 
@@ -103,7 +142,8 @@ use billing\Billing;
 
                 $items = array();
 
-                $bill_trans_count = "`date_added` = '$today' and `mach` = '$mech_no' and `bill_number` = '$bill_number' and `trans_type` = 'i'";
+                $bill_trans_count = "`billRef` = '$billRef'";
+                
 
                 $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
                 $billSn = 0;
@@ -120,7 +160,7 @@ use billing\Billing;
                     $item_name = $row['item_desc'];
                     $item_desc = "$billSn $item_name";
                     $price = number_format($row['bill_amt'], 2);
-                    
+
                     $items[] = new item(substr($item_desc, 0, 30), number_format($price, 2)); // push item desc and cost
                     $items[] = new item($bq, ''); // push barcode Quantity
                 }
@@ -275,14 +315,14 @@ use billing\Billing;
                 $printer->text("For trading hours, please visit example.com\n");
                 $printer->feed(2);
 
-                $printer->text($date . "\n");
+                // $printer->text($date . "\n");
                 // $printer->feed(1);
 
-                // $printer->setBarcodeHeight(80);
-                // $printer->setBarcodeWidth(5);
-                // $printer->barcode("$curRef", Printer::BARCODE_JAN13);
-                // $printer->setTextSize(2, 1);
-                // $printer->text("$curRef \n");
+                $printer->setBarcodeHeight(80);
+                $printer->setBarcodeWidth(5);
+                $printer->barcode("$curRef", Printer::BARCODE_JAN13);
+                $printer->setTextSize(2, 1);
+                $printer->text("$curRef \n");
 
 
                 /* Cut the receipt and open the cash drawer */

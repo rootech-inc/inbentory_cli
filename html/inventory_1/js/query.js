@@ -32,6 +32,7 @@ function row_count(table, condition = 'none') {
 
 // execute query
 function exec(query = 'none') {
+    console.log(query);
     if (query !== 'none') {
         // prepare
         form_data = {
@@ -59,7 +60,7 @@ function exec(query = 'none') {
                         result['message'] = `Invalid Response : ${response}`
                     }
 
-                    // console.log(`RESPONSE FROM EXEC: ${respose}`)
+                    console.log(`RESPONSE FROM EXEC: ${response}`)
                 }
             }
         );

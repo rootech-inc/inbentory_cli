@@ -1,11 +1,29 @@
-# Use an official PHP image as the base
-FROM php:latest
+# Use an official PHP runtime as a parent image
+FROM php:8.0-apache
 
-# Copy your PHP application to the container
-COPY . /var/www/html/
+# Set the working directory in the container
+WORKDIR /var/www/html
+# Install PDO MySQL extension and other PHP extensions
+RUN docker-php-ext-install pdo pdo_mysql \
+    && docker-php-ext-install mysqli \
+    && docker-php-ext-install opcache
+# Enable mod_rewrite
+RUN a2enmod rewrite
 
-# Install any additional dependencies or configurations if needed
-# ...
+# Copy the current directory contents into the container at /var/www/html
+COPY . /var/www/html
 
-# Copy the MySQL database backup file into the container
-COPY SMHOS.sql /docker-entrypoint-initdb.d/SMHOS.sql
+# set environment variable
+ENV MAC_ADDRESS none
+ENV MECH_NO none
+ENV DB_HOST none
+ENV DB_USER none
+ENV DB_PASSWORD none
+ENV DB_NAME none
+ENV DEBUG false
+
+# Expose port 80 to the outside world
+EXPOSE 80
+
+# Command to run on container start
+CMD ["apache2-foreground"]

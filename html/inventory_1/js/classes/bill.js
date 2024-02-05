@@ -215,7 +215,7 @@ class Bill {
                 }
 
                 // load loyalty details
-                let bill_ref = sys.sys_variable('billRef');
+                let bill_ref = $('#bill_ref').val();
                 let is_loyalty =  row_count('loyalty_tran',`billRef = '${bill_ref}'`);
 
                 if(is_loyalty === 1){
@@ -892,6 +892,24 @@ class Bill {
 
     }
 
+    add2bill(){
+        let data = {};
+        data['billing_type'] = anton.getCookie('billing_type');
+        data['ref_header'] = anton.getCookie('ref_header');
+        data['ref_trans'] = anton.getCookie('ref_trans');
+        data['refund_ref'] = anton.getCookie('refund_ref');
+        data['function'] = 'new_item';
+        data['barcode'] = $('#general_input').val();
+
+        form_settings['url'] = '/backend/process/form_process.php';
+        form_settings['data'] = data;
+        form_settings['success'] = function (response) {
+            console.table(response)
+        }
+        $.ajax(form_settings);
+
+    }
+
     addToBill(){
 
         let barcode_string = $('#general_input').val();
@@ -1022,7 +1040,7 @@ class Bill {
         let form = `
             <div class="w-100">
                 <input type="date" value="${toDay}" readonly class="form-control rounded-0 mb-2" id="print_date">
-                <input type="number" class="form-control rounded-0 mb-2" id="print_bill_number">
+                <input onclick="keyboard.showQwerty('print_bill_number')" type="number" class="form-control rounded-0 mb-2" id="print_bill_number">
                 <button onclick="bill.printBillTrigger()" class="w-100 btn btn-info rounded-0">PRINT</button>
             </div>
         `;

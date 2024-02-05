@@ -1,0 +1,2 @@
+- [ ] Customer Screen
+- [ ] Offline / Online db pointer

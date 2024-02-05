@@ -256,8 +256,12 @@
                             <form id="add_to_bill_form" action="backend/process/form_process.php" method="post" class="input-group bg-danger h-20 overflow-hidden">
                                 <input type="hidden" name="function" value="new_item" class="">
                                 <input type="hidden" name="billing_type" id="billing_type">
+                                <input type="hidden" name="ref_header" id="ref_header">
+                                <input type="hidden" name="ref_trans" id="ref_trans">
+                                <input type="hidden" name="refund_ref" id="refund_ref">
+
                                 <div class="input-group">
-                                    <input onkeyup="" required id="general_input" name="barcode" value="" type="text" autocomplete="off"
+                                    <input  onkeyup="" required id="general_input" name="barcode" value="" type="text" autocomplete="off"
                                             class="bill_main_input h-100 form-control rounded-0">
                                     <div class="input-group-prepend">
                                         <button type="button" onclick="keyboard.showQwerty()" class="btn btn-info"><i class="fa fa-keyboard"></i></button>

@@ -2,6 +2,7 @@
 
 namespace db_handeer;
 
+use mechconfig\MechConfig;
 use PDO;
 use PDOException;
 
@@ -10,19 +11,26 @@ class db_handler
 
     function __construct()
     {
+        $mechconfig = (new MechConfig())->config();
+        $db_host = $mechconfig['DB_HOST'];
+        $db_user = $mechconfig['DB_USER'];
+        $db_pass = $mechconfig['DB_PASSWORD'];
+        $db_name = $mechconfig['DB_NAME'];
+        $db_port = $mechconfig['DB_PORT'];
         //set DSN
-        $dns = 'mysql:host='.db_host.';dbname='.db_name;
+        $dns = 'mysql:host='.$db_host.';dbname='.$db_name;
 
         //create pdo instance
         try {
 
-            $pdo = new PDO($dns, db_user, db_password);
+            $pdo = new PDO($dns, $db_user, $db_pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             return $pdo;
         } catch (PDOException $err)
         {
-            (new \anton)->error_handler('Database Error',$err->getMessage());
+            $message = "HOST=".db_host . ",DB=".db_host;
+            (new \anton)->error_handler('Database Error',$err->getMessage() . " " . $message);
             return false;
         }
     }
@@ -31,18 +39,25 @@ class db_handler
     public function db_connect() // connect to database
     {
         //set DSN
-        $dns = 'mysql:host='.db_host.';dbname='.db_name;
+        $mechconfig = (new MechConfig())->config();
+        $db_host = $mechconfig['DB_HOST'];
+        $db_user = $mechconfig['DB_USER'];
+        $db_pass = $mechconfig['DB_PASSWORD'];
+        $db_name = $mechconfig['DB_NAME'];
+        $db_port = $mechconfig['DB_PORT'];
+
+        $dns = 'mysql:host='.$db_host.';dbname='.$db_name;
 
         //create pdo instance
         try {
 
-            $pdo = new PDO($dns, db_user, db_password);
+            $pdo = new PDO($dns, $db_user, $db_pass);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
             return $pdo;
         } catch (PDOException $err)
         {
-            die("CAANOT CONNECT DB");
+
             (new \anton)->error_handler('Database Error',$err->getMessage());
             return false;
         }

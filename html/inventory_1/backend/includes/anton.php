@@ -282,16 +282,19 @@ class anton extends FPDF
         $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
         $currentTimestamp = date('Y-m-d H:i:s'); // get the current timestamp in 'Y-m-d H:i:s' format
 
-        if(strlen($mark) > 0){
-            $text = "$currentTimestamp - $mark\n$content\n$mark\n";
-        } else {
-            $text = "$currentTimestamp - $content\n";
-        }
-        if($ov === 1){
-            file_put_contents($file, $text);
-        } else {
-            file_put_contents($file, $text, FILE_APPEND);
-        }
+//        $q = "INSERT INTO logs (message) value ('$content')";
+//        (new \db_handeer\db_handler())->exe($q);
+
+//        if(strlen($mark) > 0){
+//            $text = "$currentTimestamp - $mark\n$content\n$mark\n";
+//        } else {
+//            $text = "$currentTimestamp - $content\n";
+//        }
+//        if($ov === 1){
+//            file_put_contents($file, $text);
+//        } else {
+//            file_put_contents($file, $text, FILE_APPEND);
+//        }
 
     }
 

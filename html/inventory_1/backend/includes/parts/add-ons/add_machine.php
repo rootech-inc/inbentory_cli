@@ -1,4 +1,24 @@
 
+<?php
+
+    if($_SERVER['REQUEST_METHOD'] === 'POST'){
+//        print_r($_POST);
+
+        $mech_no = htmlentities($_POST['mech_no']);
+        $mac_addr = htmlentities($_POST['mac_addr']);
+        $description = htmlentities($_POST['description']);
+
+        $query = "INSERT INTO mech_setup (mech_no, descr, mac_addr) VALUES ('$mech_no','$description','$mac_addr')";
+        $stmt = $mech_db->prepare($query);
+        $stmt->execute();
+
+        header("Location:".$_SERVER['HTTP_REFERER']);
+
+    }
+
+
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -18,12 +38,34 @@
     <script src="/js/popper.min.js"></script>
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/query.js"></script>
+    <script src="/js/classes/session.js"></script>
+    <script src="/js/classes/j_query_supplies.js"></script>
+    <script src="/js/classes/db_trans.js"></script>
+    <script src="/js/classes/system.js"></script>
+    <script src="/js/classes/inventory.js"></script>
+    <script src="/js/classes/screen.js"></script>
 
-    <script src="/js/sweetalert2@11"></script>
-    <link rel="stylesheet" href="css/sweetalert.min.css">
+    <script src="/js/sweetalert2@11.js"></script>
 
+    <link rel="stylesheet" href="/css/sweetalert.min.css">
+
+    <script src="/js/error_handler.js"></script>
+    <script src="/js/anton.js"></script>
+    <script src="/js/keyboard.js"></script>
 
     <script src="/js/classes/buttons.js"></script>
+    <script src="/js/classes/bill.js"></script>
+    <script src="/js/trigger.js"></script>
+    <script src="/js/classes/reports.js"></script>
+    <script src="/js/classes/Evat.js"></script>
+    <script src="/js/classes/tax.js"></script>
+    <script src="/js/classes/loyalty.js"></script>
+    <script src="/js/classes/kasa.js"></script>
+    <script src="/js/classes/api.js"></script>
+    <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/productMaster.js"></script>
+    <script src="/js/classes/cust.js"></script>
+    <script src="/js/classes/jspdf.umd.min.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 
@@ -39,25 +81,29 @@
     <div class="container-fluid h-100 d-flex flex-wrap align-content-center ant-bg-light">
         <div class="row w-100 d-flex flex-wrap justify-content-center">
             <div class="col-sm-6">
-                <div class="card w-100">
+                <form method="post" class="card w-100">
                     <div class="card-header">
                         <strong class="card-title">Initialize Machine</strong>
                     </div>
                     <div class="card-body p-2">
-                        <input readonly value="<?php echo (new \db_handeer\db_handler())->row_count('mech_setup') + 1 ?>" id="mech_no" type="hidden" class="form-control form-control-sm rounded-0" required min="1">
+                        <input readonly value="<?php echo MACH_NO ?>" id="mech_no" name="mech_no" type="text" class="form-control form-control-sm rounded-0" required min="1">
 
-                        <label class="w-100">Description
-                            <input  type="text" id="description" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
-                        </label>
+
 
                         <label class="w-100">Mac Address
-                            <input  type="text" id="mac_addr" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
+                            <input readonly value="<?php echo MAC_ADDRESS ?>" type="text" id="mac_addr" name="mac_addr" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
                         </label>
 
-                        <button onclick="ini_machine()" class="btn btn-success w-100">INITIALIZE</button>
+                        <label class="w-100">NAME
+                            <input  type="text" id="description" name="description" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
+                        </label>
+
+                        <button type="submit" class="btn btn-success w-100">INITIALIZE</button>
+
+
 
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -69,7 +115,7 @@
 
     function ini_machine() {
 
-        let desc,mac_addr, err,err_msg
+        let desc,mac_addr, err,err_msg,result = 0
 
         err = 0
         err_msg = ''
@@ -98,40 +144,46 @@
         } else
         {
 
-
-            let form_data = {
-                'function':'mech_ini',
-                'desc':desc,
-                'mac_addr':mac_addr,
-                'mech_no':mech_no
+            let query = `INSERT INTO mech_setup (mech_no, descr, mac_addr) values ('${mech_no}','${desc}','${mac_addr}')`;
+            let data = {
+                'cols':['mech_no','descr','mac_addr'],
+                'vars':[mech_no,desc,mac_addr]
             }
+            console.table(data)
+            let savee = exec(query);
+            console.assert(savee);
+            // let form_data = {
+            //     'function':'mech_ini',
+            //     'desc':desc,
+            //     'mac_addr':mac_addr,
+            //     'mech_no':mech_no
+            // }
 
-            console.table(form_data)
-
-
-            var result = 0;
-
-            $.ajax(
-                {
-                    url:'/backend/process/ajax_tools.php',
-                    'async': false,
-                    'type': "POST",
-                    'global': false,
-                    'dataType': 'html',
-                    data:form_data,
-                    success: function (response)
-                    {
-                        result = response;
-                        // error_handler(response)
-                        location.reload()
-
-                    }
-                }
-            );
+            // console.table(form_data)
+            //
+            //
+            // var result = 0;
+            //
+            // $.ajax(
+            //     {
+            //         url:'/backend/process/ajax_tools.php',
+            //         'async': false,
+            //         'type': "POST",
+            //         'global': false,
+            //         'dataType': 'html',
+            //         data:form_data,
+            //         success: function (response)
+            //         {
+            //             result = response;
+            //             console.table(response)
+            //             //location.reload()
+            //
+            //         }
+            //     }
+            // );
 
             return result;
 
-           console.table(form_data)
 
         }
 

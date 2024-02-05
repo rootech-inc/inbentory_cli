@@ -1,8 +1,41 @@
 // REFUND
 $(document).ready(function() {
     $("#REFUND").click(function(){
-        bill.refundBill()
-        // bill.setSale('refund');
+        //bill.refundBill()
+        let bill_reference = $('#general_input').val();
+        if(anton.validateInputs(['general_input'])){
+            // find bill table
+            let trans_table = '';
+            let header_table = trans_table;
+            let ref_valid = false;
+            if(row_count('bill_header',`billRef='${bill_reference}'`) === 1){
+                header_table = 'bill_header'
+                trans_table = 'bill_trans';
+                ref_valid = true;
+
+            } else if(row_count('history_header',`billRef='${bill_reference}'`) === 1){
+                header_table = 'history_header'
+                trans_table = 'history_trans';
+                ref_valid = true;
+            }
+
+            if(ref_valid){
+                anton.setCookie('ref_header',header_table);
+                anton.setCookie('ref_trans',trans_table);
+                anton.setCookie('refund_ref',bill_reference);
+                bill.setSale('refund');
+                bill.loadBillsInTrans();
+                kasa.success("OKAY")
+            } else {
+                kasa.error("Cannot find bill with reference")
+            }
+            //
+            // anton.setCookie('refund_reference');
+        } else {
+            kasa.error("Set Bill Reference")
+        }
+
+
     });
 });
 //REFUND

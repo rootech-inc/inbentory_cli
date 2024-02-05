@@ -76,15 +76,16 @@
                             $response->error("You have $open_shifts shifts(s) still open");
                         } else {
 
-                            // take report
-                            print_eod($sale_date);
+
                             $close = (new \billing\shift())->closeEod($sale_date);
                             $code = $close['status_code'];
                             $message = $close['message'];
                             if($code === 200){
-                                $response->error($message);
+                                $response->success($message);
+                                // take report
+                                print_eod($sale_date);
                             } else {
-                                $response->success("COULD NOT CLOSE EOD: $message");
+                                $response->error("COULD NOT CLOSE EOD: $message");
                             }
 
                         }

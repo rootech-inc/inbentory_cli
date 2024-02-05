@@ -60,8 +60,8 @@ class Loyalty {
 
             let response = api.call('POST',payload,this.api_url);
             if(response['code'] === 200){
-                let system = new System();
-                let bill_ref = system.sys_variable('billRef');
+                
+                let bill_ref = $('#bill_ref').val();
                 let customer,name,phone,cardno,points,message = response['message'];
                 customer = message['customer'];
                 name = customer['name'];

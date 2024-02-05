@@ -60,7 +60,7 @@
 
                 try {
                     (new \db_handeer\db_handler())->db_connect()->query($mysql_ins);
-                    (new \mechconfig\MechConfig())->ini_device($mech_no,$mac_addr,$desc);
+//                    (new \mechconfig\MechConfig())->ini_device($mech_no,$mac_addr,$desc);
 
                     $anton->done("reload");
                 } catch (PDOException $e)
@@ -212,7 +212,11 @@
                 $billNo = $anton->post('billNo');
                 $mechNo = $anton->post('mechNo');
                 $day = $anton->post('day');
-                printbill($mechNo,$billNo,'unknown');
+
+                $bill = (new \db_handeer\db_handler())->get_rows('bill_header',"bill_no='$billNo' and mach_no = '$mechNo'");
+                $billRef = $bill['billRef'];
+
+                printbill($billRef);
             }
             elseif ($function === 'print_sales')
             {
@@ -222,8 +226,9 @@
             }
 
             elseif ($function === 'bill_summary'){
-                $billRef = billRef;
-                $sum = (new \billing\Billing())->billSummaryV2($billRef);
+                $b = (new billing\Billing());
+                $billRef = $b->getRef();
+                $sum = $b->billSummaryV2($billRef,mech_no);
                 header("Content-Type:Application/Json");
                 echo json_encode($sum);
 

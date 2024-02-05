@@ -1,6 +1,8 @@
 <?php
 
-
+//if(!isset($_SESSION['cli_login'])){
+//    header("Location:login.php");
+//}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -156,7 +158,7 @@ error_reporting(E_ALL);
 
 
 
-    <div id="alphsKeyboard" class="ant-bg-black p-1">
+    <div style="z-index: 9000000 !important" id="alphsKeyboard" class="ant-bg-black p-1">
         <span class="badge badge info">QWERTY 0.1  </span>
         <script>
             sys.OffKeyboard()
@@ -432,6 +434,19 @@ error_reporting(E_ALL);
                 }
                 elseif ($module === 'billing'){
 
+                    // $bill_number = $MConfig->bill_number();
+                    $bill_number = $bill->billNumber();
+                    $billRef = "001".date('ymd',strtotime(today)).$bill_number.shift_no.mech_no;
+                    //$billRef = "001".date('ymd').$bill_number.mech_no;
+                    define('billRef',$billRef);
+                    $_SERVER['billRef'] = $billRef;
+                    define('bill_total',$bill->billTotal($bill_number,today));
+                    define('bill_no',$bill_number);
+                    $anton->set_session(
+                        ["bill_no=$bill_number","bill_ref=$billRef","shift=$shift_no"]
+                    );
+                    $response = ['status' => 000,'message'=>'null'];
+                    $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 
                     // get categories
                     $item_groups = $db->db_connect()->query("SELECT * from `item_buttons`");
@@ -459,7 +474,9 @@ error_reporting(E_ALL);
             ?>
         </main>
     <?php }
-    else { ?>
+    else {  ?>
+
+
         <main class="card w-100 grade_danger overflow-hidden">
 
 
@@ -482,15 +499,22 @@ error_reporting(E_ALL);
                             <div class="row h-100 no-gutters">
                                 <div class="card w-100">
                                     <div class="card-body p-2">
+                                        <div class="input-group">
+                                            <label for="mech_no" class="w-100">MECH N0.</label>
+                                            <input id="mech_no" name="mech_no" readonly value="<?php echo mech_no ?>" autocomplete="off" type="text" placeholder="User ID" class="form-control form-control-sm rounded-0">
+                                        </div><hr>
                                         <div class="input-group mb-2">
+<!--                                            <label for="clerk_code" class="w-100">CODE</label>-->
                                             <input id="clerk_code" name="clerk_code" autofocus autocomplete="off" type="text" placeholder="User ID" class="form-control form-control-sm rounded-0">
                                         </div>
-                                        <div class="input-group mb-2">
+                                        <div class="input-group">
+<!--                                            <label for="clerk_password" class="w-100">PASSWORD</label>-->
                                             <input type="password" autocomplete="off" id="clerk_password" name="clerk_key" placeholder="Password" class="form-control form-control-sm rounded-0">
                                         </div>
 
+                                        <hr>
                                         <div class="input-group">
-                                            <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">
+                                            <select name="db_state" id="state" required class="form-control rounded-0 font-weight-bold">
                                                 <option selected value="Network">Network</option>
                                                 <option value="Local">Local</option>
                                             </select>

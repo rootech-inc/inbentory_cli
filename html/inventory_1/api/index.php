@@ -26,7 +26,7 @@ $valid_data = validateData($data);
 // Execute the appropriate action based on the request method
 
 $response = array("code"=>0,"message"=>"HELLO WORLD");
-
+$api_resp = (new \API\ApiResponse());
 switch ($request_method) {
     case 'GET':
         // Handle GET request (VIEW)
@@ -256,7 +256,20 @@ function handlePostRequest($module, $data,$crud)
         $billRef = billRef;
 
         // check if there is a bill in transit for bill ref
+    }
 
+    elseif ($module === 'clrk_auth'){
+        $token = $data['token'];
+        $db = (new \db_handeer\db_handler());
+
+        //encrype string
+        $enc_string = md5($token);
+        if($db->row_count('clerk',"`token` = '$enc_string'") === 1){
+            // login
+            (new API\ApiResponse())->success("Login Successful");
+        } else {
+            (new \API\ApiResponse())->error("Invalid Token");
+        }
 
     }
 

@@ -1,7 +1,7 @@
 <?php
 
 
-    require '../includes/core.php';
+
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST')
     {
@@ -14,6 +14,28 @@
             $clerk_code = htmlspecialchars($_POST['clerk_code']);
             $clerk_key = htmlspecialchars($_POST['clerk_key']);
             $state = htmlentities($_POST['db_state']);
+            $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config.ini', true);
+
+            if($state === 'NETWORK'){
+                $config['system_config']['DB_SOURCE'] = 'NETWORK';
+            } else {
+                $config['system_config']['DB_SOURCE'] = 'LOCAL';
+            }
+
+            // Save the modified array back to the INI file
+            $iniContent = '';
+
+            foreach ($config as $section => $values) {
+                $iniContent .= "[$section]\n";
+                foreach ($values as $key => $value) {
+                    $iniContent .= "$key = $value\n";
+                }
+                $iniContent .= "\n";
+            }
+
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/config.ini', $iniContent);
+
+            require '../includes/core.php';
 
             if($db->row_count('clerk',"`clerk_code` = '$clerk_code'") > 0)
             {
@@ -141,6 +163,7 @@
         // logout
         if(isset($_POST['function']))
         {
+            require '../includes/core.php';
             $function = $anton->post('function');
 
             if($function === 'logout')

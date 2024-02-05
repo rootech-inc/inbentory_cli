@@ -23,22 +23,43 @@ class Billing extends db_handler
          = '$today' and `shift` = '$shift_no'") + 1;
     }
 
-    public function AddToBill($bill_number,$item,$qty,$myName,$tran_type = 'SS')
+    public function AddToBill($bill_data)
     {
         $today = today;
-        $clerk_code = clerk_code;
-        $billRef = billRef;
+        $billRef = $this->getRef();
         //get item details
         $machine_number = mech_no;
-        $clerk = $_SESSION['clerk_id'];
         $shift_no = shift_no;
+        $myName = clerk_code;
 
+        $bill_number = $this->billNumber();
 
+        $item = $bill_data['item'];
         // get item details
         $item_desc = $item['desc'];
         $item_retail = $item['retail'];
         $barcode = $item['barcode'];
+        $billing_type = $bill_data['billing_type'];
+        $qty = $bill_data['qty'];
+        $qt = $bill_data['qty'];
+        $refund_ref = $bill_data['refund_ref'];
+        $ref_trans = $bill_data['ref_trans'];
+        //echo $ref_trans; =
+        $tran_type = 'SS';
+        if($billing_type === 'refund'){
+            $qty = abs($bill_data['qty']);
+            $tran_type = 'RR';
+            // validate product
 
+            if((new db_handler())->row_count("$ref_trans","`item_barcode` = '$barcode' AND `billRef` = '$refund_ref' AND `item_qty` <= '$qt'") < 1){
+                $this->response['code'] = 404;
+                $this->response['message'] = 'Item Does Not exist in bill';
+
+                echo json_encode($this->response);
+                exit();
+            }
+
+        }
 
         if($item['discount'] == '1')
         {
@@ -110,7 +131,12 @@ class Billing extends db_handler
 
     }
 
+    public function getRef(): string
+    {
 
+        $bill_no = $this->billNumber();
+        return LOC_ID.date('ymd',strtotime(today)).$bill_no.shift_no.mech_no;
+    }
 
     public function billTotal($bill_number,$date,$billRef = ''): array
     {
@@ -254,7 +280,7 @@ class Billing extends db_handler
 
     }
 
-    public function makePyament($method,$amount_paid,$oriRef = '',$billing_type='sales',$customer): array
+    public function makePyament($method,$amount_paid,$oriRef = '',$billing_type='sales',$customer=''): array
     {
 
         $dbHandler = (new db_handler());
@@ -262,10 +288,10 @@ class Billing extends db_handler
         $myName = $_SESSION['clerk_id'];
         $today = today;
         $response = [];
-        $billRef = billRef;
+        $billRef = $this->getRef();
         // get current bill details
         $bill_cond = "`billRef` = '$billRef'  and `trans_type` = 'i'";
-        $bill_number = bill_no;
+        $bill_number = $this->billNumber();
         $machine_number = (new MechConfig())->mech_details()['mechine_number'];
         $bill_tran_cond = "`bill_date` = '$today' and `mech_no` = '$machine_number' and `bill_number` = '$bill_number'";
         $bill_hd_cond = "`bill_date` = '$today' and `mach_no` = '$machine_number' and `bill_no` = '$bill_number'";
@@ -328,15 +354,15 @@ class Billing extends db_handler
 
                     $billComplete = false;
                     $billError = "There is an error completing bill";
-                    if(evat === true){
+                    if(evat){
 
                         # make EvatData
-                        $send_inv = json_decode((new Evat())->send_invoice(billRef,$flag,$oriRef));
+                        $send_inv = json_decode((new Evat())->send_invoice($this->getRef(),$flag,$oriRef));
 
                         if($send_inv->code === 202 || $send_inv->message === 'INVOICE ALREADY SUBMITTED')
                         {
                             // get signature
-                            $signature = json_decode((new Evat())->sign_invoice(billRef,$flag,$oriRef));
+                            $signature = json_decode((new Evat())->sign_invoice($this->getRef(),$flag,$oriRef));
 
                             $sign = $signature->MESSAGE;
 
@@ -389,7 +415,11 @@ class Billing extends db_handler
                         $billComplete = true;
                     }
 
+                    
+                    
+
                     if($billComplete === true){
+                        
                         // continue
                         $this->db_handler()->db_connect()->exec($bill_header_insert);
 
@@ -401,7 +431,8 @@ class Billing extends db_handler
                             // update values all to negative
                             $header = "UPDATE bill_header SET gross_amt = gross_amt - (gross_amt * 2),
                        tax_amt = tax_amt - (tax_amt * 2),net_amt = net_amt - (net_amt * 2),
-                       tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2),old_bill_ref='$oriRef' 
+                       tran_qty = tran_qty - (tran_qty * 2), amt_paid = amt_paid - (amt_paid * 2),old_bill_ref='$oriRef' ,
+                       taxable_amt = taxable_amt - (taxable_amt * 2),non_taxable_amt = non_taxable_amt - (non_taxable_amt * 2)
                        where billRef = '$billRef'";
 
                             // bill tran
@@ -547,7 +578,8 @@ class Billing extends db_handler
 
 
                         // print bill
-                        printbill(mech_no,$bill_number,$method);
+                        printbill($billRef);
+                        
 
                         $code = 200;
                         $msg = "BILL COMPLETED";
@@ -602,7 +634,7 @@ class Billing extends db_handler
     function TaxTran($bill_no=bill_no,$mech_no=mech_no,$item_code='',$qty=1){
         $date = today;
         $clerk = clerk_code;
-        $billRef = billRef;
+        $billRef = $this->getRef();
         // validate machine, item_code
         $itemCount = $this->db_handler()->row_count('prod_mast',"`barcode` = '$item_code'");
 
@@ -762,9 +794,11 @@ class Billing extends db_handler
 
     }
 
-    function billSummaryV2($bill_ref = billRef,$mach_no = mech_no): array
+    function billSummaryV2($bill_ref = '',$mach_no = mech_no): array
     {
-
+        if($bill_ref === ''){
+            $bill_ref = $this->getRef();
+        }
         // Initialize variables
         $tax_rate_levies = 0.06; // 6%
         $tax_rate_vat = 0.159; // 15.9%
@@ -920,7 +954,7 @@ class Billing extends db_handler
 
         while($row = $bill_stmt->fetch(PDO::FETCH_ASSOC)){
             $cust_no = $row['customer'];
-            $gross = $row['gross_amt'];
+            $gross = -$row['gross_amt'];
             $nega_gross = $gross * -1;
             $qty = $row['tran_qty'];
             $ref = $row['billRef'];

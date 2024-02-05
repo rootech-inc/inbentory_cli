@@ -68,7 +68,8 @@ class Cust {
                     let payment_query = `INSERT INTO customers_trans (customer_id, total_amount, payment_method, items_purchased, transaction_notes) VALUES 
                                                                             ('${id}','${amount_paid}','${paymentMethod}','payment','${additionalComment}')`;
                     let pay = exec(payment_query);
-                    swal_reload(pay['message'])
+                    this.printStatement(customer_id);
+                    // swal_reload(pay['message'])
                 } else if (result.isDenied) {
                     Swal.fire('Payment Canceled', '', 'info');
                 }

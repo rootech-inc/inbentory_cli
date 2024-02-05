@@ -1,7 +1,13 @@
+
+
 $(function() {
     //hang on event of form with id=myform
     $("#add_to_bill_form").submit(function(e) {
         e.preventDefault();
+        $('#billing_type').val(anton.getCookie('billing_type'));
+        $('#ref_header').val(anton.getCookie('ref_header'));
+        $('#ref_trans').val(anton.getCookie('ref_trans'));
+        $('#refund_ref').val(anton.getCookie('refund_ref'));
         //get the action-url of the form
         var actionurl = e.currentTarget.action;
 
@@ -20,6 +26,8 @@ $(function() {
             data[name] = that.val();
         });
 
+
+
         // check if there is z seial
         if(Mech.is_shift())
         {
@@ -31,15 +39,26 @@ $(function() {
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
                 success: function (response){
+                    console.table(formData)
+                    console.table(response)
                     // echo(response);
                     if(isJson(response))
                     {
+                        let resp = JSON.parse(response);
+
                         // bill is valid json
-                        let code,message
-                        b_msg(message)
+                        let code = resp['code'],message = resp['message'];
+                        console.table(resp)
+                        if(code === 200){
+                            b_msg(message)
+                        } else {
+                            kasa.error(message)
+                        }
+
 
                     } else {
                         al("Invalid Bill Response")
+                        console.table(response)
                     }
 
                     i_hide('numericKeyboard')

@@ -967,20 +967,24 @@ class MechConfig {
             'dataType': 'html',
             data:form_data,
             success: function (response) {
+                if(isJson(response)){
+                    result = JSON.parse(response)
+                }
 
-                result = JSON.parse(response)
             }
         })
 
-
         return result
+
 
     }
 
-    is_shift(mech_no = this.ThisMech()['mechine_number'],day=''){
+    is_shift(mech_no = this.ThisMech()['machine_number'],day=''){
 
         // check if there is shift
-        return row_count('shifts', `mech_no = '${mech_no}'  AND end_time is null`) === 1;
+        let r = row_count('shifts', `mech_no = '${mech_no}'  AND end_time is null`) === 1;
+        // console.log(`SHIFT IS ${r}`);
+        return r;
 
     }
 
@@ -988,7 +992,7 @@ class MechConfig {
         let response = {'valid':0,'shift':''}
         if(this.is_shift())
         {
-            let my_sh = JSON.parse(get_row('shifts', `mech_no = '${this.ThisMech()['mechine_number']}'  AND end_time is null`))[0]
+            let my_sh = JSON.parse(get_row('shifts', `mech_no = '${this.ThisMech()['machine_number']}'  AND end_time is null`))[0]
             let my_sh_d = {
                 'recId':my_sh['recId'],
                 'clerk':my_sh['clerk'],
@@ -1000,7 +1004,10 @@ class MechConfig {
             response['shift'] = my_sh_d
         }
 
+        // console.log('mysift')
+        // console.table(response)
         return response
+
     }
 
     open_shifts(){
@@ -1029,12 +1036,34 @@ class MechConfig {
         return response
     }
 
+    register(){
+        let desc = $('#description').val()
+        let mac_addr = $('#mac_addr').val()
+        let mech_no = $('#mech_no').val()
+
+        if(anton.validateInputs(['description','mac_addr','mech_no'])){
+
+            let query = `INSERT INTO mech_setup (mech_no, descr, mac_addr) values ('${mech_no}','${desc}','${mac_addr}')`;
+            let data = {
+                'cols':['mech_no','descr','mac_addr'],
+                'vars':[mech_no,desc,mac_addr]
+            }
+            console.table(data)
+            let savee = exec(query);
+            console.assert(savee);
+
+        } else {
+            kasa.error("Fill FIelds")
+        }
+    }
+
 }
 
 class Keyboard {
-    showQwerty(){
-
+    showQwerty(input_field='general_input'){
+        anton.setCookie('input_field',input_field)
         $('#alphsKeyboard').fadeIn();
+
     }
 
     hideQwerty(){

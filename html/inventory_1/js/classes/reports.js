@@ -212,11 +212,15 @@ class Reports {
         let record = row_count('shifts',`recId = '${recId}'`)
         if(record === 1)
         {
-            let row = JSON.parse(get_row('shifts',`recId = '${recId}'`))
+            let row = JSON.parse(get_row('shifts',`recId = '${recId}'`))[0]
+            console.table(row);
             mech = row['mech_no']
             day = row['shift_date']
 
         }
+
+        console.log(record);
+        console.log(mech);
 
         let shift_count = 0
         shift_count = Mech.is_shift(mech,day)

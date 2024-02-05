@@ -11,6 +11,41 @@ use db_handeer\db_handler;
 class MechConfig
 {
 
+    public function config(): array
+    {
+        $iniFile = $_SERVER['DOCUMENT_ROOT'] . '/config.ini';
+        $config = parse_ini_file($iniFile, true);
+
+        $system = $config['system_config'];
+        if($system['DB_SOURCE'] === 'NETWORK'){
+            $db = $config['DB_NETWORK'];
+        } else {
+            $db = $config['DB_LOCAL'];
+        }
+        $printer = $config['PRINTER'];
+        $evat = $config['EVAT'];
+        $settings =  array(
+            'DEBUG'=>$system['DEBUG'],
+            'MACH_NO'=>$system['MACH_NO'],
+            'MAC_ADDRESS'=>$system['MAC_ADDRESS'],
+            'LOC_ID'=>$system['LOC_ID'],
+
+            'DB_HOST'=>$db['HOST'],
+            'DB_PASSWORD'=>$db['PASSWORD'],
+            'DB_USER'=>$db['USER'],
+            'DB_NAME'=>$db['NAME'],
+            'DB_PORT'=>$db['PORT'],
+
+            'PRINTER'=>$printer['NAME'],
+            'BILL_PRINT'=>$printer['BILL_PRINT'],
+
+            'EVAT'=>$evat['ACTIVE'],
+            'EVAT_API'=>$evat['BASE_URL']
+        );
+
+
+        return $settings;
+    }
 
 
 
@@ -30,38 +65,74 @@ class MechConfig
 
     }
 
-    public function mech_details()
+    public function mech_details(): array
     {
-        $sql = $this->mech_db()->query("SELECT * FROM machine_config LIMIT  1");
+        $machine = $this->config();
+        $mech_no = $machine['MACH_NO'];
+        $mech_mach_addr = $machine['MAC_ADDRESS'];
 
-        $valid_sql = $this->mech_db()->query("SELECT count('mechine_number') as 'mn' from machine_config");
-        $valid_stmt = $valid_sql->fetch(PDO::FETCH_ASSOC);
-        $valid = $valid_stmt['mn'];
 
-        if(intval($valid) !== 1)
-        {
-            // add machine
-            return array('mechine_number'=>'0');
-        }
-        else
-        {
-            return $sql->fetch(PDO::FETCH_ASSOC);
-        }
+        return array(
+            'machine_number'=>$mech_no,
+            'machine_mac'=>$mech_mach_addr,
+            'mechine_number'=>$mech_no
+        );
+
+//        $sql = $this->mech_db()->query("SELECT * FROM machine_config LIMIT  1");
+//
+//        $valid_sql = $this->mech_db()->query("SELECT count('mechine_number') as 'mn' from machine_config");
+//        $valid_stmt = $valid_sql->fetch(PDO::FETCH_ASSOC);
+//        $valid = $valid_stmt['mn'];
+//
+//        if(intval($valid) !== 1)
+//        {
+//            // add machine
+//            return array('mechine_number'=>'0');
+//        }
+//        else
+//        {
+//            return $sql->fetch(PDO::FETCH_ASSOC);
+//        }
 
 
     }
 
     public function validate_device()
     {
+        $machine = $this->config();
+        $number = $machine['MACH_NO'];
+        $mac = $machine['MAC_ADDRESS'];
 
-        $valid_sql = $this->mech_db()->query("SELECT count('mechine_number') as 'mn' from machine_config");
+
+
+        if($number == 0){
+            (new anton())->error_handler("MACHINE ENV ERROR","There is an error with your Machine Number. It is not set in environment");
+        }
+
+
+
+        $valid_sql = (new db_handler())->db_connect()->query("SELECT count('mech_no') as 'mn' from mech_setup where mech_no = '$number' and mac_addr = '$mac'");
         $valid_stmt = $valid_sql->fetch(PDO::FETCH_ASSOC);
         $valid = $valid_stmt['mn'];
 
         if(intval($valid) !== 1)
         {
+
             // add machine
-            require root."/backend/includes/parts/add-ons/add_machine.php";
+            $mec_mac = getenv('MAC_ADDRESS');
+            $mec_no = getenv('MECH_NO');
+            $mech_db = (new db_handler())->db_connect();
+
+            // validate mach address is empty;
+            if((new db_handler())->row_count('mech_setup',"mac_addr = '$mec_mac'") !== 0){
+                (new anton())->error_handler("MAC ADDRESS TAKEN","Machine with mac address $mec_mac exists");
+            }
+            elseif ((new db_handler())->row_count('mech_setup',"mech_no = '$mec_no'") !== 0){
+                (new anton())->error_handler("MAC No. TAKEN","Machine with numbers $mec_no exists");
+            }
+            else {
+                require root."/backend/includes/parts/add-ons/add_machine.php";
+            }
             die();
         }
 
