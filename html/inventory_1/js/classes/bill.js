@@ -85,10 +85,12 @@ class Bill {
                 {
 
                     let message = res['message']
-                    // let header = res['message']['bill_header']
-                    let header = bill.billSummary()['bill_header']
+                    let header = message['bill_header']['bill_header']
+                    //let header = bill.billSummary()['bill_header']
+                    // console.table(message['bill_header']['bill_header']);
+                    // console.table(res);
 
-                    let count,total,tax,trans,discount,bill_amt,disc_type
+                    let count,total,tax,trans,discount,bill_amt,disc_type,BILL_REF
                     count = message['count']
                     total = header['TOTAL_AMOUNT']
                     discount = header['DISCOUNT'];
@@ -96,6 +98,8 @@ class Bill {
                     tax = header['TOTAL_VAT']
                     trans = message['trans']
                     disc_type = header['discount_type'];
+                    BILL_REF = header['BILL_REF'];
+                    $('#bill_ref').val(BILL_REF)
                     let sel_count = 0
 
                     // ct(header)
@@ -530,7 +534,7 @@ class Bill {
 
     void(){
         b_msg("Voiding Selected Items...")
-        let bill_ref = a_sess.get_session('bill_ref');
+        let bill_ref = $('#bill_ref').val();
         let query = `DELETE FROM bill_trans where billRef = '${bill_ref}' and selected = '1'`;
         if(row_count('bill_trans',`billRef = '${bill_ref}'`) > 0){
 

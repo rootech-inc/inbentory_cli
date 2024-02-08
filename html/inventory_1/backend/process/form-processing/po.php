@@ -62,7 +62,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
 
             $insert_query = "insert into po_trans 
             (item_code, barcode, item_description, owner, pack_desc, packing, cost,qty, parent,total_cost,line,pack_um) values 
-            ('$item_code','$barcode','$item_desc','$myName','$item_pack','$item_packing','$item_cost','$item_qty','$po_number','$total_amount',$line,'$pack_um')";
+            ('$item_code','$barcode','$item_desc','$myName','$item_pack','$item_packing','$item_cost','$item_qty','$po_number','$item_amount',$line,'$pack_um')";
 //            echo $insert_query;
             $db->db_connect()->exec($insert_query);
 
@@ -83,6 +83,10 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $po_tran_sql = $db->db_connect()->query("SELECT * FROM `po_trans` WHERE `parent` = '$po_number'");
         $po_hd = $db->get_rows('po_hd',"`doc_no` = '$po_number'");
         $company = $db->get_rows('company','none');
+
+        // get location
+        $loc_id = $po_hd['location'];
+        $loc = $db->get_rows('loc',"`loc_id` = '$loc_id'");
         $supplier = $po_hd['suppler'];
 
         if($po_hd['status'] == '0')
@@ -149,13 +153,13 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->Cell(140,7,"Delivery Date : 00/00/0000",0,0,'L');
         $pdf->Cell(140,7,"Date : ".$po_hd['created_on'],0,1,'R');
         # branch & order number
-        $pdf->Cell(140,7,"Branch : Test Branch",0,0,'L');
+        $pdf->Cell(140,7,"Branch : ".$loc['loc_desc'],0,0,'L');
         $pdf->Cell(140,7,"Order No : $po_number",0,1,'R');
         # address & Supplier Code
-        $pdf->Cell(140,7,"Address : PO BOX 150",0,0,'L');
+        $pdf->Cell(140,7,"Address : ".$loc['country'].",".$loc['city'],0,0,'L');
         $pdf->Cell(140,7,"Supplier Code : ".$po_hd['suppler'],0,1,'R');
         # city & Suppler Name
-        $pdf->Cell(140,7,"City : Accra , Adenta",0,0,'L');
+        $pdf->Cell(140,7,"Contact : ".$loc['phone'],0,0,'L');
         $pdf->Cell(140,7,"Supplier Name : ".$db->get_rows('supp_mast',"`supp_id` = '$supplier'")['supp_name'],0,1,'R');
         #empty and total amount
         $pdf->Cell(140,7,"",0,0,'L');
@@ -165,47 +169,47 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->Ln(20);
 
         // table
-        $pdf->SetFont('Arial','B',12);
-        $pdf->Cell(40,10,"Item Code",1,0,"L");
-        $pdf->Cell(40,10,"Description",1,0,"L");
-        $pdf->Cell(40,10,"Pack Id",1,0,"L");
-        $pdf->Cell(40,10,"Pack Desc",1,0,"L");
-        $pdf->Cell(40,10,"Quantity",1,0,"L");
-        $pdf->Cell(40,10,"Cost",1,0,"L");
-        $pdf->Cell(40,10,"Total Cost",1,1,"L");
-        $pdf->SetFont('Times','',10);
+        $pdf->SetFont('Arial','B',8);
+        $pdf->Cell(40,5,"Item Code",1,0,"L");
+        $pdf->Cell(40,5,"Description",1,0,"L");
+        $pdf->Cell(40,5,"Packing",1,0,"L");
+        $pdf->Cell(40,5,"Pack Qty",1,0,"L");
+        $pdf->Cell(40,5,"Quantity",1,0,"L");
+        $pdf->Cell(40,5,"Cost",1,0,"L");
+        $pdf->Cell(40,5,"Total Cost",1,1,"L");
+        $pdf->SetFont('Arial','',8);
 
         while($po_t = $po_tran_sql->fetch(PDO::FETCH_ASSOC))
         {
             $item_code = $po_t['item_code'];
-            $pack_desc = $db->get_rows('prod_packing',"`item_code` = '$item_code' AND `purpose` = '2'")['pack_id'];
-            $pack_desc_x = $db->get_rows('packaging',"`id` = '$pack_desc'")['desc'];
+//            $pack_desc = $db->get_rows('prod_packing',"`item_code` = '$item_code' AND `purpose` = '2'")['pack_id'];
+//            $pack_desc_x = $db->get_rows('packaging',"`id` = '$pack_desc'")['desc'];
 
-            $pdf->Cell(40,7,$po_t['item_code'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['item_description'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['pack_desc'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['packing'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['qty'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['cost'],1,0,"L");
-            $pdf->Cell(40,7,$po_t['total_cost'],1,1,"L");
+            $pdf->Cell(40,5,$po_t['item_code'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['item_description'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['packing'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['pack_um'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['qty'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['cost'],1,0,"L");
+            $pdf->Cell(40,5,$po_t['total_cost'],1,1,"L");
             // Line break
         }
 
 
-        $pdf->Cell(160,7);
-        $pdf->Cell(40,7,number_format($total_quantity,2),1,0,'L');
-        $pdf->Cell(40,7,number_format($total_each_cost,2),1,0,'L');
-        $pdf->Cell(40,7,number_format($total_cost,2),1,1,'L');
+        $pdf->Cell(160,5);
+        $pdf->Cell(40,5,number_format($total_quantity,2),1,0,'L');
+        $pdf->Cell(40,5,number_format($total_each_cost,2),1,0,'L');
+        $pdf->Cell(40,5,number_format($total_cost,2),1,1,'L');
 
         $pdf->Ln(10);
-        $pdf->SetFont('Times','I',10);
-        $pdf->Cell(0,5,"PLEASE NOTE, WE ARE PLEASED TO INFORM YOU THAT WE HAVE PLACED AN ORDER FOR THE ITEM AS PER THE ATTACHMENT.",0,1,'C');
-        $pdf->Cell(0,5,"This order has to be delivered within five working days of the order date otherwise purchase order will ",0,1,'C');
-        $pdf->Cell(0,5,"be treated as canceled order. ",0,1,'C');
-        $pdf->Cell(0,5,"Please contact the warehouse manager / procurement : 020 000 00000 ",0,1,'C');
-
-        // signs box
-        $pdf->Ln(20);
+//        $pdf->SetFont('Times','I',10);
+//        $pdf->Cell(0,5,"PLEASE NOTE, WE ARE PLEASED TO INFORM YOU THAT WE HAVE PLACED AN ORDER FOR THE ITEM AS PER THE ATTACHMENT.",0,1,'C');
+//        $pdf->Cell(0,5,"This order has to be delivered within five working days of the order date otherwise purchase order will ",0,1,'C');
+//        $pdf->Cell(0,5,"be treated as canceled order. ",0,1,'C');
+//        $pdf->Cell(0,5,"Please contact the warehouse manager / procurement : 020 000 00000 ",0,1,'C');
+//
+//        // signs box
+//        $pdf->Ln(20);
         $pdf->SetFont('Times','B',15);
         $pdf->Cell(80,10,$po_hd['owner'],1,0,'C');
         $pdf->Cell(40,10,'',0,0,'L');
@@ -221,7 +225,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->Cell(80,10,'Approved By',0,1,'C');
 
 
-        $pdf->Output("test.pdf",'F');
+        $pdf->Output("$po_number.pdf",'F');
         $db->doc_trans('PO',"$po_number","PRI");
         echo 'done';
     }

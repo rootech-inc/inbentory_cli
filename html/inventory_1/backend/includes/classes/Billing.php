@@ -885,6 +885,7 @@ class Billing extends db_handler
 
 
         $bill_header = array();
+        $bill_header['BILL_REF'] = $bill_ref;
         $bill_header['BILL_AMT'] = number_format($final_bill + $discount,2);
         $bill_header['TOTAL_AMOUNT'] = $final_bill;
         $bill_header['TOTAL_LEVY'] = $levies;

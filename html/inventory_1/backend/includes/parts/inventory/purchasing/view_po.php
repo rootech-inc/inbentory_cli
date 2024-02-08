@@ -223,8 +223,8 @@
                             <th>LN</th>
                             <th>Item Code</th>
                             <th>Description</th>
-                            <th>Pack ID</th>
-                            <th>Pack Desc</th>
+                            <th>Packing</th>
+                            <th>Pack Qty</th>
                             <th>Quantity</th>
                             <th>Cost</th>
                             <th>Total Cost</th>

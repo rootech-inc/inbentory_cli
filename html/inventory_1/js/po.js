@@ -206,15 +206,28 @@ function addToPoTransV2(item_code) {
         product = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
         barcode = product.barcode;
         item_desc = product.item_desc
-        item_packing = JSON.parse(
+        // get product packing
+
+        let item_packing_res = JSON.parse(
             get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = '2'")
-        )[0]
-        pack_desc = item_packing.pack_desc
-        pack_id = item_packing.pack_id
-        packing_um = item_packing.qty
-        pack_id = JSON.parse(
-            get_row('packaging',"`id` = '"+pack_id+"'"))[0]
-        var pack_id_desc = pack_id.desc
+        )
+        let pack_id_desc = "PCS"
+        packing_um = 1
+        pack_desc = 'PCS'
+
+        if(item_packing_res.length > 0 ){
+
+            item_packing = item_packing_res[0]
+            pack_desc = item_packing.pack_desc
+            pack_id = item_packing.pack_id
+            packing_um = item_packing.qty
+            pack_id = JSON.parse(
+                get_row('packaging',"`id` = '"+pack_id+"'"))[0]
+            pack_id_desc = pack_id.desc
+
+        }
+
+
 
         let last_row = $('#po_items_list tr').length + 1;
 
@@ -642,20 +655,11 @@ function previewPoTrans(po_number) // LOAD PO ITEMS IN FOR PREVIEW IN VIEW MOOD
                 item_qty = this_entery.qty;
                 item_cost = this_entery.cost;
                 item_total_cost = this_entery.total_cost;
+                let pack_qty = this_entery.pack_um
 
                 po_total_amount += parseInt(item_total_cost)
 
-                // get packing for each item
-                this_packing = JSON.parse(
-                    get_row('prod_packing', "`item_code` = '" + item_code + "' AND `purpose` = '2'")
-                );
-                pack_id = this_packing[0].pack_id;
-                x_pack_desc = this_packing.packing
-                pack_desc = JSON.parse(
-                    get_row('packaging', "`id` = '" + pack_id + "'")
-                )[0].desc;
-                pac_qty = this_packing[0].qty
-                echo(pac_qty)
+
 
                 // set ids
                 let item_code_id = "itemCode_" + i.toString();
@@ -670,8 +674,8 @@ function previewPoTrans(po_number) // LOAD PO ITEMS IN FOR PREVIEW IN VIEW MOOD
                     "<td>" + sn + "</td>" +
                     "<td>" + item_code + "</td>" +
                     "<td>" + item_desc + "</td>" +
-                    "<td>" + pack_desc + "</td>" +
                     "<td>" + item_packagin + "</td>" +
+                    "<td>" + pack_qty + "</td>" +
                     "<td>" + item_qty + "</td>" +
                     "<td>" + item_cost + "</td>" +
                     "<td>" + item_total_cost + "</td>" +
@@ -1513,6 +1517,3 @@ $(document).ready(function(){
 });
 
 
-
-al("HELLO PO HERE")
-console.log('PO HERE')

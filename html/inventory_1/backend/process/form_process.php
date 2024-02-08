@@ -608,11 +608,20 @@ $billC = (new billing\Billing());
                         $item_qty = $item['qty'];
                         $id = $item['id'];
 
-                        $this_item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");;
+                        $this_item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
+                        $bill_data = array(
+                            'billing_type'=>"sales",
+                            'ref_header'=>"",
+                            'ref_trans'=>"",
+                            'refund_ref'=>"",
+                            'barcode'=>$barcode,
+                            'qty'=>$item_qty,
+                            'item'=>$this_item
+                        );
 
                         // insert into bill
 //                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
-                        (new billing\Billing())->AddToBill($bill_number,$this_item,$item_qty,$myName);
+                        (new billing\Billing())->AddToBill($bill_data);
 
 
 
