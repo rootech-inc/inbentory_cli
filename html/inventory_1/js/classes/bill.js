@@ -353,7 +353,10 @@ class Bill {
 
 
 
-        let amount_paid = $('#general_input').val() ? $('#general_input').val() : $('#bill_amt').text();
+        let str_paid = $('#general_input').val() ? $('#general_input').val() : $('#bill_amt').text();
+        let amount_paid = str_paid.replace(',','')
+
+        console.log(amount_paid)
 
 
 

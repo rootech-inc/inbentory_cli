@@ -24,7 +24,8 @@ class MechConfig
         }
         $printer = $config['PRINTER'];
         $evat = $config['EVAT'];
-        $settings =  array(
+        $lty = $config['LOYALTY'];
+        return array(
             'DEBUG'=>$system['DEBUG'],
             'MACH_NO'=>$system['MACH_NO'],
             'MAC_ADDRESS'=>$system['MAC_ADDRESS'],
@@ -40,11 +41,13 @@ class MechConfig
             'BILL_PRINT'=>$printer['BILL_PRINT'],
 
             'EVAT'=>$evat['ACTIVE'],
-            'EVAT_API'=>$evat['BASE_URL']
+            'EVAT_API'=>$evat['BASE_URL'],
+
+            'LTY_URL'=>$lty['BASE_URL'],
+            'LOY_TOKEN'=>$lty['API_TOKEN']
+
+
         );
-
-
-        return $settings;
     }
 
 

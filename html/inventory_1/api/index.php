@@ -273,4 +273,75 @@ function handlePostRequest($module, $data,$crud)
 
     }
 
+    elseif($module === 'grn'){
+        if($crud === 'write'){
+            // extract header
+            $header = $data['header'];
+            $recDate = $header['rec_date'];
+            $locId = $header['loc_id'];
+            $suppId = $header['supp_id'];
+            $refDoc = $header['ref_doc'];
+            $invoiceNumber = $header['invoice_number'];
+            $totalAmount = $header['total_amount'];
+            $remarks = $header['remarks'];
+            $created_by = clerk_code;
+
+            $transactions = $data['transactions'];
+
+            // header insertion
+            $db_conn = (new db_handeer\db_handler());
+            // get next entry number
+            $last_doc_query = $db->db_connect()->query("SELECT `id` FROM `grn_hd` ORDER BY `id` DESC LIMIT 1");
+            $last_doc = $last_doc_query->fetch(PDO::FETCH_ASSOC);
+            $grn_id = $last_doc['id'] + 1;
+            $entry_no = "GR$grn_id";
+
+
+            try {
+                // lock grn_hd
+                $db->db_connect()->beginTransaction();
+                $db->db_connect()->exec("LOCK TABLES grn_hd WRITE");
+
+                $db->db_connect()->exec("INSERT INTO grn_hd (po_number, loc, date_received, supplier, remarks, invoice_num,created_by,entry_no,invoice_amt) value 
+                                    ('$refDoc','$locId','$recDate','$suppId','$remarks','$invoiceNumber','$created_by','$entry_no','$totalAmount')");
+
+                $tran = null;
+                for ($i = 0; $i < count($transactions); $i++) {
+                    $line = $i + 1;
+                    $tran = $transactions[$i];
+                    $item_code = $tran['item_code'];
+                    $quantity = $tran['quantity'];
+                    $price = $tran['price'];
+                    $total_amount = $tran['total_amount'];
+                    $barcode = $tran['barcode'];
+                    $name = $tran['name'];
+
+                    // insert into grn transactions
+                    $tran_q = "
+                    INSERT INTO grn_trans (entry_no, item_code, barcode, item_description, qty,total_cost,cost,owner) 
+                                values ('$entry_no','$item_code','$barcode','$name','$quantity','$total_amount','$price','$created_by')
+                ";
+                    $db->db_connect()->exec($tran_q);
+                }
+
+                // update po header
+                $po_hd = "UPDATE po_hd SET status = 1 where doc_no = '$refDoc'";
+                $db->db_connect()->exec($po_hd);
+
+                //$db->db_connect()->commit();
+
+                (new \API\ApiResponse())->success("GRN SAVED with Entry Number $entry_no");
+            } catch (Exception $e){
+                // roll back changes
+//                $db->db_connect()->rollBack();
+                (new API\ApiResponse())->error($e->getMessage()." - FIle: " . $e->getFile(). " - Line: ".$e->getLine());
+            }
+
+
+
+
+
+        }
+    }
+
 }

@@ -241,51 +241,12 @@ function grn_list_calc(sn) {
     // define ids
     var qty_id = "#qty_"+sn.toString();
     var price_id = '#price_'+sn.toString();
-    var total_id = '#total_'+sn.toString();
-    let cost_id = '#cost_'+sn.toString()
-    let retail_id = '#retail_'+sn.toString()
-    let code_id = '#code_id_'+sn.toString()
-    let net_id = '#net_'+sn.toString()
-    let tax_id = '#tax_'+sn.toString()
 
     // get field values
-    var item_code = $(code_id).val();
-    var qty_val = $(qty_id).val();
-    var price_val = $(price_id).val()
-    var total_val = $(total_id).val()
+    var qty = $(qty_id).val();
+    var price = $(price_id).val();
 
-    // item details
-    var item_detail = JSON.parse(
-        get_row('prod_master',"`item_code` = '"+item_code+"'")
-    )[0]
-    let item_pack_details = JSON.parse(get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = 2"))[0]
-    let item_details = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
-    let retail = item_details.retail
-
-    var pack_qty = item_pack_details.qty;
-
-    var new_total = qty_val * price_val;
-
-    // cost price = price / un
-    var cost_price = price_val / pack_qty
-
-
-    echo(qty_val + " * " + price_val + " = " + new_total.toFixed(2))
-
-    $(total_id).val(new_total.toFixed(2))
-    $(cost_id).val(cost_price.toFixed(2))
-    $(net_id).val(new_total.toFixed(2))
-    var tax_class = $('#tax_grp').val()
-    new_grn_tax_calc(tax_class,'*')
-
-    if(cost_price >= retail)
-    {
-        // danger
-        $(retail_id).addClass('bg-danger')
-    } else {
-
-        $(retail_id).removeClass('bg-danger')
-    }
+    $(`#total_${sn}`).val(qty * price)
 
 
 
@@ -544,11 +505,12 @@ function viewGrn(entry_no)
             $('#remarks').text(grn_header.remarks)
             $('#inv_number').text(grn_header.invoice_num)
             $('#total_amount').text(grn_header.invoice_amt)
-            $('#tax_amount').text(
-                JSON.parse(
-                    get_row('tax_trans',"`doc` = 'GR' AND `entry_no` = '"+grn_header.entry_no+"'")
-                )[0].tax_amt
-            )
+            let tax_amt = JSON.parse(fetch_rows("select sum(tax_amt) as 'tax_sum' from tax_trans where entry_no = '' and doc = 'GR'"))[0]['tax_sum']
+            if(tax_amt === null){
+                tax_amt = 0
+            }
+            $('#tax_amount').text(grn_header.tax_amt)
+            console.log(tax_amt)
             $('#net_amount').text(grn_header.net_amt)
 
             // set status message
@@ -1044,6 +1006,8 @@ function loadPoIntoGrn(po_number){
                             let code_id = 'code_id_' + sn.toString()
                             let net_id = 'net_' + sn.toString()
                             let tax_id = 'tax_' + sn.toString()
+                            let barcode_id = `barcode_${sn}`;
+                            let descr_id = `descr_${sn}`
 
                             let retail_bg = '';
                             if (this_cost >= retail) {
@@ -1054,18 +1018,13 @@ function loadPoIntoGrn(po_number){
 
                             tr += "<tr id='" + tr_id + "'>\n" +
                                 "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
-                                "                            <td class='text_xs'>" + barcode + "</td>\n" +
-                                "                            <td class='text_xs'>" + description + "</td>\n" +
-                                "                            <td class='text_xs'>" + pack_id + "</td>\n" +
-                                "                            <td class='text_xs'>" + packing + "</td>\n" +
+                                "                            <td class='text_xs' id='"+barcode_id+"'>" + barcode + "</td>\n" +
+                                "                            <td class='text_xs' id='"+descr_id+"'>" + description + "</td>\n" +
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
                                 "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums bg-primary' value='" + total_amt + "'></td>\n" +
-                                "                            <td class='text_xs'> <input type='number' readonly id='"+tax_id+"' value='" + tax_amount + "' class='grn_nums bg-secondary' name='tax[]' /></td>\n" +
-                                "                            <td class='text_xs'> <input type='number' readonly class='grn_nums bg-success' name='net[]' id='" + net_id + "' value='" + net_amount.toFixed(2) + "' /></td>\n" +
-                                "                            <td class='text_xs'><input type='number' id='" + cost_id + "' class='grn_nums' onkeyup=\"grn_list_calc(" + sn + ")\" name='cost[]' value='" + this_cost.toFixed(2) + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' id='" + retail_id + "' class='grn_nums "+retail_bg+"' onkeyup=\"grn_list_calc(" + sn + ")\" name='retail[]' value='" + retail + "'></td>\n" +
-                                "                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(\"" + description + "\",\"#" + tr_id + "\")'></i></td>" +
+                                "                            <td class='text_xs'>" +
+                                "<input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'>" +
+                                "</td>\n" +
                                 "                        </tr>";
                             echo(sn)
                         }

@@ -258,6 +258,11 @@ $(document).ready(function() {
         // keypad()
     });
 
+    // save grn
+    $('#save_grn_x2').click(function(){
+        grncl.save()
+    });
+
 
 
 

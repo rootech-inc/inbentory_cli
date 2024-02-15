@@ -49,6 +49,9 @@ use taxer\tax_calculator;
     define('evat',$config['EVAT']);
     define('evat_url',$config['EVAT_API']);
 
+    define('loyalty_url',$config['LTY_URL']);
+    define('loyalty_token',$config['LOY_TOKEN']);
+
     require 'classes/Billing.php';
     require 'classes/reports.php';
     require  'classes/auth.php';

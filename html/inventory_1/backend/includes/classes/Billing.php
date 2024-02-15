@@ -345,7 +345,7 @@ class Billing extends db_handler
                 #3 return bill details
                 $shift_no = shift_no;
                 $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty,amt_paid,amt_bal,bill_date,billRef,disc_rate,disc_amt,taxable_amt,non_taxable_amt,shift,sales_type,customer)
-                    VALUES ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $net, $tran_qty,$amount_paid,$amt_balance,'$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no','$billing_type','$customer');";
+                    VALUES ('$machine_number', '$myName', '$bill_number', '$method', '$gross_amt', '$tax_amt', '$net', '$tran_qty','$amount_paid','$amt_balance','$today','$billRef','$disc_rate','$discount','$taxable_amount','$non_taxable_amount','$shift_no','$billing_type','$customer');";
 
                 //if($this->db_handler()->row_count('bill_header',$bill_hd_cond) == 0)
                 if(true)
@@ -448,7 +448,7 @@ class Billing extends db_handler
                             $this->db_connect()->exec($header);
                             $this->db_connect()->exec($trans);
                             // check if there is loyalty
-                            $original_reference = $oriRef;
+                            $original_reference = $this->getRef();
                             $loyalty_cont = $this->row_count('loyalty_tran',"billRef = '$original_reference'");
                             if($loyalty_cont === 1){
                                 $loyalty_tran = $this->get_rows('loyalty_tran',"billRef = '$original_reference'");
@@ -459,6 +459,7 @@ class Billing extends db_handler
                                 $payload = '{
                                 "module":"points",
                                     "pass_from":"PUT",
+                                    "token":"'.loyalty_token.'"
                                     "data":{
                                         "billRef":"'.$billRef.'",
                                         "card_no":"'.$cust_code.'",
@@ -467,7 +468,7 @@ class Billing extends db_handler
                                 }';
 
                                 curl_setopt_array($curl, array(
-                                    CURLOPT_URL => 'http://localhost:8000/api/',
+                                    CURLOPT_URL => loyalty_url,
                                     CURLOPT_RETURNTRANSFER => true,
                                     CURLOPT_ENCODING => '',
                                     CURLOPT_MAXREDIRS => 10,
@@ -490,6 +491,7 @@ class Billing extends db_handler
                             }
 
 
+
                         }
 
                         // REDEEM points
@@ -503,6 +505,7 @@ class Billing extends db_handler
                             $payload = '{
                                 "module":"points",
                                 "pass_from":"PUT",
+                                "token":"'.loyalty_token.'"
                                 "data":{
                                     "billRef":"'.$billRef.'",
                                     "card_no":"'.$cust_code.'",
@@ -510,7 +513,7 @@ class Billing extends db_handler
                                 }
                             }';
                             curl_setopt_array($curl, array(
-                                CURLOPT_URL => 'http://localhost:8000/api/',
+                                CURLOPT_URL => loyalty_url,
                                 CURLOPT_RETURNTRANSFER => true,
                                 CURLOPT_ENCODING => '',
                                 CURLOPT_MAXREDIRS => 10,
@@ -541,6 +544,7 @@ class Billing extends db_handler
                                 $payload = '{
                                     "module":"points",
                                     "pass_from":"PUT",
+                                    "token":"'.loyalty_token.'",
                                     "data":{
                                         "billRef":"'.$billRef.'",
                                         "card_no":"'.$cardno.'",
@@ -550,7 +554,7 @@ class Billing extends db_handler
 
                                 $curl = curl_init();
                                 curl_setopt_array($curl, array(
-                                    CURLOPT_URL => 'http://localhost:8000/api/',
+                                    CURLOPT_URL => loyalty_url,
                                     CURLOPT_RETURNTRANSFER => true,
                                     CURLOPT_ENCODING => '',
                                     CURLOPT_MAXREDIRS => 10,
@@ -794,7 +798,7 @@ class Billing extends db_handler
 
     }
 
-    function billSummaryV2($bill_ref = '',$mach_no = mech_no): array
+    function billSummaryV2($bill_ref = '',$mach_no = mech_no, $curr = false): array
     {
         if($bill_ref === ''){
             $bill_ref = $this->getRef();
@@ -886,14 +890,20 @@ class Billing extends db_handler
 
         $bill_header = array();
         $bill_header['BILL_REF'] = $bill_ref;
-        $bill_header['BILL_AMT'] = number_format($final_bill + $discount,2);
+        $bill_header['BILL_AMT'] = $final_bill + $discount;
+        $bill_header['DISCOUNT'] = $discount;
+        if($curr){
+            $bill_header['BILL_AMT'] = number_format($final_bill + $discount,2);
+            $bill_header['DISCOUNT'] = number_format($discount,2);
+        }
+
         $bill_header['TOTAL_AMOUNT'] = $final_bill;
         $bill_header['TOTAL_LEVY'] = $levies;
         $bill_header['TOTAL_VAT'] = $vat;
         $bill_header['ITEMS_COUNTS'] = $totalTrans;
         $bill_header['TAXABLE_AMOUNT'] = $taxable_amount_inclusive;
         $bill_header['NON_TAXABLE_AMOUNT'] = $non_taxable_amount;
-        $bill_header['DISCOUNT'] = number_format($discount,2);
+
         $bill_header['DISCOUNT_RATE'] = 0;
 
 

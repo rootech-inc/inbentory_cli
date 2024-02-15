@@ -3,7 +3,7 @@ class Loyalty {
     // save customer
     base_url = '/backend/process/form-processing/loyalty.php';
     result = {'code':505,'message':"INIT"};
-    api_url = 'http://127.0.0.1:8000/api/'
+    api_url = 'http://www.loyalty.com/api/'
 
     customerReg(full_name,email,mobile){
         ajaxform['type'] = 'POST';
@@ -37,6 +37,7 @@ class Loyalty {
         let payload = {
             "module":"card",
             pass_from:'VIEW',
+            token:'b99ab5777308eebd2a25d6ab86f0d4fb',
             "data":{
                 "card_no":cust_code
             }
@@ -59,7 +60,7 @@ class Loyalty {
             }
 
             let response = api.call('POST',payload,this.api_url);
-            if(response['code'] === 200){
+            if(response['status_code'] === 200){
                 
                 let bill_ref = $('#bill_ref').val();
                 let customer,name,phone,cardno,points,message = response['message'];

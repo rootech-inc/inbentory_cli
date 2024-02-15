@@ -22,7 +22,7 @@
                 </button>
 
                 <!--ADD-->
-                <button id="save_grn" title="Save Document" class="btn btn-success btn-sm btn-sm mr-1">
+                <button id="save_grn_x2" title="Save Document" class="btn btn-success btn-sm btn-sm mr-1">
                     <i class="fa fa-save"></i>
                 </button>
 
@@ -130,16 +130,16 @@
                         <input class="prod_inp_view" id="ref_doc" readonly name="ref_doc">
                     </div>
 
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Taxable</p>
-                        </div>
-                        <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="taxable">
-                            <option value="1">YES</option>
-                            <option value="0">NO</option>
-
-                        </select>
-                    </div>
+<!--                    <div class="w-100 d-flex flex-wrap prod_inp_container">-->
+<!--                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">-->
+<!--                            <p class="m-0 p-0 text-elipse">Taxable</p>-->
+<!--                        </div>-->
+<!--                        <select onchange="new_grn_tax_calc(this.value)" name="tax_grp" class="prod_inp_view" id="taxable">-->
+<!--                            <option value="1">YES</option>-->
+<!--                            <option value="0">NO</option>-->
+<!---->
+<!--                        </select>-->
+<!--                    </div>-->
 
 
 
@@ -164,20 +164,20 @@
                     </div>
 
                     <!--Tax Amount-->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Tax Amount</p>
-                        </div>
-                        <input class="prod_inp_view" id="tax_amt" name="tax_amt" type="number" readonly value="0.00">
-                    </div>
+<!--                    <div class="w-100 d-flex flex-wrap prod_inp_container">-->
+<!--                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">-->
+<!--                            <p class="m-0 p-0 text-elipse">Tax Amount</p>-->
+<!--                        </div>-->
+<!--                        <input class="prod_inp_view" id="tax_amt" name="tax_amt" type="number" readonly value="0.00">-->
+<!--                    </div>-->
 
                     <!-- NET AMT -->
-                    <div class="w-100 d-flex flex-wrap prod_inp_container">
-                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                            <p class="m-0 p-0 text-elipse">Net Amount</p>
-                        </div>
-                        <input class="prod_inp_view" id="net_amt" name="net_amt" type="number" readonly value="0.00">
-                    </div>
+<!--                    <div class="w-100 d-flex flex-wrap prod_inp_container">-->
+<!--                        <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">-->
+<!--                            <p class="m-0 p-0 text-elipse">Net Amount</p>-->
+<!--                        </div>-->
+<!--                        <input class="prod_inp_view" id="net_amt" name="net_amt" type="number" readonly value="0.00">-->
+<!--                    </div>-->
 
 
                     <!-- REMARKS -->
@@ -219,40 +219,26 @@
                     </div>
                 </div>
 
-                <table class="table table-sm table-striped">
-                    <thead class="thead-light">
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark">
                         <tr>
-                            <th class="text_xs">SN</th>
-                            <th class="text_xs">Barcode</th>
-                            <th class="text_xs">Description</th>
-                            <th class="text_xs">Pack ID</th>
-                            <th class="text_xs">Packing</th>
-                            <th class="text_xs">Qty</th>
-                            <th class="text_xs">Price</th>
-                            <th class="text_xs">Total Amount</th>
-                            <th class="text_xs">Tax Amt</th>
-                            <th class="text_xs">Net Amt</th>
-                            <th class="text_xs">Cost</th>
-                            <th class="text_xs">Retail</th>
-                            <th class="text_xs">Del</th>
+                            <th class="">SN</th>
+                            <th class="">Barcode</th>
+                            <th class="">Description</th>
+                            <th class="">Qty</th>
+                            <th class="">Unit Price</th>
+                            <th class="">Total Amount</th>
                         </tr>
                     </thead>
                     <tbody id="grn_items_list">
-                        <tr>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'><i class='fa fa-minus pointer text-danger pointer' onclick='remove_grn_item(123)'></i></td>
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td ondblclick="remove_grn_item(123)" class=''>1</td>-->
+<!--                            <td class=''>111111</td>-->
+<!--                            <td class=''>111111</td>-->
+<!--                            <td class=''>120</td>-->
+<!--                            <td class=''>1</td>-->
+<!--                            <td class=''>120</td>-->
+<!--                        </tr>-->
                     </tbody>
                 </table>
 
