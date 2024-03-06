@@ -570,15 +570,9 @@ function viewGrn(entry_no)
                         "                            <td class='text_xs'>"+sn+"</td>\n" +
                         "                            <td class='text_xs'>"+barcode+"</td>\n" +
                         "                            <td class='text_xs'>"+item_desc+"</td>\n" +
-                        "                            <td class='text_xs'>"+packing_id+"</td>\n" +
-                        "                            <td class='text_xs'>"+packing+"</td>\n" +
                         "                            <td class='text_xs'>"+quantity+"</td>\n" +
                         "                            <td class='text_xs'>"+price+"</td>\n" +
                         "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
-                        "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
-                        "                            <td class='text_xs'>"+net_amt+"</td>\n" +
-                        "                            <td class='text_xs'>"+cost+"</td>\n" +
-                        "                            <td class='text_xs'>"+retail+"</td>\n" +
                         "\n" +
                         "                        </tr>";
 

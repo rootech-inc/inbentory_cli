@@ -263,6 +263,11 @@ $(document).ready(function() {
         grncl.save()
     });
 
+    // expiry screen
+    $('#expiry_report').click(function(){
+        reports.expiryScreen()
+    });
+
 
 
 

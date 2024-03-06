@@ -17,7 +17,7 @@
             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
 
                 <!-- EXIT -->
-                <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="btn btn-primary btn-sm mr-1">
+                <button onclick="set_session(['sub_module=receiving','action=view'])" title="Inventory Master" type="button" class="btn btn-primary btn-sm mr-1">
                     <i class="fa fa-home"></i>
                 </button>
 

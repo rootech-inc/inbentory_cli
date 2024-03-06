@@ -84,6 +84,21 @@ function handleViewRequest($module,$data)
         (new \API\ApiResponse())->success(json_decode("OKAY"));
     }
 
+    else if($module === 'report'){
+        $type = $data['type'];
+
+        if($type === 'expiry'){
+            $as_of = isset($data['as_of']) ? $data['as_of'] : date('Y-m-d');
+            $loc_id = isset($data['loc_id']) ? $data['loc_id'] : '*';
+            $db= (new \db_handeer\db_handler());
+            
+            // get expiry as of
+            $expiries = $db->db_connect()->exec("CALL CheckStockExpiry('$loc_id', '$as_of');");
+
+
+        }
+    }
+
 
 }
 
@@ -326,6 +341,9 @@ function handlePostRequest($module, $data,$crud)
 
                 // update po header
                 $po_hd = "UPDATE po_hd SET status = 1 where doc_no = '$refDoc'";
+                // update document transactions
+                $grn_doc_tran = "insert into doc_trans (doc_type, entry_no, trans_func, created_by) values ('GRN','$entry_no','ADD','$created_by')";
+                $db->db_connect()->exec($grn_doc_tran);
                 $db->db_connect()->exec($po_hd);
 
                 //$db->db_connect()->commit();

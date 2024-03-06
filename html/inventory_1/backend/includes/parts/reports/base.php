@@ -33,6 +33,7 @@
                         <button id="eod" class="master_button btn btn-danger m-2 p-1 pointer">EOD</button>
                         <button id="item_availability" class="master_button btn btn-danger m-2 p-1 pointer">AVAILABILITY</button>
                         <button onclick="set_session(['module=reports','sub_module=sales_report'])" id="sales_report" class="master_button btn btn-danger m-2 p-1 pointer">DAILY SALES</button>
+                        <button  id="expiry_report" class="master_button btn btn-danger m-2 p-1 pointer">EXPIRY REPORT</button>
 
                     </article>
                 </div>

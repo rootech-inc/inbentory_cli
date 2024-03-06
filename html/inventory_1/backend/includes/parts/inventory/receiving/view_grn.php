@@ -29,7 +29,7 @@
             <div class="w-50 d-flex flex-wrap align-content-center pl-2 h-100 overflow-hidden">
 
                 <!-- EXIT -->
-                <button onclick="set_session('sub_module=inventory')" title="Inventory Master" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                <button onclick="set_session(['sub_module=receiving','action=view'])" title="Inventory Master" type="button" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
                     <img
                             src="assets/icons/inventory/inventory_home.png"
                             class="img-fluid"
@@ -214,41 +214,35 @@
             </div>
 
             <!--Bottom-->
-            <div class="w-100 h-60 overflow-hidden prod_button">
+            <div class="w-100 h-60 overflow-hidden ant-bg-light">
 
                 <table class="table table-sm table-striped">
-                    <thead class="thead-light">
+                    <thead class="thead-dark">
                         <tr>
                             <th class="text_xs">SN</th>
                             <th class="text_xs">Barcode</th>
                             <th class="text_xs">Description</th>
-                            <th class="text_xs">Pack ID</th>
-                            <th class="text_xs">Packing</th>
                             <th class="text_xs">Qty</th>
                             <th class="text_xs">Price</th>
-                            <th class="text_xs">Inv Amount</th>
-                            <th class="text_xs">Tax Amt</th>
-                            <th class="text_xs">Net Amt</th>
-                            <th class="text_xs">Cost</th>
-                            <th class="text_xs">Retail</th>
+                            <th class="text_xs">Total</th>
                         </tr>
                     </thead>
                     <tbody id="grn_items_list">
-                        <tr>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-                            <td class='text_xs'>Text</td>
-
-                        </tr>
+<!--                        <tr>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!--                            <td class='text_xs'>Text</td>-->
+<!---->
+<!--                        </tr>-->
                     </tbody>
                 </table>
 
