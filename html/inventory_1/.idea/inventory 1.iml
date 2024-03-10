@@ -17,6 +17,8 @@
       <sourceFolder url="file://$MODULE_DIR$/escpos_old/src/Mike42" isTestSource="false" packagePrefix="Mike42\" />
       <sourceFolder url="file://$MODULE_DIR$/escpos_old/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/escpos_old/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/integration" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/unit" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php" />

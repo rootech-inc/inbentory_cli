@@ -120,6 +120,36 @@
             gb();
         }
 
+        ## login with pin
+        if(isset($_POST['pin'])){
+            require '../includes/core.php';
+            $pin = $anton->post('pin');
+            $db = (new \db_handeer\db_handler());
+            $response = array(
+                'status_code'=>0,'message'=>'none'
+            );
+            ## check if pin exist
+            if($db->row_count('clerk',"`pin` = '$pin'") === 1){
+                // login
+                $account = $db->get_rows('clerk',"`pin` = '$pin'");
+
+                $id = $account['id'];
+                $clerk_code = $account['clerk_code'];
+                $clerk_db_key = $account['clerk_key'];
+                $session_id = md5($clerk_code.$clerk_db_key.date("Y-m-d H:i:s"));
+                $anton->set_session(['cli_login=true',"clerk_id=$id",'module=home']);
+
+
+                $response['status_code'] = 200;
+                $response['message'] = "Login Successful";
+            } else {
+                $response['status_code'] = 404;
+                $response['message'] = "Invalid Pin";
+            }
+
+            echo json_encode($response);
+        }
+
         ## master authenticate
         if(isset($_POST['master_auth']) && isset($_GET['mod']))
         {

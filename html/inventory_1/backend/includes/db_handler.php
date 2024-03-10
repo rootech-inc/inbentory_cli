@@ -72,6 +72,8 @@ class db_handler
         //$this->db_connect()->commit();
     }
 
+    // get last row
+
     function row_count($table,$condition='none'): int // row count of a table
     {
 

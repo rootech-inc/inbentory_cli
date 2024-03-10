@@ -1750,7 +1750,7 @@ pre code {
 }
 
 .table-responsive>.table-bordered {
-    border: 0
+    border: 1
 }
 
 .form-control {

@@ -369,6 +369,10 @@ input[type=number] {
     font-size: x-small;
 }
 
+.text_sm{
+    font-size: small;
+}
+
 
 
 

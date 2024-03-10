@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMHOS - CLI</title>
+    <title>VENTA</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/keyboard.css">
-    <link rel="icon" type="image/png" href="/assets/logo/logo.ico">
+    <link rel="icon" type="image/png" href="/assets/logo/venta.png">
 
 
     <script src="/js/jquery.min.js"></script>
@@ -65,7 +65,9 @@
 <!--            </div>-->
             <div class="h-100 col-sm-5 overflow-hidden border border-light d-flex flex-wrap justify-content-center align-content-center">
 <!--                <div class="w-100 text-center mb-2 text-primary"><h1>SHOP FLOW v0.1</h1></div>-->
-
+                <div class="w-100 text-center">
+                    <img src="/assets/logo/venta.png" style="width:50px" alt="" class="img-fluid mb-2">
+                </div>
                 <div class="form-group w-100">
                     <input type="password" autofocus id="user_token" maxlength="4" name="user_token" class="form-control rounded-0 w-100 p-5 text_xx text-center">
                 </div>
@@ -95,7 +97,30 @@
     function auth(){
         let input = $('#user_token').val();
         if(anton.validateInputs(['user_token'])){
-            kasa.success(input)
+
+            let formData = {
+                pin:input
+            };
+            $.ajax({
+                type: 'POST',
+                url: '/backend/process/user_mgmt.php',
+                data: formData,
+                success: function (response){
+                    console.log(response)
+                    if(isJson(response)){
+                        let resp = JSON.parse(response)
+
+                        let code = resp['status_code'];
+                        if(code === 200){
+                            location.href = '/'
+                        } else {
+                            alert(resp['message'])
+                        }
+                    } else {
+                        kasa.error("Invalid Response")
+                    }
+                }
+            });
             $('#user_token').val('')
         } else {
             kasa.error("Provide Token")

@@ -15,6 +15,10 @@ error_reporting(E_ALL);
     require 'backend/includes/core.php';
     (new \mechconfig\MechConfig)->validate_device();
 
+    if(!isset($_SESSION['cli_login']) && $_SESSION['cli_login'] !== 'true'){
+        header('Location:/login/');
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,12 +26,12 @@ error_reporting(E_ALL);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMHOS - CLI</title>
+    <title>VENTA</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/keyboard.css">
-    <link rel="icon" type="image/png" href="/assets/logo/logo.ico">
+    <link rel="icon" type="image/png" href="/assets/logo/venta.png">
 
 
     <script src="/js/jquery.min.js"></script>
@@ -472,10 +476,29 @@ error_reporting(E_ALL);
                     include 'backend/includes/parts/reports/reports.php';
                 }
 
+
+                elseif ($module === 'backoffice'){
+                    $db = (new \db_handeer\db_handler());
+
+                    if($action === 'new'){
+                        // get locations
+                        $loc_q = "SELECT id,loc_id,loc_desc FROM loc";
+                        $locs = $db->db_connect()->query($loc_q);
+
+                        // customers
+                        $cust_query = "select customer_id,CONCAT(first_name,' ', last_name) as 'name' from customers order by first_name";
+                        $customers  = $db->db_connect()->query($cust_query);
+                    }
+
+                    include 'backend/includes/parts/backoffice/index.html';
+                }
+
             ?>
         </main>
     <?php }
-    else {  ?>
+    else {   ?>
+
+
 
 
         <main class="card w-100 grade_danger overflow-hidden">

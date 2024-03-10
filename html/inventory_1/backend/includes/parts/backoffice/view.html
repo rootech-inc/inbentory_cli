@@ -1,0 +1,196 @@
+<div class="w-100 h-100 bg-light card">
+    <div class="card-header">
+        <div class="w-100 d-flex flex-wrap">
+            <div class="w-50">
+                <button id="new" class="btn btn-info btn-sm mr-1">
+                    <i class="fa fa-plus-square"></i>
+                </button>
+                <button class="btn btn-warning btn-sm mr-1">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm mr-1">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+
+            <div class="w-50 justify-content-end d-flex flex-wrap">
+                <button class="btn btn-outline-primary btn-sm mr-1">
+                    <i class="fa fa-print"></i>
+                </button>
+                <button class="btn btn-outline-success btn-sm mr-1">
+                    <i class="fa fa-check"></i>
+                </button>
+                <button class="btn btn-outline-info btn-sm mr-1">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="h-100 overflow-hidden">
+            <!-- HEADER -->
+            <div class="container-fluid p-3 bg-primary h-30">
+                <div class="row h-100 overflow-auto">
+                    <div class="col-sm-4">
+                        <!-- ENTRY NUMBER -->
+                        <div class="row mb-2">
+                            <label for="ent_no" class="col-sm-4"><strong>Entry N0.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="ent_no"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- LOCATION -->
+                        <div class="row  mb-2">
+                            <label for="loc_id" class="col-sm-4"><strong>Location</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="loc_id"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- CUSTOMER -->
+                        <div class="row  mb-2">
+                            <label for="customer" class="col-sm-4"><strong>Customer</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="customer"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- REMARKS -->
+                        <div class="row mb-2">
+                            <label for="remarks" class="col-sm-4"><strong>Remarks</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="remarks"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- TAXABLE -->
+                        <div class="row mb-2">
+                            <label for="taxable" class="col-sm-4"><strong>Taxable</strong></label>
+                            <div class="col-sm-8">
+                                <select id="taxable"
+                                        class="form-control rounded-0 form-control-sm">
+                                    <option value="1">YES</option>
+                                    <option value='0'>NO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Issue Date -->
+                        <div class="row mb-2">
+                            <label for="issue_date" class="col-sm-4"><strong>Issue Date</strong></label>
+                            <div class="col-sm-8">
+                                <input type="date" id="issue_date"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- Due Date -->
+                        <div class="row mb-2">
+                            <label for="due_date" class="col-sm-4"><strong>Due Date</strong></label>
+                            <div class="col-sm-8">
+                                <input type="date" id="due_date"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- Due Date -->
+                        <div class="row mb-2">
+                            <label for="days_in_due" class="col-sm-4"><strong>Days Due</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="days_in_due"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- NET AMOUNT -->
+                        <div class="row mb-2">
+                            <label for="net_amt" class="col-sm-4"><strong>Net Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="net_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- TAX -->
+                        <div class="row mb-2">
+                            <label for="tax_amt" class="col-sm-4"><strong>Tax Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="tax_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                        <!-- Other Cost -->
+                        <div class="row mb-2">
+                            <label for="other_cost" class="col-sm-4"><strong>Cost.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="other_cost"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- GROSS -->
+                        <div class="row mb-2">
+                            <label for="gross_amt" class="col-sm-4"><strong>Gross.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="gross_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--BODY -->
+            <div class="w-100 h-70 table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>SN</th>
+                        <th>Barcode</th>
+                        <th>Description</th>
+                        <th>Packing</th>
+                        <th>Unit Cost</th>
+                        <th>Net Cost</th>
+                        <th>Tax</th>
+                        <th>Gross</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr id="row_1">
+                        <td>1</td>
+                        <td>barcode</td>
+                        <td>item name</td>
+                        <td>CTN</td>
+                        <td>1</td>
+                        <td>80</td>
+                        <td>20</td>
+                        <td>100</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function(){
+        //new entry
+        $('#new').click(function(){
+            set_session(['action=new']);
+        });
+    });
+</script>

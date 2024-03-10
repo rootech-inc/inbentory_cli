@@ -311,10 +311,26 @@ class Reports {
         Swal.fire({
             title: "ITEM AVAILABILITY AS OF",
             html: `<div class="w-100 d-flex flex-wrap justify-content-between">
-                    <select name="loc_id" id="loc_id" class="form-control w-45 rounded-0">
-                    ${lopt}
-                    </select>
-                    <input type="date" name="as_of" id="as_of" class="form-control w-45">
+                        <div class="w-30 text-left">
+                            <label for="loc_id">LOCATION</label>
+                            <select name="loc_id" id="loc_id" class="form-control w-100 rounded-0">
+                            ${lopt}
+                            </select>
+                        </div>
+                        <div class="w-30 text-left">
+                            <label for="stock_level">LEVEL</label>
+                            <select name="stock_level" id="stock_level" class="form-control w-100 rounded-0">
+                                <option value="1">Stock Only</option>
+                                <option value="0">All</option>
+                            </select>
+                        </div>
+                        
+                        <div class="w-30 text-left">
+                            <label for="as_of">AS OF DATE</label>
+                            <input type="date" name="as_of" id="as_of" class="form-control w-30">
+                        </div>
+                    
+                    
                   </div>`,
             showDenyButton: false,
             showCancelButton: true,
@@ -323,11 +339,12 @@ class Reports {
                 // get values of form
                 let loc_id = $('#loc_id').val();
                 let as_of = $('#as_of').val();
+                let stock_level = $('#stock_level').val()
                 let tr = '';
 
                 if (res === 'modal') {
 
-                    let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}')`)
+                    let availability = FETCH(`CALL item_availability('${loc_id}','${as_of}','${stock_level}')`)
                     for (let r = 0; r < availability.length; r++) {
                         let barcode, name, stock;
 

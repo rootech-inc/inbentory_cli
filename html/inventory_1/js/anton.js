@@ -2106,6 +2106,18 @@ class Anton {
             console.log(`${but} is disabled`)
         }
     }
+
+    treatAsUTC(date) {
+        var result = new Date(date);
+        result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+        return result;
+    }
+    daysBetween(startDate,endDate) {
+
+
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        return (this.treatAsUTC(endDate) - this.treatAsUTC(startDate)) / millisecondsPerDay;
+    }
 }
 
 const anton = new Anton()
