@@ -23,14 +23,14 @@
             </div>
 
             <div class="w-50 justify-content-end d-flex flex-wrap">
-                <input onkeydown="charm()" placeholder="entry number" style="width: 150px" type="search" id="charm" class="form-control rounded-0 form-control-sm">
+                <input onkeydown="charm()" placeholder="entry number" style="width: 150px; display: none" type="search" id="charm" class="form-control rounded-0 form-control-sm">
                 <button id="print" class="btn btn-outline-primary btn-sm mr-1">
                     <i class="fa fa-print"></i>
                 </button>
                 <button disabled id="approve" class="btn btn-outline-success btn-sm mr-1">
                     <i class="fa fa-check"></i>
                 </button>
-                <button class="btn btn-outline-info btn-sm mr-1">
+                <button id="search" class="btn btn-outline-info btn-sm mr-1">
                     <i class="fa fa-search"></i>
                 </button>
                 <button title="pending" id="pending" class="btn btn-outline-info btn-sm mr-1">
@@ -435,6 +435,11 @@
         // view pending
         $('#pending').click(function (){
             pending()
+        });
+
+        $('#search').click(function(){
+            $('#charm').fadeIn(100)
+            $('#charm').prop('focused',true)
         });
 
 
