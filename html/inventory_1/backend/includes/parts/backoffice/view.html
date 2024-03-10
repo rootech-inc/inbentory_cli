@@ -2,26 +2,38 @@
     <div class="card-header">
         <div class="w-100 d-flex flex-wrap">
             <div class="w-50">
-                <button id="new" class="btn btn-info btn-sm mr-1">
+                <button id="new" class="btn btn-primary btn-sm mr-1">
                     <i class="fa fa-plus-square"></i>
                 </button>
                 <button class="btn btn-warning btn-sm mr-1">
                     <i class="fa fa-edit"></i>
                 </button>
-                <button class="btn btn-danger btn-sm mr-1">
+                <button id="delete" class="btn btn-danger btn-sm mr-1">
                     <i class="fa fa-trash"></i>
                 </button>
+
+                <button disabled id="previous" class="btn btn-info btn-sm mr-1">
+                    <i class="fa fa-backward"></i>
+                </button>
+
+                <button disabled id="next" class="btn btn-info btn-sm mr-1">
+                    <i class="fa fa-forward"></i>
+                </button>
+
             </div>
 
             <div class="w-50 justify-content-end d-flex flex-wrap">
-                <button class="btn btn-outline-primary btn-sm mr-1">
+                <button id="print" class="btn btn-outline-primary btn-sm mr-1">
                     <i class="fa fa-print"></i>
                 </button>
-                <button class="btn btn-outline-success btn-sm mr-1">
+                <button disabled id="approve" class="btn btn-outline-success btn-sm mr-1">
                     <i class="fa fa-check"></i>
                 </button>
                 <button class="btn btn-outline-info btn-sm mr-1">
                     <i class="fa fa-search"></i>
+                </button>
+                <button title="pending" id="pending" class="btn btn-outline-info btn-sm mr-1">
+                    <i class="fa fa-question"></i>
                 </button>
             </div>
         </div>
@@ -37,7 +49,7 @@
                         <div class="row mb-2">
                             <label for="ent_no" class="col-sm-4"><strong>Entry N0.</strong></label>
                             <div class="col-sm-8">
-                                <input type="text" id="ent_no"
+                                <input readonly value="<?php echo $last ?>" type="text" id="ent_no"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
@@ -74,29 +86,29 @@
                         <!-- TAXABLE -->
                         <div class="row mb-2">
                             <label for="taxable" class="col-sm-4"><strong>Taxable</strong></label>
-                            <div class="col-sm-8">
-                                <select id="taxable"
-                                        class="form-control rounded-0 form-control-sm">
-                                    <option value="1">YES</option>
-                                    <option value='0'>NO</option>
-                                </select>
+                            <div class="col-sm-3">
+                                <input type="text" id="taxable" readonly
+                                       class="form-control text-center rounded-0 form-control-sm">
+                            </div>
+                            <div class="col-sm-5" id="status">
+                                <kbd class="badge badge-warning">PENDING</kbd>
                             </div>
                         </div>
 
                         <!-- Issue Date -->
                         <div class="row mb-2">
-                            <label for="issue_date" class="col-sm-4"><strong>Issue Date</strong></label>
+                            <label for="issue_date" class="col-sm-4"><strong>Date</strong></label>
                             <div class="col-sm-8">
-                                <input type="date" id="issue_date"
+                                <input disabled type="text" id="issue_date"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
 
                         <!-- Due Date -->
                         <div class="row mb-2">
-                            <label for="due_date" class="col-sm-4"><strong>Due Date</strong></label>
+                            <label for="due_date" class="col-sm-4"><strong>To</strong></label>
                             <div class="col-sm-8">
-                                <input type="date" id="due_date"
+                                <input type="text" readonly id="due_date"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
@@ -104,9 +116,9 @@
                         <!-- Due Date -->
                         <div class="row mb-2">
                             <label for="days_in_due" class="col-sm-4"><strong>Days Due</strong></label>
-                            <div class="col-sm-8">
-                                <input type="number" id="days_in_due"
-                                       class="form-control rounded-0 form-control-sm">
+                            <div class="col-sm-3">
+                                <input readonly type="number" id="days_in_due"
+                                       class="form-control text-center rounded-0 form-control-sm">
                             </div>
                         </div>
 
@@ -161,23 +173,15 @@
                         <th>Barcode</th>
                         <th>Description</th>
                         <th>Packing</th>
+                        <th>Quantity</th>
                         <th>Unit Cost</th>
                         <th>Net Cost</th>
                         <th>Tax</th>
                         <th>Gross</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    <tr id="row_1">
-                        <td>1</td>
-                        <td>barcode</td>
-                        <td>item name</td>
-                        <td>CTN</td>
-                        <td>1</td>
-                        <td>80</td>
-                        <td>20</td>
-                        <td>100</td>
-                    </tr>
+                    <tbody id="table_body">
+
                     </tbody>
                 </table>
             </div>
@@ -187,10 +191,241 @@
 </div>
 
 <script>
+
+    let next = 0;
+    let previous = 0;
+
+    function loadProfoma(entry_no){
+        $("body").css("cursor",'wait')
+        // check if entry exist
+        if(row_count('prof_hd',`entry_no = '${entry_no}'`) === 1){
+
+            // get hd
+            let hd = get_row("prof_hd",`entry_no = '${entry_no}'`);
+            let trans = get_row('prof_tran',`entry_no = '${entry_no}'`);
+
+            // fill header values
+            if(isJson(hd)){
+                let header = JSON.parse(hd)[0];
+                let pk = header['id'];
+                $('#ent_no').val(header['entry_no']);
+                $('#loc_id').val(header['loc_id']);
+                $('#customer').val(header['customer']);
+                $('#remarks').val(header['remarks']);
+                $('#taxable').val(header['taxable']);
+                $('#issue_date').val(header['iss_date']);
+                $('#due_date').val(header['due_date']);
+                $('#days_in_due').val(
+                    anton.daysBetween(header['iss_date'],header['due_date'])
+                );
+                $('#net_amt').val(header['net_amt']);
+                $('#tax_amt').val(header['tax_amt']);
+                $('#other_cost').val(header['other_cost']);
+                $('#gross_amt').val(header['gross_amt'])
+
+                // check next previous
+                console.log(pk)
+
+                let next_count = row_count('prof_hd',`id > '${pk}'`);
+                let prev_count = row_count('prof_hd',`id < '${pk}'`);
+
+                // handle status
+                if(header['valid'] === 1){
+                    // check status
+                    if(header['approved'] === 1){
+                        $('#approve').prop('disabled',true)
+                        $('#status').html(`<kbd class="badge badge-success">Approved</kbd>`)
+                        $('#delete').prop('disabled',true)
+                    } else {
+                        $('#approve').prop('disabled',false)
+                        $('#status').html(`<kbd class="badge badge-warning">PENDING</kbd>`)
+                        $('#delete').prop('disabled',false)
+                    }
+                } else {
+                    $('#approve').prop('disabled',true)
+                    $('#delete').prop('disabled',true)
+                    $('#status').html(`<kbd class="badge bg-danger">Deleted</kbd>`)
+                }
+
+                echo(`Next count is ${next_count}`);
+                echo(`Prev count is ${prev_count}`)
+
+                if(next_count > 0){
+                    next = JSON.parse(
+                        fetch_rows(`SELECT entry_no from prof_hd where id > ${pk} limit  1`)
+                    )[0]['entry_no']
+                    $('#next').prop('disabled',false)
+                } else {
+                    $('#next').prop('disabled',true)
+                }
+
+                if(prev_count > 0){
+                    $('#previous').prop('disabled',false)
+                    // get previous document
+                    previous = JSON.parse(
+                        fetch_rows(`SELECT entry_no from prof_hd where id < ${pk} order by id desc limit  1`)
+                    )[0]['entry_no'];
+                } else {
+                    $('#previous').prop('disabled',true)
+                }
+
+                // go for transactions
+                if(isJson(trans)){
+                    let transactions = JSON.parse(trans);
+                    let tr = "";
+                    if(header['valid'] === 1) {
+                        for (let t = 0; t < transactions.length; t++) {
+                            let row = transactions[t];
+
+                            tr += `
+                            <tr id="row_${row['line']}">
+                            <td>${row['line_no']}</td>
+                            <td>${row['barcode']}</td>
+                            <td>${row['item_desc']}</td>
+                            <td>${row['packing']}</td>
+                            <td>${row['tran_qty']}</td>
+                            <td>${row['unit_cost']}</td>
+                            <td>${row['net_cost']}</td>
+                            <td>${row['tax_amt']}</td>
+                            <td>${row['gross_amt']}</td>
+                        </tr>
+                        `;
+                        }
+                    }
+
+                    $('#table_body').html(tr);
+                }
+            }
+
+        } else {
+            kasa.error(`Entry Does Not Exist`)
+        }
+        $("body").css("cursor",'default')
+    }
+
+    function pending(){
+        let q = "SELECT * FROM prof_hd right join customers cs on prof_hd.customer = cs.customer_id where valid = 1 and approved = 0";
+        let result = fetch_rows(q);
+
+        if(isJson(result)){
+            let trans = JSON.parse(result);
+            let htm = "No Records"
+            let rows = trans.length;
+            if(rows > 0){
+                let tr = "";
+                for(let x = 0; x < rows; x++){
+                    let row = trans[x];
+                    console.table(row)
+                    let td = yyyy + '-' + mm + '-' + dd;
+                    let dx = anton.daysBetween(td,row['due_date'])
+                    tr += `
+                        <tr><td>${row['first_name']} ${row['last_name']}</td><td>${row['entry_no']}</td><td>${row['date_created']}</td><td>${row['gross_amt']}</td><td>${dx}</td></tr>
+                    `;
+                }
+
+                htm = `
+
+                    <table class="table table-sm"><thead class="bg-dark"><tr><th>CUSTOMER</th><th>ENTRY</th><th>DATE</th><th>GROSS</th><th>DUE IN DAYS</th></tr></thead><tbody>${tr}</tbody></table>
+
+                `;
+            }
+            mpop.setBody(htm);
+            mpop.setTitle("Pending Proforma");
+            mpop.setSize('lg')
+            mpop.show()
+        } else {
+            kasa.error("Invalid Response")
+        }
+    }
+
     $(document).ready(function(){
         //new entry
         $('#new').click(function(){
             set_session(['action=new']);
+        });
+
+        // load stuffs
+        loadProfoma(`<?php echo $last ?>`)
+
+        $('#previous').click(function(){
+            loadProfoma(previous)
+        });
+
+        $('#next').click(function(){
+            loadProfoma(next)
+        });
+
+        // approve
+        $('#approve').click(function(){
+            swal.fire({
+
+                text: "Are you sure that you want to approve document?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let entry = $('#ent_no').val();
+                    let query = `UPDATE prof_hd set approved = 1 where entry_no = '${entry}'`;
+                    kasa.info(exec(query)['message']);
+                    loadProfoma(entry)
+                }
+            });
+
+        });
+
+        // print
+        $('#print').click(function(){
+            let formData = {
+                'doc':'profoma',
+                'entry':$('#ent_no').val()
+            };
+
+            $.ajax({
+                url:'/backend/process/form-processing/doc_print.php',
+                type:'POST',
+                data:formData,
+                success:function(response){
+                    console.log(response)
+                    if(isJson(response)){
+                        let resp = JSON.parse(response);
+                        console.table(resp)
+                        mpop.setBody(`
+                            <embed src="/backend/process/form-processing/${resp['message']}" style="width:100%" type="application/pdf" />
+                        `);
+                        mpop.show()
+                    } else {
+                        kasa.error("Invalid Response")
+                    }
+                }
+            });
+        });
+
+        // DELETE
+        $('#delete').click(function(){
+            swal.fire({
+
+                text: "Are you sure that you want to delete document?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let entry = $('#ent_no').val();
+                    let query = `UPDATE prof_hd set valid = 0 where entry_no = '${entry}'`;
+                    kasa.info(exec(query)['message']);
+                    loadProfoma(entry)
+                }
+            });
+        });
+
+        // view pending
+        $('#pending').click(function (){
+            pending()
         });
     });
 </script>

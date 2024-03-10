@@ -45,6 +45,8 @@ error_reporting(E_ALL);
     <script src="/js/classes/inventory.js"></script>
     <script src="/js/classes/screen.js"></script>
 
+
+
     <script src="/js/sweetalert2@11.js"></script>
 
     <link rel="stylesheet" href="/css/sweetalert.min.css">
@@ -618,6 +620,7 @@ error_reporting(E_ALL);
     dragElement(document.getElementById("numericKeyboard"))
     loader('hide')
 </script>
+
 
 
 

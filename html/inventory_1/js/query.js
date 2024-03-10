@@ -7,7 +7,7 @@ function row_count(table, condition = 'none') {
 
  
 
-    //echo("SELECT * FROM "+table+" WHERE "+condition)
+    echo("SELECT * FROM "+table+" WHERE "+condition)
 
     var result = 0;
     
@@ -127,7 +127,7 @@ function get_row(table, condition) {
             data: form_data,
             success: function (response) {
                 result = response;
-                //echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
+                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
 
             }
         }

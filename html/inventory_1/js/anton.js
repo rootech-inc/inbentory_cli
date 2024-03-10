@@ -26,7 +26,7 @@ function s_response(icon = 'info',title = '',message = '') {
 
 // date
 const today = new Date();
-const dd = String(today.getDate()).padStart(2, '0');
+let dd = String(today.getDate()).padStart(2, '0');
 const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 const hh = String(today.getHours())
 const mmm = String(today.getMinutes())

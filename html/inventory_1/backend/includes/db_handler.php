@@ -73,7 +73,11 @@ class db_handler
     }
 
     // get last row
-
+    function last_entry($table,$order){
+        $query = "SELECT * FROM $table order by $order desc limit 1";
+        $stmt = $this->db_connect()->query($query);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
     function row_count($table,$condition='none'): int // row count of a table
     {
 

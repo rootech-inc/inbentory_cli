@@ -577,9 +577,9 @@ function loadIssueDays(){
                         let entry_no = `PF${ent_no}`;
 
                         // insert into header
-                        let hd_query = `INSERT INTO prof_hd (entry_no, loc_id, customer, remarks, iss_date, due_date, created_by,net_amt,tax_amt,other_cost,gross_amt)
+                        let hd_query = `INSERT INTO prof_hd (entry_no, loc_id, customer, remarks, iss_date, due_date, created_by,net_amt,tax_amt,other_cost,gross_amt,taxable)
                                                     VALUES ('${entry_no}','${header['loc_id']}','${header['customer']}',
-                                                            '${header['remarks']}','${header['issue_date']}','${header['due_date']}','${user_id}','${header['net_amt']}','${header['tax_amt']}','${header['other_cost']}','${header['gross_amt']}')`;
+                                                            '${header['remarks']}','${header['issue_date']}','${header['due_date']}','${user_id}','${header['net_amt']}','${header['tax_amt']}','${header['other_cost']}','${header['gross_amt']}','${header['taxable']}')`;
 
                         let hd_save = exec(hd_query);
                         if(hd_save['code'] !== 500){
@@ -591,10 +591,11 @@ function loadIssueDays(){
                                 let row_qry = `
                                     INSERT INTO prof_tran(entry_no, line_no, barcode, item_desc, packing, pack_qty, tran_qty, unit_cost, net_cost, tax_amt, gross_amt) values
                                                         ('${entry_no}','${tr['line']}','${tr['barcode']}','${tr['name']}',
-                                                         '${tr['pack_desc']}','${tr['pack_qty']}','${tr['qty']}','${tr['unit_cost']}','${tr['net_cost']}','${tr['tax']},'${tr['gross']}'')
+                                                         '${tr['pack_desc']}','${tr['pack_qty']}','${tr['qty']}','${tr['unit_cost']}','${tr['net_cost']}','${tr['tax']}','${tr['gross']}')
                                 `;
 
                                 exec(row_qry)
+                                console.log(row_qry)
 
                             }
 
