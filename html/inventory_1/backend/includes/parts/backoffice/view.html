@@ -23,6 +23,7 @@
             </div>
 
             <div class="w-50 justify-content-end d-flex flex-wrap">
+                <input onkeydown="charm()" placeholder="entry number" style="width: 150px" type="search" id="charm" class="form-control rounded-0 form-control-sm">
                 <button id="print" class="btn btn-outline-primary btn-sm mr-1">
                     <i class="fa fa-print"></i>
                 </button>
@@ -338,6 +339,14 @@
         }
     }
 
+    // func charm
+    function charm(){
+        if(this.event.key === 'Enter'){
+            let va = $('#charm').val();
+            loadProfoma(va)
+        }
+    }
+
     $(document).ready(function(){
         //new entry
         $('#new').click(function(){
@@ -427,5 +436,7 @@
         $('#pending').click(function (){
             pending()
         });
+
+
     });
 </script>
