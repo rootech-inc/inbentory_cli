@@ -14,7 +14,7 @@
                         <article class="d-flex flex-wrap align-content-start overflow-auto">
 
                             <button onclick="set_session(['sub_module=proforma','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Proforma Invoice</p></button>
-                            <button onclick="set_session(['sub_module=products','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Sales Invoice</p></button>
+                            <button onclick="set_session(['sub_module=sales_invoice','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Sales Invoice</p></button>
                             <button onclick="set_session(['sub_module=purchasing','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Reports</p></button>
                             <button onclick="set_session(['sub_module=receiving','action=view'])" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Receive</p></button>
                             <button onclick="download_products()" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Download</p></button>
@@ -24,33 +24,62 @@
                     </div>
                 <?php endif; ?>
 
-                <?php if($sub_module === 'proforma'): ?>
+
 
                     <?php
+                        if($sub_module === 'proforma'){
+                            if($action === 'view') {
+                                // check for existing data
+                                if($db->row_count('prof_hd','none') > 0){
+                                    // get last entry
+                                    $last = $db->last_entry('prof_hd','entry_no')['entry_no'];
 
-                        if($action === 'view') {
-                            // check for existing data
-                            if($db->row_count('prof_hd','none') > 0){
-                                // get last entry
-                                $last = $db->last_entry('prof_hd','entry_no')['entry_no'];
+                                } else {
+                                    // set session
+                                    $anton->set_session(['action=new']);
+                                    echo "<script>location.reload()</script>";
+                                }
+                                require 'backend/includes/parts/backoffice/view.html';
+                            }
+                            elseif($action === 'new'){
+                                // validate entry
+
+                                require 'backend/includes/parts/backoffice/new.html';
+                            }
+                             else {
+                                echo "No configurations for $action";
+                            }
+
+                        }
+                        elseif($sub_module === 'sales_invoice'){
+                            if($action === 'view'){
+                                // validate entries
+                                    if($db->row_count('invoice_hd','none') > 0){
+                                    // get last entry
+                                    $last = $db->last_entry('invoice_hd','entry_no')['entry_no'];
+
 
                             } else {
-                                // set session
-                                $anton->set_session(['action=new']);
-                                echo "<script>location.reload()</script>";
+                                    // set session
+                                    $anton->set_session(['action=new']);
+                                    echo "<script>location.reload()</script>";
                             }
-                            require 'backend/includes/parts/backoffice/view.html';
+                                require 'backend/includes/parts/backoffice/sales/view.html';
+                            } elseif($action === 'new'){
+                                require 'backend/includes/parts/backoffice/sales/new.html';
+                            }
+                            else
+                            {
+                                echo "No configurations for $action";
+                            }
                         }
-                        elseif($action === 'new'){
-                            require 'backend/includes/parts/backoffice/new.html';
-                        }
-                         else {
-                            echo "No configurations for $action";
+                        else {
+                            echo "<div class='alert w-25 alert-danger'>
+                                <p>No View Configuration for $sub_module</p>
+                            </div>";
                         }
 
                     ?>
-
-                <?php endif; ?>
 
             </div>
 

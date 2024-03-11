@@ -1,0 +1,353 @@
+<div class="w-100 h-100 bg-light card">
+    <div class="card-header">
+        <div class="w-100 d-flex justify-content-between flex-wrap">
+            <div class="w-30">
+                <button id="new" class="btn btn-success btn-sm mr-1">
+                    <i class="fa fa-save"></i>
+                </button>
+                <button id="cancel" class="btn btn-warning btn-sm mr-1">
+                    <i class="fa fa-backward"></i>
+                </button>
+
+
+            </div>
+
+            <div class="w-30 text-center text-dark"><strong class="card-title">CREATING SALES INVOICE</strong></div>
+
+            <div class="w-30 justify-content-end d-flex flex-wrap">
+                <input onkeydown="charm()" placeholder="entry number" style="width: 150px; display: none" type="search" id="charm" class="form-control rounded-0 form-control-sm">
+                <button id="print" class="btn btn-outline-primary btn-sm mr-1">
+                    <i class="fa fa-print"></i>
+                </button>
+                <button disabled id="approve" class="btn btn-outline-success btn-sm mr-1">
+                    <i class="fa fa-check"></i>
+                </button>
+                <button id="search" class="btn btn-outline-info btn-sm mr-1">
+                    <i class="fa fa-search"></i>
+                </button>
+                <button title="pending" id="pending" class="btn btn-outline-info btn-sm mr-1">
+                    <i class="fa fa-question"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="h-100 overflow-hidden">
+            <!-- HEADER -->
+            <div class="container-fluid p-3 bg-primary h-30">
+                <div class="row h-100 overflow-auto">
+                    <div class="col-sm-4">
+                        <!-- ENTRY NUMBER -->
+                        <div class="row mb-2">
+                            <label for="ent_no" class="col-sm-4"><strong>Entry N0.</strong></label>
+                            <div class="col-sm-8">
+                                <input readonly value="" type="text" id="ent_no"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- TYPE -->
+                        <div class="row  mb-2">
+                            <label for="type" class="col-sm-4"><strong>Type</strong></label>
+                            <div class="col-sm-4">
+                                <select id="type" class="form-control rounded-0 form-control-sm">
+                                    <option value="0">Direct</option>
+                                    <option value="1">Proforma</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input type="text" readonly value="none" disabled id="ref_no"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- LOCATION -->
+                        <div class="row  mb-2">
+                            <label for="loc_id" class="col-sm-4"><strong>Location</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="loc_id"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- CUSTOMER -->
+                        <div class="row  mb-2">
+                            <label for="customer" class="col-sm-4"><strong>Customer</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="customer"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- TAXABLE -->
+                        <div class="row mb-2">
+                            <label for="taxable" class="col-sm-4"><strong>Taxable</strong></label>
+                            <div class="col-sm-3">
+                                <input type="text" id="taxable" readonly
+                                       class="form-control text-center rounded-0 form-control-sm">
+                            </div>
+                            <div class="col-sm-5" id="status">
+                                <kbd class="badge badge-warning">PENDING</kbd>
+                            </div>
+                        </div>
+
+                        <!-- REMARKS -->
+                        <div class="row mb-2">
+                            <label for="remarks" class="col-sm-4"><strong>Remarks</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="remarks"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- NET AMOUNT -->
+                        <div class="row mb-2">
+                            <label for="net_amt" class="col-sm-4"><strong>Net Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="net_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- TAX -->
+                        <div class="row mb-2">
+                            <label for="tax_amt" class="col-sm-4"><strong>Tax Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="tax_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                        <!-- Other Cost -->
+                        <div class="row mb-2">
+                            <label for="other_cost" class="col-sm-4"><strong>Cost.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="other_cost"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- GROSS -->
+                        <div class="row mb-2">
+                            <label for="gross_amt" class="col-sm-4"><strong>Gross.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="gross_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--BODY -->
+            <div class="w-100 h-70 table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>SN</th>
+                        <th>Barcode</th>
+                        <th>Description</th>
+                        <th>Packing</th>
+                        <th>Quantity</th>
+                        <th>Unit Cost</th>
+                        <th>Net Cost</th>
+                        <th>Tax</th>
+                        <th>Gross</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_body">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    function lineCalculate(line) {
+        // initiate variables
+        let pack_qty, quantity, unit_cost,net_cost,tax,gross;
+        pack_qty = $(`#pack_${line}`);
+        quantity = $(`#qty_${line}`);
+        unit_cost = $(`#unit_cost_${line}`);
+        net_cost = $(`#net_cost_${line}`);
+        tax = $(`#tax_${line}`);
+        gross = $(`#gross_${line}`);
+
+
+        // set net
+        let net = unit_cost.val() * quantity.val();
+        net_cost.val(net)
+
+        let tax_amt = 0;
+        if($('#taxable').val() == '1'){
+            // calculate tax
+            let barcode = $(`#barcode_${line}`).val()
+            console.log(`BARCODE IS id  #barcode_${line}`)
+            // get tax_code
+            let taxable = JSON.parse(get_row('prod_master',`barcode='${barcode}'`))[0]['tax'];
+            let taxClass = new TaxMaster();
+            tax_amt = 0;
+            if(taxable === 'YES'){
+                console.log(net)
+                let tx = taxClass.taxInclusive(net);
+                tax_amt = parseFloat(tx['message']['vat'])
+                console.table(tx)
+            }
+        }
+
+        let newnew = net - tax_amt;
+        net_cost.val(newnew.toFixed(2))
+        tax.val(tax_amt);
+        gross.val(newnew + tax_amt)
+
+        // calculate header
+        calculateHeader()
+
+    }
+
+    function retrieveProforma(entry_no) {
+        $("body").css("cursor",'wait');
+        mpop.hide()
+
+        if(row_count('prof_hd',`entry_no = '${entry_no}'`) === 1){
+
+            // get hd
+            let hd = get_row("prof_hd",`entry_no = '${entry_no}'`);
+            let trans = get_row('prof_tran',`entry_no = '${entry_no}'`);
+
+            // fill header values
+            if(isJson(hd)){
+                let header = JSON.parse(hd)[0];
+                let pk = header['id'];
+                $('#ref_no').val(header['entry_no']);
+                $('#loc_id').val(header['loc_id']);
+                $('#customer').val(header['customer']);
+                $('#remarks').val(header['remarks']);
+                $('#taxable').val(header['taxable']);
+                $('#issue_date').val(header['iss_date']);
+                $('#due_date').val(header['due_date']);
+                $('#days_in_due').val(
+                    anton.daysBetween(header['iss_date'],header['due_date'])
+                );
+                $('#net_amt').val(header['net_amt']);
+                $('#tax_amt').val(header['tax_amt']);
+                $('#other_cost').val(header['other_cost']);
+                $('#gross_amt').val(header['gross_amt'])
+
+
+
+
+
+                // go for transactions
+                if(isJson(trans)){
+                    let transactions = JSON.parse(trans);
+                    let tr = "";
+                    if(header['valid'] === 1) {
+                        for (let t = 0; t < transactions.length; t++) {
+                            let row = transactions[t];
+                            let sn = t + 1;
+                            let barcode = row['barcode'];
+                            let prod = JSON.parse(get_row('prod_master',`barcode='${barcode}'`))[0];
+                            let item_code = prod['item_code'];
+                            let pack_q = `select qty,pack_desc from prod_packing where item_code = '${item_code}'`;
+                            let packs = fetch_rows(pack_q);
+
+                            let pack_options = `<option value="${row['pack_qty']}">${row['packing']}</option>`;
+                            let p_packs = JSON.parse(packs);
+                            for (let p = 0; p < p_packs.length ; p++) {
+                                let pack = p_packs[p];
+                                if(pack['qty'] !== row['pack_qty']){
+
+                                    pack_options += `<option value="${pack['qty']}">${pack['pack_desc']}</option>`;
+
+                                }
+                            }
+
+                            tr += `
+                            <tr id="row_${row['line']}">
+                            <td>${row['line_no']}</td>
+                            <td><input type="text" class="form-control form-control-sm text_sm rounded-0" value="${row['barcode']}"></td>
+                            <td><input type="text" value="${row['item_desc']}" readonly class="form-control text_sm form-control-sm rounded-0"></td>
+                            <td class="text_sm"><select onchange="lineCalculate('${sn}')" class="form-control form-control-sm rounded-0">${pack_options}</select></td>
+                            <td><input type="text" onchange="lineCalculate('${sn}')" value="${row['tran_qty']}" class="form-control rounded-0 text_sm form-control-sm"></td>
+                            <td><input type="text" onchange="lineCalculate('${sn}')" value="${row['unit_cost']}" class="form-control form-control-sm text_sm rounded-0"></td>
+                            <td><input type="text" value="${row['net_cost']}" disabled class="form-control form-control-sm text_sm rounded-0"></td>
+                            <td><input type="text" value="${row['tax_amt']}" disabled class="form-control form-control-sm text_sm rounded-0"></td>
+                            <td><input type="text" value="${row['gross_amt']}" disabled class="form-control form-control-sm text_sm rounded-0"></td>
+                        </tr>
+                        `;
+                        }
+                    }
+
+                    $('#table_body').html(tr);
+                }
+            }
+
+        } else {
+            kasa.error(`Entry Does Not Exist`)
+        }
+        $("body").css("cursor",'default')
+    }
+
+    $(document).ready(function(){
+        //new entry
+        $('#type').change(function(){
+            // check ref type
+            let ref_type = $('#type').val()
+
+            // 0=direct,1=pro
+            if(ref_type === '1'){
+                // then get po
+                let q = "SELECT * FROM prof_hd right join customers cs on prof_hd.customer = cs.customer_id where valid = 1 and approved = 1";
+                let result = fetch_rows(q);
+
+                if(isJson(result)){
+                    let trans = JSON.parse(result);
+                    let htm = "No Records"
+                    let rows = trans.length;
+                    if(rows > 0){
+                        let tr = "";
+                        for(let x = 0; x < rows; x++){
+                            let row = trans[x];
+                            console.table(row)
+                            let td = yyyy + '-' + mm + '-' + dd;
+                            let dx = anton.daysBetween(td,row['due_date'])
+                            tr += `
+                        <tr ondblclick="retrieveProforma('${row['entry_no']}')"><td>${row['first_name']} ${row['last_name']}</td><td>${row['entry_no']}</td><td>${row['date_created']}</td><td>${row['gross_amt']}</td><td>${dx}</td></tr>
+                    `;
+                        }
+
+                        htm = `
+
+                    <table class="table table-sm"><thead class="bg-dark"><tr><th>CUSTOMER</th><th>ENTRY</th><th>DATE</th><th>GROSS</th><th>DUE IN DAYS</th></tr></thead><tbody>${tr}</tbody></table>
+
+                `;
+                    }
+                    mpop.setBody(htm);
+                    mpop.setTitle("Pending Proforma");
+                    mpop.setSize('lg')
+                    mpop.show()
+                } else {
+                    kasa.error("Invalid Response")
+                }
+            } else {
+                $('#ref_no').val('none')
+            }
+        });
+
+    });
+</script>
