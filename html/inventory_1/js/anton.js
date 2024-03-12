@@ -2065,9 +2065,12 @@ class Anton {
             const value = $(`#${ids[i]}`).val();
             if (value === '' || value === undefined) {
                 // alert('False');
-                return false;
-                $(`#${ids[i]}`).addClass('border-danger')
+                console.log(`#${ids[i]}`)
                 $(`#${ids[i]}`).removeClass('border-success')
+                $(`#${ids[i]}`).addClass('border-danger')
+
+                return false;
+
             } else {
                 $(`#${ids[i]}`).addClass('border-success')
                 $(`#${ids[i]}`).removeClass('border-danger')

@@ -276,7 +276,7 @@ function return_rows(query) {
 
 // fetch rows
 function fetch_rows(query) {
-    console.log(query)
+    // console.log(query)
     var form_data = {
         'function': 'fetch_rows',
         'query': query,
@@ -295,7 +295,7 @@ function fetch_rows(query) {
             data: form_data,
             success: function (response) {
                 result = response;
-                // cl(response)
+                cl(response)
 
             }
         }

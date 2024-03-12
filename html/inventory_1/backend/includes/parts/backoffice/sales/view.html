@@ -60,12 +60,12 @@
                         <!-- TYPE -->
                         <div class="row  mb-2">
                             <label for="type" class="col-sm-4"><strong>Type</strong></label>
-                            <div class="col-sm-3">
-                                <input type="text" id="type"
+                            <div class="col-sm-4">
+                                <input type="text" readonly id="type"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
-                            <div class="col-sm-5">
-                                <input type="text" id="ref_no"
+                            <div class="col-sm-4">
+                                <input type="text" readonly id="ref_no"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
@@ -74,7 +74,7 @@
                         <div class="row  mb-2">
                             <label for="loc_id" class="col-sm-4"><strong>Location</strong></label>
                             <div class="col-sm-8">
-                                <input type="text" id="loc_id"
+                                <input readonly type="text" id="loc_id"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                         <div class="row  mb-2">
                             <label for="customer" class="col-sm-4"><strong>Customer</strong></label>
                             <div class="col-sm-8">
-                                <input type="text" id="customer"
+                                <input readonly type="text" id="customer"
                                        class="form-control rounded-0 form-control-sm">
                             </div>
                         </div>
@@ -189,28 +189,36 @@
     let previous = 0;
 
     function loadInvoice(entry_no){
+
         $("body").css("cursor",'wait')
         // check if entry exist
-        if(row_count('prof_hd',`entry_no = '${entry_no}'`) === 1){
+        if(row_count('invoice_hd',`entry_no = '${entry_no}'`) === 1){
 
             // get hd
-            let hd = get_row("prof_hd",`entry_no = '${entry_no}'`);
-            let trans = get_row('prof_tran',`entry_no = '${entry_no}'`);
+            let hd_q = `select invoice_hd.id,entry_no,remarks,taxable,net_amt,tax_amt,other_cost,gross_amt,valid,approved,ref_type,ref_no,
+       CONCAT(cs.first_name,' ',cs.last_name) as 'customer',CONCAT(lc.loc_id,' - ',lc.loc_desc) as 'location',(SELECT COUNT(*) from invoice_hd where id > invoice_hd.id) as 'next',(SELECT COUNT(*) from invoice_hd where id < invoice_hd.id) as 'previous'
+from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id right join loc lc on invoice_hd.loc_id = lc.loc_id where invoice_hd.entry_no = '${entry_no}'`
+
+            let hd = fetch_rows(hd_q);
+            let trans = get_row('invoice_tran',`entry_no = '${entry_no}'`);
 
             // fill header values
             if(isJson(hd)){
                 let header = JSON.parse(hd)[0];
                 let pk = header['id'];
                 $('#ent_no').val(header['entry_no']);
-                $('#loc_id').val(header['loc_id']);
+                $('#type').val(header['ref_type'])
+                $('#ref_no').val(header['ref_no'])
+
+
+
+                $('#loc_id').val(header['location'])
+
+
                 $('#customer').val(header['customer']);
                 $('#remarks').val(header['remarks']);
                 $('#taxable').val(header['taxable']);
-                $('#issue_date').val(header['iss_date']);
-                $('#due_date').val(header['due_date']);
-                $('#days_in_due').val(
-                    anton.daysBetween(header['iss_date'],header['due_date'])
-                );
+
                 $('#net_amt').val(header['net_amt']);
                 $('#tax_amt').val(header['tax_amt']);
                 $('#other_cost').val(header['other_cost']);
@@ -219,8 +227,8 @@
                 // check next previous
                 console.log(pk)
 
-                let next_count = row_count('prof_hd',`id > '${pk}'`);
-                let prev_count = row_count('prof_hd',`id < '${pk}'`);
+                let next_count = header['next'];
+                let prev_count = header['previous'];
 
                 // handle status
                 if(header['valid'] === 1){
@@ -245,7 +253,7 @@
 
                 if(next_count > 0){
                     next = JSON.parse(
-                        fetch_rows(`SELECT entry_no from prof_hd where id > ${pk} limit  1`)
+                        fetch_rows(`SELECT entry_no from invoice_hd where id > ${pk} limit  1`)
                     )[0]['entry_no']
                     $('#next').prop('disabled',false)
                 } else {
@@ -256,7 +264,7 @@
                     $('#previous').prop('disabled',false)
                     // get previous document
                     previous = JSON.parse(
-                        fetch_rows(`SELECT entry_no from prof_hd where id < ${pk} order by id desc limit  1`)
+                        fetch_rows(`SELECT entry_no from invoice_hd where id < ${pk} order by id desc limit  1`)
                     )[0]['entry_no'];
                 } else {
                     $('#previous').prop('disabled',true)
@@ -340,13 +348,15 @@
     }
 
     $(document).ready(function(){
+
+        // load stuffs
+        loadInvoice(`<?php echo $last ?>`)
         //new entry
         $('#new').click(function(){
             set_session(['action=new']);
         });
 
-        // load stuffs
-        // loadProfoma(`<?php echo $last ?>`)
+
 
         $('#previous').click(function(){
             loadProfoma(previous)

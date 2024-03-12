@@ -103,7 +103,7 @@
                 $pdf->SetFont('Arial', 'B', 8);
                 $pdf->Cell(10,5,"SN",1,0,"L");
                 $pdf->Cell(30,5,"BARCODE",1,0,"L");
-                $pdf->Cell(45,5,"Name",1,0,"L");
+                $pdf->Cell(45,5,"Description",1,0,"L");
                 $pdf->Cell(15,5,"Pack",1,0,"L");
                 $pdf->Cell(15,5,"Pack Qty",1,0,"L");
                 $pdf->Cell(15,5,"Quantity",1,0,"L");
