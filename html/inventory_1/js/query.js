@@ -7,7 +7,7 @@ function row_count(table, condition = 'none') {
 
  
 
-    echo("SELECT * FROM "+table+" WHERE "+condition)
+    // echo("SELECT * FROM "+table+" WHERE "+condition)
 
     var result = 0;
     
@@ -32,7 +32,7 @@ function row_count(table, condition = 'none') {
 
 // execute query
 function exec(query = 'none') {
-    console.log(query);
+    //console.log(query);
     if (query !== 'none') {
         // prepare
         form_data = {
@@ -60,7 +60,7 @@ function exec(query = 'none') {
                         result['message'] = `Invalid Response : ${response}`
                     }
 
-                    console.log(`RESPONSE FROM EXEC: ${response}`)
+                    //console.log(`RESPONSE FROM EXEC: ${response}`)
                 }
             }
         );
@@ -76,7 +76,7 @@ function FETCH(query) {
         'function': 'gen_query',
         'query': query,
     }
-    console.log(query);
+    //console.log(query);
 
 
     var result = 0;
@@ -127,7 +127,7 @@ function get_row(table, condition) {
             data: form_data,
             success: function (response) {
                 result = response;
-                echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
+                // echo("GET_ROW QUERY : SELECT * FROM " + table + " WHERE " + condition.toString())
 
             }
         }
@@ -138,7 +138,7 @@ function get_row(table, condition) {
 
 function insert(table, data) {
     // cl('obj')
-    // ct(data['vars'])
+    // // ct(data['vars'])
     // cl('obj_end')
     let cols = data['cols']
     let vars = data['vars']
@@ -172,7 +172,7 @@ function insert(table, data) {
         }
 
         let query = "INSERT INTO " + table + " (" + columns + ") values (" + values + ")";
-        // echo(query)
+        // // echo(query)
 
         // prepare ajax submission
         var form_data = {
@@ -191,7 +191,7 @@ function insert(table, data) {
                 data: form_data,
                 success: function (response) {
                     result = response;
-                    //echo(result)
+                    //// echo(result)
 
 
                 }
@@ -201,14 +201,14 @@ function insert(table, data) {
         return result;
 
 
-        ////echo(values)
+        ////// echo(values)
     }
 
 
 
 
 
-    ////echo("INSERT INTO " + table + " (" + col +") values ("+data+")")
+    ////// echo("INSERT INTO " + table + " (" + col +") values ("+data+")")
 }
 
 // get user details
@@ -281,7 +281,7 @@ function fetch_rows(query) {
         'function': 'fetch_rows',
         'query': query,
     }
-    // ct(query)
+    // // ct(`ROW FETCH : ${query}`)
 
     var result = 0;
 
@@ -295,7 +295,7 @@ function fetch_rows(query) {
             data: form_data,
             success: function (response) {
                 result = response;
-                cl(response)
+                //cl(response)
 
             }
         }

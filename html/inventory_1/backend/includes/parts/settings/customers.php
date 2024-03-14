@@ -61,87 +61,76 @@
             </div>
             <!-- COre Work Space-->
             <div class="col-sm-10 h-100 p-3 d-flex flex-wrap align-content-center justify-content-center">
-                <div class="ant-bg-dark w-75 p-3 d-flex flex-wrap align-content-center justify-content-center tool-box h-50 ant-round">
-                    <div class="w-100 h-100 d-flex flex-wrap align-content-between">
-                        <header class="inside_card_header pl-3 p-1 pr-1 d-flex flex-wrap align-content-center">
-                            <button title="new" data-toggle="modal" data-target="#newCustomer" class="btn mr-2 p-0">
-                                <i class="fa fa-plus-square text-primary"></i>
-                            </button>
-                            <button id="prev" class="btn mr-2 p-0">
-                                <i class="fa fa-backward text-info"></i>
-                            </button>
-                            <button id="next" class="btn mr-2 p-0">
-                                <i class="fa fa-forward text-info"></i>
-                            </button>
-                        </header>
-                        <article class="inside_card_body p-1">
-                            <div class="container h-100">
-                                <div class="w-100 table-responsive h-100">
-                                    <table class="table table-sm table-bordered table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>NAME</th><th>EMAIL</th><th>PHONE</th><th>ADDRESS</th><th>ACTION</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php while($customer = $stmt->fetch(PDO::FETCH_ASSOC)): ?>
-                                                <tr>
-                                                    <td class="text-light"><?php echo $customer['name'] ?></td>
-                                                    <td class="text-light"><?php echo $customer['email'] ?></td>
-                                                    <td class="text-light"><?php echo $customer['phone_number'] ?></td>
-                                                    <td class="text-light"><?php echo $customer['address'] ?></td><td class="text-light">
-                                                        <div class="dropdown dropleft">
-                                                            <span class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
 
-                                                            <!-- Dropdown menu -->
-                                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" onclick="customerMaster.make_payment('<?php echo $customer['cust_no'] ?>')" href="javascript:void(0)">Make Payment</a>
-                                                                <a class="dropdown-item" href="javascript:void(0)" onclick="customerMaster.printStatement('<?php echo $customer['cust_no'] ?>')">Statement</a>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php endwhile; ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-<!--                                <div class="row h-100">-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <label for="prev_first_name">First Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_first_name">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <label for="prev_last_name">Last Name </label><br><input autocomplete="off" type="text" class="form-control form-control-sm mb-2" id="prev_last_name">-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_phone">Phone </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_phone">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_email">Email </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_email">-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_country">Country </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_country">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_city">City </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_city">-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_address">Address </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_address">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-3">-->
-<!--                                        <label for="prev_postal">Postal </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  mb-2" id="prev_postal">-->
-<!--                                    </div>-->
-<!--                                    <div class="col-sm-6">-->
-<!--                                        <label for="prev_cust_number">NUMBER </label><br><input autocomplete="off" type="text" class="form-control form-control-sm  w-100 mb-2" id="prev_cust_number">-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                <div class="card h-100 w-100">
+                    <div class="card-header">
+                        <div class="w-100 d-flex">
+                            <div class="w-50 d-flex flex-wrap">
+                                <button data-toggle="modal" data-target="#newCustomer" class="btn btn-sm rounded-0 btn-info mr-1"><i class="fa fa-plus-square"></i></button>
+                                <button title="make payment" id="make_payment" class="btn btn-success rounded-0 btn-sm mr-1"><i class="fa fa-money-bill"></i></button>
+                                <button id="previous" class="btn btn-info mr-2 rounded-0 btn-sm"><i class="fa fa-backward"></i></button>
+                                <button class="btn btn-info btn-info btn-sm rounded-0" id="next"><i class="fa fa-forward"></i></button>
+
                             </div>
-                        </article>
+                            <div class="w-50 d-flex flex-wrap justify-content-end">
+                                <button id="statement" class="btn btn-sm btn-info rounded-0 ml-2"><i class="fa fa-print"></i></button>
+                            </div>
+                        </div>
                     </div>
 
+                    <div class="card-body">
+                        <div class="h-30 ant-bg-light overflow-auto">
+                            <div class="container py-2">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div class="row mb-2">
+                                            <label for="cust_no" class="col-sm-5"><strong>Cust N0.</strong></label>
+                                            <input type="text" id="cust_no" disabled class="col-sm-7 form-control rounded-0">
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="name" class="col-sm-5"><strong>Name</strong></label>
+                                            <input type="text" id="name" disabled class="col-sm-7 form-control rounded-0">
+                                        </div>
+                                        <div class="row mb-2">
+                                            <label for="balance" class="col-sm-5"><strong>Balance</strong></label>
+                                            <input type="text" id="balance" disabled class="col-sm-7 form-control rounded-0">
+                                        </div>
 
+                                    </div>
+
+                                    <div class="col-sm-4">
+
+                                        <div class="row mb-2">
+                                            <label for="c_addr" class="col-sm-5"><strong>Address</strong></label>
+                                            <textarea id="c_addr" rows="3" disabled readonly class="col-sm-7 form-control rounded-0"></textarea>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="h-70 table-responsive">
+                            <table class="table table-sm table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Entry</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>User</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>00000</td>
+                                        <td>00000</td>
+                                        <td>00000</td>
+                                        <td>00000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -154,6 +143,7 @@
 
 <script>
 
+    let cid = null,next=null,previous=null;
     // disable preview field
     function loadCustomer(cust_no) {
         $('#loader').modal('show')
@@ -174,37 +164,63 @@
                 let alone = message[0]
 
                 // fill fields
-                let ids = prev_field;
-                let data = [
-                    alone['first_name'],alone['last_name'],alone['phone_number'],alone['email'],alone['country'],alone['city'],alone['address'],alone['postal_code'],alone['cust_no']
-                ]
+               // console.table(alone)
+                $('#cust_no').val(alone['customer_id']);
+                $('#name').val(`${alone['first_name']} ${alone['last_name']}`)
+                let address = `${alone['country']}, ${alone['city']}, ${alone['address']}`
+                $('#c_addr').val(address)
+                cid = alone['cust_no']
 
-                autoFill(ids,data)
+                // get balacke
+                let balance = JSON.parse(fetch_rows(`SELECT SUM(total_amount) 'x' from customers_trans where customer_id = '${alone['customer_id']}'`))[0]['x']
+
+                $('#balance').val(balance)
 
                 // check next previous
                 if(row_count('customers',`customer_id > ${alone['customer_id']}`) > 0 ){
                     // there is next
-                    let next = JSON.parse(fetch_rows(`SELECT * FROM customers where customer_id > '${alone['customer_id']}' limit 1`))[0]['cust_no']
+                    // echo("NEXT")
+                    next = JSON.parse(fetch_rows(`SELECT * FROM customers where customer_id > '${alone['customer_id']}' order by customer_id asc limit 1`))[0]['cust_no']
                     enableFields(['next'])
-                    $('#next').val(next)
+                    // echo("NEXT")
+
 
                 } else {
                     // no next
                     $('#next').val('')
                     disableFields(['next'])
+                    next = null;
                 }
 
                 if(row_count('customers',`customer_id < ${alone['customer_id']}`) > 0 ){
                     // there is prev
-                    let prev = JSON.parse(fetch_rows(`SELECT * FROM customers where customer_id < '${alone['customer_id']}' ORDER BY customer_id desc limit 1`))[0]['cust_no']
-                    enableFields(['prev'])
-                    $('#prev').val(prev)
+                    previous = JSON.parse(fetch_rows(`SELECT * FROM customers where customer_id < '${alone['customer_id']}' ORDER BY customer_id desc limit 1`))[0]['cust_no']
+                    enableFields(['previous'])
+
                 } else {
                     // no next
-                    $('#prev').val('')
-                    disableFields(['prev'])
+                    $('#previous').val('')
+                    disableFields(['previous'])
+                    previous = null
                 }
 
+                // get transactions
+                let transactions = `SELECT entry_no, transaction_date as 'date',total_amount,c.clerk_name as 'owner' from customers_trans right join posdb.clerk c on customers_trans.user = c.id where customer_id = '${alone['customer_id']}'`;
+                let trans_q = JSON.parse(fetch_rows(transactions));
+                let tr = '';
+                for(let t = 0; t < trans_q.length; t++){
+                    let tran = trans_q[t];
+
+                    tr += `
+                        <tr>
+                                        <td>${tran['entry_no']}</td>
+                                        <td>${tran['date']}</td>
+                                        <td>${tran['total_amount']}</td>
+                                        <td>${tran['owner']}</td>
+                                    </tr>
+                    `;
+                }
+                $('tbody').html(tr)
 
             } else {
                 kasa.error(message)
@@ -222,12 +238,31 @@
     let last = JSON.parse(fetch_rows(`SELECT cust_no FROM customers order by customer_id desc limit 1`))[0]['cust_no'];
     loadCustomer(`${last}`)
 
+
     $('#next').click(function () {
         loadCustomer(`${this.value}`)
     });
 
     $('#prev').click(function () {
         loadCustomer(`${this.value}`)
+    });
+
+    $(document).ready(function(){
+        $('#make_payment').click(function(){
+            customerMaster.make_payment(cid)
+        })
+
+        $('#previous').click(function(){
+            loadCustomer(previous)
+        });
+
+        $('#next').click(function(){
+            loadCustomer(next)
+        });
+
+        $('#statement').click(function(){
+            customerMaster.printStatement(cid)
+        });
     });
 
 </script>

@@ -43,7 +43,7 @@
     <div class="card-body">
         <div class="h-100 overflow-hidden">
             <!-- HEADER -->
-            <div class="container-fluid p-3 bg-primary h-30">
+            <div class="container-fluid p-3 ant-bg-light h-30">
                 <div class="row h-100 overflow-auto">
                     <div class="col-sm-4">
                         <!-- ENTRY NUMBER -->
@@ -91,8 +91,14 @@
                                 <input type="text" id="taxable" readonly
                                        class="form-control text-center rounded-0 form-control-sm">
                             </div>
-                            <div class="col-sm-5" id="status">
-                                <kbd class="badge badge-warning">PENDING</kbd>
+                            <div class="col-sm-5" id="x">
+<!--                                <kbd class="badge badge-warning">PENDING</kbd>-->
+                                <label for="approved" class="w-100 m-0">
+                                    <input type="checkbox" name="approved" disabled class="form-check-input" id="approved" value="Approved"> Approved
+                                </label>
+                                <label for="posted" class="w-100 m-0">
+                                    <input type="checkbox" disabled name="posted" class="form-check-input" id="posted" value="posted"> Posted
+                                </label>
                             </div>
                         </div>
 
@@ -231,20 +237,27 @@
                 let prev_count = row_count('prof_hd',`id < '${pk}'`);
 
                 // handle status
-                if(header['valid'] === 1){
+                if(header['valid'] == '1'){
                     // check status
-                    if(header['approved'] === 1){
-                        $('#approve').prop('disabled',true)
-                        $('#status').html(`<kbd class="badge badge-success">Approved</kbd>`)
+                    if(header['approved'] == '1'){
+                        $('#approved').prop("checked", true)
                         $('#delete').prop('disabled',true)
+                        $('#approve').prop('disabled',true)
                     } else {
+                        $('#approved').prop("checked", false)
+                        // $('#delete').prop('disabled',false)
                         $('#approve').prop('disabled',false)
-                        $('#status').html(`<kbd class="badge badge-warning">PENDING</kbd>`)
                         $('#delete').prop('disabled',false)
                     }
+
+                    if(header['posted'] == '1'){
+                        $('#posted').prop("checked", true)
+
+                    } else {
+                        $('#posted').prop("checked", false)
+                    }
                 } else {
-                    $('#approve').prop('disabled',true)
-                    $('#delete').prop('disabled',true)
+
                     $('#status').html(`<kbd class="badge bg-danger">Deleted</kbd>`)
                 }
 

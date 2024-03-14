@@ -8,12 +8,12 @@ class Cust {
             cust_name = `${customer['first_name']} ${customer['last_name']}`;
             id = customer['customer_id'];
             balance = JSON.parse(fetch_rows(`select SUM(total_amount) as 'balance' from customers_trans where customer_id = '${id}'`))[0]['balance'];
-            console.log(balance)
+            // console.log(balance)
 
-
-            Swal.fire({
-                title: `Enter Payment Details for ${cust_name}`,
-                html: `
+            if(balance < 0 && balance !== null){
+                Swal.fire({
+                    title: `Enter Payment Details for ${cust_name}`,
+                    html: `
                       <div class="w-100 text-left p-2">
                         <label for="swal-input1" class="w-100">Balance</label>
                         <input id="swal-input1" value="${balance}" class="form-control rounded-0" placeholder="">
@@ -35,45 +35,52 @@ class Cust {
                     `,
 
 
-                showCancelButton: true,
-                confirmButtonText: 'Pay',
-                cancelButtonText: 'Cancel',
-                preConfirm: () => {
-                    const num1 = Swal.getPopup().querySelector('#swal-input1').value;
-                    const num2 = Swal.getPopup().querySelector('#swal-input2').value;
-                    const paymentMethod = Swal.getPopup().querySelector('#swal-select').value;
-                    const additionalComment = Swal.getPopup().querySelector('#swal-input-text').value;
+                    showCancelButton: true,
+                    confirmButtonText: 'Pay',
+                    cancelButtonText: 'Cancel',
+                    preConfirm: () => {
+                        const num1 = Swal.getPopup().querySelector('#swal-input1').value;
+                        const num2 = Swal.getPopup().querySelector('#swal-input2').value;
+                        const paymentMethod = Swal.getPopup().querySelector('#swal-select').value;
+                        const additionalComment = Swal.getPopup().querySelector('#swal-input-text').value;
 
-                    if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
-                        Swal.showValidationMessage('Please enter valid numbers');
-                        return false;
+                        if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
+                            Swal.showValidationMessage('Please enter valid numbers');
+                            return false;
+                        }
+
+                        if (!paymentMethod) {
+                            Swal.showValidationMessage('Please select a payment method');
+                            return false;
+                        }
+
+                        if (!additionalComment.trim()) {
+                            Swal.showValidationMessage('Please enter a comment');
+                            return false;
+                        }
+
+                        return [num1, num2, paymentMethod, additionalComment];
                     }
-
-                    if (!paymentMethod) {
-                        Swal.showValidationMessage('Please select a payment method');
-                        return false;
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const [balance, amount_paid, paymentMethod, additionalComment] = result.value;
+                        Swal.fire('Payment Confirmed', `Balance : ${balance}, Amount Paid: ${amount_paid}, Method: ${paymentMethod}, Comment: ${additionalComment}`, 'success');
+                        let payment_query = `INSERT INTO customers_trans (entry_no,customer_id, total_amount, payment_method, items_purchased, transaction_notes,user) VALUES 
+                                                                            ('${paymentMethod}','${id}','${amount_paid}','${paymentMethod}','payment','${additionalComment}','${user_id}')`;
+                        let pay = exec(payment_query);
+                        kasa.info(pay['message'])
+                        loadCustomer(customer_id);
+                        // swal_reload(pay['message'])
+                    } else if (result.isDenied) {
+                        Swal.fire('Payment Canceled', '', 'info');
                     }
+                });
+            } else {
+                kasa.error(`Cannot make payment on ${balance} amount`)
+            }
 
-                    if (!additionalComment.trim()) {
-                        Swal.showValidationMessage('Please enter a comment');
-                        return false;
-                    }
 
-                    return [num1, num2, paymentMethod, additionalComment];
-                }
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const [balance, amount_paid, paymentMethod, additionalComment] = result.value;
-                    Swal.fire('Payment Confirmed', `Balance : ${balance}, Amount Paid: ${amount_paid}, Method: ${paymentMethod}, Comment: ${additionalComment}`, 'success');
-                    let payment_query = `INSERT INTO customers_trans (customer_id, total_amount, payment_method, items_purchased, transaction_notes) VALUES 
-                                                                            ('${id}','${amount_paid}','${paymentMethod}','payment','${additionalComment}')`;
-                    let pay = exec(payment_query);
-                    this.printStatement(customer_id);
-                    // swal_reload(pay['message'])
-                } else if (result.isDenied) {
-                    Swal.fire('Payment Canceled', '', 'info');
-                }
-            });
+
         } else {
             kasa.error(`NO CUSTOMER WITH CODE ${customer_id}`);
         }

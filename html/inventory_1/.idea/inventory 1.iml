@@ -19,6 +19,9 @@
       <sourceFolder url="file://$MODULE_DIR$/escpos_old/test/unit" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/integration" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php/test/unit" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/print_config/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/backend/process/print_config/tests" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/escpos/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/doctrine/instantiator" />
       <excludeFolder url="file://$MODULE_DIR$/backend/vendor/mike42/gfx-php" />
