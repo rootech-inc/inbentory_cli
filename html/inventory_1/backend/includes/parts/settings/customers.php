@@ -205,7 +205,8 @@
                 }
 
                 // get transactions
-                let transactions = `SELECT entry_no, transaction_date as 'date',total_amount,c.clerk_name as 'owner' from customers_trans right join posdb.clerk c on customers_trans.user = c.id where customer_id = '${alone['customer_id']}'`;
+                let transactions = `SELECT entry_no, transaction_date as 'date',total_amount,c.clerk_name as 'owner' from customers_trans right join posdb.clerk c on customers_trans.user = c.id where customer_id = '${alone['customer_id']}' order by customers_trans.transaction_date desc`;
+
                 let trans_q = JSON.parse(fetch_rows(transactions));
                 let tr = '';
                 for(let t = 0; t < trans_q.length; t++){

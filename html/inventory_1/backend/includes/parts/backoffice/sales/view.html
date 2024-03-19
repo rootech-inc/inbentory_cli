@@ -32,6 +32,9 @@
                 <button disabled id="approve" class="btn btn-outline-success btn-sm mr-1">
                     <i class="fa fa-check"></i>
                 </button>
+                <button id="process" class="btn btn-outline-warning btn-sm mr-1">
+                    <i class="fa fa-spinner"></i>
+                </button>
                 <button id="search" class="btn btn-outline-info btn-sm mr-1">
                     <i class="fa fa-search"></i>
                 </button>
@@ -187,6 +190,7 @@
 
     let next = 0;
     let previous = 0;
+    let loc_id = null;
 
     function loadInvoice(entry_no){
 
@@ -196,7 +200,7 @@
 
             // get hd
             let hd_q = `select invoice_hd.id,entry_no,remarks,taxable,net_amt,tax_amt,other_cost,gross_amt,valid,approved,ref_type,ref_no,
-       CONCAT(cs.first_name,' ',cs.last_name) as 'customer',CONCAT(lc.loc_id,' - ',lc.loc_desc) as 'location',(SELECT COUNT(*) from invoice_hd where id > invoice_hd.id) as 'next',(SELECT COUNT(*) from invoice_hd where id < invoice_hd.id) as 'previous'
+       CONCAT(cs.first_name,' ',cs.last_name) as 'customer',lc.loc_id as 'loc_id',CONCAT(lc.loc_id,' - ',lc.loc_desc) as 'location',(SELECT COUNT(*) from invoice_hd where id > invoice_hd.id) as 'next',(SELECT COUNT(*) from invoice_hd where id < invoice_hd.id) as 'previous'
 from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id right join loc lc on invoice_hd.loc_id = lc.loc_id where invoice_hd.entry_no = '${entry_no}'`
 
             let hd = fetch_rows(hd_q);
@@ -209,6 +213,7 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                 $('#ent_no').val(header['entry_no']);
                 $('#type').val(header['ref_type'])
                 $('#ref_no').val(header['ref_no'])
+                loc_id = header['loc_id']
 
 
 
@@ -234,9 +239,16 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                 if(header['valid'] === 1){
                     // check status
                     if(header['approved'] === 1){
-                        $('#approve').prop('disabled',true)
-                        $('#status').html(`<kbd class="badge badge-success">Approved</kbd>`)
-                        $('#delete').prop('disabled',true)
+                        if(header['posted'] == '1'){
+                            $('#approve').prop('disabled',true)
+                            $('#status').html(`<kbd class="badge badge-success">Processed</kbd>`)
+                            $('#delete').prop('disabled',true)
+                        } else {
+                            $('#approve').prop('disabled',true)
+                            $('#status').html(`<kbd class="badge badge-light text-success">Approved</kbd>`)
+                            $('#delete').prop('disabled',true)
+                        }
+
                     } else {
                         $('#approve').prop('disabled',false)
                         $('#status').html(`<kbd class="badge badge-warning">PENDING</kbd>`)
@@ -359,11 +371,11 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
 
 
         $('#previous').click(function(){
-            loadProfoma(previous)
+            loadInvoice(previous)
         });
 
         $('#next').click(function(){
-            loadProfoma(next)
+            loadInvoice(next)
         });
 
         // approve
@@ -379,9 +391,9 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
             }).then((result) => {
                 if (result.isConfirmed) {
                     let entry = $('#ent_no').val();
-                    let query = `UPDATE prof_hd set approved = 1 where entry_no = '${entry}'`;
+                    let query = `UPDATE invoice_hd set approved = 1 where entry_no = '${entry}'`;
                     kasa.info(exec(query)['message']);
-                    loadProfoma(entry)
+                    loadInvoice(entry)
                 }
             });
 
@@ -390,7 +402,7 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
         // print
         $('#print').click(function(){
             let formData = {
-                'doc':'profoma',
+                'doc':'invoice',
                 'entry':$('#ent_no').val()
             };
 
@@ -442,6 +454,50 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
         $('#search').click(function(){
             $('#charm').fadeIn(100)
             $('#charm').prop('focused',true)
+        });
+
+        // process
+        $('#process').click(function(){
+            swal.fire({
+
+                text: "Are you sure that you want to process document?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let entry = $('#ent_no').val();
+                    let x = fetch_rows(`SELECT inv.barcode as 'barcode',pm.item_code as 'itemcode',inv.item_desc as 'name',inv.packing,inv.pack_qty,inv.tran_qty,inv.net_cost,inv.tax_amt,inv.gross_amt FROM invoice_tran inv right join prod_master pm on pm.barcode = inv.barcode where inv.entry_no = '${entry}' order by inv.line_no asc`);
+                    if(isJson(x)){
+                        let transactions = JSON.parse(x);
+                        for(let t = 0; t< transactions.length; t++){
+                            let tran = transactions[t];
+                            let item_code = tran['itemcode'];
+                            let loc_fro = loc_id;
+                            let loc_to = loc_id;
+                            let pack_desc = tran['name'];
+                            let pack_un = tran['pack_qty'];
+                            let tran_qty = tran['tran_qty'] * 2;
+                            tran_qty = tran['trans'] - tran_qty;
+
+
+                            let insert_q = `insert into stk_tran (entry_no, doc, item_code, loc_fro, loc_to, pack_desc, pack_un,tran_qty) values
+                                                                ('${entry}','IN','${item_code}','${loc_fro}','${loc_to}','${pack_desc}','${pack_un}','${tran_qty}')`;
+                            //exec(insert_q);
+                            echo(insert_q)
+                            console.table(tran);
+                        }
+                        kasa.success("Invoice Processed")
+                        exec(`UPDATE invoice_hd set posted = 1 where entry_no = '${entry}'`)
+                        loadInvoice(entry)
+                    } else {
+                        kasa.error("Invalid Transaction Response")
+                    }
+                    loadInvoice(entry)
+                }
+            });
         });
 
 
