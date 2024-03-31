@@ -15,10 +15,8 @@
 
                             <button onclick="set_session(['sub_module=proforma','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Proforma Invoice</p></button>
                             <button onclick="set_session(['sub_module=sales_invoice','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Sales Invoice</p></button>
-                            <button onclick="set_session(['sub_module=purchasing','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Reports</p></button>
-                            <button onclick="set_session(['sub_module=receiving','action=view'])" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Receive</p></button>
-                            <button onclick="download_products()" class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Download</p></button>
-                            <button data-toggle='modal' data-target='#uploadOb' class="master_button btn  m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">OPENING BALANCE</p></button>
+<!--                            <button onclick="set_session(['sub_module=customers','action=customers'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">Customers</p></button>-->
+
                         </article>
 
                     </div>
@@ -54,24 +52,28 @@
                         elseif($sub_module === 'sales_invoice'){
                             if($action === 'view'){
                                 // validate entries
-                                    if($db->row_count('invoice_hd','none') > 0){
-                                    // get last entry
-                                    $last = $db->last_entry('invoice_hd','entry_no')['entry_no'];
+                                if($db->row_count('invoice_hd','none') > 0){
+                                // get last entry
+                                $last = $db->last_entry('invoice_hd','entry_no')['entry_no'];
 
 
-                            } else {
-                                    // set session
-                                    $anton->set_session(['action=new']);
-                                    echo "<script>location.reload()</script>";
-                            }
+                                } else {
+                                        // set session
+                                        $anton->set_session(['action=new']);
+                                        echo "<script>location.reload()</script>";
+                                }
                                 require 'backend/includes/parts/backoffice/sales/view.html';
                             } elseif($action === 'new'){
+
                                 require 'backend/includes/parts/backoffice/sales/new.html';
                             }
                             else
                             {
                                 echo "No configurations for $action";
                             }
+                        } elseif ($sub_module === 'home'){}
+                        elseif($sub_module === 'customers'){
+                            require 'backend/includes/parts/backoffice/customers/view.html';
                         }
                         else {
                             echo "<div class='alert w-25 alert-danger'>

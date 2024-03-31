@@ -38,6 +38,32 @@ class ProductMaster {
 
         }
     }
+
+    // suppliers
+    getSupplier(id='*'){
+        let payload = {
+            module:'supplier',
+            crud:'read',
+            data:{
+                key:id
+            }
+        }
+
+        return api.call('GET',payload)
+    }
+
+    getCustomer(cust_no='*'){
+        let payload = {
+            module:'customer',
+            crud:'read',
+            data:{
+                cust_no:cust_no
+            }
+        }
+
+
+        return api.call('GET',payload)
+    }
 }
 
 const pmast = new ProductMaster();

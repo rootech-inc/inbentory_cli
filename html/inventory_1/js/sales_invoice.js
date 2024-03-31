@@ -86,7 +86,9 @@ function retrieveProforma(entry_no) {
 
             let loc_pk = header['loc_id'];
             let location = JSON.parse(get_row('loc',`id='${loc_pk}'`))[0];
-            let loc_opt = `<option value="${location['loc_id']}">${location['loc_id']}</option>`;
+            let loc_opt = `<option value="${location['loc_id']}">${location['loc_id']} - ${location['loc_desc']}</option>`;
+            let cust = `<option value="${header['customer']}">${header['customer']}</option>`;
+            $('#cust_code').html(cust)
             $('#loc_id').html(loc_opt)
             $('#loc_desc').val(location['loc_desc'])
             $('#customer').val(header['customer']);
@@ -215,7 +217,7 @@ $(document).ready(function(){
     // save
     $('#save').click(function(){
         let header_id = [
-            'loc_id','ref_no','customer','remarks','taxable',
+            'loc_id','ref_no','cust_code','remarks','taxable',
             'net_amt','tax_amt', 'other_cost','gross_amt','type',
         ];
 
@@ -224,13 +226,31 @@ $(document).ready(function(){
             let trans = []
             // validate transactions
             let tran_rows =$('#table_body tr');
-            let row_count = tran_rows.length
+            let r_c = tran_rows.length
 
-            if(row_count > 0){
-                let errors = 0;
-                let error_message = '';
+            let errors = 0;
+            let error_message = "";
 
-                for(let t = 1; t <= row_count; t++){
+
+
+            // validate reference
+            if(header['type'] === 'proforma'){
+                let po_no = header['ref_no'];
+                if(row_count('invoice_hd',`ref_no = '${po_no}'`) > 0){
+                    errors ++;
+                    error_message += "PO number has already been used"
+                }
+
+                if(row_count('prof_hd',`entry_no='${po_no}'`) !== 1){
+                    errors ++;
+                    error_message += " PO Number Does Not Exist";
+                }
+            }
+
+            if(r_c > 0){
+
+
+                for(let t = 1; t <= r_c; t++){
                     // fine places
                     let line = t;
                     let barcode_id = `barcode_${line}`;
@@ -285,11 +305,13 @@ $(document).ready(function(){
 
                     // insert into header
                     let hd_query = `INSERT INTO invoice_hd (entry_no, loc_id, customer, remarks, created_by,net_amt,tax_amt,other_cost,gross_amt,taxable,ref_no,ref_type)
-                                                    VALUES ('${entry_no}','${header['loc_id']}','${header['customer']}',
+                                                    VALUES ('${entry_no}','${header['loc_id']}','${header['cust_code']}',
                                                             '${header['remarks']}','${user_id}','${header['net_amt']}','${header['tax_amt']}','${header['other_cost']}','${header['gross_amt']}','${header['taxable']}','${header['ref_no']}','${header['type']}')`;
 
                     let hd_save = exec(hd_query);
-                    if(hd_save['code'] !== 500){
+                    echo(hd_query);
+                    echo(hd_save);
+                    if(hd_save['code'] === 202){
 
                         // save headers
                         // make transactions queries
@@ -306,7 +328,7 @@ $(document).ready(function(){
 
                         }
 
-                        kasa.success("Entry Saved");
+                        kasa.success(hd_save['message']);
                         if(header['type'] === 'proforma'){
                             // update proforma
                             exec(`UPDATE prof_hd set posted = 1 where entry_no = '${header['ref_no']}'`)
@@ -315,6 +337,7 @@ $(document).ready(function(){
                         location.reload();
 
                     } else {
+                        console.log(hd_query)
                         kasa.error(hd_save['message'])
                     }
 

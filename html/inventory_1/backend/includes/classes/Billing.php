@@ -586,7 +586,7 @@ class Billing extends db_handler
                         
 
                         $code = 200;
-                        $msg = "BILL COMPLETED";
+                        $msg = PRINT_TYPE;
 
                     }
                     else {

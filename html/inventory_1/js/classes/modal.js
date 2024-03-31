@@ -14,6 +14,7 @@ class Modal{
 
     setTitle(title){
         $('#gen_modal_title').html(title)
+        console.log(title)
     }
 
     setSize(size){

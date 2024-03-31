@@ -15,7 +15,7 @@ class Api {
             data:JSON.stringify(data),
             // dataType: "json",
             success: function (response) {
-                //console.log(response)
+                console.log(response)
                 result =  JSON.parse(response)
 
             },
@@ -36,6 +36,10 @@ class Api {
 
     put(data){
         return this.call('PUT',data)
+    }
+
+    get(data){
+        return this.call('GET',data)
     }
 
     patch(data){

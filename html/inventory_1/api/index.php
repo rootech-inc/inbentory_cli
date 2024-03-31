@@ -16,9 +16,18 @@ $request_method = $_SERVER['REQUEST_METHOD'];
 $api_body = json_decode(file_get_contents('php://input'), true);
 
 
-$module = $api_body['module'];
-$data = $api_body['data'];
-$crud = $api_body['crud'];
+
+
+try {
+    $module = $api_body['module'];
+    $data = $api_body['data'];
+    $crud = $api_body['crud'];
+
+} catch (Exception $e){
+
+    $response->error(json_encode($e->getMessage() . " - " . $e->getLine()));
+    exit();
+}
 
 // Perform input validation
 $valid_data = validateData($data);
@@ -76,6 +85,24 @@ function handleViewRequest($module,$data)
             (new \API\ApiResponse())->success(json_decode($customer));
         } else {
             (new \API\ApiResponse())->error("CANNOT FIND CUSTOMER");
+        }
+
+    }
+
+    elseif ($module === 'suppler'){
+        try {
+            $key = $data['key'];
+            if($key === '*'){
+                // all customers
+                $suppliers = $db->get_rows('supp_mast','none');
+            } else {
+                // specific customer
+                $suppliers = $db->get_rows('supp_mast',"`supp_id` = '$key'");
+            }
+
+            (new API\ApiResponse())->success(json_encode($suppliers));
+        } catch (Exception $e ){
+            (new API\ApiResponse())->error($e->getMessage() . " - " . $e->getLine());
         }
 
     }

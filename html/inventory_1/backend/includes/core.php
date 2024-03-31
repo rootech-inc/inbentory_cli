@@ -19,7 +19,7 @@ use taxer\tax_calculator;
     $phy = $_SERVER['DOCUMENT_ROOT'];
     require 'session.php';
     $session_id = session_id();
-    $logo = $phy . "\comp_logo_1.png";
+    $logo = $phy . "\assets\logo\xt.png";
 
 
 
@@ -41,6 +41,7 @@ use taxer\tax_calculator;
 
     define('logo',$logo);
     define("printer", $config['PRINTER']);
+    define('PRINT_TYPE',$config['PRINT_TYPE']);
     define('db_host',$config['DB_HOST']);
     define('db_name',$config['DB_NAME']);
     define('db_user',$config['DB_USER']);

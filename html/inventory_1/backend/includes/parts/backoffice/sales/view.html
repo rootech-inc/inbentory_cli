@@ -200,10 +200,12 @@
 
             // get hd
             let hd_q = `select invoice_hd.id,entry_no,remarks,taxable,net_amt,tax_amt,other_cost,gross_amt,valid,approved,ref_type,ref_no,
-       CONCAT(cs.first_name,' ',cs.last_name) as 'customer',lc.loc_id as 'loc_id',CONCAT(lc.loc_id,' - ',lc.loc_desc) as 'location',(SELECT COUNT(*) from invoice_hd where id > invoice_hd.id) as 'next',(SELECT COUNT(*) from invoice_hd where id < invoice_hd.id) as 'previous'
+       CONCAT(cs.first_name,' ',cs.last_name) as 'customer',lc.loc_id as 'loc_id',CONCAT(lc.loc_id,' - ',lc.loc_desc) as 'location',(SELECT COUNT(*) from invoice_hd where id > invoice_hd.id) as 'next',(SELECT COUNT(*) from invoice_hd where id < invoice_hd.id) as 'previous',
+       posted
 from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id right join loc lc on invoice_hd.loc_id = lc.loc_id where invoice_hd.entry_no = '${entry_no}'`
 
             let hd = fetch_rows(hd_q);
+            console.log(hd_q)
             let trans = get_row('invoice_tran',`entry_no = '${entry_no}'`);
 
             // fill header values
@@ -232,8 +234,11 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                 // check next previous
                 console.log(pk)
 
-                let next_count = header['next'];
-                let prev_count = header['previous'];
+                let next_count = row_count('invoice_hd',`id > '${pk}'`);
+                let prev_count = row_count('invoice_hd',`id < '${pk}'`);
+                console.table(header)
+                
+                
 
                 // handle status
                 if(header['valid'] === 1){
@@ -243,17 +248,22 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                             $('#approve').prop('disabled',true)
                             $('#status').html(`<kbd class="badge badge-success">Processed</kbd>`)
                             $('#delete').prop('disabled',true)
+                            $('#process').prop('disabled',true);
                         } else {
                             $('#approve').prop('disabled',true)
                             $('#status').html(`<kbd class="badge badge-light text-success">Approved</kbd>`)
                             $('#delete').prop('disabled',true)
+                            $('#process').prop('disabled',false);
                         }
 
                     } else {
                         $('#approve').prop('disabled',false)
                         $('#status').html(`<kbd class="badge badge-warning">PENDING</kbd>`)
                         $('#delete').prop('disabled',false)
+                        $('#process').prop('disabled',true);
                     }
+
+
                 } else {
                     $('#approve').prop('disabled',true)
                     $('#delete').prop('disabled',true)
@@ -317,7 +327,7 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
     }
 
     function pending(){
-        let q = "SELECT * FROM prof_hd right join customers cs on prof_hd.customer = cs.customer_id where valid = 1 and approved = 0";
+        let q = "SELECT * FROM invoice_hd right join customers cs on invoice_hd.customer = cs.customer_id where valid = 1 and approved = 0";
         let result = fetch_rows(q);
 
         if(isJson(result)){
@@ -329,21 +339,20 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                 for(let x = 0; x < rows; x++){
                     let row = trans[x];
                     console.table(row)
-                    let td = yyyy + '-' + mm + '-' + dd;
-                    let dx = anton.daysBetween(td,row['due_date'])
+
                     tr += `
-                        <tr><td>${row['first_name']} ${row['last_name']}</td><td>${row['entry_no']}</td><td>${row['date_created']}</td><td>${row['gross_amt']}</td><td>${dx}</td></tr>
+                        <tr><td>${row['first_name']} ${row['last_name']}</td><td>${row['entry_no']}</td><td>${row['date_created']}</td><td>${row['gross_amt']}</td><td></td></tr>
                     `;
                 }
 
                 htm = `
 
-                    <table class="table table-sm"><thead class="bg-dark"><tr><th>CUSTOMER</th><th>ENTRY</th><th>DATE</th><th>GROSS</th><th>DUE IN DAYS</th></tr></thead><tbody>${tr}</tbody></table>
+                    <table class="table table-sm"><thead class="bg-dark"><tr><th>CUSTOMER</th><th>ENTRY</th><th>DATE</th><th>GROSS</th><th>...</th></tr></thead><tbody>${tr}</tbody></table>
 
                 `;
             }
             mpop.setBody(htm);
-            mpop.setTitle("Pending Proforma");
+            mpop.setTitle("Pending Invoices");
             mpop.setSize('lg')
             mpop.show()
         } else {
@@ -355,7 +364,7 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
     function charm(){
         if(this.event.key === 'Enter'){
             let va = $('#charm').val();
-            loadProfoma(va)
+            loadInvoice(va)
         }
     }
 
@@ -479,13 +488,19 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                             let loc_to = loc_id;
                             let pack_desc = tran['name'];
                             let pack_un = tran['pack_qty'];
-                            let tran_qty = tran['tran_qty'] * 2;
-                            tran_qty = tran['trans'] - tran_qty;
+                            let tran_qty = parseFloat(tran['tran_qty']) ;
+                            let tran_qty_2 = tran_qty * 2;
+                            let ng_tran_qty = tran_qty - tran_qty_2
+
+
+                            console.log(`TRAN QRY : ${tran_qty}`)
+                            console.log(`TRAN QRY2 : ${tran_qty_2}`)
+                            console.log(`TRAN - : ${ng_tran_qty}`)
 
 
                             let insert_q = `insert into stk_tran (entry_no, doc, item_code, loc_fro, loc_to, pack_desc, pack_un,tran_qty) values
-                                                                ('${entry}','IN','${item_code}','${loc_fro}','${loc_to}','${pack_desc}','${pack_un}','${tran_qty}')`;
-                            //exec(insert_q);
+                                                                ('${entry}','IN','${item_code}','${loc_fro}','${loc_to}','${pack_desc}','${pack_un}','${ng_tran_qty}')`;
+                            exec(insert_q);
                             echo(insert_q)
                             console.table(tran);
                         }

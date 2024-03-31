@@ -1,0 +1,75 @@
+<!-- COre Work Space-->
+<div class="col-sm-10 h-100 d-flex flex-wrap align-content-center justify-content-center">
+
+    <div class="card h-100 w-100">
+        <div class="card-header">
+            <div class="w-100 d-flex">
+                <div class="w-50 d-flex flex-wrap">
+                    <button data-toggle="modal" data-target="#newCustomer" class="btn btn-sm rounded-0 btn-info mr-1"><i class="fa fa-plus-square"></i></button>
+                    <button title="make payment" id="make_payment" class="btn btn-success rounded-0 btn-sm mr-1"><i class="fa fa-money-bill"></i></button>
+                    <button id="previous" class="btn btn-info mr-2 rounded-0 btn-sm"><i class="fa fa-backward"></i></button>
+                    <button class="btn btn-info btn-info btn-sm rounded-0" id="next"><i class="fa fa-forward"></i></button>
+
+                </div>
+                <div class="w-50 d-flex flex-wrap justify-content-end">
+                    <button id="statement" class="btn btn-sm btn-info rounded-0 ml-2"><i class="fa fa-print"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="h-30 ant-bg-light overflow-auto">
+                <div class="container py-2">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="row mb-2">
+                                <label for="cust_no" class="col-sm-5"><strong>Cust N0.</strong></label>
+                                <input type="text" id="cust_no" disabled class="col-sm-7 form-control rounded-0">
+                            </div>
+                            <div class="row mb-2">
+                                <label for="name" class="col-sm-5"><strong>Name</strong></label>
+                                <input type="text" id="name" disabled class="col-sm-7 form-control rounded-0">
+                            </div>
+                            <div class="row mb-2">
+                                <label for="balance" class="col-sm-5"><strong>Balance</strong></label>
+                                <input type="text" id="balance" disabled class="col-sm-7 form-control rounded-0">
+                            </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                            <div class="row mb-2">
+                                <label for="c_addr" class="col-sm-5"><strong>Address</strong></label>
+                                <textarea id="c_addr" rows="3" disabled readonly class="col-sm-7 form-control rounded-0"></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="h-70 table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Entry</th>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>User</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>00000</td>
+                        <td>00000</td>
+                        <td>00000</td>
+                        <td>00000</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

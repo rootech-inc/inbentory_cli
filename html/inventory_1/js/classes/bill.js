@@ -400,17 +400,20 @@ class Bill {
                     type:'POST',
                     data:form_data,
                     success: function (response) {
-                        console.log("HELLO")
+
+                        console.log("Bill Response")
                         console.log(response)
-                        kasa.info("GOOD THINGS ON THE WAY")
+
                         let result = JSON.parse(response)
                         let status,message
                         status = result['code']
                         message = result['message']
+                        alert(message)
                         
-                        alert(response)
+
 
                         if(status === 200){
+
 
                             // get payment details
                             let bill_amt,tax_amt,taxable_amt,tran_qty,amt_paid,amt_bal,bill_number
@@ -445,6 +448,10 @@ class Bill {
                             anton.setCookie('refund_header',null)
                             bill.checkBillType()
                             bill.loadBillsInTrans()
+
+                            if(message === 'CLIENT'){
+                                printPdf('/backend/xtest.pdf')
+                            }
                             Swal.close()
 
 
@@ -486,6 +493,17 @@ class Bill {
 
     }
     //make payment
+
+    printDocument(documentId) {
+        var doc = document.getElementById(documentId);
+
+        //Wait until PDF is ready to print
+        if (typeof doc.print === 'undefined') {
+            setTimeout(function(){bill.printDocument(documentId);}, 1000);
+        } else {
+            doc.print();
+        }
+    }
 
     recall(){
       b_msg("Recallling Bill...")

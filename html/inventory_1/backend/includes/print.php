@@ -121,213 +121,378 @@ use billing\Billing;
             $bill_hd_count = "`billRef` = '$billRef'";
             if ($db_hander->row_count('bill_header', $bill_hd_count) > 0) {
 
-                $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
-                $curRef = $bill_header['billRef'];
-                $billRef = $bill_header['billRef'];
-                $billSummary = (new Billing())->billSummaryV2($billRef);
-                $head = $billSummary['bill_header'];
-                $bill_number = $bill_header['bill_no'];
+                if(PRINT_TYPE === 'SERVER'){
+
+                    $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
+                    $curRef = $bill_header['billRef'];
+                    $billRef = $bill_header['billRef'];
+                    $billSummary = (new Billing())->billSummaryV2($billRef);
+                    $head = $billSummary['bill_header'];
+                    $bill_number = $bill_header['bill_no'];
+                    $bill_total = (new Billing())->billTotal($bill_number, $today);
+                    $items = array();
+                    $bill_trans_count = "`billRef` = '$billRef'";
+                    $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                    $billSn = 0;
+                    while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC)) {
+                        $billSn++;
+                        $item_qty = $row['item_qty'];
+                        $item_barcode = $row['item_barcode'];
+                        if ($billSn > 9) {
+                            $bq = "   $item_barcode QTY : $item_qty";
+                        } else {
+                            $bq = "  $item_barcode QTY : $item_qty";
+                        }
+
+                        $item_name = $row['item_desc'];
+                        $item_desc = "$billSn $item_name";
+                        $price = number_format($row['bill_amt'], 2);
+
+                        $items[] = new item(substr($item_desc, 0, 30), number_format($price, 2)); // push item desc and cost
+                        $items[] = new item($bq, ''); // push barcode Quantity
+                    }
+                    $subtotal = new item('Subtotal', '12.95');
+                    $non_taxable = new item('Non-Taxable', $head['NON_TAXABLE_AMOUNT']);
+                    $taxable = new item('Taxable', $head['TAXABLE_AMOUNT']);
+                    $discount = new item('Discount', $head['DISCOUNT']);
+                    $tax = new item('Tax Amount', $head['TOTAL_VAT']);
+                    $billAmt = new item('Bill Amount', $head['BILL_AMT']);
+                    $paidAmt = new item('Paid Amount', $bill_header['amt_paid']);
+                    $balAmt = new item("Bal. Amount", $bill_header['amt_bal']);
 
 
 
+                    $connector = null;
+                    $connector = new WindowsPrintConnector(printer);
+                    $printer = new Printer($connector);
+                    $logo = EscposImage::load(logo, false);
 
-                $payment = $bill_header['pmt_type'];
-                $bill_total = (new Billing())->billTotal($bill_number, $today);
-                $tran_qty = $bill_total['tran_qty'];
-                $taxable_amt = number_format($bill_total['taxable_amt'], 2);
-                $tax_amt = number_format($bill_total['tax_amt'], 2);
-                $bill_amt = number_format($bill_total['bill_amt'], 2);
-                $amt_paid = number_format($bill_header['amt_paid'], 2);
-                $amt_bal = number_format($bill_header['amt_bal'], 2);
+                    /* Print top logo */
+                    $printer->setJustification(Printer::JUSTIFY_CENTER);
+                    $printer->graphics($logo);
 
-                $items = array();
+                    /* Name of shop */
+                    $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+                    $printer->text(company_name);
+                    $printer->selectPrintMode();
+                    $printer->setEmphasis(false);
+                    $printer->feed();
+                    $printer->text(company_country . ' , ' . company_city);
+                    $printer->feed();
+                    $printer->text("Mob : " . company_mob);
 
-                $bill_trans_count = "`billRef` = '$billRef'";
-                
+                    /* Title of receipt */
+                    $printer->feed(2);
+                    $printer->setEmphasis(true);
 
-                $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
-                $billSn = 0;
-                while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC)) {
-                    $billSn++;
-                    $item_qty = $row['item_qty'];
-                    $item_barcode = $row['item_barcode'];
-                    if ($billSn > 9) {
-                        $bq = "   $item_barcode QTY : $item_qty";
-                    } else {
-                        $bq = "  $item_barcode QTY : $item_qty";
+                    $sales_type = strtoupper($bill_header['sales_type']);
+                    $printer->text("$sales_type\n");
+
+                    $printer->feed(2);
+                    $printer->setEmphasis(false);
+                    $time = $bill_header['bill_time'];
+                    $date = $bill_header['bill_date'];
+                    $clerk = $bill_header['clerk'];
+                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                    $printer->text(new item("BILL # : $bill_number", $date));
+                    $printer->text(new item("CLERK : $clerk",  $time));
+                    $mech_no = $bill_header['mach_no'];
+                    $printer->text(new item("M# : $mech_no", ));
+
+                    $printer->feed();
+                    /* Items */
+                    $printer->setJustification(Printer::JUSTIFY_LEFT);
+                    $printer->setEmphasis(true);
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->text(new item('No. Product', 'Amount'));
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->setEmphasis(false);
+                    $printer->feed();
+                    foreach ($items as $item) {
+                        $printer->text($item);
                     }
 
-                    $item_name = $row['item_desc'];
-                    $item_desc = "$billSn $item_name";
-                    $price = number_format($row['bill_amt'], 2);
 
-                    $items[] = new item(substr($item_desc, 0, 30), number_format($price, 2)); // push item desc and cost
-                    $items[] = new item($bq, ''); // push barcode Quantity
-                }
-
-                $subtotal = new item('Subtotal', '12.95');
-
-                $non_taxable = new item('Non-Taxable', $head['NON_TAXABLE_AMOUNT']);
-                $taxable = new item('Taxable', $head['TAXABLE_AMOUNT']);
-                $discount = new item('Discount', $head['DISCOUNT']);
-                $tax = new item('Tax Amount', $head['TOTAL_VAT']);
-                $billAmt = new item('Bill Amount', $head['BILL_AMT']);
-                $paidAmt = new item('Paid Amount', $bill_header['amt_paid']);
-                $balAmt = new item("Bal. Amount", $bill_header['amt_bal']);
-
-
-                /* Date is kept the same for testing */
-                $date = date('l jS \of F Y ') . date('H:i');
-                //$date = "Monday 6th of April 2015 02:56:25 PM";
-
-                $connector = null;
-                $connector = new WindowsPrintConnector(printer);
-                $printer = new Printer($connector);
-                $logo = EscposImage::load(logo, false);
-
-                /* Print top logo */
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->graphics($logo);
-
-                /* Name of shop */
-                $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-                $printer->text(company_name);
-                $printer->selectPrintMode();
-                $printer->setEmphasis(false);
-                $printer->feed();
-                $printer->text(company_country . ' , ' . company_city);
-                $printer->feed();
-                $printer->text("Mob : " . company_mob);
-
-                /* Title of receipt */
-                $printer->feed(2);
-                $printer->setEmphasis(true);
-
-                $sales_type = strtoupper($bill_header['sales_type']);
-                $printer->text("$sales_type\n");
-
-                $printer->feed(2);
-                $printer->setEmphasis(false);
-                $time = $bill_header['bill_time'];
-                $date = $bill_header['bill_date'];
-                $clerk = $bill_header['clerk'];
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $printer->text(new item("BILL # : $bill_number", $date));
-                $printer->text(new item("CLERK : $clerk",  $time));
-                $mech_no = $bill_header['mach_no'];
-                $printer->text(new item("M# : $mech_no", ));
-
-                $printer->feed();
-                /* Items */
-                $printer->setJustification(Printer::JUSTIFY_LEFT);
-                $printer->setEmphasis(true);
-                $printer->text(str_repeat('-', 48) . "\n");
-                $printer->text(new item('No. Product', 'Amount'));
-                $printer->text(str_repeat('-', 48) . "\n");
-                $printer->setEmphasis(false);
-                $printer->feed();
-                foreach ($items as $item) {
-                    $printer->text($item);
-                }
-
-
-                $printer->feed();
-                $printer->text(str_repeat('-', 48) . "\n");
-                /* Tax and total */
-                $printer->text($non_taxable);
-                $printer->text($taxable);
-                $printer->text($discount);
-                $printer->text($tax);
-                $printer->text($billAmt);
-                $printer->text($paidAmt);
-                $printer->text($balAmt);
-                $printer->feed();
-
-                if($db_hander->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1 ){
-                    $customer = $db_hander->get_rows('loyalty_tran',"`billRef` = '$billRef'");
-                    $printer->text(str_repeat('-', 48) . "\n");
-                    $printer->text(new item('LOYALTY', ''));
-                    $printer->text(str_repeat('-', 48) . "\n");
-                    $printer->text(new item('CUSTOMER', $customer['cust_name']));
-                    $printer->text(new item('POINTS BEFORE', number_format($customer['points_before'],2)));
-                    $printer->text(new item('POINTS EARNED', number_format($customer['points_earned'],2)));
-                    $printer->text(new item('POINTS STAND', number_format($customer['current_points'],2)));
                     $printer->feed();
-                }
-
-
-
-                $printer->text(str_repeat('-', 48) . "\n");
-                $printer->text(new item('TAX DESC', 'TAX AMOUNT'));
-                $printer->text(str_repeat('-', 48) . "\n");
-
-
-                $nh = $db_hander->sum('bill_trans', 'nhis', "`billRef` = '$billRef'");
-                $gf = $db_hander->sum('bill_trans', 'gfund', "`billRef` = '$billRef'");
-                $cv = $db_hander->sum('bill_trans', 'covid', "`billRef` = '$billRef'");
-                $vat = $db_hander->sum('bill_trans', 'vat', "`billRef` = '$billRef'");
-
-                $nhil = new item('NHIL (2.5%)', $nh);
-                $printer->text($nhil);
-                $getf = new item('GETL (2.5%)', $gf);
-                $printer->text($getf);
-                $covid = new item('COVID (1%)', $cv);
-                $printer->text($covid);
-                $printer->text(str_repeat('-', 48) . "\n");
-                $vat = new item('VAT (15%)', $vat);
-                $printer->text($vat);
-
-                if (evat === true) {
-
-                    $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
                     $printer->text(str_repeat('-', 48) . "\n");
+                    /* Tax and total */
+                    $printer->text($non_taxable);
+                    $printer->text($taxable);
+                    $printer->text($discount);
+                    $printer->text($tax);
+                    $printer->text($billAmt);
+                    $printer->text($paidAmt);
+                    $printer->text($balAmt);
                     $printer->feed();
-                    $printer->setUnderline(1);
-                    $printer->text("SDC INFORMATION \n");
-                    $printer->setUnderline(0);
-                    $ysdcmrctim = $evat_signatures['ysdcmrctim'];
-                    $printer->text("TIME SDC : $ysdcmrctim \n");
 
-                    $ysdcid = $evat_signatures['ysdcid'];
-                    $printer->text("SDC ID : $ysdcid \n");
+                    if($db_hander->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1 ){
+                        $customer = $db_hander->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+                        $printer->text(str_repeat('-', 48) . "\n");
+                        $printer->text(new item('LOYALTY', ''));
+                        $printer->text(str_repeat('-', 48) . "\n");
+                        $printer->text(new item('CUSTOMER', $customer['cust_name']));
+                        $printer->text(new item('POINTS BEFORE', number_format($customer['points_before'],2)));
+                        $printer->text(new item('POINTS EARNED', number_format($customer['points_earned'],2)));
+                        $printer->text(new item('POINTS STAND', number_format($customer['current_points'],2)));
+                        $printer->feed();
+                    }
 
-                    $ysdcrecnum = $evat_signatures['ysdcrecnum'];
-                    $printer->text("REC. NUMBER : $ysdcrecnum \n");
 
-                    $ysdcintdata = $evat_signatures['ysdcintdata'];
-                    $printer->text("INT. DATA: $ysdcintdata \n");
 
-                    $ysdcregsig = $evat_signatures['ysdcregsig'];
-                    $printer->text("REC. SIGN: $ysdcregsig \n");
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $printer->text(new item('TAX DESC', 'TAX AMOUNT'));
+                    $printer->text(str_repeat('-', 48) . "\n");
 
+
+                    $nh = $db_hander->sum('bill_trans', 'nhis', "`billRef` = '$billRef'");
+                    $gf = $db_hander->sum('bill_trans', 'gfund', "`billRef` = '$billRef'");
+                    $cv = $db_hander->sum('bill_trans', 'covid', "`billRef` = '$billRef'");
+                    $vat = $db_hander->sum('bill_trans', 'vat', "`billRef` = '$billRef'");
+
+                    $nhil = new item('NHIL (2.5%)', $nh);
+                    $printer->text($nhil);
+                    $getf = new item('GETL (2.5%)', $gf);
+                    $printer->text($getf);
+                    $covid = new item('COVID (1%)', $cv);
+                    $printer->text($covid);
+                    $printer->text(str_repeat('-', 48) . "\n");
+                    $vat = new item('VAT (15%)', $vat);
+                    $printer->text($vat);
+
+                    if (evat === true) {
+
+                        $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+                        $printer->text(str_repeat('-', 48) . "\n");
+                        $printer->feed();
+                        $printer->setUnderline(1);
+                        $printer->text("SDC INFORMATION \n");
+                        $printer->setUnderline(0);
+                        $ysdcmrctim = $evat_signatures['ysdcmrctim'];
+                        $printer->text("TIME SDC : $ysdcmrctim \n");
+
+                        $ysdcid = $evat_signatures['ysdcid'];
+                        $printer->text("SDC ID : $ysdcid \n");
+
+                        $ysdcrecnum = $evat_signatures['ysdcrecnum'];
+                        $printer->text("REC. NUMBER : $ysdcrecnum \n");
+
+                        $ysdcintdata = $evat_signatures['ysdcintdata'];
+                        $printer->text("INT. DATA: $ysdcintdata \n");
+
+                        $ysdcregsig = $evat_signatures['ysdcregsig'];
+                        $printer->text("REC. SIGN: $ysdcregsig \n");
+
+                        $printer->setJustification(Printer::JUSTIFY_CENTER);
+                        $printer->qrCode($evat_signatures['qr_code']);
+
+                        $printer->feed();
+                        $printer->setUnderline(1);
+
+                    }
+
+                    /* Footer */
+                    $printer->feed();
                     $printer->setJustification(Printer::JUSTIFY_CENTER);
-                    $printer->qrCode($evat_signatures['qr_code']);
+                    $printer->text("Thank you for shopping at ExampleMart\n");
+                    $printer->text("For trading hours, please visit example.com\n");
+                    $printer->feed(2);
 
-                    $printer->feed();
-                    $printer->setUnderline(1);
+                    // $printer->text($date . "\n");
+                    // $printer->feed(1);
+
+                    $printer->setBarcodeHeight(80);
+                    $printer->setBarcodeWidth(5);
+                    $printer->barcode("$curRef", Printer::BARCODE_JAN13);
+                    $printer->setTextSize(2, 1);
+                    $printer->text("$curRef \n");
+
+
+                    /* Cut the receipt and open the cash drawer */
+                    $printer->cut();
+                    $printer->close();
 
                 }
+                elseif (PRINT_TYPE === 'CLIENT'){
+                    $pdf = new FPDF('P', 'mm', array(80,1000)); // Set page size to 80mm wide
+                    $pdf->SetMargins(2, 2, 2); // Set margins (left, top, right)
 
-                /* Footer */
-                $printer->feed();
-                $printer->setJustification(Printer::JUSTIFY_CENTER);
-                $printer->text("Thank you for shopping at ExampleMart\n");
-                $printer->text("For trading hours, please visit example.com\n");
-                $printer->feed(2);
+                    $pdf->SetFont('Arial', 'B', 12);
+                    $pdf->SetTitle('Receipt');
+                    $pdf->AddPage();
 
-                // $printer->text($date . "\n");
-                // $printer->feed(1);
+                    $db_hander = new db_handler();
 
-                $printer->setBarcodeHeight(80);
-                $printer->setBarcodeWidth(5);
-                $printer->barcode("$curRef", Printer::BARCODE_JAN13);
-                $printer->setTextSize(2, 1);
-                $printer->text("$curRef \n");
+                    $today = today;
+
+                    $bill_hd_count = "`billRef` = '$billRef'";
+                    $bill_header = $db_hander->get_rows('bill_header', $bill_hd_count);
+                    $curRef = $bill_header['billRef'];
+                    $billRef = $bill_header['billRef'];
+                    $billSummary = (new Billing())->billSummaryV2($billRef);
+                    $head = $billSummary['bill_header'];
+                    $bill_number = $bill_header['bill_no'];
+
+                    $payment = $bill_header['pmt_type'];
+                    $bill_total = (new Billing())->billTotal($bill_number, $today);
 
 
-                /* Cut the receipt and open the cash drawer */
-                $printer->cut();
-                $printer->close();
+
+
+
+                    $pdf->Image(logo,30,5,);
+                    $pdf->Ln(20);
+                    $pdf->Cell(0, 5, company_name, 0, 1, 'C');
+                    $pdf->SetFont('Arial', '', 10);
+                    $pdf->Cell(0, 5, company_country . ",". company_city , 0, 1, "C");
+                    $pdf->Cell(0, 5, 'Phone: '.company_mob, 0, 1, 'C');
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(0, 10, $bill_header['sales_type'], 0, 1, 'C');
+
+
+                    // meta data
+                    $pdf->SetFont('Arial', '', 8);
+                    $pdf->Cell(35,5,"Bill #: $bill_number",0,0,'L');
+                    $pdf->Cell(40,5,"Date: ".$bill_header['bill_date'],0,1,'R');
+                    $pdf->Cell(35,5,"Clerk: ".$bill_header['clerk'],0,0,'L');
+                    $pdf->Cell(40,5,"Time: ".$bill_header['bill_time'],0,1,'R');
+                    $pdf->Cell(35,5,"Counter #: ".$bill_header['mach_no'],0,1,'L');
+
+
+
+                    // item
+                    $pdf->Ln(5);
+                    $pdf->SetFont('Arial', 'B', 8);
+                    $pdf->Cell(10,5,'N0.',0,0,'L');
+                    $pdf->Cell(50,5,"Product",0,0,'L');
+                    $pdf->Cell(15,5,"Amount",0,1,'R');
+                    $pdf->Cell(0,3,str_repeat('-',80),0,1,'C');
+                    $bill_trans_count = "`billRef` = '$billRef'";
+                    $bill_sql = $db_hander->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                    $billSn = 0;
+                    while ($row = $bill_sql->fetch(PDO::FETCH_ASSOC)) {
+                        $billSn++;
+                        $item_qty = $row['item_qty'];
+                        $item_barcode = $row['item_barcode'];
+                        if ($billSn > 9) {
+                            $bq = "$item_barcode QTY : $item_qty";
+                        } else {
+                            $bq = "$item_barcode QTY : $item_qty";
+                        }
+
+                        $item_name = $row['item_desc'];
+                        $item_desc = "$billSn $item_name";
+                        $price = number_format($row['bill_amt'], 2);
+
+                        $pdf->SetFont('Arial', '', 8);
+                        $pdf->Cell(10,4,$billSn . ".",0,0,'L');
+                        $pdf->Cell(50,4,substr($item_name,0,30),0,0,'L');
+                        $pdf->Cell(15,4,$price,0,1,'R');
+                        // barcode
+                        $pdf->SetFont('Arial', 'I', 7);
+                        $pdf->Cell(10,4,'',0,0,'L');
+                        $pdf->Cell(50,5,$bq,0,1,'L');
+
+
+                    }
+
+
+
+
+                    // bull summary
+                    $pdf->Ln(10);
+                    $pdf->SetFont('Arial', 'B', 8);
+                    $pdf->Cell(0,4,"Bill Summary",0,1,'L');
+                    $pdf->Cell(0,3,str_repeat('-',80),0,1,'C');
+                    $pdf->SetFont('Arial', '', 8);
+                    $pdf->Cell(60,5,"Non-Taxable",0,0,);
+                    $pdf->Cell(15,5,$head['NON_TAXABLE_AMOUNT'],0,1,"R");
+                    $pdf->Cell(60,5,"Taxable",0,0,);
+                    $pdf->Cell(15,5,$head['TAXABLE_AMOUNT'],0,1,"R");
+                    $pdf->Cell(60,5,"Discount",0,0,);
+                    $pdf->Cell(15,5,$head['DISCOUNT'],0,1,"R");
+                    $pdf->Cell(60,5,"Tax Amount",0,0,);
+                    $pdf->Cell(15,5, $head['TOTAL_VAT'],0,1,"R");
+                    $pdf->Cell(60,5,"Bill Amount",0,0,);
+                    $pdf->Cell(15,5,$head['BILL_AMT'],0,1,"R");
+                    $pdf->Cell(60,5,"Paid Amount",0,0,);
+                    $pdf->Cell(15,5,$bill_header['amt_paid'],0,1,"R");
+                    $pdf->Cell(60,5,"Balance",0,0,);
+                    $pdf->Cell(15,5, $bill_header['amt_bal'],0,1,"R");
+
+                    // tax breakdown
+                    $pdf->Ln(10);
+                    $pdf->SetFont('Arial', 'B', 8);
+                    $pdf->Cell(0,4,"Tax Breakdown",0,1,'L');
+                    $pdf->Cell(0,3,str_repeat('-',80),0,1,'C');
+                    $pdf->SetFont('Arial', '', 8);
+                    $nh = $db_hander->sum('bill_trans', 'nhis', "`billRef` = '$billRef'");
+                    $gf = $db_hander->sum('bill_trans', 'gfund', "`billRef` = '$billRef'");
+                    $cv = $db_hander->sum('bill_trans', 'covid', "`billRef` = '$billRef'");
+                    $vat = $db_hander->sum('bill_trans', 'vat', "`billRef` = '$billRef'");
+
+                    $pdf->Cell(60,5,"NHIL",0,0,);
+                    $pdf->Cell(15,5,$nh,0,1,"R");
+                    $pdf->Cell(60,5,"GETL",0,0,);
+                    $pdf->Cell(15,5,$gf,0,1,"R");
+                    $pdf->Cell(60,5,"COVID",0,0,);
+                    $pdf->Cell(15,5,$cv,0,1,"R");
+                    $pdf->Cell(60,5,"VAT",0,0,);
+                    $pdf->Cell(15,5,$vat,0,1,"R");
+
+                    // loyalty
+                    if($db_hander->row_count('loyalty_tran',"`billRef` = '$billRef'") === 1 ){
+                        $pdf->Ln(10);
+                        $pdf->SetFont('Arial', 'B', 8);
+                        $pdf->Cell(0,4,"Loyalty",0,1,'L');
+                        $pdf->Cell(0,3,str_repeat('-',80),0,1,'C');
+                        $pdf->SetFont('Arial', 'B', 8);
+                        $customer = $db_hander->get_rows('loyalty_tran',"`billRef` = '$billRef'");
+
+                        $pdf->Cell(60,5,"CUSTOMER",0,0,);
+                        $pdf->Cell(15,5,$customer['cust_name'],0,1,"R");
+
+                        $pdf->Cell(60,5,"POINTS BEFORE",0,0,);
+                        $pdf->Cell(15,5, number_format($customer['points_before'],0),1,"R");
+
+                        $pdf->Cell(60,5,"POINTS EARNED",0,0,);
+                        $pdf->Cell(15,5,number_format($customer['points_earned'],0),1,"R");
+
+                        $pdf->Cell(60,5,"POINTS BALANCE",0,0,);
+                        $pdf->Cell(15,5,number_format($customer['current_points'],0),1,"R");
+
+
+                    }
+
+                    // EVAT
+
+                    if (evat){
+                        $evat_signatures = (new \billing\Evat())->get_signature($bill_header['billRef']);
+                        $pdf->Ln(10);
+                        $pdf->SetFont('Arial', 'B', 8);
+                        $pdf->Cell(0,4,"SDC INFORMATION",0,1,'L');
+                        $pdf->Cell(0,3,str_repeat('-',80),0,1,'C');
+                        $pdf->SetFont('Arial', '', 8);
+
+
+                        $pdf->Cell(0,5,"SDC TIME : ".$evat_signatures['ysdcmrctim'],0,1,'L');
+                        $pdf->Cell(0,5,"SDC ID : ".$evat_signatures['ysdcid'],0,1,'L');
+                        $pdf->Cell(0,5,"REC. NUMBER : ".$evat_signatures['ysdcrecnum'],0,1,'L');
+                        $pdf->Cell(0,5,"INT. DATA : ".$evat_signatures['ysdcintdata'],0,1,'L');
+                        $pdf->Cell(0,5,"REC. SIGN : ".$evat_signatures['ysdcregsig'],0,1,'L');
+
+                    }
+
+                    // footer
+                    $pdf->Ln(10);
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->MultiCell(0,5,"Thank you for shopping at example mart. See you soon.",0,'C');
+
+                    // bill Reference
+
+                    $filename = '../xtest.pdf';
+                    $pdf->Output($filename, 'F'); // Output
+                }
+
 
 
             } else {
@@ -336,6 +501,12 @@ use billing\Billing;
             }
 
         }
+
+
+
+
+
+
 
 
 

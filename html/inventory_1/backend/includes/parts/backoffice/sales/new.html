@@ -15,18 +15,9 @@
             <div class="w-30 text-center text-dark"><strong class="card-title">CREATING SALES INVOICE</strong></div>
 
             <div class="w-30 justify-content-end d-flex flex-wrap">
-                <input onkeydown="charm()" placeholder="entry number" style="width: 150px; display: none" type="search" id="charm" class="form-control rounded-0 form-control-sm">
-                <button id="print" class="btn btn-outline-primary btn-sm mr-1">
-                    <i class="fa fa-print"></i>
-                </button>
-                <button disabled id="approve" class="btn btn-outline-success btn-sm mr-1">
-                    <i class="fa fa-check"></i>
-                </button>
-                <button id="search" class="btn btn-outline-info btn-sm mr-1">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button title="pending" id="pending" class="btn btn-outline-info btn-sm mr-1">
-                    <i class="fa fa-question"></i>
+
+                <button  id="new_line" class="btn btn-outline-success btn-sm mr-1">
+                    <i class="fa fa-grip-lines text-info"></i>
                 </button>
             </div>
         </div>
@@ -65,23 +56,26 @@
                         <!-- LOCATION -->
                         <div class="row  mb-2">
                             <label for="loc_id" class="col-sm-4"><strong>Location</strong></label>
-                            <div class="col-sm-4">
-                                <select id="loc_id" class="form-control rounded-0 form-control-sm">
+                            <div class="col-sm-6">
+                                <select id="loc_id" disabled class="form-control rounded-0 form-control-sm">
 
                                 </select>
                             </div>
-                            <div class="col-sm-4">
-                                <input type="text" readonly value="none" disabled id="loc_desc"
-                                       class="form-control rounded-0 form-control-sm">
+                            <div class="col-sm-2">
+                                <button onclick="finsLoction()" class="btn btn-sm btn-light rounded-0">...</button>
                             </div>
                         </div>
 
                         <!-- CUSTOMER -->
                         <div class="row  mb-2">
-                            <label for="customer" class="col-sm-4"><strong>Customer</strong></label>
-                            <div class="col-sm-8">
-                                <input type="text" id="customer"
-                                       class="form-control rounded-0 form-control-sm">
+                            <label for="cust_code" class="col-sm-4"><strong>Customer</strong></label>
+                            <div class="col-sm-6">
+                                <select id="cust_code" disabled class="form-control rounded-0 form-control-sm">
+
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <button onclick="finsCustomer()" class="btn btn-sm btn-light rounded-0">...</button>
                             </div>
                         </div>
 
@@ -93,11 +87,13 @@
                         <div class="row mb-2">
                             <label for="taxable" class="col-sm-4"><strong>Taxable</strong></label>
                             <div class="col-sm-3">
-                                <input type="text" id="taxable" readonly
-                                       class="form-control text-center rounded-0 form-control-sm">
+                                <select id="taxable" class="form-control text-center rounded-0 form-control-sm">
+                                    <option value="1">YES</option>
+                                    <option value="0">NO</option>
+                                </select>
                             </div>
                             <div class="col-sm-5" id="status">
-                                <kbd class="badge badge-warning">PENDING</kbd>
+<!--                                <kbd class="badge badge-warning">PENDING</kbd>-->
                             </div>
                         </div>
 
@@ -181,6 +177,151 @@
 </div>
 
 <script src="/js/sales_invoice.js">
+</script>
+
+<script>
+    // load locations
+    // let loc_q = fetch_rows("SELECT id,loc_id,loc_desc from loc");
+    // if(isJson(loc_q)){
+    //     let locs = JSON.parse(fetch_rows("SELECT id,loc_id,loc_desc from loc"));
+    //     let l_opts = "<option value=''>Select Location</option>";
+    //     for(let l = 0; l < locs.length; l++){
+    //         let t_loc = locs[l];
+    //         l_opts += `<option value="${t_loc['id']}">${t_loc['loc_id']} - ${t_loc['loc_desc']}</option>`;
+    //     }
+    //
+    //     $('#loc_id').html(l_opts)
+    //
+    // } else {
+    //     kasa.error("Cannot Load Locations")
+    // }
+
+    function getCustomers(){
+        let keyCode = this.event.keyCode
+        if(keyCode === 13){
+            // search
+            let customer_str = $('#cust_search').val();
+
+            // get customer
+            let q = `SELECT * FROM customers where first_name like '%${customer_str}%' or last_name like '%${customer_str}%' limit 10`;
+            console.log(q)
+            let customer = fetch_rows(q);
+            if(isJson(customer)){
+                let custs = JSON.parse(customer);
+                let tr = "";
+                for(let c = 0; c< custs.length; c++){
+                    let cust = custs[c];
+                    let cust_name = `${cust['first_name']} ${cust['last_name']}`;
+                    let cust_no = cust['cust_no'];
+                    let cust_id = cust['customer_id'];
+                    tr += `<tr ondblclick="setCustomer('${cust_id}','${cust_name}')"><td>${cust['cust_no']}</td><td>${cust['first_name']} ${cust['last_name']}</td></tr>`
+                }
+
+                $('#see_cust').html(tr)
+
+            } else {
+                kasa.error("Invalid Response")
+            }
+        }
+    }
 
 
+    function setCustomer(code,name){
+        $('#cust_code').html(`<option value="${code}">${name}</option>`)
+        mpop.hide()
+    }
+
+    // load customer
+    function finsCustomer(){
+        mpop.setTitle(`<input onkeydown="getCustomers()" type="search" class="form-control rounded-0" placeholder="Customer Name" name="" id="cust_search">`);
+        // get customer
+        let customers = fetch_rows("SELECT * FROM customers limit 10");
+        if(isJson(customers)){
+            let custs = JSON.parse(customers);
+            let tr = "";
+            for(let c = 0; c< custs.length; c++){
+                let cust = custs[c];
+                let cust_name = `${cust['first_name']} ${cust['last_name']}`;
+                let cust_no = cust['cust_no'];
+                let cust_id = cust['customer_id'];
+                tr += `<tr ondblclick="setCustomer('${cust_id}','${cust_name}')"><td>${cust['cust_no']}</td><td>${cust['first_name']} ${cust['last_name']}</td></tr>`
+            }
+
+            let tb = `<table class="table table-bordered"><thead class="thead-dark"><tr><th>Cust CODE.</th><th>Customer Name</th></tr></thead><tbody id="see_cust">${tr}</tbody></table>`
+            mpop.setBody(tb)
+            console.table(customers)
+            mpop.show()
+        } else {
+            kasa.error("Invalid Response")
+        }
+
+    }
+
+    // location
+    function finsLoction(){
+        mpop.setTitle(`<input onkeydown="getLocation()" type="search" class="form-control rounded-0" placeholder="Location" name="" id="loc_search">`);
+        // get customer
+        let customers = fetch_rows("SELECT * FROM loc limit 10");
+        if(isJson(customers)){
+            let custs = JSON.parse(customers);
+            let tr = "";
+            for(let c = 0; c< custs.length; c++){
+                let loc = custs[c];
+                let loc_name = `${loc['loc_id']} - ${loc['loc_desc']}`;
+                let locid = loc['loc_id'];
+                tr += `<tr ondblclick="setLoacation('${locid}','${loc_name}')"><td>${locid}</td><td>${loc_name}</td></tr>`
+            }
+
+            let tb = `<table class="table table-bordered"><thead class="thead-dark"><tr><th>CODE.</th><th>Name</th></tr></thead><tbody id="see_cust">${tr}</tbody></table>`
+            mpop.setBody(tb)
+            console.table(customers)
+            mpop.show()
+        } else {
+            kasa.error("Invalid Response")
+        }
+    }
+
+    function setLoacation(loc_id,name){
+        $('#loc_id').html(`<option value="${loc_id}">${name}</option>`);
+        mpop.hide()
+    }
+
+    function getLocation(){
+        let keyCode = this.event.keyCode
+        if(keyCode === 13){
+            // search
+            let customer_str = $('#loc_search').val();
+
+            // get customer
+            let q = `SELECT * FROM loc where loc.loc_desc like '%${customer_str}%' or loc.loc_id like '%${customer_str}%' limit 10`;
+            console.log(q)
+            let customer = fetch_rows(q);
+            if(isJson(customer)){
+                let custs = JSON.parse(customer);
+                let tr = "";
+                for(let c = 0; c< custs.length; c++){
+                    let cust = custs[c];
+                    let cust_name = `${cust['loc_id']} - ${cust['loc_desc']}`;
+                    let cust_no = cust['loc_id'];
+                    tr += `<tr ondblclick="setLoacation('${cust_no}','${cust_name}')"><td>${cust_no}</td><td>${cust_name}</td></tr>`
+                }
+
+                $('#see_cust').html(tr)
+
+            } else {
+                kasa.error("Invalid Response")
+            }
+        }
+    }
+
+
+    $(document).ready(function(){
+        $('#new_line').click(function (){
+            teb.newLine()
+        });
+
+        $('#cancel').click(function(){
+            set_session(['action=view'])
+        });
+    });
 </script>

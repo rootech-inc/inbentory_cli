@@ -69,6 +69,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/cust.js"></script>
     <script src="/js/classes/jspdf.umd.min.js"></script>
     <script src="/js/classes/grn.js"></script>
+    <script src="/js/classes/Tables.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 

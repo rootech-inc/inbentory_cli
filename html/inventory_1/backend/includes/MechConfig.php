@@ -39,6 +39,7 @@ class MechConfig
 
             'PRINTER'=>$printer['NAME'],
             'BILL_PRINT'=>$printer['BILL_PRINT'],
+            'PRINT_TYPE'=>$printer['PRINT_TYPE'],
 
             'EVAT'=>$evat['ACTIVE'],
             'EVAT_API'=>$evat['BASE_URL'],
