@@ -14,6 +14,9 @@
       <PhpCSConfiguration beautifier_path="$PROJECT_DIR$/backend/vendor/bin/phpcbf" tool_path="$PROJECT_DIR$/backend/vendor/bin/phpcs" />
     </phpcs_settings>
   </component>
+  <component name="PhpExternalFormatter">
+    <option name="externalFormatter" value="PHP_CS_FIXER" />
+  </component>
   <component name="PhpIncludePathManager">
     <include_path>
       <path value="$PROJECT_DIR$/escpos/vendor/phpunit/php-code-coverage" />
@@ -84,6 +87,43 @@
       <path value="$PROJECT_DIR$/backend/vendor/phpunit/php-file-iterator" />
       <path value="$PROJECT_DIR$/backend/vendor/phpunit/php-invoker" />
       <path value="$PROJECT_DIR$/backend/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpdocumentor/reflection-common" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/php-invoker" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/squizlabs/php_codesniffer" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/mike42/gfx-php" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/type" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/lines-of-code" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/code-unit" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/cli-parser" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/composer" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/complexity" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/escpos_old/vendor/webmozart/assert" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3">
@@ -95,6 +135,7 @@
   <component name="PhpUnit">
     <phpunit_settings>
       <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/backend/vendor/autoload.php" />
+      <PhpUnitSettings configuration_file_path="$PROJECT_DIR$/escpos/phpunit.xml" custom_loader_path="$PROJECT_DIR$/escpos/vendor/autoload.php" phpunit_phar_path="" use_configuration_file="true" />
     </phpunit_settings>
   </component>
   <component name="PsalmOptionsConfiguration">

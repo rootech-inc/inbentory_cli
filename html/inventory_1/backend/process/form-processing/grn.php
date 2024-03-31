@@ -165,7 +165,12 @@
             elseif ($grn_status == '1')
             {
                 // get approved person
-                $approved = $db->get_rows('doc_trans',"`doc_type` = `trans_func` = 'ADD' AND 'GRN' AND `entry_no` = '$entry_no'")['created_by'];
+                if($db->row_count('doc_trans',"`doc_type` = `trans_func` = 'ADD' AND 'GRN' AND `entry_no` = '$entry_no'")){
+                    $approved = $db->get_rows('doc_trans',"`doc_type` = `trans_func` = 'ADD' AND 'GRN' AND `entry_no` = '$entry_no'")['created_by'] or "none";
+
+                } else {
+                    $approved = "unknown";
+                }
             }
             elseif ($grn_status == '-1')
             {

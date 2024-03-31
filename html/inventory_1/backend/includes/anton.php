@@ -2,8 +2,7 @@
 
     include_once 'pdf/fpdf.php';
 
-
-
+ 
 class anton extends FPDF
 {
     /** @noinspection MultiAssignmentUsageInspection */
@@ -203,7 +202,7 @@ class anton extends FPDF
             "tax_trans"=>$tax_trans
         );
 
-        if($tax_code === 'VM'){
+        if($tax_code === 'YES'){
 
             //get levies NIHIS & GFUND = 2.5, COVID = 1
             $two_five = 100 / 2.5;
@@ -218,8 +217,7 @@ class anton extends FPDF
         } else
         {
             // get tax code
-            $tax_group = (new \db_handeer\db_handler())->get_rows('tax_master',"`attr` = '$tax_code'");
-            $tax_rate = $tax_group['rate'];
+            $tax_rate = 0;
             $rate_percentage = $tax_rate / 100;
 
             $taxAmt = $amount * $rate_percentage;
@@ -280,16 +278,24 @@ class anton extends FPDF
         return json_encode($data);
     }
 
-    public function log2file($content,$mark=''){
+    public function log2file($content,$mark='',$ov = 0){
         $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
-        if(strlen($mark) > 0){
-            $text = "$mark\n$content\n$mark\n";
-        } else
-        {
-            $text = "$content\n";
-        }
+        $currentTimestamp = date('Y-m-d H:i:s'); // get the current timestamp in 'Y-m-d H:i:s' format
 
-        file_put_contents($file, $text, FILE_APPEND);
+//        $q = "INSERT INTO logs (message) value ('$content')";
+//        (new \db_handeer\db_handler())->exe($q);
+
+//        if(strlen($mark) > 0){
+//            $text = "$currentTimestamp - $mark\n$content\n$mark\n";
+//        } else {
+//            $text = "$currentTimestamp - $content\n";
+//        }
+//        if($ov === 1){
+//            file_put_contents($file, $text);
+//        } else {
+//            file_put_contents($file, $text, FILE_APPEND);
+//        }
+
     }
 
     public function json($data){

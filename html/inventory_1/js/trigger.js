@@ -1,28 +1,41 @@
 // REFUND
 $(document).ready(function() {
     $("#REFUND").click(function(){
-        // $('#sub_total').val('')
-        // $('#tax').val('')
-        // $('#amount_paid').val('')
-        // $('#amount_balance').val('')
+        //bill.refundBill()
+        let bill_reference = $('#general_input').val();
+        if(anton.validateInputs(['general_input'])){
+            // find bill table
+            let trans_table = '';
+            let header_table = trans_table;
+            let ref_valid = false;
+            if(row_count('bill_header',`billRef='${bill_reference}'`) === 1){
+                header_table = 'bill_header'
+                trans_table = 'bill_trans';
+                ref_valid = true;
+
+            } else if(row_count('history_header',`billRef='${bill_reference}'`) === 1){
+                header_table = 'history_header'
+                trans_table = 'history_trans';
+                ref_valid = true;
+            }
+
+            if(ref_valid){
+                anton.setCookie('ref_header',header_table);
+                anton.setCookie('ref_trans',trans_table);
+                anton.setCookie('refund_ref',bill_reference);
+                bill.setSale('refund');
+                bill.loadBillsInTrans();
+                kasa.success("OKAY")
+            } else {
+                kasa.error("Cannot find bill with reference")
+            }
+            //
+            // anton.setCookie('refund_reference');
+        } else {
+            kasa.error("Set Bill Reference")
+        }
 
 
-        bill.refundBill()
-       // let bill_amt,amount_paid;
-       // bill_amt = $('#sub_total').text();
-       // if(bill_amt.length > 0 && bill_amt > 0){
-       //     // there is bill
-       //
-       //
-       //     if(confirm("Are you sure you want to refund?"))
-       //     {
-       //         $('#general_input').val(bill_amt);
-       //         bill.payment('refund')
-       //     }
-       //
-       // } else {
-       //     // no bill
-       // }
     });
 });
 //REFUND
@@ -90,60 +103,94 @@ $(document).ready(function() {
 
 $(document).ready(function() {
     $("#eod").click(function(){
-        reports.EndOfDay()
+
+
+        // get z from db
+        if(row_count('eod_serial',"`status` = 0") > 0)
+        {
+            let eods = get_row('eod_serial',"`status` = 0");
+            if(isJson(JSON.stringify(eods))){
+
+                let jods = JSON.parse(eods);
+                let opt = '';
+                for (let index = 0; index < jods.length; index++) {
+                    let jod = jods[index];
+                    let shift_date = jod['sales_date'];
+                    opt += `<option value='${shift_date}'>${shift_date}</option>`
+                }
+
+                let ht = `<strong>SELECT SALES DATE</strong><br><select class='form-control rounded-0' name="eod" id="eod_serial">${opt}</select>`;
+
+                mpop.setTitle("PENDING EOD");
+                mpop.setBody(ht);
+                mpop.setFooter(`<button onclick="reports.TakeEod()" class='btn btn-success'>TAKE EOD</button>`);
+                mpop.show(); 
+                
+            } else {
+                kasa.error("INVALID RESPONSE")
+            }
+        } else {
+            kasa.error("NO PENDING EOD")
+        }
+         
+
+        //reports.EndOfDay()
     });
     $('#item_availability').click(function () {
+        reports.itemAvailability();
         // get current stock
-        let stock_query = `select loc_to as 'loc_id',pm.item_code as 'item_code',pm.barcode as 'barcode',pm.item_desc,SUM(stk_tran.tran_qty) as 'stock'
-        from stk_tran  right join prod_master pm on stk_tran.item_code = pm.item_code
-        group by pm.item_code, loc_to, pm.barcode,stk_tran.loc_to`;
+        // let stock_query = `select loc_to as 'loc_id',pm.item_code as 'item_code',pm.barcode as 'barcode',pm.item_desc,SUM(stk_tran.tran_qty) as 'stock'
+        // from stk_tran  right join prod_master pm on stk_tran.item_code = pm.item_code
+        // group by pm.item_code, loc_to, pm.barcode,stk_tran.loc_to`;
 
-        let stock_response = fetch_rows(stock_query);
+        // let stock_response = fetch_rows(stock_query);
 
-        // validate
-        if(isJson(JSON.stringify(stock_response))){
-            // valid response
-            let valid_response = JSON.parse(stock_response);
+        
 
-            let tr = ''
+        // // validate
+        // if(isJson(JSON.stringify(stock_response))){
+        //     // valid response
+        //     let valid_response = JSON.parse(stock_response);
 
-            if(valid_response.length > 0){
+        //     let tr = ''
 
-                //loop
-                for (let sr = 0; sr < valid_response.length ; sr++) {
-                    let stock = valid_response[sr]
-                    let qty;
-                    if(stock.stock === null){
-                        qty = 0.00
-                    } else {
-                        qty = stock.stock
-                    }
-                    //ct(stock)
-                    tr += `<tr><td>${stock.barcode}</td><td>${stock.item_desc}</td><td>${qty}</td></tr>`
+        //     if(valid_response.length > 0){
 
-                }
-            } else {
-                tr = "NO STOCK DATA"
-            }
+        //         //loop
+        //         for (let sr = 0; sr < valid_response.length ; sr++) {
+        //             let stock = valid_response[sr]
+        //             let qty;
+        //             if(stock.stock === null){
+        //                 qty = 0.00
+        //             } else {
+        //                 qty = stock.stock
+        //             }
+        //             //ct(stock)
+        //             tr += `<tr><td>${stock.barcode}</td><td>${stock.item_desc}</td><td>${qty}</td></tr>`
+
+        //         }
+        //     } else {
+        //         tr = "NO STOCK DATA"
+        //     }
 
 
 
-            let table = `
-            <table class="table table-sm table-bordered table-striped table-hover">
-                <thead class="thead-dark"><tr><th>BARCODE</th><th>DESCRIPTION</th><th>Available Quantity</th></tr></thead>
-                <tbody>${tr}</tbody>
-            </table>
-            `
+        //     let table = `
+        //     <table class="table table-sm table-bordered table-striped table-hover">
+        //         <thead class="thead-dark"><tr><th>BARCODE</th><th>DESCRIPTION</th><th>Available Quantity</th></tr></thead>
+        //         <tbody>${tr}</tbody>
+        //     </table>
+        //     `
 
-            $('#gen_modal_title').html("ITEM AVAILABILITY REPORT")
-            $('#modal_d').addClass('modal-xl')
-            $('#grn_modal_res').html(table)
-            $('#gen_modal_footer').html(`<button title="Print" onclick="al('MODULE NOT INTEGRATED')" class="btn btn-info"><i class="fa fa-print"></i></button>`)
-            $('#gen_modal').modal('show')
+        //     $('#gen_modal_title').html("ITEM AVAILABILITY REPORT")
+        //     $('#modal_d').addClass('modal-xl')
+        //     $('#grn_modal_res').html(table)
+        //     $('#gen_modal_footer').html(`<button title="Print" onclick="al('MODULE NOT INTEGRATED')" class="btn btn-info"><i class="fa fa-print"></i></button>`)
+        //     $('#gen_modal').modal('show')
 
-        } else {
-            al('INVALID RESPONSE')
-        }
+        // } else {
+        //     al('INVALID RESPONSE')
+        // }
 
     });
 
@@ -175,6 +222,56 @@ $(document).ready(function() {
 
 
     });
+
+    // save new customer
+    $('#saveCustomer').click(function () {
+        // validate inputs
+        let inps = ['first_name','last_name','email','phone','country','address','postal_code','city']
+        if(validateInputs(inps)){
+            let data = {
+                "first_name": $('#first_name').val(),
+                "last_name": $('#last_name').val(),
+                "email": $('#email').val(),
+                "phone": $('#phone').val(),
+                "city": $('#city').val(),
+                "postal_code": $('#postal_code').val(),
+                "country": $('#country').val(),
+                "address": $('#address').val()
+            }
+            let payload = {
+                module:'customer',
+                data:data,
+                crud:"write",
+            }
+            let request = api.call('POST',payload)
+            // ct(request)
+            kasa.success(request['message']);
+            location.reload()
+
+        } else {
+            kasa.error('PLEASE FILL ALL REQUIRED FILDS')
+        }
+
+    });
+
+    $('#general_input').click(function () {
+        // keypad()
+    });
+
+    // save grn
+    $('#save_grn_x2').click(function(){
+        grncl.save()
+    });
+
+    // expiry screen
+    $('#expiry_report').click(function(){
+        reports.expiryScreen()
+    });
+
+
+
+
+
 });
 
 $(document).ready(function() {
@@ -318,17 +415,14 @@ $(document).ready(function (){
                 data: formData,
                 success: function (response) {
                     // cl(response)
-                    // ct(response)
+                    ct(response)
                     let res = JSON.parse(JSON.stringify(response))
                     let code,message
                     code = res['code']
                     message = res['message']
                     ct(message)
-
-
-
-
                     if(code === 200){
+
                         // print bill
                         bill.loadBillsInTrans()
                         $('#refundModal').modal('hide')
@@ -337,10 +431,10 @@ $(document).ready(function (){
                         // bill.payment('refund')
                         // bill.printBill(bill_n,mech_no,toDay)
                     } else {
-                        let bill_n = message['bill_no']
+                        // let bill_n = message['bill_no']
                         let msg = message['msg']
                         // clear bill
-                        exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
+                        // exec(`DELETE from bill_trans where bill_number = ${bill_n};DELETE from bill_tax_tran where bill_no = ${bill_n};`)
                         al(msg)
                     }
                 },
@@ -356,4 +450,40 @@ $(document).ready(function (){
 })
 
 // EOD
+
+// enter general bill
+$('#general_input').on('keyup',function (e)
+{
+    let key = e.which;
+
+    if (key === 13) {
+        console.log("ENTER PRESSED");
+
+    } else {
+        console.log("NOT ENTER")
+    }
+})
+
+printPdf = function (url) {
+    var iframe = this._printIframe;
+    if (!this._printIframe) {
+        iframe = this._printIframe = document.createElement('iframe');
+        document.body.appendChild(iframe);
+
+        iframe.style.display = 'none';
+        iframe.onload = function() {
+            setTimeout(function() {
+                iframe.focus();
+                iframe.contentWindow.print();
+            }, 1);
+        };
+    }
+
+    iframe.src = url;
+}
+
+function is_enter() {
+    let event =  this.event
+    return event['keyCode'] === 13;
+}
 

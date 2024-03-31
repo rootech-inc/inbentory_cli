@@ -69,13 +69,17 @@
 
             <!--HEADER RIGHT-->
             <div class="w-50 d-flex flex-wrap align-content-center justify-content-end pr-2 h-100 overflow-hidden">
-                <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="barcode_search">
+                <input style="width: 150px; height: 20px; font-size: small; display: none!important" autocomplete="off" class="form-control form-control-sm mr-2" id="bcodeSearch">
                 <!--ADD-->
-                <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/search_property.png"
-                            class="img-fluid"
-                    >
+<!--                <button type="button" onclick="searchTrigger()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">-->
+<!--                    <img-->
+<!--                            src="../../assets/icons/home/search_property.png"-->
+<!--                            class="img-fluid"-->
+<!--                    >-->
+<!--                </button>-->
+
+                <button type="button" onclick="pmast.searchProduct()" title="Search" class="header_icon mr-1 d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa fa-search"></i>
                 </button>
 
             </div>

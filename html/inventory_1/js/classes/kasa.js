@@ -2,6 +2,7 @@ class Kasa {
     alert(icon, message) {
         Swal.fire({
             icon: icon,
+            title:`${icon.toUpperCase()}`,
             text: message,
             timer: 3000,
             showConfirmButton: false,
@@ -52,6 +53,17 @@ class Kasa {
         })
     }
 
+    response(x) {
+        if(x['code'] === 200 || x['status_code'] === 200){
+            this.success(x['message'])
+        } else {
+            if(x['message']){
+                this.error(x['message'])
+            } else {
+                this.error("No Valid Response Received")
+            }
+        }
+    }
 }
 
 const kasa = new Kasa()

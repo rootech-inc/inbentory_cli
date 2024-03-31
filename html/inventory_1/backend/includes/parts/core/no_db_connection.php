@@ -5,17 +5,17 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/anton.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/anton.css">
     <title>NO CONNECTION!!</title>
 </head>
 <body>
-    <div class="w-100 h-100 ant-bg-light d-flex flex-wrap align-content-center justify-content-center">
-        <div class="w-50 alert p-0 alert-danger card">
+    <div style="height: 100vh !important" class="w-100 h-100 ant-bg-light d-flex flex-wrap align-content-center justify-content-center">
+        <div class="w-30 alert p-0 alert-danger card">
             <div class="card-header text-center">
                 <strong class="card-title m-0 font-weight-bolder"><?php echo $error_detail['title'] ?></strong>
             </div>
-            <div class="card-body p-2 text-center">
+            <div class="card-body p-5 text-center">
 
                 <?php echo $error_detail['message'] ?>
 <!--                <table class="table text-left table-bordered border-dark table-sm">-->

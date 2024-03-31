@@ -28,9 +28,13 @@
     <div onclick="set_session(['module=system','sub_module=system'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
         <p class="m-0 text-elipse text-center p-0">System</p>
     </div>
-
+    <div onclick="set_session(['module=backoffice','sub_module=home'])" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
+        <p class="m-0 text-elipse text-center p-0">Back Office</p>
+    </div>
+    <?php if(!is_shift): ?>
     <div id="start_shift" class="min_button mb-4 d-flex flex-wrap align-content-center justify-content-center">
         <p class="m-0 text-elipse text-center p-0">Start Shift</p>
     </div>
+    <?php endif; ?>
 
 </div>

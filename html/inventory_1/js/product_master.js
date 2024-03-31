@@ -14,7 +14,7 @@ function loadProduct(prod_id,action='view')
     // echo(prod_id)
     // get item as json from database
 
-
+    mpop.hide()
 
     // disable next and back
     if(row_count('prod_master',"`item_code` > '" + prod_id +"'") > 0)
@@ -90,6 +90,7 @@ function loadProduct(prod_id,action='view')
             }
 
         }
+
         $('#packing').html(pack_opt)
         //echo(pack_opt)
 
@@ -159,34 +160,23 @@ function loadProduct(prod_id,action='view')
         //echo(supp_sub)
 
 
-        // get tax
-        let all_tax = JSON.parse(
-            // get sub groups
-            get_row('tax_master', "none")
-        )
+
         // loop through groups
         let tax_row = '';
-        console.table(all_tax)
-        for (let i = 0; i < all_tax.length; i++) {
-            let rate = all_tax[i].rate + '% ';
-            let id = all_tax[i].id;
-            let desc = all_tax[i].description;
-            let tax_code = all_tax[i].attr
 
-
-
-            // append option
-            if (id == prod_result.tax) {
-                tax_row += `<option selected value="${id}">${tax_code}</option>`
-                $('#tax_descr').text(desc)
-            } else {
-                tax_row += `<option value="${id}">${tax_code}</option>`
-            }
+        if(prod_result.tax === 'YES'){
+            tax_row = `
+            <option selected value="YES">YES</option>
+            <option value="NO">NO</option>
+        `;
+        } else {
+            tax_row = `
+            <option value="YES">YES</option>
+            <option selected value="NO">NO</option>
+        `;
         }
-        console.log(tax_row)
-        $('#prod_tax').html(tax_row)
 
-
+        $('#taxable').html(tax_row)
 
         $('#expiry').val(prod_result.expiry_date)
         $('#owner').text(prod_result.owner)
@@ -194,23 +184,17 @@ function loadProduct(prod_id,action='view')
         $('#edited_at').text(prod_result.edited_at)
         $('#edited_by').text(prod_result.edited_by)
 
-        // get tax details
-        var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
-        // cl('#####TAX')
-        // ct(tax)
-        // cl('#####TAX')
-        $('#tax_rate').text(tax.rate.toString() + "%")
-        $('#tax_descr').html(tax.description)
+
+
+        $('#tax_amt').html(prod_result.tax_amt)
         $('#cost_price').val(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_with_tax').val(retail_price)
 
 
-        let tax_details = taxMaster.getTax(tax['attr'],prod_result.retail)['details'];
-        let taxableAmt = tax_details['taxableAmt'];
 
 
-        $('#retail_without_tax').val(taxableAmt)
+        $('#retail_without_tax').val(prod_result.retail_wo_tax)
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -245,36 +229,55 @@ function loadProduct(prod_id,action='view')
         // get packing
         let pac_id = prod_result.packing
         const packing = JSON.parse(get_row('prod_packing', "`item_code` = '" + prod_id + "'"));
+        if (packing.length > 0){
 
-        let pack_desc;
-        var package_row = '';
-        let index_id = '';
-        let purp;
-        for (let i = 0; i < packing.length; i++) {
-            let pack = packing[i], pack_id, qty, purpose;
-            pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
-            qty = pack.qty
-            purpose = pack.purpose
-            pack_desc = pack.pack_desc
-            index_id += 'pack_id'+pack.id+',';
-            //echo(index_id)
+            let pack_desc;
+            var package_row = '';
+            let index_id = '';
+            let purp;
+            for (let i = 0; i < packing.length; i++) {
+                let pack = packing[i], pack_id, qty, purpose;
+                pack_id = JSON.parse(get_row('packaging', "`id` = '" + pack.pack_id + "'"))[0].desc;
+                qty = pack.qty
+                purpose = pack.purpose
+                pack_desc = pack.pack_desc
+                index_id += 'pack_id'+pack.id+',';
+                //echo(index_id)
 
 
-            if (purpose === 1) {
-                purp = 'Sell UN';
-            } else if (purpose === 2) {
-                purp = 'Purch UN'
+                if (purpose === 1) {
+                    purp = 'SELLING';
+                }
+                else if (purpose === 2) {
+                    purp = 'BUYING'
+                }
+
+                package_row += "<tr class=\"thead-light\">\n" + "<td class=\"p-1\">" + purp + "</td>\n" +
+                    "                                        <td class=\"p-1\"><select name='packaging_id[]' id='pack_id" + index_id + "'>" +pack_opt +
+                    "</select></td>\n" +
+                    "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_desc[]' value=' " + pack_desc + "' required</td>\n" +
+                    "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_qty[]' value=' " + qty + "' required</td>\n" +
+                    "                                    </tr>";
+
+
             }
 
-            package_row += "<tr class=\"thead-light\">\n" + "<td class=\"p-1\">" + purp + "</td>\n" +
-                "                                        <td class=\"p-1\"><select name='packaging_id[]' id='pack_id" + index_id + "'>" +pack_opt +
-                "</select></td>\n" +
-                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_desc[]' value=' " + pack_desc + "' required</td>\n" +
-                "                                        <td class=\"p-1\"><input style='width: 100px' name='packaging_qty[]' value=' " + qty + "' required</td>\n" +
-                "                                    </tr>";
-
-
+        } else
+        {
+            package_row = `
+                <tr class="thead-dark">
+                    <td>SELLING</td><td><select name='packaging_id[]' id='pack_id0'>${pack_opt}</select></td>
+                    <td><input style='width: 100px' name='packaging_desc[]' value="1 * 1"></td>
+                    <td><input type="number" style='width: 100px' name='packaging_qty[]' value=1></td>
+                </tr>
+                <tr class="thead-dark">
+                    <td>PURCHASING</td><td><select name='packaging_id[]' id='pack_id1'>${pack_opt}</select></td>
+                    <td><input style='width: 100px' name='packaging_desc[]' value="1 * 1"></td>
+                    <td><input type="number" style='width: 100px' name='packaging_qty[]' value=1></td>
+                </tr>
+            `;
         }
+
         //echo(package_row)
         $('#packaging_row').html(package_row)
         $('#pack_id').html(pack_opt)
@@ -319,10 +322,13 @@ function loadProduct(prod_id,action='view')
         $('#barcode').text(prod_result.barcode)
         $('#item_desc').text(prod_result.item_desc)
         $('#item_desc1').text(prod_result.item_desc1)
-
-        $("#packing").text(
-            JSON.parse(get_row('packaging', "`id` = '" + prod_result.packing + "'"))[0].desc
-        )
+        
+        if(row_count('packaging', "`id` = '" + prod_result.packing + "'") === 1)
+        {
+            $("#packing").text(
+                JSON.parse(get_row('packaging', "`id` = '" + prod_result.packing + "'"))[0].desc
+            )
+        }
         $('#expiry').text(prod_result.expiry_date)
         $('#owner').text(prod_result.owner)
         $('#created_at').text(prod_result.created_at)
@@ -330,22 +336,17 @@ function loadProduct(prod_id,action='view')
         $('#edited_by').text(prod_result.edited_by)
 
         // get tax details
-        var tax = JSON.parse(get_row('tax_master', "`id` = '" + prod_result.tax + "'"))[0];
-        let taxx = taxMaster.getTax(tax.attr,prod_result.retail);
-        let tax_code, tax_detail,tax_header
-        tax_header = taxx['header']
-        tax_code = tax_header['code']
-        tax_detail = taxx['details']
 
 
-        $('#tax_rate').text(tax['attr'])
-        $('#tax_desc').html(tax['description'])
+
+        $('#tax_rate').text(prod_result.tax)
+        $('#tax_desc').html(prod_result.tax_amt)
         $('#cost_price').text(prod_result.cost)
         let retail_price = prod_result.retail;
         $('#retail_price').text(retail_price)
 
 
-        $('#retail_price_without_tax').text(tax_detail['taxableAmt'].toFixed(2))
+        $('#retail_price_without_tax').text(prod_result.retail_wo_tax)
 
         // get stock for various branches
         if (row_count('stock', "`item_code` = '" + prod_id + "'") > 0) {
@@ -507,71 +508,42 @@ function newProductTaxCalculate(val)
 function retailWithoutTax()
 {
 
-    let tax_rate,tax_id,val,tax;
+    let value = $('#retail_with_tax').val();
+    let taxable = $('#taxable').val();
+    let tax_amt = 0;
+    let taxable_amt = value;
 
-    val = $('#retail_with_tax').val()
-
-    tax_id = $('#prod_tax').val();
-
-    tax = JSON.parse(get_row('tax_master',`id = '${tax_id}'`))[0]
-    if(row_count('tax_master',`id = '${tax_id}'`) === 1)
-    {
-
-        tax_rate = tax.rate
-        let tax_desc = tax.description
-        $('#tax_descr').text(tax_desc)
-
-
-        if(tax_rate !== 'null')
-        {
-            // calculate oercentage
-            let form_data = {
-                'function':'get_tax_val',
-                'tax_code':tax.attr,
-                'amount':val
-            }
-
-            //ctform_data)
-
-            $.ajax({
-                url:'/backend/process/form-processing/sys.php',
-                data:form_data,
-                type:'POST',
-                success: function (response) {
-                    ct(response)
-                    let r = JSON.parse(response)
-                    let details = r['details']
-                    let code = r['code']
-                    let withoutTax = details['withoutTax']
-
-                    //cl("NEW TAX VAL")
-                    //ctdetails)
-                    //cl('NEW TAX VALUE')
-
-                    $('#retail_without_tax').val(details['taxableAmt'].toFixed(2))
-
-                }
-            });
-
-
+    if(taxable === 'YES'){
+        // item is taxable
+        let tax_details = taxMaster.taxInclusive(value);
+        if(tax_details['code'] === 200){
+            let message = tax_details['message'];
+            tax_amt = message['vat'];
+            taxable_amt = value - tax_amt;
         }
-    } else {
-        al("CANNOT FIND TAX")
     }
+
+    $('#retail_without_tax').val(taxable_amt)
+    $('#tax_amt').val(tax_amt)
+
+    console.log(taxable)
+
+
 }
 
 function searchTrigger(){ // trigger search bar
 
-    $('#barcode_search').show(500)
-    $('#barcode_search').focus()
+    $('#bcodeSearch').show(500)
+    $('#bcodeSearch').focus()
 }
 
-$('#barcode_search').on('keyup',function (e) {
+$('#bcodeSearch').on('keyup',function (e) {
     let key = e.which, barcode, item_code;
+    console.log(key)
     if(key === 13)
     {
         // search
-        barcode = $('#barcode_search').val();
+        barcode = $('#bcodeSearch').val();
         //echo(barcode)
         if(row_count('prod_master',"`barcode` = '" + barcode + "'") === '1')
         {
@@ -579,8 +551,8 @@ $('#barcode_search').on('keyup',function (e) {
             item_code = JSON.parse(get_row('prod_master',"`barcode` = '" + barcode + "'"))[0].item_code;
 
             // hide search input anf clear
-            $('#barcode_search').val('')
-            $('#barcode_search').fadeOut(500)
+            $('#bcodeSearch').val('')
+            $('#bcodeSearch').fadeOut(500)
             // load item
             loadProduct(item_code)
 
@@ -588,10 +560,12 @@ $('#barcode_search').on('keyup',function (e) {
             //echo(item_code)
         }
         else {
-            $('#barcode_search').val('')
+            $('#bcodeSearch').val('')
             alert("Item Not Found")
 
         }
     }
 })
+
+
 

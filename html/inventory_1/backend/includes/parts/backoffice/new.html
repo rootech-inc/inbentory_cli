@@ -1,0 +1,625 @@
+<div class="w-100 h-100 bg-light card">
+    <div class="card-header">
+        <div class="w-100 d-flex flex-wrap">
+            <div class="w-50">
+                <button id="save" class="btn btn-success btn-sm mr-1">
+                    <i class="fa fa-save"></i>
+                </button>
+                <button class="btn btn-warning btn-sm mr-1">
+                    <i class="fa fa-edit"></i>
+                </button>
+                <button class="btn btn-danger btn-sm mr-1">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </div>
+
+            <div class="w-50 justify-content-end d-flex flex-wrap">
+                <button onclick="newLine()" class="btn btn-outline-primary btn-sm mr-1">
+                    <i  title="New Line" class="fa fa-grip-horizontal"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <div class="h-100 overflow-hidden">
+            <!-- HEADER -->
+            <div class="container-fluid p-3 bg-primary h-30">
+                <div class="row h-100 overflow-auto">
+                    <div class="col-sm-4">
+                        <!-- ENTRY NUMBER -->
+                        <div class="row mb-2">
+                            <label for="ent_no" class="col-sm-4"><strong>Entry N0.</strong></label>
+                            <div class="col-sm-8">
+                                <input readonly type="text" value="NEW!" id="ent_no"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- LOCATION -->
+                        <div class="row  mb-2">
+                            <label for="loc_id" class="col-sm-4"><strong>Location</strong></label>
+                            <div class="col-sm-8">
+                                <select id="loc_id"
+                                        class="form-control rounded-0 form-control-sm">
+
+                                    <?php while($loc = $locs->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo $loc['id'] ?>"><?php echo $loc['loc_id'] ?> - <?php echo $loc['loc_desc'] ?></option>
+                                    <?php endwhile; ?>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- CUSTOMER -->
+                        <div class="row  mb-2">
+                            <label for="customer" class="col-sm-4"><strong>Customer</strong></label>
+                            <div class="col-sm-8">
+                                <select id="customer"
+                                        class="form-control rounded-0 form-control-sm">
+
+                                    <?php while($customer = $customers->fetch(PDO::FETCH_ASSOC)): ?>
+                                    <option value="<?php echo $customer['customer_id'] ?>"><?php echo $customer['name'] ?></option>
+                                    <?php endwhile; ?>
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- REMARKS -->
+                        <div class="row mb-2">
+                            <label for="remarks" class="col-sm-4"><strong>Remarks</strong></label>
+                            <div class="col-sm-8">
+                                <input type="text" id="remarks"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- TAXABLE -->
+                        <div class="row mb-2">
+                            <label for="taxable" class="col-sm-4"><strong>Taxable</strong></label>
+                            <div class="col-sm-8">
+                                <select onchange="calculateHeader()" id="taxable"
+                                        class="form-control rounded-0 form-control-sm">
+                                    <option value="1">YES</option>
+                                    <option value='0'>NO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Issue Date -->
+                        <div class="row mb-2">
+                            <label for="issue_date" class="col-sm-4"><strong>Issue Date</strong></label>
+                            <div class="col-sm-8">
+                                <input type="date" id="issue_date"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <script>
+                            $('#issue_date').val(toDay)
+                        </script>
+
+                        <!-- Due Date -->
+                        <div class="row mb-2">
+                            <label for="due_date" class="col-sm-4"><strong>Due Date</strong></label>
+                            <div class="col-sm-8">
+                                <input type="date" id="due_date"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <script>
+                            $('#due_date').val(toDay)
+                        </script>
+
+                        <!-- Due Date -->
+                        <div class="row mb-2">
+                            <label for="days_in_due" class="col-sm-4"><strong>Days Due</strong></label>
+                            <div class="col-sm-8">
+                                <input readonly type="number" id="days_in_due"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-4">
+                        <!-- NET AMOUNT -->
+                        <div class="row mb-2">
+                            <label for="net_amt" class="col-sm-4"><strong>Net Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="net_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+
+                        <!-- TAX -->
+                        <div class="row mb-2">
+                            <label for="tax_amt" class="col-sm-4"><strong>Tax Amt.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="tax_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                        <!-- Other Cost -->
+                        <div class="row mb-2">
+                            <label for="other_cost" class="col-sm-4"><strong>Ext. Cost.</strong></label>
+                            <div class="col-sm-8">
+                                <input onchange="calculateHeader()" type="number" id="other_cost"
+                                       class="form-control rounded-0 form-control-sm" value="0.00">
+                            </div>
+                        </div>
+
+                        <!-- GROSS -->
+                        <div class="row mb-2">
+                            <label for="gross_amt" class="col-sm-4"><strong>Gross.</strong></label>
+                            <div class="col-sm-8">
+                                <input type="number" id="gross_amt"
+                                       class="form-control rounded-0 form-control-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--BODY -->
+            <div class="w-100 h-70 table-responsive">
+                <table class="table table-sm table-bordered">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>SN</th>
+                        <th style="width: 150px !important">Barcode</th>
+                        <th style="width: 150px !important">Description</th>
+                        <th>Packing</th>
+                        <th>Quantity</th>
+                        <th>Unit Cost</th>
+                        <th>Net Cost</th>
+                        <th>Tax</th>
+                        <th>Gross</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_body">
+<!--                    <tr id="row_1">-->
+<!--                        <td id="line_1">1</td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="barcode_1"-->
+<!--                                    style="width: 150px !important"-->
+<!--                                    type="text"-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="name_1"-->
+<!--                                    style="width: 150px !important"-->
+<!--                                    type="text"-->
+<!--                                    readonly-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <select-->
+<!--                                    id="pack_1"-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    onchange="lineCalculate(1)"-->
+<!--                            >-->
+<!--                                <option value="10">CTN (10 x 1)</option>-->
+<!--                            </select>-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="qty_1"-->
+<!--                                    style="width: 60px !important"-->
+<!--                                    type="number"-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    onchange="lineCalculate(1)"-->
+<!--                                    value="0.00"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="unit_cost_1"-->
+<!--                                    style="width: 60px !important"-->
+<!--                                    type="number"-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    onchange="lineCalculate(1)"-->
+<!--                                    value="0.00"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="net_cost_1"-->
+<!--                                    style="width: 60px !important"-->
+<!--                                    type="number"-->
+<!--                                    readonly-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    value="0.00"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="tax_1"-->
+<!--                                    style="width: 60px !important"-->
+<!--                                    type="number"-->
+<!--                                    readonly-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    value="0.00"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                        <td>-->
+<!--                            <input-->
+<!--                                    id="gross_1"-->
+<!--                                    style="width: 60px !important"-->
+<!--                                    type="number"-->
+<!--                                    readonly-->
+<!--                                    class="form-control text_xs form-control-sm rounded-0"-->
+<!--                                    value="0.00"-->
+<!--                            >-->
+<!--                        </td>-->
+<!--                    </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function newLine() {
+        let t_element = $('#table_body tr');
+        let sn = t_element.length + 1
+
+        // define ids
+        let row = `
+            <tr id="row_${sn}">
+                        <td id="line_${sn}">${sn}</td>
+                        <td>
+                            <input
+                                    id="barcode_${sn}"
+                                    style="width: 150px !important"
+                                    type="text"
+                                    onkeyup="loadItem(this.value,'${sn}')"
+                                    onchange="loadItem(this.value,'${sn}')"
+                                    class="form-control text_xs form-control-sm rounded-0"
+                            >
+                        </td>
+                        <td>
+                            <input
+                                    id="name_${sn}"
+                                    style="width: 150px !important"
+                                    type="text"
+                                    readonly
+                                    class="form-control text_xs form-control-sm rounded-0"
+                            >
+                        </td>
+                        <td>
+                            <select
+                                    id="pack_${sn}"
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    onchange="lineCalculate('${sn}')"
+                            >
+                                <option value="10">CTN (10 x 1)</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input
+                                    id="qty_${sn}"
+                                    style="width: 60px !important"
+                                    type="number"
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    onchange="lineCalculate('${sn}')"
+                                    value="0.00"
+                            >
+                        </td>
+                        <td>
+                            <input
+                                    id="unit_cost_${sn}"
+                                    style="width: 60px !important"
+                                    type="number"
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    onchange="lineCalculate('${sn}')"
+                                    value="0.00"
+                            >
+                        </td>
+                        <td>
+                            <input
+                                    id="net_cost_${sn}"
+                                    style="width: 60px !important"
+                                    type="number"
+                                    readonly
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    value="0.00"
+                            >
+                        </td>
+                        <td>
+                            <input
+                                    id="tax_${sn}"
+                                    style="width: 60px !important"
+                                    type="number"
+                                    readonly
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    value="0.00"
+                            >
+                        </td>
+                        <td>
+                            <input
+                                    id="gross_${sn}"
+                                    style="width: 60px !important"
+                                    type="number"
+                                    readonly
+                                    class="form-control text_xs form-control-sm rounded-0"
+                                    value="0.00"
+                            >
+                        </td>
+                    </tr>
+        `;
+
+        $('#table_body').append(row);
+    }
+
+    // load item
+    function loadItem(v,sn){
+        let ev = this.event;
+        let this_id = this.value
+        if(this.event.key === 'Enter'){
+            let barcode = v;
+
+            // get product,
+            let prod_count = row_count('prod_master',`barcode = '${barcode}'`);
+            if(prod_count === 1){
+                // get product
+                let p_req = get_row('prod_master',`barcode = '${barcode}'`);
+                if(isJson(p_req)){
+                    let product = JSON.parse(p_req)[0];
+                    let itemcode, item_desc, retail;
+                    itemcode = product['item_code'];
+                    item_desc = product['item_desc'];
+                    retail = product['retail'];
+
+                    $(`#name_${sn}`).val(item_desc);
+
+                    // get product packing
+                    let pack_q = `select qty,pack_desc from prod_packing where item_code = '${itemcode}'`;
+                    let packs = fetch_rows(pack_q);
+                    let pack_options = '';
+                   if(isJson(packs)){
+                       let p_packs = JSON.parse(packs);
+                       for (let p = 0; p < p_packs.length ; p++) {
+                           let pack = p_packs[p];
+                           pack_options += `<option value="${pack['qty']}">${pack['pack_desc']}</option>`;
+                       }
+
+                       $(`#pack_${sn}`).html(pack_options);
+
+
+
+                   } else {
+                       kasa.error("Cannot Load Packing");
+                   }
+                }
+
+            } else {
+                kasa.error("Product Does Not Exist")
+            }
+
+            //
+        } else {
+            console.log("keep tyuping")
+        }
+
+    }
+
+    function calculateHeader(){
+        let t_element = $('#table_body tr');
+        let row_count = t_element.length
+        let leg_gross = 0;
+        let leg_net = 0;
+        let leg_tax = 0;
+        for (let i = 1; i <= row_count; i++) {
+            // lineCalculate(i)
+            let gross = $(`#gross_${i}`).val();
+            let tax = $(`#tax_${i}`).val();
+            let net = $(`#net_cost_${i}`).val();
+            leg_gross += parseFloat(gross);
+            leg_net += parseFloat(net);
+            leg_tax += parseFloat(tax);
+
+        }
+        let other_cost = 0;
+        if($('#other_cost').val().length > 0)
+        {
+            other_cost = $('#other_cost').val()
+        }
+
+        $('#net_amt').val(leg_net.toFixed(2));
+        $('#tax_amt').val(leg_tax.toFixed(2))
+        // $('#other_cost').val(other_cost.toFixed(2))
+        $('#gross_amt').val(leg_gross + parseFloat(other_cost))
+    }
+    function lineCalculate(line) {
+        // initiate variables
+        let pack_qty, quantity, unit_cost,net_cost,tax,gross;
+        pack_qty = $(`#pack_${line}`);
+        quantity = $(`#qty_${line}`);
+        unit_cost = $(`#unit_cost_${line}`);
+        net_cost = $(`#net_cost_${line}`);
+        tax = $(`#tax_${line}`);
+        gross = $(`#gross_${line}`);
+
+
+        // set net
+        let net = unit_cost.val() * quantity.val();
+        net_cost.val(net)
+
+        let tax_amt = 0;
+        if($('#taxable').val() == '1'){
+            // calculate tax
+            let barcode = $(`#barcode_${line}`).val()
+            // get tax_code
+            let taxable = JSON.parse(get_row('prod_master',`barcode='${barcode}'`))[0]['tax'];
+            let taxClass = new TaxMaster();
+            tax_amt = 0;
+            if(taxable === 'YES'){
+                console.log(net)
+                let tx = taxClass.taxInclusive(net);
+                tax_amt = parseFloat(tx['message']['vat'])
+                console.table(tx)
+            }
+        }
+
+        let newnew = net - tax_amt;
+        net_cost.val(newnew.toFixed(2))
+        tax.val(tax_amt);
+        gross.val(newnew + tax_amt)
+
+        // calculate header
+        calculateHeader()
+
+    }
+
+
+function loadIssueDays(){
+        let iss_date,due_date;
+        iss_date = $('#issue_date').val();
+        due_date = $('#due_date').val();
+        let due_day = anton.daysBetween(iss_date,due_date);
+        $('#days_in_due').val(due_day)
+    }
+
+    loadIssueDays();
+
+
+    $(document).ready(function (){
+        $('#issue_date').change(function(){
+            loadIssueDays();
+        });
+        $('#due_date').change(function(){
+            loadIssueDays();
+        });
+
+        // save
+        $('#save').click(function(){
+            let header_id = [
+                'loc_id','customer','remarks','taxable','issue_date',
+                'due_date','net_amt','tax_amt', 'other_cost','gross_amt'
+            ];
+
+            if(anton.validateInputs(header_id)){
+                let header = anton.Inputs(header_id);
+                let trans = []
+                // validate transactions
+                let tran_rows =$('#table_body tr');
+                let row_count = tran_rows.length
+
+                if(row_count > 0){
+                    let errors = 0;
+                    let error_message = '';
+
+                    for(let t = 1; t <= row_count; t++){
+                        // fine places
+                        let line = t;
+                        let barcode_id = `barcode_${line}`;
+                        let name_id =  `name_${line}`;
+                        let pack_id = `pack_${line}`;
+                        let qty_id = `qty_${line}`;
+                        let unit_cost_id = `unit_cost_${line}`;
+                        let net_cost_id = `net_cost_${line}`;
+                        let tax_id = `tax_${line}`
+                        let gross_id = `gross_${line}`
+
+                        // validate
+                        let ids = [
+                            barcode_id,pack_id,qty_id,unit_cost_id,net_cost_id,
+                            tax_id, gross_id,name_id
+                        ]
+
+                        if(anton.validateInputs([ids])){
+                            // create object and push to array
+                            let this_inputs = anton.Inputs(ids);
+                            let this_obj = {
+                                line:line,
+                                'barcode':this_inputs[barcode_id],
+                                name:this_inputs[name_id],
+                                pack_qty:this_inputs[pack_id],
+                                pack_desc :$(`#${pack_id} option:selected`).text(),
+                                qty:this_inputs[qty_id],
+                                unit_cost:this_inputs[unit_cost_id],
+                                net_cost:this_inputs[net_cost_id],
+                                tax:this_inputs[tax_id],
+                                gross:this_inputs[gross_id]
+                            }
+
+                            trans.push(this_obj)
+
+
+
+                        } else {
+                            errors ++;
+                            error_message += `<p>There is an error on line ${line}</p>`
+                        }
+                    }
+
+                    // check errors or not
+                    if(errors === 0){
+                        console.table(header);
+                        console.table(trans)
+                        // handle header
+                        let hd_rows = JSON.parse(fetch_rows("SELECT COUNT(*) as 'ct' from prof_hd"))[0]['ct'];
+                        let ent_no = 10000 + hd_rows;
+                        let entry_no = `PF${ent_no}`;
+
+                        // insert into header
+                        let hd_query = `INSERT INTO prof_hd (entry_no, loc_id, customer, remarks, iss_date, due_date, created_by,net_amt,tax_amt,other_cost,gross_amt,taxable)
+                                                    VALUES ('${entry_no}','${header['loc_id']}','${header['customer']}',
+                                                            '${header['remarks']}','${header['issue_date']}','${header['due_date']}','${user_id}','${header['net_amt']}','${header['tax_amt']}','${header['other_cost']}','${header['gross_amt']}','${header['taxable']}')`;
+
+                        let hd_save = exec(hd_query);
+                        if(hd_save['code'] !== 500){
+
+                            // save headers
+                            // make transactions queries
+                            for(let r = 0; r < trans.length; r++){
+                                let tr = trans[r];
+                                let row_qry = `
+                                    INSERT INTO prof_tran(entry_no, line_no, barcode, item_desc, packing, pack_qty, tran_qty, unit_cost, net_cost, tax_amt, gross_amt) values
+                                                        ('${entry_no}','${tr['line']}','${tr['barcode']}','${tr['name']}',
+                                                         '${tr['pack_desc']}','${tr['pack_qty']}','${tr['qty']}','${tr['unit_cost']}','${tr['net_cost']}','${tr['tax']}','${tr['gross']}')
+                                `;
+
+                                exec(row_qry)
+                                console.log(row_qry)
+
+                            }
+
+                            kasa.success("Entry Saved");
+                            set_session(['action=view']);
+                            location.reload();
+
+                        } else {
+                            kasa.error(hd_save['message'])
+                        }
+
+
+
+                    } else {
+                        kasa.html(error_message)
+                    }
+
+                } else {
+                    kasa.error("Cannot Empty Transaction")
+                }
+            } else {
+                kasa.error("Invalid Headers")
+            }
+        });
+    });
+
+</script>

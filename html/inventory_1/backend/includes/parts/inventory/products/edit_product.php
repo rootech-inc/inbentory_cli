@@ -29,11 +29,8 @@
 
 
                 <!--SAVE-->
-                <button id="edit_prod" type="submit" title="Edit" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
-                    <img
-                            src="../../assets/icons/home/save_close.png"
-                            class="img-fluid"
-                    >
+                <button id="edit_prod" type="submit" title="Save" class="header_icon d-flex flex-wrap align-content-center justify-content-center btn p-0">
+                    <i class="fa fa-save text-success"></i>
                 </button>
 
             </div>
@@ -183,31 +180,41 @@
                 <article class="p-2">
                     <div id="price" class="w-50 h-100">
 
-                        <!-- TAX -->
+                        <!--TAX-->
                         <div class="w-100 d-flex flex-wrap prod_inp_container">
                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Tax</p>
+                                <p class="m-0 p-0 text-elipse">Taxable</p>
                             </div>
                             <select
-                                    name="tax"
+                                    name="taxable"
                                     autocomplete="off"
-                                    id="prod_tax" onchange="retailWithoutTax()"
+                                    class="form-control form-control-sm prod_inp"
+                                    id="taxable"
+                                    onchange="retailWithoutTax()"
                             >
 
-
                             </select>
-                            <div id="tax_descr" class="ml-2 text-dark"></div>
                         </div>
+
 
                         <!--COST PRICE-->
                         <div class="w-100 d-flex flex-wrap prod_inp_container">
                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                 <p class="m-0 p-0 text-elipse">Cost Price</p>
                             </div>
-                            <input type="text" required name="cost_price" id="cost_price">
+                            <input
+                                    id="cost_price"
+                                    name="cost_price"
+                                    autocomplete="off"
+                                    type="text"
+                                    class="form-control form-control-sm prod_inp"
+                                    value="0.00"
+                            >
                         </div>
 
-                        <!-- RETAILs -->
+
+
+                        <!-- RETAIL PRICE -->
                         <div class="w-100 d-flex flex-wrap prod_inp_container">
                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
                                 <p class="m-0 p-0 text-elipse">Retail</p>
@@ -217,23 +224,43 @@
                                     id="retail_with_tax"
                                     autocomplete="off"
                                     type="text"
+                                    value="0.00"
+                                    class="form-control form-control-sm prod_inp",
                                     onkeyup="retailWithoutTax()"
+
+                            >
+                        </div>
+
+                        <div class="w-100 d-flex flex-wrap prod_inp_container">
+                            <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
+                                <p class="m-0 p-0 text-elipse">Tax Amount</p>
+                            </div>
+                            <input
+                                    name="tax_amt"
+                                    id="tax_amt"
+                                    autocomplete="off"
+                                    type="text"
+                                    value="0.00"
+                                    class="form-control form-control-sm prod_inp",
+                                    readonly
+
                             >
                         </div>
 
                         <!--RETAIL WITHOUT TAX-->
                         <div class="w-100 d-flex flex-wrap prod_inp_container">
                             <div class="prod_inp_descriptio d-flex flex-wrap align-content-center">
-                                <p class="m-0 p-0 text-elipse">Retail WO/T</p>
+                                <p class="m-0 p-0 text-elipse">Retail Without Tax</p>
                             </div>
                             <input readonly
                                    name="retail_without_tax"
                                    autocomplete="off"
                                    type="text"
+                                   class="form-control form-control-sm prod_inp"
                                    id="retail_without_tax"
+                                   value="0.00"
 
                             >
-
                         </div>
 
 
@@ -270,3 +297,7 @@
     </form>
 
 </div>
+
+<script>
+    retailWithoutTax()
+</script>

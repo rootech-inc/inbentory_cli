@@ -3,7 +3,7 @@
     require $_SERVER['DOCUMENT_ROOT'].'/backend/includes/core.php';
     $user_group = $anton->get_session('user_group');
 
-    $all_permissions = $db->db_connect()->query("SELECT * FROM smhos.user_access WHERE `group` = '$user_group';");
+    $all_permissions = $db->db_connect()->query("SELECT * FROM user_access WHERE `group` = '$user_group';");
 
     // todo : Put user in group, and fetch permissions
 

@@ -27,24 +27,30 @@ function showNumKeyboard() {
     document.getElementById('numericKeyboard').style.display = '';
 }
 
-function keypad(task) {
+function keypad(task='none') {
 
-    document.getElementById('alphsKeyboard').style.display = '';
+    // document.getElementById('alphsKeyboard').style.display = '';
+    // console.log("SHOW KEYBOAD")
+    keyboard.showQwerty()
 }
 
 function hideKboard()
 {
-    $('#alphsKeyboard').hide();
+    // $('#alphsKeyboard').hide();
     // document.getElementById('alphsKeyboard').style.display = 'none';
+    // document.getElementById('alphsKeyboard').style.display = 'none';
+    keyboard.hideQwerty()
 }
 
 function keyboardInput(number) {
-    var exiting = $('#general_input').val();
+    let input_field = anton.getCookie('input_field');
+    let field = `#${input_field}`;
+    var exiting = $(field).val();
     var new_d = exiting + number.toString();
 
-    $('#general_input').val(new_d);
+    $(field).val(new_d);
     $('#keyPadInput').val(new_d);
-    $('#general_input').focus()
+    $(field).focus()
 
 }
 

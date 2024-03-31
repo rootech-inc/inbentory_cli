@@ -26,7 +26,7 @@ function s_response(icon = 'info',title = '',message = '') {
 
 // date
 const today = new Date();
-const dd = String(today.getDate()).padStart(2, '0');
+let dd = String(today.getDate()).padStart(2, '0');
 const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 const hh = String(today.getHours())
 const mmm = String(today.getMinutes())
@@ -66,10 +66,12 @@ if(Mech.is_shift())
     }
 } else {
     toDay = yyyy + '-' + mm + '-' + dd;
-    //cl('No SHift')
-}
 
+}
 const user_id = a_sess.get_session('clerk_id')
+const billNo = a_sess.get_session('bill_no');
+const billREF = a_sess.get_session('bill_ref');
+const shiftNO = a_sess.get_session('shift')
 
 var form_settings = {
     "url": "/backend/process/form_process.php",
@@ -652,7 +654,7 @@ function arr_enable(elements) {
 
 // set session
 function set_session(array_data,reload = 1) {
-    loader('show')
+    // loader('show')
     var form_data = {
         'token':'none',
         'function':'set_session',
@@ -672,7 +674,7 @@ function set_session(array_data,reload = 1) {
             }
         }
     );
-    loader('show')
+    // loader('hide')
 }
 
 // get session
@@ -891,7 +893,6 @@ function change_category(group_uni) {
 function add_item_to_bill(barcode) {
 
     let newValue;
-    echo(barcode);
     var existingValue = $('#general_input').val();
     if(existingValue.includes("*"))
     {
@@ -1693,9 +1694,9 @@ function download_products() // download products
     exec("DELETE FROM item_buttons");
     // download item buttons
     var item_groups = JSON.parse(
-        get_row('item_group', "`id` > 0")
+        get_row('item_group', "`status` = 1")
     );
-    echo(item_groups)
+    // echo(item_groups)
     for (let b = 0; b < item_groups.length; b++) {
         var button = item_groups[b];
 
@@ -1719,18 +1720,20 @@ function download_products() // download products
     }
 
     // delete all items
-    exec("DELETE FROM prod_mast");
+
     // download item buttons
     var items = JSON.parse(
-        get_row('prod_master', "`item_code` > 0")
+        get_row('prod_master', "`item_code` > 0 and download_flag = 1")
     );
+
+    console.table(items)
 
     for (let i = 0; i < items.length; i++) {
         var item = items[i];
 
         // get index (id) and short description
         let item_id, uni, group, sub_group, barcode, desc, cost, retail, tax_grp, packing, discount, discount_rate,
-            stock_type;
+            stock_type,tax_amt,retail_wo_tax;
 
         item_id = item.item_code
         uni = item.item_uni;
@@ -1742,15 +1745,20 @@ function download_products() // download products
         retail = item.retail
         tax_grp = item.tax
         packing = item.packing;
-        stock_type = item.stock_type
+        stock_type = item.stock_type;
+        tax_amt = item.tax_amt;
+        retail_wo_tax = item.retail_wo_tax
 
 
-        var data = {
-            'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp'],
-            'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group]
+
+        var prod_data = {
+            'cols': ['id', 'item_grp', 'item_uni', 'barcode', 'desc', 'cost', 'retail', 'tax_grp', 'stock_type', 'sub_grp','tax_amt','retail_wo_tax'],
+            'vars': [item_id, group, uni, barcode, desc, cost, retail, tax_grp, stock_type, sub_group,tax_amt,retail_wo_tax]
         }
-
-        insert('prod_mast', data)
+        console.table(prod_data)
+        exec(`DELETE FROM prod_mast where id = '${item_id}'`);
+        insert('prod_mast', prod_data)
+        exec(`UPDATE prod_master SET download_flag = 0 where item_code = '${item_id}'`)
 
     }
 
@@ -1986,6 +1994,140 @@ function delete_doc(doc,entry_no) // delete document
     }
 }
 
-function db_access(){
+// validate array of inputs
+function validateInputs(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        const value = $(`#${ids[i]}`).val().trim();
+        if (value === '') {
+            // alert('False');
+            $(`#${ids[i]}`).addClass('border-danger')
+            $(`#${ids[i]}`).removeClass('border-success')
+            return false;
 
+        } else {
+            $(`#${ids[i]}`).addClass('border-success')
+            $(`#${ids[i]}`).removeClass('border-danger')
+        }
+    }
+    return true;
 }
+
+function disableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+        $(`#${ids[i]}`).prop('disabled',true)
+    }
+}
+
+function enableFields(ids) {
+    for (let i = 0; i < ids.length; i++) {
+
+        $(`#${ids[i]}`).prop('disabled',false)
+    }
+}
+
+function autoFill(ids,data) {
+    if(ids.length === data.length){
+
+        for (let i = 0; i < ids.length; i++) {
+            let id = ids[i];
+            let da = data[i]
+
+            $(`#${id}`).val(da)
+
+        }
+
+    } else {
+        kasa.error("ID DATA MISMATCH")
+    }
+}
+
+class Anton {
+    getCookie(name){
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+
+    setCookie(name,value){
+        document.cookie = name + "=" + value + ";path=/";
+    }
+
+    lineXyz(line){
+        let x = $(`#x_${line}`).val()
+        let y = $(`#y_${line}`).val()
+        let z = parseFloat(x*y).toFixed(2)
+        console.log(x)
+        $(`#z_${line}`).val(z)
+    }
+
+    validateInputs(ids) {
+        for (let i = 0; i < ids.length; i++) {
+            const value = $(`#${ids[i]}`).val();
+            if (value === '' || value === undefined) {
+                // alert('False');
+                console.log(`#${ids[i]}`)
+                $(`#${ids[i]}`).removeClass('border-success')
+                $(`#${ids[i]}`).addClass('border-danger')
+
+                return false;
+
+            } else {
+                $(`#${ids[i]}`).addClass('border-success')
+                $(`#${ids[i]}`).removeClass('border-danger')
+            }
+        }
+        return true;
+    }
+
+    Inputs(ids){
+        let xd = {};
+        for (let i = 0; i < ids.length; i++) {
+            xd[ids[i]] = $(`#${ids[i]}`).val()
+        }
+
+        return xd;
+    }
+
+    wait(time = 1){
+        setTimeout(function () {
+            console.log(waiting)
+        },time * 1000)
+    }
+
+
+    btn_enable(buttons) {
+        for (let bt = 0; bt < buttons.length; bt++) {
+            let but = buttons[bt];
+            $(`#${but}`).prop('disabled',false)
+            console.log(`${but} is enabled`)
+        }
+    }
+    btn_disable(buttons) {
+        for (let bt = 0; bt < buttons.length; bt++) {
+            let but = buttons[bt];
+            $(`#${but}`).prop('disabled',true)
+            console.log(`${but} is disabled`)
+        }
+    }
+
+    treatAsUTC(date) {
+        var result = new Date(date);
+        result.setMinutes(result.getMinutes() - result.getTimezoneOffset());
+        return result;
+    }
+    daysBetween(startDate,endDate) {
+
+
+        var millisecondsPerDay = 24 * 60 * 60 * 1000;
+        return (this.treatAsUTC(endDate) - this.treatAsUTC(startDate)) / millisecondsPerDay;
+    }
+}
+
+const anton = new Anton()
+
+let billing_type = 'none';
+if(!anton.getCookie('billing_type')){
+    anton.setCookie('billing_type','sale');
+}
+
+billing_type = anton.getCookie('billing_type');

@@ -1,6 +1,8 @@
 <?php
 
-
+//if(!isset($_SESSION['cli_login'])){
+//    header("Location:login.php");
+//}
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -13,6 +15,10 @@ error_reporting(E_ALL);
     require 'backend/includes/core.php';
     (new \mechconfig\MechConfig)->validate_device();
 
+    if(!isset($_SESSION['cli_login']) && $_SESSION['cli_login'] !== 'true'){
+        header('Location:/login/');
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,12 +26,12 @@ error_reporting(E_ALL);
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMHOS - CLI</title>
+    <title>VENTA</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <link rel="stylesheet" href="/css/all.css">
     <link rel="stylesheet" href="/css/keyboard.css">
-    <link rel="icon" type="image/png" href="/assets/logo/logo.ico">
+    <link rel="icon" type="image/png" href="/assets/logo/venta.png">
 
 
     <script src="/js/jquery.min.js"></script>
@@ -38,6 +44,8 @@ error_reporting(E_ALL);
     <script src="/js/classes/system.js"></script>
     <script src="/js/classes/inventory.js"></script>
     <script src="/js/classes/screen.js"></script>
+
+
 
     <script src="/js/sweetalert2@11.js"></script>
 
@@ -55,6 +63,13 @@ error_reporting(E_ALL);
     <script src="/js/classes/tax.js"></script>
     <script src="/js/classes/loyalty.js"></script>
     <script src="/js/classes/kasa.js"></script>
+    <script src="/js/classes/api.js"></script>
+    <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/productMaster.js"></script>
+    <script src="/js/classes/cust.js"></script>
+    <script src="/js/classes/jspdf.umd.min.js"></script>
+    <script src="/js/classes/grn.js"></script>
+    <script src="/js/classes/Tables.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 
@@ -69,7 +84,7 @@ error_reporting(E_ALL);
 
 </head>
 <body onload="initialize()" onresize="validateSize('yes')" class="abs_1 p-0 d-flex flex-wrap align-content-center">
-
+    
     <div class="modal" id="loader">
         <div class="w-100 h-100 bg_trans_50 d-flex flex-wrap align-content-center justify-content-center">
             <div style="width: 100px; height: 100px; background: none !important">
@@ -82,7 +97,7 @@ error_reporting(E_ALL);
     </div>
     <script>loader('show')</script>
 
-    <button onclick="keypad('none')" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
+    <button onclick="sys.OnKeyboard()" id="keyboardTrigger" class="my-4 btn btn-sm btn-outline-secondary">
         <i class="fa fa-keyboard"></i>
     </button>
 
@@ -151,7 +166,8 @@ error_reporting(E_ALL);
 
 
 
-    <div id="alphsKeyboard" class="ant-bg-black p-1">
+    <div style="z-index: 9000000 !important" id="alphsKeyboard" class="ant-bg-black p-1">
+        <span class="badge badge info">QWERTY 0.1  </span>
         <script>
             sys.OffKeyboard()
         </script>
@@ -325,20 +341,23 @@ error_reporting(E_ALL);
 
             <!-- QWERTY LAST ROW -->
             <div class="w-100 d-flex flex-wrap">
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
-                </div>
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
+                <div class="alpha_double">
+                    <button onclick="sys.OffKeyboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm">
+                        <i class="fa fa-window-close"></i>
+                    </button>
                 </div>
                 <div class="alpha_space">
                     <button type="button" onclick="keyboardInput($(this).text())" class="alpha_space btn w-100 h-100 btn-light btn-sm shadow-sm"> </button>
                 </div>
-                <div class="alpha">
-                    <button disabled class="btn btn-light m-0 btn-sm w-100 h-100 shadow-sm"></button>
-                </div>
-                <div class="alpha">
-                    <button onclick="sys.OffKeyboard()" class="btn btn-danger m-0 btn-sm w-100 h-100 shadow-sm"></button>
+<!--                <div class="alpha">-->
+<!--                    <button  class="btn btn-success m-0 btn-sm w-100 h-100 shadow-sm">-->
+<!--                        <i class="fa fa-hammer"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+                <div class="alpha_double">
+                    <button onclick="" class="btn btn-success m-0 btn-sm w-100 h-100 shadow-sm">
+                        <i class="fa fa-hammer"></i>
+                    </button>
                 </div>
             </div>
 
@@ -411,20 +430,35 @@ error_reporting(E_ALL);
             <input type='hidden' id='mech_no' value='$machine_number'>
         ";
         ?>
-        <main onclick="hideKboard()" class="p-0 mx-auto ant-bg-black">
+        <main class="p-0 w-100 ant-bg-black">
             <input type="hidden" id="my_user_name" value="<?php echo $myName ?>">
+            <input type="hidden" id='my_shift_no' value="<?php echo shift_no ?>">
             <?php
 
 
-                if($module === 'home')
+                if($module === 'home')  
                 {
                     include 'backend/includes/parts/home/home_index.php';
                 }
                 elseif ($module === 'billing'){
 
+                    // $bill_number = $MConfig->bill_number();
+                    $bill_number = $bill->billNumber();
+                    $billRef = "001".date('ymd',strtotime(today)).$bill_number.shift_no.mech_no;
+                    //$billRef = "001".date('ymd').$bill_number.mech_no;
+                    define('billRef',$billRef);
+                    $_SERVER['billRef'] = $billRef;
+                    define('bill_total',$bill->billTotal($bill_number,today));
+                    define('bill_no',$bill_number);
+                    $anton->set_session(
+                        ["bill_no=$bill_number","bill_ref=$billRef","shift=$shift_no"]
+                    );
+                    $response = ['status' => 000,'message'=>'null'];
+                    $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 
                     // get categories
                     $item_groups = $db->db_connect()->query("SELECT * from `item_buttons`");
+                    $item_groups2 = $db->db_connect()->query("SELECT * from `item_buttons`");
 
 
                     // include billing
@@ -445,11 +479,32 @@ error_reporting(E_ALL);
                     include 'backend/includes/parts/reports/reports.php';
                 }
 
+
+                elseif ($module === 'backoffice'){
+                    $db = (new \db_handeer\db_handler());
+
+                    if($action === 'new'){
+                        // get locations
+                        $loc_q = "SELECT id,loc_id,loc_desc FROM loc";
+                        $locs = $db->db_connect()->query($loc_q);
+
+                        // customers
+                        $cust_query = "select customer_id,CONCAT(first_name,' ', last_name) as 'name' from customers order by first_name";
+                        $customers  = $db->db_connect()->query($cust_query);
+                    }
+
+                    include 'backend/includes/parts/backoffice/index.html';
+                }
+
             ?>
         </main>
     <?php }
-    else { ?>
-        <main class="mx-auto card grade_danger overflow-hidden">
+    else {   ?>
+
+
+
+
+        <main class="card w-100 grade_danger overflow-hidden">
 
 
             <div class="w-100 h-100 d-flex flex-wrap align-content-center justify-content-between">
@@ -471,15 +526,22 @@ error_reporting(E_ALL);
                             <div class="row h-100 no-gutters">
                                 <div class="card w-100">
                                     <div class="card-body p-2">
+                                        <div class="input-group">
+                                            <label for="mech_no" class="w-100">MECH N0.</label>
+                                            <input id="mech_no" name="mech_no" readonly value="<?php echo mech_no ?>" autocomplete="off" type="text" placeholder="User ID" class="form-control form-control-sm rounded-0">
+                                        </div><hr>
                                         <div class="input-group mb-2">
+<!--                                            <label for="clerk_code" class="w-100">CODE</label>-->
                                             <input id="clerk_code" name="clerk_code" autofocus autocomplete="off" type="text" placeholder="User ID" class="form-control form-control-sm rounded-0">
                                         </div>
-                                        <div class="input-group mb-2">
+                                        <div class="input-group">
+<!--                                            <label for="clerk_password" class="w-100">PASSWORD</label>-->
                                             <input type="password" autocomplete="off" id="clerk_password" name="clerk_key" placeholder="Password" class="form-control form-control-sm rounded-0">
                                         </div>
 
+                                        <hr>
                                         <div class="input-group">
-                                            <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">
+                                            <select name="db_state" id="state" required class="form-control rounded-0 font-weight-bold">
                                                 <option selected value="Network">Network</option>
                                                 <option value="Local">Local</option>
                                             </select>
@@ -491,32 +553,7 @@ error_reporting(E_ALL);
                                         <button class="btn rounded-0 btn-sm btn-success w-100" type="submit" name="login">LOGIN</button>
                                     </div>
                                 </div>
-<!--                                <div class="col-sm-9 p-2 h-100">-->
-<!--                                    <div class="w-100 text-warning" id="error_box">-->
-<!---->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group mb-2">-->
-<!--                                        <input id="clerk_code" value="--><?php //if (isset($_SESSION['clerk_code'])){echo $_SESSION['clerk_code'];} ?><!--" class="form-control rounded-0 font-weight-bold" type="text" autocomplete="off" placeholder="Code" name="clerk_code" required>-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group mb-2">-->
-<!--                                        <input id="clerk_password" class="form-control rounded-0 font-weight-bold" type="password" autocomplete="off"  placeholder="Key" name="clerk_key" required>-->
-<!--                                    </div>-->
-<!---->
-<!--                                    <div class="input-group">-->
-<!--                                        <select name="db_state" id="state" readonly disabled required class="form-control rounded-0 font-weight-bold">-->
-<!--                                            <option selected value="Network">Network</option>-->
-<!--                                            <option value="Local">Local</option>-->
-<!--                                        </select>-->
-<!--                                        <input type="hidden" value="Network" name="db_state" id="setInp">-->
-<!--                                    </div>-->
-<!--                                </div>-->
 
-                                <!--KEYS-->
-<!--                                <div class="col-sm-3 d-flex flex-wrap align-content-center py-2 h-100 border">-->
-<!--                                    <button style="height: 100% !important" type="submit" name="login" class="w-100 font-weight-bolder fas fa-key btn-danger"></button>-->
-<!--                                </div>-->
                             </div>
                         </div>
 
@@ -584,6 +621,9 @@ error_reporting(E_ALL);
     dragElement(document.getElementById("numericKeyboard"))
     loader('hide')
 </script>
+
+
+
 
 
 

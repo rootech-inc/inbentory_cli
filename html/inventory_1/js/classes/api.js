@@ -1,10 +1,10 @@
 class Api {
 
-    call(method,data,int='/apiv2/'){
+    call(method,data,int='/api/'){
         // console.log(JSON.stringify(data))
         // let link = interface
         // console.table(link)
-        var result = 0;
+        var result = {};
         $.ajax({
             url:int,
             type: method,
@@ -15,7 +15,7 @@ class Api {
             data:JSON.stringify(data),
             // dataType: "json",
             success: function (response) {
-
+                console.log(response)
                 result =  JSON.parse(response)
 
             },
@@ -36,6 +36,10 @@ class Api {
 
     put(data){
         return this.call('PUT',data)
+    }
+
+    get(data){
+        return this.call('GET',data)
     }
 
     patch(data){

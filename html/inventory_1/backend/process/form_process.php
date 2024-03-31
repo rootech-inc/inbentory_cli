@@ -4,7 +4,10 @@ use db_handeer\db_handler;
 use mechconfig\MechConfig;
 
 require '../includes/core.php';
-    require '../includes/print.php';
+    
+require '../includes/print.php';
+$billC = (new billing\Billing());
+
 
 
 /* A wrapper to do organise item names & prices into columns */
@@ -15,7 +18,7 @@ require '../includes/core.php';
 
         if(isset($_POST['function'])) // if we have a function from post call
         {
-            $function = $anton->post('function');
+            $function = trim($anton->post('function'));
 
             if($function === 'change_item_group') // if we are making a group change
             {
@@ -63,9 +66,9 @@ require '../includes/core.php';
                             }
 
                             $items .= "
-                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-2 p-1\">
+                                <div onclick='add_item_to_bill(\"$barcode\")' class=\"item_btn $bg m-1 p-1\">
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
-                                            <p class=\"text-elipse m-0 p-0 font-weight-bolder\">$name</p>
+                                            <small class=\"ellipsized-text-2 m-0 p-0 font-weight-bolder\">$name</small>
                                         </div>
                                         <div class=\"w-100 d-flex flex-wrap align-content-center h-50\">
                                             <strike class='text-danger'><small>$ori_p</small></strike>
@@ -94,6 +97,7 @@ require '../includes/core.php';
             {
 
                 $item = trim($anton->post('barcode'));
+
                 // split item to find multiple
                 $item_split = explode('*',$item);
 
@@ -116,7 +120,23 @@ require '../includes/core.php';
                 }
                 $item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
 
-                $add_bill = (new \billing\Billing())->AddToBill($bill_number,$item,$qty,clerk_code);
+
+                $billing_type = $anton->post('billing_type');
+                $ref_header = $anton->post('ref_header');
+                $ref_trans = $anton->post('ref_trans');
+                $refund_ref = $anton->post('refund_ref');
+
+                $bill_data = array(
+                    'billing_type'=>$billing_type,
+                    'ref_header'=>$ref_header,
+                    'ref_trans'=>$ref_trans,
+                    'refund_ref'=>$refund_ref,
+                    'barcode'=>$barcode,
+                    'qty'=>$qty,
+                    'item'=>$item
+                );
+
+                $add_bill = (new \billing\Billing())->AddToBill($bill_data);
 
                 echo json_encode($add_bill);
 
@@ -187,7 +207,7 @@ require '../includes/core.php';
                                     </div>
 
                                     <div class=\"w-50 h-100 d-flex flex-wrap align-content-center pl-1\">
-                                    <small>$barcode</small>
+                                        <small>$barcode</small>
                                         <p class=\"m-0 p-0\">$item_name</p>
                                         <small class='text-info'>$selected</small>
                                     </div>
@@ -239,11 +259,13 @@ require '../includes/core.php';
 
             elseif ($function === 'get_bill') // get bill v2
             {
-                $billRef = billRef;
+                $shift = shift_no;
+                $billRef = (new billing\Billing())->getRef();
                 $response = ['status'=>404,'message'=>'null'];
-                $bill_cond = "`bill_no` = '$bill_number' AND `bill_date` = '$today' and mech_no = '$machine_number'";
+                $bill_cond = "`billRef` = '$billRef'";
                 // count bill tran count
-                $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',"`bill_number` = '$bill_number' AND `date_added` = '$today'");
+                //echo $bill_cond;
+                $bill_tran_count = (new \db_handeer\db_handler())->row_count('bill_trans',$bill_cond);
 
                 $response['message'] = $bill_tran_count;
                 if($bill_tran_count > 0){
@@ -259,6 +281,7 @@ require '../includes/core.php';
                     $bill_items = 'done%%';
                     $sn = 0;
                     $trans = [];
+                    $trans_html = '';
                     $total = 0;
                     $tax_total = 0;
                     while($bill = $bill_query->fetch(PDO::FETCH_ASSOC)) {
@@ -272,6 +295,9 @@ require '../includes/core.php';
                         $item_name = $bill['item_desc'];
                         $qty = $bill['item_qty'];
                         $cost = $bill['bill_amt'];
+                        if($bill['trans_type'] === 'D'){
+                            $cost = $bill['tax_amt'];
+                        }
                         $barcode = $bill['item_barcode'];
                         $id = $bill['id'];
                         $select = $bill['selected'] ;
@@ -291,6 +317,41 @@ require '../includes/core.php';
                             'tran'=>$tran
                         ];
 
+                        $selected = '';
+                        if($bill['selected'] == '1')
+                        {
+                            $cart_item = 'cart_item active';
+                            $selected = 'selected';
+                        }
+                        else
+                        {
+                            $cart_item = 'cart_item';
+                        }
+
+                        $trans_html .= "<div
+                                    onclick= \"mark_bill_item('$id')\" id='billItem$barcode'
+                                    class=\"d-flex flex-wrap $cart_item align-content-center justify-content-between border-dotted pb-1 pt-1\"
+                                    >
+
+                                    <div class=\"w-10 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">$sn</p>
+                                    </div>
+
+                                    <div class=\"w-50 h-100 pl-1\">
+                                    <small>$barcode</small>
+                                        <p class=\"m-0 p-0\">$item_name</p>
+                                    </div>
+
+                                    <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">$qty</p>
+                                    </div>
+
+                                    <!--Cost-->
+                                    <div class=\"w-20 h-100 d-flex flex-wrap align-content-center pl-1\">
+                                        <p class=\"m-0 p-0\">".number_format($cost,2)."</p>
+                                    </div>
+                                </div>";
+
                         $trans[] = $this_tran;
 
                         $selected = '';
@@ -303,13 +364,15 @@ require '../includes/core.php';
                         $selected = '';
 
                     }
-
+                    $bill_number = (new billing\Billing())->billNumber();
+                    $total = (new billing\Billing())->billTotal($bill_number,today);
                     $bill_trans = [
-                        'bill_header'=>bill_total,
+                        'bill_header'=>(new billing\Billing())->billSummaryV2($billRef,mech_no),
                         'count'=>$bill_tran_count,
-                        'total'=>number_format(bill_total['taxable_amt'],2),
+                        'total'=>number_format($total['taxable_amt'],2),
                         'tax'=>number_format($db->sum('bill_tax_tran','tax_amt',$bill_cond),2),
-                        'trans'=>$trans
+                        'trans'=>$trans,
+                        'trans_html'=>$trans_html
                     ];
                     $response['status'] = 202;
                     $response['message'] = $bill_trans;
@@ -326,6 +389,8 @@ require '../includes/core.php';
             elseif ($function === 'void') // void
             {
                 $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today' AND `selected` = 1 and mach = '$machine_number'");
+
+                // todo delete tax transactions
                 echo 'done';
             }
 
@@ -339,9 +404,12 @@ require '../includes/core.php';
 
                     // mark bill as canceled
 //                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
-                    $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item')");
-                    $db->db_connect()->query("DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' AND `date_added` = '$today'  and mach = '$machine_number' and bill_number = '$bill_number'");
-                    $db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
+                    $shift = shift_no;
+                    $billRef = $billC->getRef();
+                    //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
+                    $db->db_connect()->query("DELETE FROM `bill_trans` where billRef = '$billRef'");
+                    //$db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
+                    $db->db_connect()->exec("DELETE FROM loyalty_tran where billRef = '$billRef'");
 
                 }
 
@@ -352,36 +420,47 @@ require '../includes/core.php';
             {
                 $response = ['status'=>202,'message'=>"INI"];
                 $randomString = $db->uniqieStr('`bill_hold`','`bill_grp`',4);
-
-                //$anton->print_bill('2','hold');
-
-
-
-                if(bill_total['valid'] === 'Y')
+                $clerk_id = $clerk_id;
+                $bill_ref = $billC->getRef();
+                $bill_total = $billC->billSummaryV2($bill_ref,mech_no);
+                // print_r($bill_total);
+                // die();
+                if(true)
                 {
                     // todo print bill
+                    try {
+                        
+                        $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `billRef` = '$bill_ref'");
+                        while($item = $items->fetch(PDO::FETCH_ASSOC))
+                        {
+                            $item_barcode = $item['item_barcode'];
+                            $item_qty = $item['item_qty'];
+                            $line_id = $item['id'];
+                            $insert_hold_tr = "INSERT INTO bill_hld_tr (bill_group, barcode, qty,clerk) values ('$randomString','$item_barcode','$item_qty','$clerk_id')";
+                            $db->db_connect()->exec($insert_hold_tr);
+                            $db->db_connect()->exec("DELETE from bill_trans where id = '$line_id'");
 
-                    $items = $db->db_connect()->query("SELECT * FROM `bill_trans` WHERE `trans_type` = 'i' AND `bill_number` = '$bill_number' AND `date_added` = '$today' and mach = $machine_number");
-                    while($item = $items->fetch(PDO::FETCH_ASSOC))
-                    {
-                        $item_barcode = $item['item_barcode'];
-                        $item_qty = $item['item_qty'];
-//                        echo $item_barcode;
-                        $db->db_connect()->exec("INSERT INTO `bill_hold`(`bill_grp`,`item_barcode`,`item_qty`) values ('$randomString','$item_barcode','$item_qty')");
 
 
+                        }
+
+                        $msg = "Bill Hold Number : $randomString";
+                        $response['message'] = $msg;
+                        printHold($randomString);
 
 
+                    } catch (\Throwable $th) {
+                        $msg = "There is an error holding bill";
+                        $response['status'] = 505;
+                        $response['message'] = $msg;
+                        printMessage($msg);
+                        //throw $th;
                     }
-                    // todo print held bill
-                    $delete = "DELETE FROM `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number";
-                    // delete item
-//                    echo $delete;
-                    $db->db_connect()->exec($delete);
-                    $response['message'] = "Bill Hold Number : $randomString";
+
+                    
 
                 } else {
-                    $response['message'] = bill_total;
+                    $response['message'] = $bill_total;
                 }
                 header('Content-Type: application/json');
                 echo json_encode($response);
@@ -468,109 +547,92 @@ require '../includes/core.php';
             elseif ($function === 'payment') // making payment
             {
 
-
                 $amount_paid = $anton->post('amount_paid');
+                $billing_type = $anton->post('billing_type');
+                $customer = $anton->post('customer');
 
                 $myName = $_SESSION['clerk_id'];
                 $today = today;
                 // get current bill details
-                $bill_number = bill_no;
+                $bill_number = (new billing\Billing())->getRef();
                 $machine_number = (new MechConfig())->mech_details()['mechine_number'];
 
                 $bill_trans_count = "`date_added` = '$today' and `mach` = '$machine_number' and `bill_number` = '$bill_number'";
-                $bill_sql = (new db_handler())->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
+                $bill_sql = $db->db_connect()->query("SELECT * FROM bill_trans WHERE $bill_trans_count");
 
                 // make payment
                 if((new \db_handeer\db_handler())->row_count('bill_trans','bill_number',"`bill_number` = '$bill_number'") > 0 )
                 {
 
+
                     $method = $anton->post('method');
-                    $response = $bill->makePyament($method,$amount_paid);
-//                    printMessage("MUFASA");
-//                    if($response['status'] === 200)
-//                   {
-//
-//                       printbill($machine_number,$bill_number,$method);
-//
-//                   }
+                    $old_ref = $anton->post('old_ref');
 
-                    header('Content-Type: application/json');
+                    $response = $bill->makePyament($method,$amount_paid,$old_ref,$billing_type,$customer);
+
+
+                    //header("Content-Type: Application\json");
                     echo json_encode($response);
-
-
-                    die();
-
-
-                    // get bill quantity items
-//                    $tran_qty_stmt = $db->db_connect()->query("SELECT SUM(item_qty) as itrm_qty from `bill_trans` WHERE `bill_number` = '$bill_number' and mach = $machine_number");
-//                    $tran_qty = (new \mechconfig\MechConfig)->sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $tran_qty = (new \db_handeer\db_handler())->col_sum('bill_trans','item_qty',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-//                    $gross_amt  = (new \mechconfig\MechConfig)->sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $gross_amt  = (new \db_handeer\db_handler())->col_sum('bill_trans','bill_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-
-
-//                    $tax_amt = (new \mechconfig\MechConfig)->sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
-                    $tax_amt = (new \db_handeer\db_handler())->col_sum('bill_trans','tax_amt',"`bill_number` = '$bill_number' and mach = $machine_number");
+//
+//                    print_r($response);
+//                    die(print_r($_POST));
 
 
 
-                        $bill_header_insert = "INSERT INTO bill_header (mach_no, clerk, bill_no, pmt_type, gross_amt, tax_amt, net_amt,tran_qty)VALUES
-                                                                            ($machine_number, '$myName', $bill_number, '$method', $gross_amt, $tax_amt, $gross_amt - $tax_amt, $tran_qty);
-    ";
-                    // mark bill as canceled
-                    try {
-                        // todo print_bill
-                        //$anton->print_bill($bill_number,'P');
-                        (new \db_handeer\db_handler())->db_connect()->exec($bill_header_insert);
-                        (new \db_handeer\db_handler())->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`) values ('$machine_number','$bill_number','$method','P','$myName','PAYMENT')");
-
-                        $anton->done($bill_number);
-
-                    } catch (PDOException $exception)
-                    {
-                        $error = $exception->getMessage();
-                        $anton->err($error);
-                    }
                 }
 
             }
 
             elseif ($function === 'recall_bill') // recall bill
             {
+
+
                 $bill_grp = $anton->post('bill_grp');
 
 
-
-
+                $condition = "`bill_group` = '$bill_grp'";
+                $count = $db->fetch_rows("SELECT COUNT(*) as 'rows' FROM bill_hld_tr where `bill_group` = '$bill_grp' and billed  = 0 ")['rows'];
+                $response['status'] = 404;
+                $response['message'] = "Bill Not Found ($bill_grp <> $count)";
                 // check if bill number exist
-                if($db->row_count('bill_hold',"`bill_grp` = '$bill_grp' AND `bill_date` = '$today'") < 1 )
+                if($count > 0 )
                 {
-//                    $anton->err('bill_recall_does_not_exits');
-                    $response['status'] = 404;
-                    $response['message'] = "Bill Not Found";
-//                    die();
-                }
-                else
-                {
+
                     // load bill
-                    $held_bill = $db->db_connect()->query("SELECT * FROM `bill_hold` WHERE `bill_grp` = '$bill_grp' and `bill_date` = '$today'");
+                    $held_bill = $db->db_connect()->query("
+                        select bill_hld_tr.id as 'id', pm.`desc`,pm.retail,pm.id,pm.discount,pm.barcode,qty from bill_hld_tr right join posdb.prod_mast pm on bill_hld_tr.barcode = pm.barcode where bill_group = '$bill_grp' and billed = 0
+                    ");
                     while($item = $held_bill->fetch(PDO::FETCH_ASSOC))
                     {
-                        $barcode = $item['item_barcode'];
-                        $item_qty = $item['item_qty'];
-//                        print_r($barcode);
-//                        die();
+                        $barcode = $item['barcode'];
+                        $item_qty = $item['qty'];
+                        $id = $item['id'];
+
+                        $this_item = (new \db_handeer\db_handler())->get_rows('prod_mast',"`barcode` = '$barcode'");
+                        $bill_data = array(
+                            'billing_type'=>"sales",
+                            'ref_header'=>"",
+                            'ref_trans'=>"",
+                            'refund_ref'=>"",
+                            'barcode'=>$barcode,
+                            'qty'=>$item_qty,
+                            'item'=>$this_item
+                        );
 
                         // insert into bill
-                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
+//                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
+                        (new billing\Billing())->AddToBill($bill_data);
+
+
+
 
                     }
+                    $db->db_connect()->exec("UPDATE bill_hld_tr SET billed = 1 where bill_group = '$bill_grp'");
                     // delete all bill item
-                    $db->delete("`bill_hold`","`bill_grp` = '$bill_grp'");
+
                     $response['status'] = 200;
                     $response['message'] = "Bill Loaded";
-//                    $anton->done('bill_found');
+
                 }
                 header('Content-Type: application/json');
 //                header('Content-Type: application/json');
@@ -592,19 +654,24 @@ require '../includes/core.php';
 
                 if($db->clerkAuth($user_id,$password))
                 {
-                    $billRef = billRef;
+                    $bb = (new \billing\Billing());
+                    $billRef = $bb->getRef();
+                    $bill_number = $bb->billNumber();
+                    $machine_number = mech_no;
+                    $shift = shift_no;
                     //$anton->done('pass');
                     // apply discount
                     // check if discount already, already applied
                     if($db->row_count('bill_trans',"`bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'") < 1)
                     {
-                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`bill_amt`,`date_added`,`billRef`) values ('$machine_number','$bill_number','DISCOUNT','D','$clerk_code','DICOUNT','$rate','$today','$billRef')");
+                        $db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`discount_rate`,`date_added`,`billRef`,`shift`,`tran_type`) values 
+                                                                                    ('$machine_number','$bill_number','DISCOUNT','D','$clerk_code','DICOUNT','$rate','$today','$billRef','$shift','D')");
                         $anton->done('discount_applied');
                     }
                     else
                     {
                         // update discount
-                        $db->db_connect()->exec("UPDATE `bill_trans` SET `bill_amt` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'");
+                        $db->db_connect()->exec("UPDATE `bill_trans` SET `discount_rate` = '$rate' WHERE `bill_number` = $bill_number AND `clerk` = '$clerk_code' AND `date_added` = '$today' AND `trans_type` = 'D'");
                         $anton->done('discount_updated');
                     }
 

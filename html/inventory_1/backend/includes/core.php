@@ -1,33 +1,58 @@
 <?php
 
 use db_handeer\db_handler;
+use taxer\tax_calculator;
 
-ini_set('display_errors',1);
+    ini_set('display_errors',1);
     ini_set('display_startup_errors',1);
     ini_set('memory_limit', '-1');
-    error_reporting(E_ALL);
+    
+    error_reporting(E_ALL ^ E_DEPRECATED);
+
     define('root',$_SERVER['DOCUMENT_ROOT']);
     define('host_ip',$_SERVER['HTTP_HOST']);
-    const printer = 'EPSON_OFFICE';
+
 
     $bill_number = 0;
 
-    const db_host = 'localhost';
-    const db_user = 'anton';
-    const db_password = '258963';
-    const db_name = "posdb";
 
-
+    $phy = $_SERVER['DOCUMENT_ROOT'];
     require 'session.php';
     $session_id = session_id();
-    $logo = root . "/assets/logo/comp_logo.png";
-    define('logo',$logo);
+    $logo = $phy . "\assets\logo\xt.png";
+
+
 
     // initialize classes
     require 'anton.php';
     require 'db_handler.php';
     require 'tax_calculator.php';
     require 'MechConfig.php';
+
+    $MConfig = new \mechconfig\MechConfig();
+    $MConfig->validate_device();
+    $config = $MConfig->config();
+
+    define('DEBUG',$config['DEBUG']);
+    define('MACH_NO',$config['MACH_NO']);
+    define('MAC_ADDRESS',$config['MAC_ADDRESS']);
+    define('bill_print',$config['BILL_PRINT']);
+    define('LOC_ID',$config['LOC_ID']);
+
+    define('logo',$logo);
+    define("printer", $config['PRINTER']);
+    define('PRINT_TYPE',$config['PRINT_TYPE']);
+    define('db_host',$config['DB_HOST']);
+    define('db_name',$config['DB_NAME']);
+    define('db_user',$config['DB_USER']);
+    define('db_password',$config['DB_PASSWORD']);
+
+    define('evat',$config['EVAT']);
+    define('evat_url',$config['EVAT_API']);
+
+    define('loyalty_url',$config['LTY_URL']);
+    define('loyalty_token',$config['LOY_TOKEN']);
+
     require 'classes/Billing.php';
     require 'classes/reports.php';
     require  'classes/auth.php';
@@ -36,38 +61,54 @@ ini_set('display_errors',1);
     require  'classes/Loyalty.php';
     require 'classes/ProductMaster.php';
 
-    $evat = new \billing\Evat('');
-    $evat->set_url("http://192.168.2.88:8080/evat_api");
+
 
     $bill = new \billing\Billing();
 
 
     $anton = new anton();
     $db = new db_handler();
-    $db->db_connect();
+
+
     $taxCalc = new tax_calculator();
-    $MConfig = new \mechconfig\MechConfig();
+
+
+
     $company = $db->get_rows('company',"`id` = 0");
     // validate machine
-    define('mech_no',$MConfig->mech_details()['mechine_number']);
+    define('mech_no',$config['MACH_NO']);
+
     $machine_number = mech_no;
+    $shift_no = '';
     if($shiftCL->is_shift(mech_no))
     {
-        $shit_detail = (new db_handler())->get_rows('shifts',"`mech_no` = '$machine_number'");
-        $today = $shit_detail['shift_date'];
+        $rid = $db->get_rows("shifts","`mech_no` = '$machine_number'  AND `end_time` is null ")['recId'];
+        $shit_detail = $shiftCL->my_shift($rid);
+        
+        $today = $shit_detail['date'];
+        $shift_enc = $shit_detail['enc'];
+        $shift_no = $shit_detail['shift_no'];
+        
     } else {
         $today = date('Y-m-d');
+        $shift_enc = '';
     }
+    define('shift_no',$shift_no);
+    define('is_shift',$shiftCL->is_shift(mech_no));
+    
+
+
+
 
 
     define('today',$today);
+
+    define('shift_enc',$shift_enc);
     $current_time = date("Y-m-d H:m:s");
 
 
 
-    define('doc_root',$_SERVER['DOCUMENT_ROOT']);
-
-    $root_host = $_SERVER['DOCUMENT_ROOT'];
+    $root_host = root;
     $shift = $db->shift(mech_no);
     define('shift',$shift);
     define('company_name',$company['c_name']);
@@ -90,6 +131,7 @@ ini_set('display_errors',1);
 
         define('clerk_code',$my['clerk_code']);
         define('clerk_name',$my['clerk_name']);
+        define('clerk_id',$clerk_id);
         $clerk_code = clerk_code;
 
         if(!isset($_SESSION['action']))
@@ -103,15 +145,6 @@ ini_set('display_errors',1);
 //        print_r($module);
 
 
-        $bill_number = $MConfig->bill_number();
-        $bill_number = $bill->billNumber();
-        $billRef = "001".date('ymd',strtotime(today)).$bill_number.mech_no;
-        //$billRef = "001".date('ymd').$bill_number.mech_no;
-        define('billRef',$billRef);
-        define('bill_total',$bill->billTotal($bill_number,$today));
-        define('bill_no',$bill_number);
-        $response = ['status' => 000,'message'=>'null'];
-        $bill_condition = "`clerk` = '$myName' AND `bill_number` = '$bill_number' AND `trans_type` = 'i' and `date_added` = '$today'";
 
         // html header
 

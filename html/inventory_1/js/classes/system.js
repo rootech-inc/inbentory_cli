@@ -50,6 +50,30 @@ class System {
         $('#alphsKeyboard').hide();
     }
 
+    sys_variable(variable){
+        var form_data = {
+            'token':'none',
+            'function':'sys_variable',
+            'variable':variable
+        }
+        //cl("session var : " + sess_var)
+        var result = '';
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    result = response;
+                }
+            }
+        );
+        return result;
+    }
+
     adminAuth(){
         let admin_auth_username,admin_auth_password,err_c = 0,err_m = ' ',result = false;
         admin_auth_username = $('#admin_auth_username').val()
@@ -169,13 +193,43 @@ class System {
             type:'POST',
             data:data,
             success: function (response) {
-
+                console.log(response)
                 let res = JSON.parse(response);
                 swal_reload(res['message'])
             }
         });
 
     }
+
+
+    taxComponents(tax_code,value){
+
+        var form_data = {
+            'function':'taxInclusive',
+            'tax_code':tax_code,
+            'value':value
+        }
+        var result = {};
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data:form_data,
+                success: function (response) {
+
+                    result =  JSON.parse(response)
+                    ct(result)
+                }
+            }
+        );
+
+        return result;
+
+    }
+
 }
 
 class TaxMaster{
@@ -316,13 +370,13 @@ class TaxMaster{
                 'global': false,
                 'dataType': 'html',
                 success: function (response) {
-                    cl(response)
+                    // cl(response)
                     let r = JSON.parse(response)
                     let details = r['details']
                     let code = r['code']
                     let withoutTax = details['withoutTax']
 
-                    ct(r)
+                    // ct(r)
 
                     result = r;
 
@@ -340,6 +394,83 @@ class TaxMaster{
     {
         alert('TAX CLASS LOADED')
     }
+
+    taxCalculate(value){
+        var form_data = {
+            'function': 'tax_calculation',
+            'value': value,
+        }
+
+
+
+        //echo("SELECT * FROM "+table+" WHERE "+condition)
+
+        var result = {};
+
+        $.ajax(
+            {
+                url: '/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    if(isJson(response)){
+                        result = JSON.parse(response);
+                    } else {
+                        result['code'] = 505;
+                        result['message'] = response;
+                    }
+
+
+                }
+            }
+        );
+
+        console.table(result)
+        return result;
+    }
+
+    taxInclusive(value) {
+        try {
+            const covidRate = 1;
+            const nhisRate = 2.5;
+            const getFundRate = 2.5;
+
+
+             // retail price + quantity
+            const taxableAmount = (value * 100) / 121.9;
+
+            // get levies values
+            const covid = (covidRate / 100) * taxableAmount;
+            const nhis = (nhisRate / 100) * taxableAmount;
+            const gFund = (getFundRate / 100) * taxableAmount;
+            const vat = (15.9 / 100) * taxableAmount;
+
+            const taxDetail = {
+                type: "INCLUSIVE",
+                vat: vat.toFixed(2),
+                cv: covid.toFixed(2),
+                gf: gFund.toFixed(2),
+                nh: nhis.toFixed(2)
+            };
+
+            return {
+                code: 200,
+                message: taxDetail
+            };
+        } catch (error) {
+            return {
+                code: 505,
+                message: `${error.message} ${error.lineNumber || error.line}`
+            };
+        }
+    }
+
+
+
+
 }
 
 class UserConfig {
@@ -677,7 +808,7 @@ class UserConfig {
 
     ClerkNav(direction)
     {
-        let clerk_details
+        let clerk_details;
         let clk_act = get_session('user_act');
         if(direction === '>')
         {
@@ -753,35 +884,64 @@ class UserConfig {
         }
     }
 
-    adminAuth(code,clerk_key){
-        let form_data = {
-            'function':'adminAuth','code':code,'clerk_key':clerk_key
-        }
+    adminAuthScreen(){
+        let html = `
+            <input type="password" id="admin_code" maxlength="4" class="form-control text-center rounded-0 mb-2" placeholder="PIN" />
+            <button onclick="User.adminAuth()" class="w-100 btn btn-danger">AUTH</button>
+        `;
+        mpop.setTitle('ADMIN AUTH')
+        mpop.setBody(html);
+        mpop.show()
+    }
 
+    adminAuth(){
         let result = false;
-
-        $.ajax(
-            {
-                url:'/backend/process/ajax_tools.php',
-                'async': false,
-                'type': "POST",
-                'global': false,
-                'dataType': 'html',
-                data:form_data,
-                success: function (response)
-                {
-                    let res = JSON.parse(response)
-                    ct(res)
-                    if(res['code'] === 200)
-                    {
-                        result = true
-                    }
-                    // result = JSON.parse(response);
-
-
-                }
+        let ids = ['admin_code'];
+        if(anton.validateInputs(ids)){
+            let input = anton.Inputs(ids);
+            let admin_code = md5(input['admin_code']);
+            // console.log(admin_code)
+            let condition = `pin = '${admin_code}' and user_grp = 1`;
+            console.log(condition)
+            let validate = row_count('clerk',condition);
+            if(validate === 1){
+                result = true
             }
-        );
+
+            // validate
+
+
+        } else {
+            kasa.error("Provide Pin")
+        }
+        // let form_data = {
+        //     'function':'adminAuth','code':code,'clerk_key':clerk_key
+        // }
+
+
+
+        // $.ajax(
+        //     {
+        //         url:'/backend/process/ajax_tools.php',
+        //         'async': false,
+        //         'type': "POST",
+        //         'global': false,
+        //         'dataType': 'html',
+        //         data:form_data,
+        //         success: function (response)
+        //         {
+        //             let res = JSON.parse(response)
+        //             ct(res)
+        //             if(res['code'] === 200)
+        //             {
+        //                 result = true
+        //             }
+        //             // result = JSON.parse(response);
+        //
+        //
+        //         }
+        //     }
+        // );
 
         return result;
 
@@ -807,20 +967,24 @@ class MechConfig {
             'dataType': 'html',
             data:form_data,
             success: function (response) {
+                if(isJson(response)){
+                    result = JSON.parse(response)
+                }
 
-                result = JSON.parse(response)
             }
         })
 
-
         return result
+
 
     }
 
-    is_shift(mech_no = this.ThisMech()['mechine_number'],day=''){
+    is_shift(mech_no = this.ThisMech()['machine_number'],day=''){
 
         // check if there is shift
-        return row_count('shifts', `mech_no = '${mech_no}'  AND end_time is null`) === 1;
+        let r = row_count('shifts', `mech_no = '${mech_no}'  AND end_time is null`) === 1;
+        // console.log(`SHIFT IS ${r}`);
+        return r;
 
     }
 
@@ -828,7 +992,7 @@ class MechConfig {
         let response = {'valid':0,'shift':''}
         if(this.is_shift())
         {
-            let my_sh = JSON.parse(get_row('shifts', `mech_no = '${this.ThisMech()['mechine_number']}'  AND end_time is null`))[0]
+            let my_sh = JSON.parse(get_row('shifts', `mech_no = '${this.ThisMech()['machine_number']}'  AND end_time is null`))[0]
             let my_sh_d = {
                 'recId':my_sh['recId'],
                 'clerk':my_sh['clerk'],
@@ -840,7 +1004,10 @@ class MechConfig {
             response['shift'] = my_sh_d
         }
 
+        // console.log('mysift')
+        // console.table(response)
         return response
+
     }
 
     open_shifts(){
@@ -869,5 +1036,40 @@ class MechConfig {
         return response
     }
 
+    register(){
+        let desc = $('#description').val()
+        let mac_addr = $('#mac_addr').val()
+        let mech_no = $('#mech_no').val()
+
+        if(anton.validateInputs(['description','mac_addr','mech_no'])){
+
+            let query = `INSERT INTO mech_setup (mech_no, descr, mac_addr) values ('${mech_no}','${desc}','${mac_addr}')`;
+            let data = {
+                'cols':['mech_no','descr','mac_addr'],
+                'vars':[mech_no,desc,mac_addr]
+            }
+            console.table(data)
+            let savee = exec(query);
+            console.assert(savee);
+
+        } else {
+            kasa.error("Fill FIelds")
+        }
+    }
+
 }
 
+class Keyboard {
+    showQwerty(input_field='general_input'){
+        anton.setCookie('input_field',input_field)
+        $('#alphsKeyboard').fadeIn();
+
+    }
+
+    hideQwerty(){
+
+        $('#alphsKeyboard').hide();
+    }
+}
+
+const keyboard = new Keyboard();

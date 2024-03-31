@@ -1,8 +1,13 @@
+
+
 $(function() {
     //hang on event of form with id=myform
     $("#add_to_bill_form").submit(function(e) {
-//prevent Default functionality
         e.preventDefault();
+        $('#billing_type').val(anton.getCookie('billing_type'));
+        $('#ref_header').val(anton.getCookie('ref_header'));
+        $('#ref_trans').val(anton.getCookie('ref_trans'));
+        $('#refund_ref').val(anton.getCookie('refund_ref'));
         //get the action-url of the form
         var actionurl = e.currentTarget.action;
 
@@ -21,6 +26,8 @@ $(function() {
             data[name] = that.val();
         });
 
+
+
         // check if there is z seial
         if(Mech.is_shift())
         {
@@ -32,15 +39,26 @@ $(function() {
                 processData: false,  // tell jQuery not to process the data
                 contentType: false,  // tell jQuery not to set contentType
                 success: function (response){
-                    echo(response);
+                    console.table(formData)
+                    console.table(response)
+                    // echo(response);
                     if(isJson(response))
                     {
+                        let resp = JSON.parse(response);
+
                         // bill is valid json
-                        let code,message
-                        b_msg(message)
+                        let code = resp['code'],message = resp['message'];
+                        console.table(resp)
+                        if(code === 200){
+                            b_msg(message)
+                        } else {
+                            kasa.error(message)
+                        }
+
 
                     } else {
                         al("Invalid Bill Response")
+                        console.table(response)
                     }
 
                     i_hide('numericKeyboard')
@@ -50,10 +68,8 @@ $(function() {
                         let er_msg = response.split('%%')[1]
                         kasa.error(er_msg)
                     } else {
-                        get_bill()
+                        bill.loadBillsInTrans()
                     }
-                    // alert(response.split('%%')[1]);
-
                     // clear input
                     $('#general_input').val('')
 
@@ -299,24 +315,11 @@ function lookupAddToBill(lit) {
 // voiding bill
 // mark bill item
 function mark_bill_item(id) {
-
-    var form_data = {
-        'function':'mark_bill','id':id
+    let row = JSON.parse(get_row('bill_trans',`id = '${id}'`))[0];
+    let query = `UPDATE bill_trans set selected = 1 WHERE id = '${id}'`;
+    if(row['selected'] === 1){
+        query = `UPDATE bill_trans set selected = 0 WHERE id = '${id}'`;
     }
-
-
-
-    $.ajax({
-        url: 'backend/process/form-processing/billing.php',
-        type: 'POST',
-        data: form_data,
-        success: function (response)
-        {
-            console.log(response);
-            get_bill();
-        }
-    });
-
-    get_bill();
+    exec(query)
+    bill.loadBillsInTrans()
 }
-// voiding bill

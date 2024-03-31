@@ -16,6 +16,38 @@
                 $anton->set_session($session_data);
             }
 
+            // tax inclusive details
+            elseif ($function === 'taxInclusive'){
+                $code = $anton->post('tax_code');
+                $value = $anton->post('value');
+
+                $tasker = (new \taxer\tax_calculator());
+                $tax_x = $tasker->taxInclusive($code,$value);
+                header("Content-Type:Application/Json");
+                echo json_encode($tax_x);
+            }
+
+            // get tax of product
+            elseif ($function === 'tax_calculation'){
+                $value = $anton->post('value');
+                $tax_response = (new billing\Billing())->tax_inclusive($value);
+                header("Content-Type:Application/Json");
+                echo json_encode($tax_response);
+            }
+
+            // general query
+            elseif ($function === 'gen_query'){
+                $query = $_POST['query'];
+
+                //execute query
+                $stmt = $db->db_connect()->query($query);
+                header('Content-Type: application/json');
+                $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                echo json_encode($res);
+
+
+            }
+
             elseif ($function === 'mech_ini')
             {
                 $desc = $anton->post('desc');
@@ -28,7 +60,7 @@
 
                 try {
                     (new \db_handeer\db_handler())->db_connect()->query($mysql_ins);
-                    (new \mechconfig\MechConfig())->ini_device($mech_no,$mac_addr,$desc);
+//                    (new \mechconfig\MechConfig())->ini_device($mech_no,$mac_addr,$desc);
 
                     $anton->done("reload");
                 } catch (PDOException $e)
@@ -71,7 +103,7 @@
             {
                 $response = array('code'=>1,'message'=>'ini');
                 $query = $_POST['query'];
-                echo($query);
+                // echo($query);
                 try {
                     $db->exe($query);
                     $response['code'] = 202;
@@ -180,7 +212,11 @@
                 $billNo = $anton->post('billNo');
                 $mechNo = $anton->post('mechNo');
                 $day = $anton->post('day');
-                printbill($mechNo,$billNo,'unknown');
+
+                $bill = (new \db_handeer\db_handler())->get_rows('bill_header',"bill_no='$billNo' and mach_no = '$mechNo'");
+                $billRef = $bill['billRef'];
+
+                printbill($billRef);
             }
             elseif ($function === 'print_sales')
             {
@@ -190,11 +226,24 @@
             }
 
             elseif ($function === 'bill_summary'){
-                $billRef = billRef;
-                $sum = (new \billing\Billing())->billSummary($billRef);
+                $b = (new billing\Billing());
+                $billRef = $b->getRef();
+                $sum = $b->billSummaryV2($billRef,mech_no);
                 header("Content-Type:Application/Json");
                 echo json_encode($sum);
 
+            }
+
+            elseif ($function === 'sys_variable'){
+//                print_r($_POST);
+                // get system variavle
+                $variable = $anton->post('variable');
+//                echo $variable;
+                if($_SERVER["$variable"]){
+                    echo $_SERVER["$variable"];
+                } else {
+                    echo '';
+                }
             }
 
         }

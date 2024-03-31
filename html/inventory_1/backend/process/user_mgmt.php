@@ -1,7 +1,7 @@
 <?php
 
 
-    require '../includes/core.php';
+
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST')
     {
@@ -14,6 +14,28 @@
             $clerk_code = htmlspecialchars($_POST['clerk_code']);
             $clerk_key = htmlspecialchars($_POST['clerk_key']);
             $state = htmlentities($_POST['db_state']);
+            $config = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/config.ini', true);
+
+            if($state === 'NETWORK'){
+                $config['system_config']['DB_SOURCE'] = 'NETWORK';
+            } else {
+                $config['system_config']['DB_SOURCE'] = 'LOCAL';
+            }
+
+            // Save the modified array back to the INI file
+            $iniContent = '';
+
+            foreach ($config as $section => $values) {
+                $iniContent .= "[$section]\n";
+                foreach ($values as $key => $value) {
+                    $iniContent .= "$key = $value\n";
+                }
+                $iniContent .= "\n";
+            }
+
+            file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/config.ini', $iniContent);
+
+            require '../includes/core.php';
 
             if($db->row_count('clerk',"`clerk_code` = '$clerk_code'") > 0)
             {
@@ -98,6 +120,36 @@
             gb();
         }
 
+        ## login with pin
+        if(isset($_POST['pin'])){
+            require '../includes/core.php';
+            $pin = $anton->post('pin');
+            $db = (new \db_handeer\db_handler());
+            $response = array(
+                'status_code'=>0,'message'=>'none'
+            );
+            ## check if pin exist
+            if($db->row_count('clerk',"`pin` = '$pin'") === 1){
+                // login
+                $account = $db->get_rows('clerk',"`pin` = '$pin'");
+
+                $id = $account['id'];
+                $clerk_code = $account['clerk_code'];
+                $clerk_db_key = $account['clerk_key'];
+                $session_id = md5($clerk_code.$clerk_db_key.date("Y-m-d H:i:s"));
+                $anton->set_session(['cli_login=true',"clerk_id=$id",'module=home']);
+
+
+                $response['status_code'] = 200;
+                $response['message'] = "Login Successful";
+            } else {
+                $response['status_code'] = 404;
+                $response['message'] = "Invalid Pin";
+            }
+
+            echo json_encode($response);
+        }
+
         ## master authenticate
         if(isset($_POST['master_auth']) && isset($_GET['mod']))
         {
@@ -141,6 +193,7 @@
         // logout
         if(isset($_POST['function']))
         {
+            require '../includes/core.php';
             $function = $anton->post('function');
 
             if($function === 'logout')

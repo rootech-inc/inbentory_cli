@@ -1,7 +1,9 @@
 /* ROOT */
-body{
+/* body{
     background: #EB9783 !important;
-}
+} */
+
+
 
 
 th{
@@ -96,19 +98,13 @@ article{height: 90%; width: 100%;}
 }
 
 
-body{
-    height: 100vh !important;
-    overflow: hidden;  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;}
 
 main{
     /*position: relative;*/
-    height: 657px !important;
-    width: 1024px !important;
+    /* height: 657px !important;
+    width: 1024px !important; */
+    height: 100vh !important;
+    width: 100% !important;
     overflow: hidden !important;
     /*background: #2a4077;*/
     /*z-index: 9998 !important;*/
@@ -173,14 +169,27 @@ main{
     text-overflow: ellipsis;
 }
 
+.ellipsized-text-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Show only 2 lines */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal; /* Allows wrapping within the container */
+    max-height: 3em; /* Adjust based on your font size and line height */
+  }
+  
+
 .x_border
 {
     border: 4px solid #092f09 !important;
     font-size: small;
 }
 
-.billing-header{width: 100%;height: 70px;}
-.bill-body{width: 100%;height: 587px;background-color: #18191D;}
+.billing-header{width: 100%;height: 10% !important;}
+/*.billing-header{width: 100%;height: 70px;}*/
+/*.bill-body{width: 100%;height: 587px;background-color: #18191D;}*/
+.bill-body{width: 100%;height: 90% !important;background-color: #18191D;}
 .time{color: #537DEB;font-size: 35px;}
 .date{color: #05813F;font-size: 15px;font-weight: bold;}
 .company_name{font-size: 25px;}
@@ -195,7 +204,7 @@ main{
 .item_btn{
 
     height: 85px;
-    width: 130px;
+    width: 30% !important;
     cursor: pointer;
 }
 
@@ -358,6 +367,10 @@ input[type=number] {
 .text_xs
 {
     font-size: x-small;
+}
+
+.text_sm{
+    font-size: small;
 }
 
 

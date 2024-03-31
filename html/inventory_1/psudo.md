@@ -73,9 +73,9 @@
 
 ## Customer Management
 - [ ] Customer Database
-    - [ ] Function add_customer_info(customer_details)
-        - [ ] Validate customer_details
-        - [ ] Create a new customer entry in the database with customer_details
+    - [x] Function add_customer_info(customer_details)
+        - [x] Validate customer_details
+        - [x] Create a new customer entry in the database with customer_details
     - [ ] Function view_customer_purchase_history(customer_id)
         - [ ] Validate customer_id
         - [ ] Retrieve the purchase history for the specified customer from the database

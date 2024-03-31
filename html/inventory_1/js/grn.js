@@ -160,11 +160,11 @@ $('#po_search').on('keyup',function (e) // search for po
         $('#po_search').val('')
         $('#po_search').hide(500)
 
-    } else {
-        // do nothin
-        echo("Keep Inputting")
     }
 })
+
+
+
 
 // find item for grn
 $('#new_grn_item').on('keyup', function (e) {
@@ -241,51 +241,12 @@ function grn_list_calc(sn) {
     // define ids
     var qty_id = "#qty_"+sn.toString();
     var price_id = '#price_'+sn.toString();
-    var total_id = '#total_'+sn.toString();
-    let cost_id = '#cost_'+sn.toString()
-    let retail_id = '#retail_'+sn.toString()
-    let code_id = '#code_id_'+sn.toString()
-    let net_id = '#net_'+sn.toString()
-    let tax_id = '#tax_'+sn.toString()
 
     // get field values
-    var item_code = $(code_id).val();
-    var qty_val = $(qty_id).val();
-    var price_val = $(price_id).val()
-    var total_val = $(total_id).val()
+    var qty = $(qty_id).val();
+    var price = $(price_id).val();
 
-    // item details
-    var item_detail = JSON.parse(
-        get_row('prod_master',"`item_code` = '"+item_code+"'")
-    )[0]
-    let item_pack_details = JSON.parse(get_row('prod_packing',"`item_code` = '"+item_code+"' AND `purpose` = 2"))[0]
-    let item_details = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"'"))[0]
-    let retail = item_details.retail
-
-    var pack_qty = item_pack_details.qty;
-
-    var new_total = qty_val * price_val;
-
-    // cost price = price / un
-    var cost_price = price_val / pack_qty
-
-
-    echo(qty_val + " * " + price_val + " = " + new_total.toFixed(2))
-
-    $(total_id).val(new_total.toFixed(2))
-    $(cost_id).val(cost_price.toFixed(2))
-    $(net_id).val(new_total.toFixed(2))
-    var tax_class = $('#tax_grp').val()
-    new_grn_tax_calc(tax_class,'*')
-
-    if(cost_price >= retail)
-    {
-        // danger
-        $(retail_id).addClass('bg-danger')
-    } else {
-
-        $(retail_id).removeClass('bg-danger')
-    }
+    $(`#total_${sn}`).val(qty * price)
 
 
 
@@ -354,8 +315,6 @@ function new_grn_tax_calc(tax_class,line='*') {
             var net_amt = parseFloat(total_amt) + parseFloat(tax_amt);
             $(net_id).val(net_amt.toFixed(2))
         }
-    } else {
-        swal_error("Cannot find tax class")
     }
 }
 
@@ -546,11 +505,12 @@ function viewGrn(entry_no)
             $('#remarks').text(grn_header.remarks)
             $('#inv_number').text(grn_header.invoice_num)
             $('#total_amount').text(grn_header.invoice_amt)
-            $('#tax_amount').text(
-                JSON.parse(
-                    get_row('tax_trans',"`doc` = 'GR' AND `entry_no` = '"+grn_header.entry_no+"'")
-                )[0].tax_amt
-            )
+            let tax_amt = JSON.parse(fetch_rows("select sum(tax_amt) as 'tax_sum' from tax_trans where entry_no = '' and doc = 'GR'"))[0]['tax_sum']
+            if(tax_amt === null){
+                tax_amt = 0
+            }
+            $('#tax_amount').text(grn_header.tax_amt)
+            console.log(tax_amt)
             $('#net_amount').text(grn_header.net_amt)
 
             // set status message
@@ -610,15 +570,9 @@ function viewGrn(entry_no)
                         "                            <td class='text_xs'>"+sn+"</td>\n" +
                         "                            <td class='text_xs'>"+barcode+"</td>\n" +
                         "                            <td class='text_xs'>"+item_desc+"</td>\n" +
-                        "                            <td class='text_xs'>"+packing_id+"</td>\n" +
-                        "                            <td class='text_xs'>"+packing+"</td>\n" +
                         "                            <td class='text_xs'>"+quantity+"</td>\n" +
                         "                            <td class='text_xs'>"+price+"</td>\n" +
                         "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
-                        "                            <td class='text_xs'>"+tax_amount+"</td>\n" +
-                        "                            <td class='text_xs'>"+net_amt+"</td>\n" +
-                        "                            <td class='text_xs'>"+cost+"</td>\n" +
-                        "                            <td class='text_xs'>"+retail+"</td>\n" +
                         "\n" +
                         "                        </tr>";
 
@@ -889,3 +843,218 @@ $(document).ready(function (){
         })
     });
 });
+
+
+function retrievePo(){
+    // get pending pos
+    let pending = fetch_rows(`select doc_no,CONCAT(location,' - ',(SELECT loc_desc FROM loc where loc_id = po_hd.location)) as 'location',(SELECT supp_name FROM supp_mast where supp_id = po_hd.suppler) as 'supplier',total_amount from po_hd where grn = 0 and status = 1`);
+    let tr = "",table = "";
+    if(isJson(pending)){
+
+        let pending_json = JSON.parse(pending);
+        for (let p = 0; p < pending_json.length ; p++) {
+            let doc_no,location,supplier,total, po = pending_json[p];
+            doc_no = po['doc_no'];
+            location = po['location'];
+            supplier = po['supplier'];
+            total = po['total_amount']
+
+            tr += `<tr ondblclick="loadPoIntoGrn('${doc_no}');mpop.hide()">
+                        <td>${doc_no}</td>
+                        <td>${location}</td>
+                        <td>${supplier}</td>
+                        <td>${total}</td>
+                    </tr>`;
+
+            // console.table(po);
+        }
+        table = `
+            <table class="table table-sm table-bordered">
+                <thead class="thead-dark"><tr><th>DOC</th><th>LOCATION</th><th>SUPPLIER</th><th>TOTAL</th></tr></thead>
+                <tbody>${tr}</tbody>
+            </table>
+        `;
+
+
+    }
+    else {
+        table = "INVALID RESPONSE"
+    }
+    mpop.setBody(table)
+    mpop.setTitle("PENDING POs");
+    mpop.show()
+
+}
+
+
+function loadPoIntoGrn(po_number){
+
+    let action = a_sess.get_session('action');
+
+    if(action === 'new') // load po for grn
+    {
+
+        var po_exist = row_count('po_hd', "`doc_no` = '" + po_number + "'");
+        var grn_made = row_count('grn_hd', "`po_number` = '" + po_number + "'")
+        if (po_exist === 1) {
+
+            if (grn_made === 1) {
+                swal_error("Goods has been received")
+            } else
+
+
+            if (grn_made === 0) {
+                po_details = JSON.parse(
+                    get_row('po_hd', "`doc_no` = '" + po_number + "'")
+                )[0]
+
+                // check if po is approved
+                var po_status = po_details.status;
+                if (po_status === 1) {
+
+                    // header details
+
+                    var supplier = JSON.parse(get_row('supp_mast', "`supp_id` = '" + po_details.suppler + "'"))[0].supp_name
+                    var loc = po_details.location
+                    var location_desc = JSON.parse(get_row('loc', "`loc_id` = '" + loc + "'"))[0].loc_desc
+
+
+                    // populate header
+                    set_value('loc_id', loc)
+                    set_text('loc_desc', location_desc)
+                    set_value('supp_id', po_details.suppler)
+                    set_text('supplier', supplier)
+                    set_value('ref_doc', po_number)
+                    set_value('remarks', po_details.remarks)
+                    arr_enable('tax_grp')
+                    jqh.loadTax()
+
+                    let is_taxable = $('#taxable').val();
+
+
+                    // get po trans
+                    var po_trans_rows = row_count('po_trans', "`parent` = '" + po_number + "'");
+
+                    if (po_trans_rows > 0) {
+                        // there is po trans items
+                        var po_trans = JSON.parse(
+                            get_row('po_trans', "`parent` = '" + po_number + "'")
+                        )
+                        var sn = 0;
+                        var tr = "";
+                        var grn_total = 0;
+                        for (let t = 0; t < po_trans.length; t++) {
+
+                            var po_tran = po_trans[t]
+                            let item_code, barcode, description, pack_id, packing, qty, price, total_amt, tax_amount,
+                                net_amount, retail, pack_um, cost, this_cost;
+                            item_code = po_tran.item_code
+                            barcode = po_tran.barcode
+                            description = po_tran.item_description
+                            pack_id = po_tran.pack_desc
+                            packing = po_tran.packing
+                            qty = po_tran.qty
+                            price = po_tran.cost
+                            total_amt = po_tran.total_cost
+                            pack_um = po_tran.pack_um
+                            cost = po_tran.cost
+                            this_cost = price / pack_um
+                            console.table(po_tran)
+                            echo(`THIS PRICE : ${price}`)
+                            echo(`THIS UM : ${pack_um}`)
+
+                            echo(`THIS COST: ${this_cost.toFixed(2)}`)
+                            tax_amount = 0
+                            net_amount = total_amt - tax_amount
+
+
+                            let product =  FETCH(`
+                                        SELECT barcode,item_desc,retail ,(select pack_id from prod_packing where item_code = '1000000002' and purpose = 2)  as 'pack_id',(SELECT attr FROM tax_master where id = prod_master.tax) as 'tax_code' FROM prod_master where item_code = '${item_code}';
+                                `)[0];
+
+                            retail =product['retail']
+                            let tax_code = product['tax_code'],tax_rate = 0;
+                            if(is_taxable === '1'){
+
+                                let tax_details = sys.taxComponents(product['tax_code'],price);
+                                let t_d = tax_details['message'];
+                                tax_amount = t_d['vat'];
+                                tax_rate = t_d['rate']
+
+
+                            }
+
+                            sn++
+                            grn_total += parseFloat(net_amount);
+
+                            let tax_details = "";
+
+
+                            // ids
+                            var qty_id = "qty_" + sn.toString();
+                            var price_id = 'price_' + sn.toString();
+                            var total_id = 'total_' + sn.toString();
+                            var tr_id = 'row_' + item_code.toString();
+                            let cost_id = 'cost_' + sn.toString()
+                            let retail_id = 'retail_' + sn.toString()
+                            let code_id = 'code_id_' + sn.toString()
+                            let net_id = 'net_' + sn.toString()
+                            let tax_id = 'tax_' + sn.toString()
+                            let barcode_id = `barcode_${sn}`;
+                            let descr_id = `descr_${sn}`
+
+                            let retail_bg = '';
+                            if (this_cost >= retail) {
+                                // danger
+                                retail_bg = 'bg-danger'
+                            }
+
+
+                            tr += "<tr id='" + tr_id + "'>\n" +
+                                "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
+                                "                            <td class='text_xs' id='"+barcode_id+"'>" + barcode + "</td>\n" +
+                                "                            <td class='text_xs' id='"+descr_id+"'>" + description + "</td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                "                            <td class='text_xs'>" +
+                                "<input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'>" +
+                                "</td>\n" +
+                                "                        </tr>";
+                            echo(sn)
+                        }
+                        $('#grn_items_list').html(tr)
+                        // get grn total
+                        echo(grn_total)
+                        set_value('total_amount', grn_total.toFixed(2))
+                        arr_enable('new_item')
+                        $('#new_item').show()
+
+                    } else {
+                        swal_error("No items in PO Transaction")
+                    }
+                } else if (po_status === 0) {
+                    swal_error("Document " + po_number + " Has not been approved")
+                } else {
+                    swal_error("Document " + po_number + " Not Found")
+                }
+
+            }
+
+
+            // hide po search
+            $('#po_search').val('')
+            $('#po_search').hide(500)
+        } else {
+            swal.fire(po_number + " Does Not Exist")
+            $('#po_search').focus()
+        }
+
+        echo("Search Fired")
+    } else if(action === 'view')
+    {
+        viewGrn(po_number)
+    }
+
+    $('#po_search').val('')
+    $('#po_search').hide(500)
+}
