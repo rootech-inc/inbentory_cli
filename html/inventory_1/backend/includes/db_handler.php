@@ -29,7 +29,7 @@ class db_handler
             return $pdo;
         } catch (PDOException $err)
         {
-            $message = "HOST=".db_host . ",DB=".db_host;
+            $message = "HOST=".$db_host . ",DB=".$db_name;
             (new \anton)->error_handler('Database Error',$err->getMessage() . " " . $message);
             return false;
         }
