@@ -108,8 +108,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                     $key = md5(411);
                     // create admin account
-                    $Tr = "DELETE FROM venta.clerk";
-                    $admin_q = "INSERT INTO venta.clerk (clerk_code, clerk_key, date_created, clerk_name, user_grp, status, pin, token)
+                    $Tr = "DELETE FROM clerk";
+                    $admin_q = "INSERT INTO clerk (clerk_code, clerk_key, date_created, clerk_name, user_grp, status, pin, token)
                     VALUES (411, '$key', DEFAULT, 'Admin', 1, DEFAULT, 1444, 1444);
                     ";
 
@@ -474,8 +474,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
         $key = md5(411);
         // create admin account
-        $Tr = "DELETE FROM venta.clerk";
-        $admin_q = "INSERT INTO venta.clerk (clerk_code, clerk_key, date_created, clerk_name, user_grp, status, pin, token)
+        $Tr = "DELETE FROM clerk";
+        $admin_q = "INSERT INTO clerk (clerk_code, clerk_key, date_created, clerk_name, user_grp, status, pin, token)
         VALUES (411, '$key', DEFAULT, 'Admin', 1, DEFAULT, 1444, 1444);
         ";
 
