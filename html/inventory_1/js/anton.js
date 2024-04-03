@@ -69,7 +69,7 @@ if(Mech.is_shift())
 
 }
 const user_id = a_sess.get_session('clerk_id')
-const billNo = a_sess.get_session('bill_no');
+const billNo = a_sess.get_session('bill_number');
 const billREF = a_sess.get_session('bill_ref');
 const shiftNO = a_sess.get_session('shift')
 

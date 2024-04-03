@@ -19,7 +19,7 @@ use taxer\tax_calculator;
     $phy = $_SERVER['DOCUMENT_ROOT'];
     require 'session.php';
     $session_id = session_id();
-    $logo = $phy . "\assets\logo\xt.png";
+
 
 
 
@@ -39,7 +39,7 @@ use taxer\tax_calculator;
     define('bill_print',$config['BILL_PRINT']);
     define('LOC_ID',$config['LOC_ID']);
 
-    define('logo',$logo);
+
     define("printer", $config['PRINTER']);
     define('PRINT_TYPE',$config['PRINT_TYPE']);
     define('db_host',$config['DB_HOST']);
@@ -52,6 +52,7 @@ use taxer\tax_calculator;
 
     define('loyalty_url',$config['LTY_URL']);
     define('loyalty_token',$config['LOY_TOKEN']);
+    define('is_loyalty',$config['LOYALTY_STATUS']);
 
     require 'classes/Billing.php';
     require 'classes/reports.php';
@@ -110,12 +111,23 @@ use taxer\tax_calculator;
 
     $root_host = root;
     $shift = $db->shift(mech_no);
+    $company = $config['COMPANY_SETUP'];
     define('shift',$shift);
-    define('company_name',$company['c_name']);
-    define('company_country',$company['country']);
-    define('company_city',$company['city']);
-    define('company_street',$company['street']);
-    define('company_mob',$company['phone']);
+    define('company_name',$company['NAME']);
+    define('company_country',$company['COUNTRY']);
+    define('company_city',$company['CITY']);
+    define('company_street',$company['Street']);
+    define('company_mob',$company['PHONE']);
+    define('company_code',$company['CODE']);
+    define('company_box',$company['BOX']);
+    define('company_email',$company['EMAIL']);
+    define('company_tax_code',$company['TAX_CODE']);
+
+    $lg = $company['LOGO'];
+    $logo = $phy . "\assets\logo\/".$lg;
+    define('logo',$logo);
+    $tmpdir = $phy.'\/tmp/';
+    define('tmpdir',$tmpdir);
 
 
 

@@ -93,7 +93,7 @@
                 $pdf->Cell($width, 5, $customer['address'], 0, 0,'L');
                 $pdf->Cell($width, 5, "Gross : ".$hd['gross_amt'], 0, 1,"R");
 
-                $file = uniqid('pdf_') . '.pdf';
+
                 $pdf->Ln(10);
 
 
@@ -127,7 +127,7 @@
                     $pdf->Cell(15,3,number_format($tran['gross_amt'],2),1,1,"L");
                 }
 
-
+                $file = tmpdir . "$entry.pdf";
                 $pdf->Output($file, 'F'); // Output PDF to a file
 
                 $response['status_code'] = 200;
@@ -236,7 +236,7 @@
                     $pdf->Cell(15,3,number_format($tran['gross_amt'],2),1,1,"L");
                 }
 
-
+                $file = tmpdir . "$entry.pdf";
                 $pdf->Output($file, 'F'); // Output PDF to a file
 
                 $response['status_code'] = 200;

@@ -246,5 +246,18 @@
                 }
             }
 
+            elseif ($function === 'env'){
+                $variable = $anton->post('variable');
+                echo json_encode(constant($variable));
+            }
+
+            elseif ($function === 'bill_no'){
+                echo (new billing\Billing())->billNumber();
+            }
+
+            elseif ($function === 'bill_ref'){
+                echo (new billing\Billing())->getRef();
+            }
+
         }
     }

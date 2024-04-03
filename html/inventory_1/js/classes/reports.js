@@ -272,6 +272,7 @@ class Reports {
                                 html: resp['message'],
 
                             })
+                            location.reload()
                         } else {
                             al("INVALID RESPONSE: \n Contact System Admin")
                         }
@@ -377,7 +378,7 @@ class Reports {
 
                 } else if (res === 'print') {
 
-                    let form_data = { 'function': 'print_availability', loc_id: loc_id, as_of: as_of };
+                    let form_data = { 'function': 'print_availability', loc_id: loc_id, as_of: as_of,stock_level:stock_level };
 
                     ajaxform['url'] = '/backend/process/reports.php'
                     ajaxform['data'] = form_data
@@ -385,12 +386,13 @@ class Reports {
 
                         if (isJson(response)) {
                             let ress = JSON.parse(response);
-                            mpop.setBody(`<embed type='application/pdf' src="/assets/docs/${ress['file']}" style='width:100% !important' height="400" 
+                            mpop.setBody(`<embed type='application/pdf' src="/tmp/item_availability.pdf" style='width:100% !important' height="400" 
                             type="application/pdf">`)
                             //windowPopUp(`http://localhost/assets/docs/${ress['file']}`,'',1024,600)
                             mpop.setSize('lg')
                             mpop.show()
                         } else {
+                            console.log(response)
                             kasa.error("RESPONSE IS NOT A VALID JSON")
                         }
                     }
@@ -420,12 +422,7 @@ class Reports {
                 console.log(response)
                 if (isJson(response)) {
                     let jponse = JSON.parse(response);
-                    console.table(jponse);
-                    if (response['status_code'] !== 200) {
-                        kasa.error(jponse['message']);
-                    } else {
-                        kasa.info(jponse['message']);
-                    }
+                    kasa.info(jponse['message']);
 
                 } else {
                     kasa.warning("INVALID EOD RESPONSE")

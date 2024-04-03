@@ -85,10 +85,10 @@ class Billing extends db_handler
             if(true)
             {
                 $taxAmount = $item['tax_amt'];
-                $gf = $tax['gf'];
-                $nh = $tax['nh'];
-                $cv = $tax['cv'];
-                $vat = $tax['vat'];
+                $gf = floatval($tax['gf']);
+                $nh = floatval($tax['nh']);
+                $cv = floatval($tax['cv']);
+                $vat = floatval($tax['vat']);
 
                 $tax_description = $item['tax_grp'];
                 $rate = 0;
@@ -102,6 +102,7 @@ class Billing extends db_handler
                  ('$machine_number','$myName','$bill_number','$barcode',
                   '$item_desc','$item_retail','$qty','$taxAmount',
                   '$bill_amt','i','$tax_description','$rate','$today','$billRef','$tran_type','$cv','$gf','$nh','$vat','$tax_code','$shift_no')";
+
 
 
 
@@ -459,7 +460,7 @@ class Billing extends db_handler
                                 $payload = '{
                                 "module":"points",
                                     "pass_from":"PUT",
-                                    "token":"'.loyalty_token.'"
+                                    "token":"'.loyalty_token.'",
                                     "data":{
                                         "billRef":"'.$billRef.'",
                                         "card_no":"'.$cust_code.'",
@@ -505,7 +506,7 @@ class Billing extends db_handler
                             $payload = '{
                                 "module":"points",
                                 "pass_from":"PUT",
-                                "token":"'.loyalty_token.'"
+                                "token":"'.loyalty_token.'",
                                 "data":{
                                     "billRef":"'.$billRef.'",
                                     "card_no":"'.$cust_code.'",
@@ -941,8 +942,10 @@ class Billing extends db_handler
     function downloadSales($sales_date = today): array
     {
         $response = array('status_code'=>505,'message'=>null);
+        $shift_no = shift_no;
         try {
-           
+
+
             $this->db_connect()->exec("CALL copySalesHd('$sales_date')"); // copy hd
             $this->db_connect()->exec("CALL copySalesTrans('$sales_date')"); // copy trans
             # customer
@@ -951,7 +954,7 @@ class Billing extends db_handler
             $response['message'] = "SALES COPIED";
         } catch (\Exception $e){
             $msg = $e->getMessage() . " LINE " . $e->getLine();
-            $response['message'] = "Could not copy sales " . $msg;
+            $response['message'] = "Could not copy sales $shift_no " . $msg;
         }
 
         return $response;

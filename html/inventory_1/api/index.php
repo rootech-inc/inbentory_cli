@@ -210,10 +210,12 @@ function handlePostRequest($module, $data,$crud)
             # name
 
             #balance
+
+            $balance = $db->sum('customers_trans',"total_amount","`customer_id` = '$customer_id'");
             $pdf->SetFont('Arial','B','10');
             $pdf->Cell(75,6,"Balance : ",'',0,'R');
             $pdf->SetFont('Arial','','10');
-            $pdf->Cell(20,6,'GHS '.number_format($customer['balance'],2),'',1,'R');
+            $pdf->Cell(20,6,'GHS '.number_format($balance,2),'',1,'R');
             #balance
 
             #address
@@ -259,8 +261,8 @@ function handlePostRequest($module, $data,$crud)
                     $pdf->Cell(38,5,$transaction['transaction_notes'],1,1,"L");
                 }
             }
-
-            $pdf->Output('F','test.pdf');
+            $file = tmpdir . "customer_stmt.pdf";
+            $pdf->Output('F',$file);
             (new \API\ApiResponse())->success("PRINT SUCCESSFUL");
         }
 
@@ -333,10 +335,15 @@ function handlePostRequest($module, $data,$crud)
             // header insertion
             $db_conn = (new db_handeer\db_handler());
             // get next entry number
-            $last_doc_query = $db->db_connect()->query("SELECT `id` FROM `grn_hd` ORDER BY `id` DESC LIMIT 1");
-            $last_doc = $last_doc_query->fetch(PDO::FETCH_ASSOC);
-            $grn_id = $last_doc['id'] + 1;
-            $entry_no = "GR$grn_id";
+            if($db_conn->row_count('grn_hd','none') > 0 ){
+                $last_doc_query = $db->db_connect()->query("SELECT `id` FROM `grn_hd` ORDER BY `id` DESC LIMIT 1");
+                $last_doc = $last_doc_query->fetch(PDO::FETCH_ASSOC);
+                $grn_id = $last_doc['id'] + 1;
+                $entry_no = "GR$grn_id";
+            } else {
+                $entry_no = "GR0001";
+            }
+
 
 
             try {
@@ -367,11 +374,12 @@ function handlePostRequest($module, $data,$crud)
                 }
 
                 // update po header
-                $po_hd = "UPDATE po_hd SET status = 1 where doc_no = '$refDoc'";
+                $po_hd = "UPDATE po_hd SET status = 1,grn = 1 where doc_no = '$refDoc'";
                 // update document transactions
                 $grn_doc_tran = "insert into doc_trans (doc_type, entry_no, trans_func, created_by) values ('GRN','$entry_no','ADD','$created_by')";
                 $db->db_connect()->exec($grn_doc_tran);
                 $db->db_connect()->exec($po_hd);
+                (new anton())->set_session(['action=view']);
 
                 //$db->db_connect()->commit();
 

@@ -507,47 +507,67 @@ class Bill {
 
     recall(){
       b_msg("Recallling Bill...")
-        var val = document.getElementById('general_input'); // gen input field
+        var val = $('#general_input').val(); // gen input field
+        // get held transactions
+        let transactions = JSON.parse(fetch_rows(`SELECT * FROM bill_hld_tr where bill_group = '${val}' and billed = 0`));
+        console.log(transactions)
+        for(let b = 0; b < transactions.length; b++){
+            let row = transactions[b];
+            let barcode,qty,pk;
+            barcode = row['barcode'];
+            qty = row['qty'];
+            pk = row['id'];
+            // add
+            let b_st = `${qty}*${barcode}`;
 
-        if(val.value.length > 0) // if amout value is greater than zero
-        {
-            // prapre form for ajax
-            let data = {
-                'function':'recall_bill',
-                'bill_grp':val.value,
-                'token':''
-            };
-
-            console.table(data)
-
-            // make ajax function
-            $.ajax({
-                url: '/backend/process/form_process.php',
-                type: 'POST',
-                data: data,
-                success: function(response) {
-                    ct(response)
-                    let res = JSON.parse(JSON.stringify(response))
-                    if(res['status'] === 200)
-                    {
-                        bill.loadBillsInTrans()
-                    } else
-                    {
-                        s_response('error','','Cannot Recall Bill')
-                    }
-                    // get_bill()
-                }
-            });
-
+            add_item_to_bill(b_st)
+            exec(`UPDATE bill_hld_tr set billed = 1,billRef='${billREF}' where id = '${pk}'`)
+            // mark judge
+            $('#general_input').val('')
+            // send to backend
         }
-        else
-        {
-            console.log(val.value.length)
-            val.style.border = '2px solid red';
-            val.style.background = '#eb9783';
-            val.placeholder = 'Enter Bill Number';
 
-        }
+        bill.loadBillsInTrans()
+        return "Done";
+        // if(val.length > 0) // if amout value is greater than zero
+        // {
+        //     // prapre form for ajax
+        //     let data = {
+        //         'function':'recall_bill',
+        //         'bill_grp':val,
+        //         'token':''
+        //     };
+        //
+        //     console.table(data)
+        //
+        //     // make ajax function
+        //     $.ajax({
+        //         url: '/backend/process/form_process.php',
+        //         type: 'POST',
+        //         data: data,
+        //         success: function(response) {
+        //             ct(response)
+        //             let res = JSON.parse(JSON.stringify(response))
+        //             if(res['status'] === 200)
+        //             {
+        //                 bill.loadBillsInTrans()
+        //             } else
+        //             {
+        //                 s_response('error','','Cannot Recall Bill')
+        //             }
+        //             // get_bill()
+        //         }
+        //     });
+        //
+        // }
+        // else
+        // {
+        //     console.log(val.value.length)
+        //     val.style.border = '2px solid red';
+        //     val.style.background = '#eb9783';
+        //     val.placeholder = 'Enter Bill Number';
+        //
+        // }
         b_msg("")
     }
 
@@ -1122,10 +1142,10 @@ class Bill {
 
                 mach = mech_no;
                 clerk = user_id;
-                bill_number = a_sess.get_session('bill_no');
+                bill_number = bill.Number();
                 tran_type = 'SS';
                 trans_type = 'i';
-                bill_ref = a_sess.get_session('bill_ref');
+                bill_ref = bill.Ref();
 
                 gfund = 0;
                 nhis = 0;
@@ -1159,6 +1179,51 @@ class Bill {
         }
     }
 
+    Number() {
+        var result =0;
+        let form_data = {
+            function:'bill_no'
+        }
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    result = response;
+                }
+            }
+        );
+
+
+        return result
+    }
+
+    Ref() {
+        var result =0;
+        let form_data = {
+            function:'bill_ref'
+        }
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data: form_data,
+                success: function (response) {
+                    result = response;
+                }
+            }
+        );
+
+
+        return result
+    }
 }
 
 class Shift {

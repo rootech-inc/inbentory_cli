@@ -128,6 +128,8 @@
             $response = array(
                 'status_code'=>0,'message'=>'none'
             );
+
+            $r = $db->row_count('clerk',"`pin` = '$pin'");
             ## check if pin exist
             if($db->row_count('clerk',"`pin` = '$pin'") === 1){
                 // login
@@ -144,7 +146,7 @@
                 $response['message'] = "Login Successful";
             } else {
                 $response['status_code'] = 404;
-                $response['message'] = "Invalid Pin";
+                $response['message'] = "Invalid Pin ($pin) $r " . $db->db_host;
             }
 
             echo json_encode($response);
@@ -198,6 +200,12 @@
 
             if($function === 'logout')
             {
+                $files = glob(tmpdir . '*');
+                foreach ($files as $file) {
+                    if (is_file($file)) {
+                        unlink($file);
+                    }
+                }
                 $_SESSION = array();
                 session_destroy();
             }

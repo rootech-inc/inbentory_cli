@@ -172,7 +172,7 @@ function insert(table, data) {
         }
 
         let query = "INSERT INTO " + table + " (" + columns + ") values (" + values + ")";
-        // // echo(query)
+        echo(query)
 
         // prepare ajax submission
         var form_data = {

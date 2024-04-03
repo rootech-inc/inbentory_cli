@@ -308,7 +308,7 @@
                                     <button onclick="itemLookup()" id="LKUP" class="bill_func_sub_btn btn btn_traditional btn-sm rounded-0">
                                         LKUP
                                     </button>
-                                    <button disabled onclick="lty.loadCustomer()" id="LOYALTY_LOOKUP" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
+                                    <button disabled <?php if (is_loyalty){ ?> onclick="lty.loadCustomer()" <?php } else { ?> onclick="kasa.info('Enable Loyalty')" <?php } ?> id="LOYALTY_LOOKUP" class="bill_func_sub_btn btn btn-sm btn-secondary rounded-0">
                                         LOY LOAD
                                     </button>
 

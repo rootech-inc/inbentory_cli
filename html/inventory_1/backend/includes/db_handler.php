@@ -9,6 +9,8 @@ use PDOException;
 class db_handler
 {
 
+    public $db_host;
+
     function __construct()
     {
         $mechconfig = (new MechConfig())->config();
@@ -69,6 +71,7 @@ class db_handler
         (new \anton())->log2file($query);
         $stmt = $this->db_connect()->prepare($query);
         $stmt->execute();
+//        $this->db_connect()->commit();
         //$this->db_connect()->commit();
     }
 

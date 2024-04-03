@@ -230,6 +230,30 @@ class System {
 
     }
 
+    getVariable(variable) {
+        var form_data = {
+            'function':'env',
+            'variable':variable
+        }
+        var result = {};
+        $.ajax(
+            {
+                url:'/backend/process/ajax_tools.php',
+                'async': false,
+                'type': "POST",
+                'global': false,
+                'dataType': 'html',
+                data:form_data,
+                success: function (response) {
+
+                    result =  response;
+                    console.log(response)
+                }
+            }
+        );
+
+        return result;
+    }
 }
 
 class TaxMaster{
@@ -861,7 +885,7 @@ class UserConfig {
 
                         set_session(['action=view'],0)
 
-                        swal_reload(`clerk added successfully. Code : ${clerk_code} , Key : ${clerk_key}`)
+                        swal_reload(`${clerk_code} , Key : ${clerk_key}, Token-Pin : ${ms['token']}`)
 
                     } else
                     {

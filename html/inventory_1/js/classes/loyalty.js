@@ -53,6 +53,7 @@ class Loyalty {
             // get customer from database
             let payload = {
                 "module":"card",
+                token:sys.getVariable('loyalty_token').replace('"',''),
                 pass_from:'VIEW',
                 "data":{
                     "card_no":cust_code
@@ -68,7 +69,7 @@ class Loyalty {
                 name = customer['name'];
                 phone = customer['phone'];
                 cardno = message['number'];
-                points = message['points'];
+                points = message['points'].replace(',','');
                 // console.table(message)
                 // console.table(customer)
 
@@ -114,7 +115,7 @@ class Loyalty {
 
                 let customer = lty.getCustomer(cust_code)['message'];
 
-                let pointsSum = customer['points'];
+                let pointsSum = customer['points'].replace(',','');
 
                 // check if value is up to 50
 
@@ -163,7 +164,9 @@ class Loyalty {
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         // add to bill trans
-                                        let bill_tran = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, item_qty, loyalty_points, item_desc, tran_type, billRef, shift,discount) VALUES ('${mech_no}','${user_id}','${billNo}','${cust_code}','D',1,${minusPoint},'LOYALTY','L','${billREF}','${shiftNO}','${redAmt}')`;
+                                        let no = bill.Number();
+                                        let ref = bill.Ref()
+                                        let bill_tran = `INSERT INTO bill_trans (mach, clerk, bill_number, item_barcode, trans_type, item_qty, loyalty_points, item_desc, tran_type, billRef, shift,discount) VALUES ('${mech_no}','${user_id}','${no}','${cust_code}','D',1,${minusPoint},'LOYALTY','L','${ref}','${shiftNO}','${redAmt}')`;
                                         let loy_trans = `UPDATE loyalty_tran SET points_earned = ${redAmt}, current_points = points_before + ${redAmt} where billRef = '${billREF}'`
                                         console.log(bill_tran)
                                         console.log(loy_trans)

@@ -625,7 +625,7 @@ function print_grn() {
                     // set ifram
                     var pdf = responseMessage(response);
                     $('#pdf_body').html(
-                        "<embed src=\"backend/process/form-processing/"+pdf+"\" width=\"100%\" height=\"100%\"\n" +
+                        "<embed src=\"tmp/"+entry_no+".pdf\" width=\"100%\" height=\"100%\"\n" +
                         "                           type=\"application/pdf\">"
                     )
                     // show pdf modal

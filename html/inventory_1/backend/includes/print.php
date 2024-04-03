@@ -148,7 +148,7 @@ use billing\Billing;
                         $item_desc = "$billSn $item_name";
                         $price = number_format($row['bill_amt'], 2);
 
-                        $items[] = new item(substr($item_desc, 0, 30), number_format($price, 2)); // push item desc and cost
+                        $items[] = new item(substr($item_desc, 0, 30), number_format(floatval($price), 2)); // push item desc and cost
                         $items[] = new item($bq, ''); // push barcode Quantity
                     }
                     $subtotal = new item('Subtotal', '12.95');
@@ -649,6 +649,7 @@ use billing\Billing;
                 $zQuery = "insert into zserial(zSerial, mech_no, sales_date, clerk_code, shift_no, gross, deduction, net) VALUES 
                                                 ('$zserial','$mech','$day','$clerk_code','$shift_no','$gross','$deduct','$net')";
 
+
                     // delete from bill_trans
                 $del_bills = "delete from bill_header where mach_no = '$mech' and bill_date ='$day';
                     delete from bill_trans where mach = '$mech' and date_added = '$day';
@@ -656,7 +657,7 @@ use billing\Billing;
                 
                 try {
                     $db_hander->exe($zQuery);
-//                    $db_hander->db_connect()->exec($del_bills);
+//
                     $db_hander->commit();
                     // END shift
                     (new shift())->end_shit($recId);

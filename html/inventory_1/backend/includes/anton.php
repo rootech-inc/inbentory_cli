@@ -281,6 +281,7 @@ class anton extends FPDF
     public function log2file($content,$mark='',$ov = 0){
         $file = $_SERVER['DOCUMENT_ROOT'] . "/log_file.log";
         $currentTimestamp = date('Y-m-d H:i:s'); // get the current timestamp in 'Y-m-d H:i:s' format
+        file_put_contents($file, "$currentTimestamp - $content \n", FILE_APPEND);
 
 //        $q = "INSERT INTO logs (message) value ('$content')";
 //        (new \db_handeer\db_handler())->exe($q);
