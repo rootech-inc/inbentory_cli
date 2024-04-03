@@ -17,7 +17,7 @@
                         <button onclick="windowPopUp('backend/includes/parts/add-ons/locMaster.php','Tax Master',700,700)" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">LOC</p></button>
                         <button onclick="set_session(['sub_module=user_group'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">GROUPS</p></button>
                         <button onclick="set_session(['sub_module=users','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">USER FILE</p></button>
-                        <button onclick="set_session(['sub_module=loyalty','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">LOYALTY</p></button>
+                        <button disabled onclick="set_session(['sub_module=loyalty','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">LOYALTY</p></button>
                         <button onclick="set_session(['sub_module=customers','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">CUSTOMERS</p></button>
                         <button onclick="set_session(['sub_module=company_setup','action=view'])" class="master_button btn m-2 p-1 pointer"><p class="m-0 p-0 text-elipse">COMPANY</p></button>
 

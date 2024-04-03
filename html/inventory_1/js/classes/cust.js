@@ -100,7 +100,7 @@ class Cust {
         let response = api.call('POST',payload)
         if(response['status_code'] === 200){
             let pdf = response['message'];
-            let frame = `<embed src="/api/test.pdf" type="application/pdf" width="100%" height="600px">`;
+            let frame = `<embed src="/tmp/customer_stmt.pdf" type="application/pdf" width="100%" height="600px">`;
             mpop.setBody(frame);
             mpop.setTitle("CUSTOMER STATEMTN");
             mpop.setSize('lg');

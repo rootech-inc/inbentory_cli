@@ -248,11 +248,11 @@ class ProductCategory {
     // supplier
 
     async CreateSupplier () {
-
+        let sucode = `SU${row_count('supp_mast','none') + 1}`;
         const {value: formValues} = await Swal.fire({
             title: 'Supplier Creation',
             html:
-                '<input id="supp_code" maxlength="3"  placeholder="Code" class="swal2-input"> <input id="descr" placeholder="Description" class="swal2-input">',
+                `<input id="supp_code" value="${sucode}" maxlength="3"  placeholder="Code" class="swal2-input"> <input id="descr" placeholder="Description" class="swal2-input">`,
             focusConfirm: false,
             preConfirm: () => {
                 let obj = {
@@ -281,10 +281,12 @@ class ProductCategory {
                 'vars': [descr, 1,code]
             }
 
-            insert('supp_mast', data)
+            let q = `INSERT INTO supp_mast (supp_id, supp_name) values ('${code}','${descr}')`;
+
+            // insert('supp_mast', data)
 
 
-            swal_reload('Process Completed')
+            swal_reload(exec(q)['message'])
         }
 
 

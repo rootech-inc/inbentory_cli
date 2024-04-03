@@ -398,21 +398,16 @@ $billC = (new billing\Billing());
             {
 
 
-                if($db->row_count('bill_trans',"`trans_type` = 'i' AND `bill_number` = '$bill_number'") > 0 )
-                {
-                    // todo print bill
+                // todo print bill
 
-                    // mark bill as canceled
+                // mark bill as canceled
 //                    $db->db_connect()->exec("CALL DelBill('$bill_number','$machine_number',1,'$today')");
-                    $shift = shift_no;
-                    $billRef = $billC->getRef();
-                    //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
-                    $db->db_connect()->query("DELETE FROM `bill_trans` where billRef = '$billRef'");
-                    //$db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
-                    $db->db_connect()->exec("DELETE FROM loyalty_tran where billRef = '$billRef'");
-
-                }
-
+                $shift = shift_no;
+                $billRef = $billC->getRef();
+                //$db->db_connect()->exec("insert into `bill_trans` (`mach`,`bill_number`,`item_desc`,`trans_type`,`clerk`,`item_barcode`,`shift`) values ('$machine_number','$bill_number','bill_canced','C','$myName','not_item','$shift')");
+                $db->db_connect()->query("DELETE FROM `bill_trans` where billRef = '$billRef'");
+                //$db->db_connect()->query("DELETE FROM `bill_tax_tran` WHERE `bill_no` = '$bill_number' AND `bill_date` = '$today'  and `mech_no` = '$machine_number' and bill_no = '$bill_number'");
+                $db->db_connect()->exec("DELETE FROM loyalty_tran where billRef = '$billRef'");
 
             }
 
@@ -622,6 +617,8 @@ $billC = (new billing\Billing());
                         // insert into bill
 //                        $db->add_item_bill("$bill_number","$barcode","$item_qty","$myName");
                         (new billing\Billing())->AddToBill($bill_data);
+                        $db->db_connect()->exec("UPDATE bill_hld_tr SET billed = 1 where id = '$id'");
+
 
 
 

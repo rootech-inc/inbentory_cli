@@ -358,7 +358,7 @@
             $pdf->Cell(40,10,'',0,0,'L');
             $pdf->Cell(80,10,'Approved By',0,1,'C');
 
-            $pdf->Output("$entry_no.pdf",'F');
+            $pdf->Output($tmpdir."$entry_no.pdf",'F');
             // transactions
             $db->doc_trans('GRN',"$entry_no","PRI");
             $anton->done("$entry_no.pdf");

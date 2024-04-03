@@ -8,6 +8,7 @@
         $mac_addr = htmlentities($_POST['mac_addr']);
         $description = htmlentities($_POST['description']);
 
+
         $query = "INSERT INTO mech_setup (mech_no, descr, mac_addr) VALUES ('$mech_no','$description','$mac_addr')";
         $stmt = $mech_db->prepare($query);
         $stmt->execute();
@@ -80,13 +81,13 @@
 <body style="height: 100vh; overflow: hidden">
     <div class="container-fluid h-100 d-flex flex-wrap align-content-center ant-bg-light">
         <div class="row w-100 d-flex flex-wrap justify-content-center">
-            <div class="col-sm-6">
+            <div class="col-sm-3">
                 <form method="post" class="card w-100">
-                    <div class="card-header">
+                    <div class="card-header text-center">
                         <strong class="card-title">Initialize Machine</strong>
                     </div>
                     <div class="card-body p-2">
-                        <input readonly value="<?php echo MACH_NO ?>" id="mech_no" name="mech_no" type="text" class="form-control form-control-sm rounded-0" required min="1">
+                        <label class="w-100" for="mech_no">Machine No</label><input readonly value="<?php echo MACH_NO ?>" id="mech_no" name="mech_no" type="text" class="form-control form-control-sm rounded-0" required min="1">
 
 
 

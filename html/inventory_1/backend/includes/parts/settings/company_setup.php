@@ -94,8 +94,8 @@
 
                                         <!-- COMPANY CODE -->
                                         <div class="input-group mb-2">
-                                            <label class="w-100" for="c_name">Company Name </label>
-                                            <input value="<?php echo $comp_setup['code'] ?>" disabled autocomplete="off" type="text"
+                                            <label class="w-100" for="c_name">Company Code </label>
+                                            <input value="<?php echo company_name ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="code"
                                                    name = 'code'
@@ -105,7 +105,7 @@
                                         <!-- COMPANY NAME -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="c_name">Company Name </label>
-                                            <input value="<?php echo $comp_setup['c_name'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_name ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="c_name"
                                                    name = 'c_name'
@@ -114,7 +114,7 @@
                                         <!-- POSTAL ADDRESS -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="box">POST BOX </label>
-                                            <input value="<?php echo $comp_setup['box'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_box ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="box"
                                                    name = 'box'
@@ -123,7 +123,7 @@
                                         <!-- STREET -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="street">STREET </label>
-                                            <input value="<?php echo $comp_setup['street'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_street ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="street"
                                                    name = 'street'
@@ -132,7 +132,7 @@
                                         <!-- COUNTRY -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="country">COUNTRY </label>
-                                            <input value="<?php echo $comp_setup['country'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_country ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="country"
                                                    name = 'country'
@@ -141,7 +141,7 @@
                                         <!-- CITY -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="city">CITY </label>
-                                            <input value="<?php echo $comp_setup['city'] ?>" disabled  autocomplete="off" type="text"
+                                            <input value="<?php echo company_city ?>" disabled  autocomplete="off" type="text"
                                                    class="form-control  rounded-0 form-control-sm"
                                                    id="city"
                                                    name = 'city'
@@ -154,7 +154,7 @@
                                         <!-- PHONE -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="phone">PHONE </label>
-                                            <input value="<?php echo $comp_setup['phone'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_mob ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="phone"
                                                    name = 'phone'
@@ -163,7 +163,7 @@
                                         <!-- EMAIL -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="email">EMAIL </label>
-                                            <input value="<?php echo $comp_setup['email'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_email ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="email"
                                                    name = 'email'
@@ -172,7 +172,7 @@
                                         <!-- TAX CODE -->
                                         <div class="input-group mb-2">
                                             <label class="w-100" for="tax_code">TAX CODE </label>
-                                            <input value="<?php echo $comp_setup['tax_code'] ?>" disabled autocomplete="off" type="text"
+                                            <input value="<?php echo company_tax_code ?>" disabled autocomplete="off" type="text"
                                                    class="form-control rounded-0 form-control-sm"
                                                    id="tax_code"
                                                    name = 'tax_code'
@@ -182,8 +182,8 @@
 
                                     <!-- LOGO -->
                                     <div class="col-sm-4">
-                                        <div class="ant-bg-black w-100">
-                                            <img src="/assets/logo/logo.png" alt="LOGO" class="img-fluid">
+                                        <div class="w-100 text-center">
+                                            <img src="/assets/logo/<?php echo $company['LOGO'] ?>" alt="LOGO" class="img-fluid w-50 text-center">
                                         </div>
                                     </div>
 

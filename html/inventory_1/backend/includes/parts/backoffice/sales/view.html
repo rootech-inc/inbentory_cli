@@ -425,8 +425,9 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                         let resp = JSON.parse(response);
                         console.table(resp)
                         mpop.setBody(`
-                            <embed src="/backend/process/form-processing/${resp['message']}" style="width:100%" type="application/pdf" />
+                            <embed src="tmp/${$('#ent_no').val()}.pdf" style="width:100%; height: 80vh" type="application/pdf" />
                         `);
+                        mpop.setSize('lg');
                         mpop.show()
                     } else {
                         kasa.error("Invalid Response")
@@ -506,6 +507,17 @@ from invoice_hd right join customers cs on  invoice_hd.customer = cs.customer_id
                         }
                         kasa.success("Invoice Processed")
                         exec(`UPDATE invoice_hd set posted = 1 where entry_no = '${entry}'`)
+                        // credit customer
+                        let fet = fetch_rows(`SELECT * FROm invoice_hd where entry_no = '${entry}'`);
+                        console.log(fet)
+                        let inv_hd = JSON.parse(fet)[0];
+                        let customer_id = inv_hd['customer'];
+                        let gross_amt = inv_hd['gross_amt'];
+                        let gross_2 = parseFloat(gross_amt) * 2;
+                        let gross_ng = parseFloat(gross_amt) - parseFloat(gross_2)
+                        let customer_credit = `INSERT INTO customers_trans (customer_id, payment_method, items_purchased, transaction_notes, entry_no, user,total_amount) VALUES
+                                                                            ('${customer_id}','SALES','${transactions.length - 1}','${$('#remarks').val()}','${entry}',${user_id},'${gross_ng}')`;
+                        exec(customer_credit);
                         loadInvoice(entry)
                     } else {
                         kasa.error("Invalid Transaction Response")

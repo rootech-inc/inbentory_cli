@@ -44,8 +44,11 @@ class MechConfig
             'EVAT'=>$evat['ACTIVE'],
             'EVAT_API'=>$evat['BASE_URL'],
 
+
             'LTY_URL'=>$lty['BASE_URL'],
-            'LOY_TOKEN'=>$lty['API_TOKEN']
+            'LOY_TOKEN'=>$lty['API_TOKEN'],
+            'LOYALTY_STATUS'=>$lty['ACTIVE'],
+            'COMPANY_SETUP'=>$config['COMPANY_SETUP']
 
 
         );
@@ -106,6 +109,7 @@ class MechConfig
         $machine = $this->config();
         $number = $machine['MACH_NO'];
         $mac = $machine['MAC_ADDRESS'];
+        $db = (new db_handler());
 
 
 
@@ -115,7 +119,7 @@ class MechConfig
 
 
 
-        $valid_sql = (new db_handler())->db_connect()->query("SELECT count('mech_no') as 'mn' from mech_setup where mech_no = '$number' and mac_addr = '$mac'");
+        $valid_sql = $db->db_connect()->query("SELECT count('mech_no') as 'mn' from mech_setup where mech_no = '$number' and mac_addr = '$mac'");
         $valid_stmt = $valid_sql->fetch(PDO::FETCH_ASSOC);
         $valid = $valid_stmt['mn'];
 
@@ -125,16 +129,19 @@ class MechConfig
             // add machine
             $mec_mac = getenv('MAC_ADDRESS');
             $mec_no = getenv('MECH_NO');
-            $mech_db = (new db_handler())->db_connect();
+            $mech_db = $db->db_connect();
 
             // validate mach address is empty;
-            if((new db_handler())->row_count('mech_setup',"mac_addr = '$mec_mac'") !== 0){
+            if($db->row_count('mech_setup',"mac_addr = '$mec_mac'") !== 0){
                 (new anton())->error_handler("MAC ADDRESS TAKEN","Machine with mac address $mec_mac exists");
             }
-            elseif ((new db_handler())->row_count('mech_setup',"mech_no = '$mec_no'") !== 0){
+            elseif ($db->row_count('mech_setup',"mech_no = '$mec_no'") !== 0){
                 (new anton())->error_handler("MAC No. TAKEN","Machine with numbers $mec_no exists");
             }
             else {
+
+                define('MAC_ADDRESS',$mac);
+                define('MACH_NO',$number);
                 require root."/backend/includes/parts/add-ons/add_machine.php";
             }
             die();

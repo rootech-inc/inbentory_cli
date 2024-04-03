@@ -67,15 +67,16 @@ class auth extends db_handler
     {
         $clerk_code = $this->uniqieStr('clerk','clerk_code','4');
         $clerk_key_str = rand(1111,9999);
+        $token_pin = rand(1111,9999);
         $clerk_key_md5 = md5($clerk_key_str);
 
         try {
-            $sql = "INSERT INTO clerk (clerk_code, clerk_key, clerk_name, user_grp) values 
-                    ('$clerk_code','$clerk_key_md5','$full_name','$grp')" ;
+            $sql = "INSERT INTO clerk (clerk_code, clerk_key, clerk_name, user_grp,token,pin) values 
+                    ('$clerk_code','$clerk_key_md5','$full_name','$grp','$token_pin','$token_pin')" ;
             $stmt = $this->db_connect()->prepare($sql);
             $stmt->execute();
             $this->response['code'] = 202;
-            $this->response['message'] = ['clerk_code'=>$clerk_code,'clerk_key'=>$clerk_key_str];
+            $this->response['message'] = ['clerk_code'=>$clerk_code,'clerk_key'=>$clerk_key_str,'token'=>$token_pin];
 
         } catch (PDOException $e){
             $this->response['code'] = '505'; $this->response['message'] = $e->getMessage();

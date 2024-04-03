@@ -108,10 +108,15 @@ class shift extends \db_handeer\db_handler
             $shift = $this->get_rows('shifts',"recId = '$recId'");
             $sales_date = $shift['shift_date'];
 
-            // check if date exist in eod_serial
-            if($this->row_count('eod_serial',"sales_date = '$sales_date'") === 0){
+            // check if date and shift exist in eod_serial
+            $shift_no = shift_no;
+            if($this->row_count('eod_serial',"sales_date = '$sales_date' and shift = '$shift_no'") === 0){
                 // insert date
-                $this->exe("INSERT INTO eod_serial (sales_date) value ('$sales_date')");
+                $q = "INSERT INTO eod_serial (sales_date,shift) value ('$sales_date','$shift_no')";
+                (new \anton())->log2file("EOD SERIAL");
+                (new \anton())->log2file($q);
+                (new \anton())->log2file("EOD SERIAL");
+                $this->exe($q);
             }
         }
     }

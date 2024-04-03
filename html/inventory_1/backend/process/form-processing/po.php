@@ -82,7 +82,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $po_number = $anton->post('po_number');
         $po_tran_sql = $db->db_connect()->query("SELECT * FROM `po_trans` WHERE `parent` = '$po_number'");
         $po_hd = $db->get_rows('po_hd',"`doc_no` = '$po_number'");
-        $company = $db->get_rows('company','none');
+//        $company = $db->get_rows('company','none');
 
         // get location
         $loc_id = $po_hd['location'];
@@ -127,17 +127,17 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->AddPage();
 
         // Logo
-        $pdf->Image('logo.png',10,6,30,);
+        $pdf->Image(logo,10,6,30,);
         // Arial bold 15
         $pdf->SetFont('Arial','B',12);
         // Move to the right
 
         // Title
-        $pdf->Cell(280,5,$company['c_name'],0,1,'R');
-        $pdf->Cell(280,5,'VAT : '.$company['vat_code'],0,1,'R');
-        $pdf->Cell(280,5,$company['box']. ", ".$company['country'].", ".$company['city'].", ".$company['street'],0,1,'R');
-        $pdf->Cell(280,5,'Tel : '.$company['phone'],0,1,'R');
-        $pdf->Cell(280,5,'Email : '.$company['email'],0,1,'R');
+        $pdf->Cell(280,5,company_name,0,1,'R');
+        $pdf->Cell(280,5,'VAT : '.$company['TAX_CODE'],0,1,'R');
+        $pdf->Cell(280,5,$company['BOX']. ", ".$company['COUNTRY'].", ".$company['CITY'].", ".$company['Street'],0,1,'R');
+        $pdf->Cell(280,5,'Tel : '.$company['PHONE'],0,1,'R');
+        $pdf->Cell(280,5,'Email : '.$company['EMAIL'],0,1,'R');
 
         $pdf->SetFont('Arial','B',20);
         $pdf->Cell(93,10,'',0,0,'C');
@@ -225,7 +225,7 @@ values ('$location','$supplier','$po_type','$remarks','$total_amount','$myName')
         $pdf->Cell(80,10,'Approved By',0,1,'C');
 
 
-        $pdf->Output("$po_number.pdf",'F');
+        $pdf->Output($tmpdir."$po_number.pdf",'F');
         $db->doc_trans('PO',"$po_number","PRI");
         echo 'done';
     }

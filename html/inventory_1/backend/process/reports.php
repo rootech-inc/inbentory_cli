@@ -107,6 +107,7 @@
                 $location = $anton->post('loc_id');
                 $as_of = $anton->post('as_of');
                 $loc = $location;
+                $stock_level = $anton->post('stock_level');
 
                 class PDF extends FPDF
                 {
@@ -156,7 +157,7 @@
                 $pdf->SetFont('Times','',5);
 
                 $conn = $db->db_connect();
-                $sql = "CALL item_availability('$location','$as_of')";
+                $sql = "CALL item_availability('$location','$as_of','$stock_level')";
                 
                 $stmt = $db->db_connect()->query($sql);
 
@@ -171,8 +172,8 @@
                     $pdf->Cell(140,5,$name,1,0,"L");
                     $pdf->Cell(20,5,$qty,1,1,"L");
                 }
-                $f_name = "item_availability_$location"."_$as_of".".pdf";
-                $f = root."/assets/docs/$f_name";
+                $f_name = "item_availability.pdf";
+                $f = tmpdir."$f_name";
                 $pdf->Output($f,'F');
                 $r = array('status'=>'done','file'=>$f_name);
                 

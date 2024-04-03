@@ -1006,7 +1006,8 @@ function print_po() // PRINT_PO
             {
                 // set ifram
                 $('#pdf_body').html(
-                    "<embed src=\"backend/process/form-processing/test.pdf\" width=\"100%\" height=\"100%\"\n" +
+                    `<embed src="tmp\/${po_numer}.pdf" width="100%" height="100%"
+` +
                     "                           type=\"application/pdf\">"
                 )
                 // show pdf modal
