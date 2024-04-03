@@ -4,7 +4,7 @@ ini_set('display_startup_errors',1);
 ini_set('memory_limit', '-1');
 
 error_reporting(E_ALL ^ E_DEPRECATED);
-require 'db.php';
+//require 'db.php';
 session_start();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
