@@ -10,7 +10,7 @@ session_start();
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $stage = $_SESSION['stage'];
 
-    $iniFilePath = '../config.ini';
+    $iniFilePath = '/home/ec2-user/venta/html/inventory_1/config.ini';
 
 
 
