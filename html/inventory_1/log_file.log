@@ -3656,3 +3656,1167 @@ SELECT * FROM company WHERE `id` = 0SELECT * FROM shifts WHERE `mech_no` = '1'  
 2024-04-02 17:55:56 - 0 
 2024-04-02 17:55:56 - SELECT * FROM clerk WHERE `id` = '1' 
 2024-04-02 17:55:56 - SELECT * FROM system_buttons WHERE module = 'inventory' AND sub_module = 'products' AND sub_sub_module = 'product_details' AND target_id != 'stock'  
+2024-04-03 14:20:22 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:22 - 0 
+2024-04-03 14:20:22 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:22 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:24 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:24 - 0 
+2024-04-03 14:20:25 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:25 - 0 
+2024-04-03 14:20:25 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:25 - 0 
+2024-04-03 14:20:25 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:25 - 0 
+2024-04-03 14:20:25 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:25 - 0 
+2024-04-03 14:20:26 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:26 - 0 
+2024-04-03 14:20:26 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:26 - 0 
+2024-04-03 14:20:27 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:20:49 - 0 
+2024-04-03 14:20:49 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:20:49 - 0 
+2024-04-03 14:20:59 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:00 - 0 
+2024-04-03 14:21:00 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:00 - 0 
+2024-04-03 14:21:00 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:00 - 0 
+2024-04-03 14:21:00 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:00 - 0 
+2024-04-03 14:21:01 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:01 - 0 
+2024-04-03 14:21:01 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:01 - 0 
+2024-04-03 14:21:36 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:36 - 0 
+2024-04-03 14:21:36 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:36 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:37 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:37 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:38 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:38 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:41 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:41 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:42 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-03 14:21:42 - 0 
+2024-04-03 14:21:43 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-03 14:21:43 - 0 
+2024-04-04 01:38:05 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:05 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:05 - 0 
+2024-04-04 01:38:05 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:05 - 0 
+2024-04-04 01:38:05 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:05 - 0 
+2024-04-04 01:38:05 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:05 - SELECT * FROM mech_setup WHERE mac_addr = '' 
+2024-04-04 01:38:05 - 0 
+2024-04-04 01:38:06 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-04 01:38:06 - 0 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:38:07 - 1 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:07 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:07 - 0 
+2024-04-04 01:38:07 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:08 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:38:08 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:38:08 - 0 
+2024-04-04 01:38:08 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:29 - 0 
+2024-04-04 01:39:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:29 - 0 
+2024-04-04 01:39:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:29 - 0 
+2024-04-04 01:39:29 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:29 - SELECT * FROM mech_setup WHERE mac_addr = 'hello-world' 
+2024-04-04 01:39:29 - 0 
+2024-04-04 01:39:29 - SELECT * FROM mech_setup WHERE mech_no = '' 
+2024-04-04 01:39:29 - 0 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:39:30 - 1 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:30 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:30 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:30 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:30 - 0 
+2024-04-04 01:39:31 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:31 - 0 
+2024-04-04 01:39:31 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:31 - 0 
+2024-04-04 01:39:31 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:39:31 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:39:31 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:31 - 0 
+2024-04-04 01:39:31 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:39:31 - 0 
+2024-04-04 01:39:31 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:39:31 - 0 
+2024-04-04 01:39:31 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:18 - SELECT * FROM mech_setup WHERE mac_addr = 'mec_mac' 
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM mech_setup WHERE mech_no = '1' 
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:18 - 0 
+2024-04-04 01:40:18 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:40:19 - 1 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:40:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:40:19 - 0 
+2024-04-04 01:40:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:18 - SELECT * FROM mech_setup WHERE mac_addr = 'hello-world' 
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM mech_setup WHERE mech_no = '1' 
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:18 - 0 
+2024-04-04 01:42:18 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:42:19 - 1 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:19 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:19 - 0 
+2024-04-04 01:42:19 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:20 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:20 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:20 - 0 
+2024-04-04 01:42:20 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:20 - 0 
+2024-04-04 01:42:20 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:20 - 0 
+2024-04-04 01:42:20 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:32 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:32 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:32 - 0 
+2024-04-04 01:42:32 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:32 - 0 
+2024-04-04 01:42:32 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:32 - 0 
+2024-04-04 01:42:32 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:32 - SELECT * FROM mech_setup WHERE mac_addr = 'hello-world' 
+2024-04-04 01:42:32 - 0 
+2024-04-04 01:42:32 - SELECT * FROM mech_setup WHERE mech_no = '1' 
+2024-04-04 01:42:32 - 0 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:42:33 - 1 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:33 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:33 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:42:33 - 0 
+2024-04-04 01:42:34 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:34 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:34 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:34 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:34 - 0 
+2024-04-04 01:42:34 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:38 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:38 - SELECT * FROM mech_setup WHERE mac_addr = 'hello-world' 
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM mech_setup WHERE mech_no = '1' 
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:38 - 0 
+2024-04-04 01:42:38 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:38 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:39 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:42:39 - 1 
+2024-04-04 01:42:39 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:39 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:39 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:39 - 0 
+2024-04-04 01:42:39 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:40 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:40 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:40 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:40 - 0 
+2024-04-04 01:42:40 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:56 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:56 - SELECT * FROM mech_setup WHERE mac_addr = 'hello-world' 
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM mech_setup WHERE mech_no = '1' 
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:56 - 0 
+2024-04-04 01:42:56 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:56 - SELECT * FROM prod_master 
+2024-04-04 01:42:56 - 1 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:42:57 - 1 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:57 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:57 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:42:57 - 0 
+2024-04-04 01:42:58 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:58 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:58 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:58 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:58 - 0 
+2024-04-04 01:42:58 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:59 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:59 - SELECT * FROM prod_master WHERE `item_code` > '1000000218' 
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:59 - SELECT * FROM prod_master WHERE `item_code` < '1000000218' 
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:59 - SELECT * FROM prod_master WHERE `item_code` = '1000000218' 
+2024-04-04 01:42:59 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:42:59 - SELECT * FROM item_group WHERE `id` = '21' 
+2024-04-04 01:42:59 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:42:59 - 0 
+2024-04-04 01:42:59 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM item_group_sub WHERE `id` = '12' 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM supp_mast WHERE `supp_id` = 'SU1' 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM packaging WHERE `id` = '1' 
+2024-04-04 01:43:00 - 1 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM packaging WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM stock WHERE `item_code` = '1000000218' 
+2024-04-04 01:43:00 - 1 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:00 - SELECT * FROM prod_packing WHERE `item_code` = '1000000218' 
+2024-04-04 01:43:00 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:00 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:00 - 0 
+2024-04-04 01:43:01 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:01 - SELECT * FROM packaging WHERE `id` = '1' 
+2024-04-04 01:43:01 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:01 - SELECT * FROM packaging WHERE `id` = '1' 
+2024-04-04 01:43:01 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:01 - SELECT * FROM barcode WHERE item_code = '1000000218' 
+2024-04-04 01:43:01 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:01 - 0 
+2024-04-04 01:43:01 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:10 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:10 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:10 - 0 
+2024-04-04 01:43:10 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:10 - 0 
+2024-04-04 01:43:10 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:10 - 0 
+2024-04-04 01:43:10 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:10 - SELECT * FROM shifts WHERE mech_no = '1' AND shift_date = '2024-04-04' AND end_time is null  
+2024-04-04 01:43:10 - 0 
+2024-04-04 01:43:11 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:11 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:11 - 0 
+2024-04-04 01:43:11 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:11 - 0 
+2024-04-04 01:43:11 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:11 - 0 
+2024-04-04 01:43:11 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:11 - SELECT * FROM shifts WHERE mech_no = '1' AND shift_date = '2024-04-04' AND end_time is null  
+2024-04-04 01:43:11 - 0 
+2024-04-04 01:43:16 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:16 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:16 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:16 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:16 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM clerk WHERE id = '' 
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:17 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:17 - 0 
+2024-04-04 01:43:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:18 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:18 - 0 
+2024-04-04 01:43:27 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM clerk WHERE `pin` = '1444' 
+2024-04-04 01:43:27 - 1 
+2024-04-04 01:43:27 - SELECT * FROM clerk WHERE `pin` = '1444' 
+2024-04-04 01:43:27 - 1 
+2024-04-04 01:43:27 - SELECT * FROM clerk WHERE `pin` = '1444' 
+2024-04-04 01:43:27 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:27 - 0 
+2024-04-04 01:43:27 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:28 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:28 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:28 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE id = '1' 
+2024-04-04 01:43:28 - 1 
+2024-04-04 01:43:28 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:28 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:28 - 0 
+2024-04-04 01:43:28 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE mech_no = '1'  AND end_time is null 
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM clerk WHERE `id` = '1' 
+2024-04-04 01:43:29 - SELECT * FROM company WHERE `id` = 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1'  AND `end_time` is null  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM shifts WHERE `mech_no` = '1' AND `shift_date` = '2024-04-04' AND `end_time` = NULL  
+2024-04-04 01:43:29 - 0 
+2024-04-04 01:43:29 - SELECT * FROM clerk WHERE `id` = '1' 

@@ -127,8 +127,8 @@ class MechConfig
         {
 
             // add machine
-            $mec_mac = getenv('MAC_ADDRESS');
-            $mec_no = getenv('MECH_NO');
+            $mec_mac = $mac;
+            $mec_no = $number;
             $mech_db = $db->db_connect();
 
             // validate mach address is empty;
@@ -140,8 +140,8 @@ class MechConfig
             }
             else {
 
-                define('MAC_ADDRESS',$mac);
-                define('MACH_NO',$number);
+//                define('MAC_ADDRESS',$mac);
+//                define('MACH_NO',$number);
                 require root."/backend/includes/parts/add-ons/add_machine.php";
             }
             die();
