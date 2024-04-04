@@ -30,6 +30,7 @@ class MechConfig
             'MACH_NO'=>$system['MACH_NO'],
             'MAC_ADDRESS'=>$system['MAC_ADDRESS'],
             'LOC_ID'=>$system['LOC_ID'],
+            "NAME"=>$system['NAME'],
 
             'DB_HOST'=>$db['HOST'],
             'DB_PASSWORD'=>$db['PASSWORD'],
@@ -79,6 +80,7 @@ class MechConfig
         $mech_mach_addr = $machine['MAC_ADDRESS'];
 
 
+
         return array(
             'machine_number'=>$mech_no,
             'machine_mac'=>$mech_mach_addr,
@@ -109,6 +111,7 @@ class MechConfig
         $machine = $this->config();
         $number = $machine['MACH_NO'];
         $mac = $machine['MAC_ADDRESS'];
+        $name = $machine['NAME'];
         $db = (new db_handler());
 
 
@@ -127,8 +130,8 @@ class MechConfig
         {
 
             // add machine
-            $mec_mac = getenv('MAC_ADDRESS');
-            $mec_no = getenv('MECH_NO');
+            $mec_mac = $mac;
+            $mec_no = $number;
             $mech_db = $db->db_connect();
 
             // validate mach address is empty;
@@ -140,8 +143,8 @@ class MechConfig
             }
             else {
 
-                define('MAC_ADDRESS',$mac);
-                define('MACH_NO',$number);
+//                define('MAC_ADDRESS',$mac);
+//                define('MACH_NO',$number);
                 require root."/backend/includes/parts/add-ons/add_machine.php";
             }
             die();
