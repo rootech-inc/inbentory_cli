@@ -30,7 +30,7 @@ use taxer\tax_calculator;
     require 'MechConfig.php';
 
     $MConfig = new \mechconfig\MechConfig();
-//    $MConfig->validate_device();
+    $MConfig->validate_device();
     $config = $MConfig->config();
 
     define('DEBUG',$config['DEBUG']);

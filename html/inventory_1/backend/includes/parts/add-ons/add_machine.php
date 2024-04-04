@@ -87,16 +87,16 @@
                         <strong class="card-title">Initialize Machine</strong>
                     </div>
                     <div class="card-body p-2">
-                        <label class="w-100" for="mech_no">Machine No</label><input readonly value="<?php echo MACH_NO ?>" id="mech_no" name="mech_no" type="text" class="form-control form-control-sm rounded-0" required min="1">
+                        <label class="w-100" for="mech_no">Machine No</label><input readonly value="<?php echo $number ?>" id="mech_no" name="mech_no" type="text" class="form-control form-control-sm rounded-0" required min="1">
 
 
 
                         <label class="w-100">Mac Address
-                            <input readonly value="<?php echo MAC_ADDRESS ?>" type="text" id="mac_addr" name="mac_addr" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
+                            <input readonly value="<?php echo $mac ?>" type="text" id="mac_addr" name="mac_addr" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
                         </label>
 
                         <label class="w-100">NAME
-                            <input  type="text" id="description" name="description" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
+                            <input  type="text" value="<?php echo $name ?>" id="description" name="description" autocomplete="off" class="form-control form-control-sm rounded-0" required min="1">
                         </label>
 
                         <button type="submit" class="btn btn-success w-100">INITIALIZE</button>

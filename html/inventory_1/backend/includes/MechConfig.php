@@ -30,6 +30,7 @@ class MechConfig
             'MACH_NO'=>$system['MACH_NO'],
             'MAC_ADDRESS'=>$system['MAC_ADDRESS'],
             'LOC_ID'=>$system['LOC_ID'],
+            "NAME"=>$system['NAME'],
 
             'DB_HOST'=>$db['HOST'],
             'DB_PASSWORD'=>$db['PASSWORD'],
@@ -79,6 +80,7 @@ class MechConfig
         $mech_mach_addr = $machine['MAC_ADDRESS'];
 
 
+
         return array(
             'machine_number'=>$mech_no,
             'machine_mac'=>$mech_mach_addr,
@@ -109,6 +111,7 @@ class MechConfig
         $machine = $this->config();
         $number = $machine['MACH_NO'];
         $mac = $machine['MAC_ADDRESS'];
+        $name = $machine['NAME'];
         $db = (new db_handler());
 
 
