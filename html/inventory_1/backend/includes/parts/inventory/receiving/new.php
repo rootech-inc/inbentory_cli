@@ -225,8 +225,11 @@
                             <th class="">SN</th>
                             <th class="">Barcode</th>
                             <th class="">Description</th>
+                            <th>Packing</th>
+                            <th>Pack Qty</th>
                             <th class="">Qty</th>
-                            <th class="">Unit Price</th>
+                            <th class="">Cost</th>
+                            <th>Avg. Cost</th>
                             <th class="">Total Amount</th>
                         </tr>
                     </thead>

@@ -251,7 +251,10 @@
                         </div>
                     </div>
 
-                <?php endif; ?>
+                <?php
+                    unset($_SESSION['stage']);
+                    header("Location:/login");
+                endif; ?>
             </div>
             <?php if($stage !== 'SETUP_COMPLETE'): ?>
             <div class="card-footer">

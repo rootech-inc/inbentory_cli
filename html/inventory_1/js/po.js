@@ -1113,8 +1113,9 @@ function po_line_calculate(row) {
     let line_number = row_split[1];
 
     let qty,cost,amount,qty_val,cost_val,amount_val;
+    let pack_qty = $(`#itemPackingUm_${line_number}`)
     qty = "#itemQty_"+line_number;
-    qty_val = $(qty).val()
+    qty_val = $(qty).val();
     cost = "#itemCost_"+line_number;
     cost_val = $(cost).val()
     amount = "#itemAmount_"+line_number
