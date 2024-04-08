@@ -14,7 +14,7 @@ function loadProduct(prod_id,action='view')
     // echo(prod_id)
     // get item as json from database
 
-    mpop.hide()
+    $('#gen_modal').modal('hide');
 
     // disable next and back
     if(row_count('prod_master',"`item_code` > '" + prod_id +"'") > 0)

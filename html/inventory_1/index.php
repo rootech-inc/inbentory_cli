@@ -70,6 +70,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/jspdf.umd.min.js"></script>
     <script src="/js/classes/grn.js"></script>
     <script src="/js/classes/Tables.js"></script>
+    <script src="/js/drag.js"></script>
 
     <link rel="stylesheet" href="/css/anton.css">
 
@@ -617,8 +618,11 @@ error_reporting(E_ALL);
 
 <script>
     // make keypad draggable
-    dragElement(document.getElementById("alphsKeyboard"))
-    dragElement(document.getElementById("numericKeyboard"))
+    // dragElement(document.getElementById("alphsKeyboard"))
+    // dragElement(document.getElementById("numericKeyboard"))
+
+    dragV2(document.getElementById("alphsKeyboard"))
+    dragV2(document.getElementById("numericKeyboard"))
     loader('hide')
 </script>
 
