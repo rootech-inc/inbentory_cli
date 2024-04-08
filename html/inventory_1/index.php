@@ -64,7 +64,7 @@ error_reporting(E_ALL);
     <script src="/js/classes/loyalty.js"></script>
     <script src="/js/classes/kasa.js"></script>
     <script src="/js/classes/api.js"></script>
-    <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/modal.js"></script>
     <script src="/js/classes/productMaster.js"></script>
     <script src="/js/classes/cust.js"></script>
     <script src="/js/classes/jspdf.umd.min.js"></script>
