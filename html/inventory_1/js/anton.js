@@ -1884,13 +1884,14 @@ function approve_doc(doc) // approve document
                         // 3
                         let tran = doc_trans[t];
                         let item_code = tran.item_code;
-                        let cost = tran.prod_cost;
+
                         let retail = tran.ret_amt
                         let pack_desc,packing,pack_um
 
                         packing = tran.packing
                         pack_desc = tran.pack_desc
                         pack_um = tran.pack_um
+                        let cost = tran.prod_cost;
 
                         // 4
                         let item_det = JSON.parse(get_row('prod_master',"`item_code` = '"+item_code+"' LIMIT 1"))[0];
@@ -1899,9 +1900,9 @@ function approve_doc(doc) // approve document
                         cur_ret = item_det['retail'];
                         //5
                         exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','c','"+cur_cost+"','"+cost+"')")
-                        exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','r','"+cur_ret+"','"+retail+"')")
+                        //exec("INSERT INTO price_change (item_code, price_type, previous, current) VALUES ('"+item_code+"','r','"+cur_ret+"','"+retail+"')")
                         // 6
-                        exec("UPDATE prod_master set prev_retail = retail, retail = '"+retail+"', cost = '"+cost+"' WHERE `item_code` = '"+item_code+"' ")
+                        exec(`UPDATE prod_master set cost = '${cost}' where item_code = '${item_code}'`)
 
                         //7
                         let tran_qty = tran.qty;

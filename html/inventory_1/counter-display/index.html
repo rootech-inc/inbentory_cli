@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>COUNTER DISPLAY</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/css/all.css">
+    <link rel="stylesheet" href="/css/keyboard.css">
+    <link rel="icon" type="image/png" href="/assets/logo/venta.png">
+
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/query.js"></script>
+    <script src="/js/classes/session.js"></script>
+    <script src="/js/classes/j_query_supplies.js"></script>
+    <script src="/js/classes/db_trans.js"></script>
+    <script src="/js/classes/system.js"></script>
+    <script src="/js/classes/inventory.js"></script>
+    <script src="/js/classes/screen.js"></script>
+
+
+
+    <script src="/js/sweetalert2@11.js"></script>
+
+    <link rel="stylesheet" href="/css/sweetalert.min.css">
+
+    <script src="/js/error_handler.js"></script>
+    <script src="/js/anton.js"></script>
+    <script src="/js/keyboard.js"></script>
+
+    <script src="/js/classes/buttons.js"></script>
+    <script src="/js/classes/bill.js"></script>
+    <script src="/js/trigger.js"></script>
+    <script src="/js/classes/reports.js"></script>
+    <script src="/js/classes/Evat.js"></script>
+    <script src="/js/classes/tax.js"></script>
+    <script src="/js/classes/loyalty.js"></script>
+    <script src="/js/classes/kasa.js"></script>
+    <script src="/js/classes/api.js"></script>
+    <script src="/js/classes/Modal.js"></script>
+    <script src="/js/classes/productMaster.js"></script>
+    <script src="/js/classes/cust.js"></script>
+    <script src="/js/classes/grn.js"></script>
+    <script src="/js/classes/Tables.js"></script>
+
+    <link rel="stylesheet" href="/css/anton.css">
+</head>
+<body class="ant-bg-black" style="height: 100vh; overflow: hidden !important">
+    <div class="container p-2 h-100">
+        <div class="row d-flex flex-wrap justify-content-center h-100">
+            <div class="col-sm-6 h-100">
+                <div class="h-100">
+                    <header class="billing-header border-light m-0 d-flex flex-wrap align-content-center justify-content-between">
+                        <h1 class="w-100 d-flex m-0 text-success justify-content-center align-content-center flex-wrap h-100" id="sub_total">
+
+                        </h1>
+                    </header>
+                    <hr>
+                    <div class="bill-item-body h-100">
+                        <div class="bill-item-header">
+                            <div class="container-fluid h-100">
+                                <div class="row w-100 h-100 no-gutters">
+                                    <div class="col-sm-10 h-100">
+                                        <div class="d-flex h-100 flex-wrap align-content-center justify-content-between">
+                                            <!--Sn-->
+                                            <div class="w-10 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                                <strong>SN</strong>
+                                            </div>
+
+                                            <!--Descriptipn-->
+                                            <div class="w-50 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                                <strong>Description</strong>
+                                            </div>
+
+                                            <!--Quantity-->
+                                            <div class="w-20 h-100 d-flex flex-wrap align-content-center pl-1 border">
+                                                <strong>QTY</strong>
+                                            </div>
+
+                                            <!--Cost-->
+                                            <div class="w-20 text-right h-100 d-flex flex-wrap align-content-center justify-content-end pl-1 border">
+                                                <strong>Cost</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id='cart_display' class="cart_display">
+
+                            <div class="border border-light h-100">
+                                <div id="bill_loader" class="h-90 w-100 overflow-auto">
+                                    <div oncontextmenu="mark_bill_item('md5 of item')" ondblclick="mark_bill_item('12')" class="d-flex flex-wrap cart_item align-content-center justify-content-between border-dotted pb-1 pt-1">
+
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    setInterval(function () {
+        bill.loadBillsInTrans()
+    },2000);
+
+</script>

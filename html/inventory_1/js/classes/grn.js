@@ -26,8 +26,11 @@ class Grn {
                     let total_id = `total_${line}`;
                     let barcode_id = `barcode_${line}`;
                     let descr_id = `descr_${line}`
+                    let pack_desc = "itemPacking_" + line.toString();
+                    let pack_um = "itemPackingUm_" + line.toString();
+                    let avg_cost_id = `avg_cost_${line}`;
 
-                    let tran_ids = [item_code_id,qty_id,price_id,total_id]
+                    let tran_ids = [item_code_id,qty_id,price_id,total_id,pack_desc,pack_um]
                     console.log(tran_ids)
                     if(anton.validateInputs(tran_ids)){
                         $(`#${row_element}`).removeClass('text-danger');
@@ -39,6 +42,8 @@ class Grn {
                             total_amount: $(`#${total_id}`).val(),
                             barcode:$(`#${barcode_id}`).text(),
                             name:$(`#${descr_id}`).text(),
+                            pack_desc:$(`#${pack_desc}`).val(),
+                            pack_um:$(`#${pack_um}`).val()
                         })
 
                         total_amt  += parseFloat($(`#${total_id}`).val());

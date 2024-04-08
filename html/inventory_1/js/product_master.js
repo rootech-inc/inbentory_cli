@@ -202,12 +202,12 @@ function loadProduct(prod_id,action='view')
             let loc_id, location, qty;
             // get stock in json
             var stock = JSON.parse(
-                get_row('stock', "`item_code` = '" + prod_id + "'")
+                fetch_rows(`CALL Stock('${prod_id}')`)
             );
             for (let i = 0; i < stock.length; i++) {
 
-                qty = stock[i].qty;
-                loc_id = stock[i].loc_id
+                qty = stock[i].stock;
+                loc_id = stock[i].loc_to
                 location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0].loc_desc
 
 
@@ -356,15 +356,16 @@ function loadProduct(prod_id,action='view')
             // var stock = JSON.parse(
             //     get_row('stock', "`item_code` = '" + prod_id + "'")
             // );
-            let stock_query = return_rows(`select loc_to as 'loc_id',(select loc_desc from loc where loc_id = stk_tran.loc_to) as 'loc_desc',item_code,SUM(tran_qty) as 'qty' from stk_tran where item_code = '${prod_id}' group by loc_to, item_code;`);
+            let stock_query = fetch_rows(`CALL Stock('${prod_id}')`);
             let stock = JSON.parse(stock_query);
 
             if(stock.length > 0){
                 for (let i = 0; i < stock.length; i++) {
 
-                    qty = stock[i].qty;
-                    loc_id = stock[i].loc_id
-                    loc_desc = stock[i].loc_desc
+                    qty = stock[i].stock;
+                    loc_id = stock[i].loc_to
+                    location = JSON.parse(get_row('loc', "`loc_id` = '" + loc_id + "'"))[0]
+                    loc_desc = location.loc_desc
 
 
 

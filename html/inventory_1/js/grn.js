@@ -239,14 +239,18 @@ function tax_inline(tax_class, value) {
 // calculate grn list value
 function grn_list_calc(sn) {
     // define ids
+    let pack_qty = `#itemPackingUm_${sn}`
     var qty_id = "#qty_"+sn.toString();
     var price_id = '#price_'+sn.toString();
+    let avg_cost_id = `#avg_cost_${sn}`;
+    console.log(`PACK QTY: ${$(pack_qty).val()}`)
 
     // get field values
     var qty = $(qty_id).val();
     var price = $(price_id).val();
-
+    let avg_cost = price / qty;
     $(`#total_${sn}`).val(qty * price)
+    $(avg_cost_id).val(avg_cost)
 
 
 
@@ -510,8 +514,8 @@ function viewGrn(entry_no)
                 tax_amt = 0
             }
             $('#tax_amount').text(grn_header.tax_amt)
-            console.log(tax_amt)
-            $('#net_amount').text(grn_header.net_amt)
+
+            $('#net_amount').text(parseFloat(grn_header.invoice_amt) + parseFloat(grn_header.tax_amt))
 
             // set status message
             var status = parseInt(grn_header.status);
@@ -558,6 +562,7 @@ function viewGrn(entry_no)
                     let item_desc = grn_tran.item_description
                     let packing_id = grn_tran.packing
                     let packing = grn_tran.pack_desc
+                    let pack_um = grn_tran.pack_um
                     let quantity = grn_tran.qty
                     let price = grn_tran.cost
                     let invoice_amount = grn_tran.total_cost
@@ -570,6 +575,9 @@ function viewGrn(entry_no)
                         "                            <td class='text_xs'>"+sn+"</td>\n" +
                         "                            <td class='text_xs'>"+barcode+"</td>\n" +
                         "                            <td class='text_xs'>"+item_desc+"</td>\n" +
+
+                        "                            <td class='text_xs'>"+packing+"</td>\n" +
+                        "                            <td class='text_xs'>"+pack_um+"</td>\n" +
                         "                            <td class='text_xs'>"+quantity+"</td>\n" +
                         "                            <td class='text_xs'>"+price+"</td>\n" +
                         "                            <td class='text_xs'>"+invoice_amount+"</td>\n" +
@@ -1002,6 +1010,10 @@ function loadPoIntoGrn(po_number){
                             let tax_id = 'tax_' + sn.toString()
                             let barcode_id = `barcode_${sn}`;
                             let descr_id = `descr_${sn}`
+                            let item_packing_id = "itemPacking_" + sn.toString();
+                            let item_packing_um_id = "itemPackingUm_" + sn.toString();
+                            let avg_cost_id = `avg_cost_${sn}`;
+                            let avg_cost = price / qty;
 
                             let retail_bg = '';
                             if (this_cost >= retail) {
@@ -1014,8 +1026,11 @@ function loadPoIntoGrn(po_number){
                                 "                            <td class='text_xs'><input type='hidden' name='item_code[]' id='" + code_id + "' value='" + item_code + "'>" + sn + "</td>\n" +
                                 "                            <td class='text_xs' id='"+barcode_id+"'>" + barcode + "</td>\n" +
                                 "                            <td class='text_xs' id='"+descr_id+"'>" + description + "</td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
-                                "                            <td class='text_xs'><input type='number' onkeyup=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                "<td class='text_xs'><input value='"+pack_id+"' readonly class='grn_nums' type='text' id='"+item_packing_id+"'></td>"+
+                                "<td class='text_xs'><input value='"+pack_um+"'  class='grn_nums' type='number' onchange=\"grn_list_calc(" + sn + ")\" min='1' id='"+item_packing_um_id+"'></td>"+
+                                "                            <td class='text_xs'><input type='number' onchange=\"grn_list_calc(" + sn + ")\" name='qty[]' id='" + qty_id + "' class='grn_nums' value='" + qty + "'></td>\n" +
+                                "                            <td class='text_xs'><input type='number' onchange=\"grn_list_calc(" + sn + ")\" name='price[]' id='" + price_id + "' class='grn_nums' value='" + price + "'></td>\n" +
+                                "<td class='text_xs'><input value='"+avg_cost+"' readonly class='grn_nums' type='number' id='"+avg_cost_id+"'></td>"+
                                 "                            <td class='text_xs'>" +
                                 "<input type='number' readonly name='total_amt[]' id='" + total_id + "' class='grn_nums' value='" + total_amt + "'>" +
                                 "</td>\n" +

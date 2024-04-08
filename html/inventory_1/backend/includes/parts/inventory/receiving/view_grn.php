@@ -219,12 +219,14 @@
                 <table class="table table-sm table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th class="text_xs">SN</th>
-                            <th class="text_xs">Barcode</th>
-                            <th class="text_xs">Description</th>
-                            <th class="text_xs">Qty</th>
-                            <th class="text_xs">Price</th>
-                            <th class="text_xs">Total</th>
+                            <th class="">SN</th>
+                            <th class="">Barcode</th>
+                            <th class="">Description</th>
+                            <th>Packing</th>
+                            <th>Pack Qty</th>
+                            <th class="">Qty</th>
+                            <th class="">Unit Cost</th>
+                            <th class="">Total Amount</th>
                         </tr>
                     </thead>
                     <tbody id="grn_items_list">

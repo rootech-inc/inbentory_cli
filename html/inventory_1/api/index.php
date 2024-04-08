@@ -364,11 +364,14 @@ function handlePostRequest($module, $data,$crud)
                     $total_amount = $tran['total_amount'];
                     $barcode = $tran['barcode'];
                     $name = $tran['name'];
+                    $pack_desc = $tran['pack_desc'];
+                    $pack_um = $tran['pack_um'];
+                    $avg_cost = $price / $quantity;
 
                     // insert into grn transactions
                     $tran_q = "
-                    INSERT INTO grn_trans (entry_no, item_code, barcode, item_description, qty,total_cost,cost,owner) 
-                                values ('$entry_no','$item_code','$barcode','$name','$quantity','$total_amount','$price','$created_by')
+                    INSERT INTO grn_trans (entry_no, item_code, barcode, item_description, qty,total_cost,cost,owner,pack_desc,pack_um,prod_cost) 
+                                values ('$entry_no','$item_code','$barcode','$name','$quantity','$total_amount','$price','$created_by','$pack_desc','$pack_um','$avg_cost')
                 ";
                     $db->db_connect()->exec($tran_q);
                 }
